@@ -55,9 +55,10 @@ class AuthController extends Controller
         }
     }
     function registration(){
-        return view ('auth/registration');
+        return view('auth.registration');
     }
 
+   
     function registrationPost(Request $request){
         $request->validate([
             'name' => 'required',
@@ -68,11 +69,12 @@ class AuthController extends Controller
         $data['name'] = $request->name;
         $data['email'] = $request->email;
         $data['password'] = Hash::make($request->password);
-        $user = User::create($data); 
+        $user = User::create($data);
+        
         if(!$user){
-            return redirect(route('login'))->with("success","Registration failed, try again.");
+            return redirect(route(''))->with("success","Registration failed, try again.");
         }
-        return redirect(route('login'))->with("success","Registration seccess, Login to access the app");
+        return redirect(route(''))->with("success","Registration seccess, Login to access the app");
     }
 
 

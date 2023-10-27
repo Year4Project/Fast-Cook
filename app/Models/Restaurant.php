@@ -5,16 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Food extends Model
+class Restaurant extends Model
 {
     use HasFactory;
+    
+    protected $fillable = ['restaurant_name', 'address','user_id'];
 
-    protected $fillable = ['restaurant_id', 'name','code','oPrice','dprice','image','stock'];
+    public function users(){
+        return $this->belongsTo(User::class);
+    }
 
     static public function getSingle($id)
     {
         return self::find($id);
     }
 
-    
+
 }

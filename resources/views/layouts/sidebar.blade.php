@@ -4,7 +4,7 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-text mx-3">{{ Auth::user()->name }}</div>
+        <div class="sidebar-brand-text mx-3">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
     </a>
 
     <!-- Divider -->
@@ -40,12 +40,12 @@
             Addons
         </div>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('/admin/showAdmin') }}">
+            <a class="nav-link" href="{{ url('/admin/admin/showAdmin') }}">
                 <i class="fas fa-fw fa-user"></i>
                 <span>Admin</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ url('/admin/restaurant/showRestaurant') }}">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Restaurants</span></a>
         </li>

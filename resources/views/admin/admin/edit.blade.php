@@ -11,12 +11,20 @@
             {{ csrf_field() }}
             <div class="card-body">
               <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" name="name" value="{{ old('name', $user->name)}}" required placeholder="Name">
+                <label>First Name</label>
+                <input type="text" class="form-control" value="{{ old('first_name', $user->first_name)}}" name="first_name" required placeholder="First Name">
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" class="form-control" value="{{ old('last_name', $user->last_name)}}" name="last_name" required placeholder="Last Name">
               </div>
               <div class="form-group">
                 <label>Email</label>
                 <input type="email" class="form-control" name="email" value="{{ old('email', $user->email)}}" required placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input type="number" class="form-control" value="{{ old('phone', $user->phone)}}" name="phone" required placeholder="Phone Number">
               </div>
               <div class="form-group">
                 <label>Password</label>

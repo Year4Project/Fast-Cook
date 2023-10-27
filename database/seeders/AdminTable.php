@@ -18,21 +18,24 @@ class AdminTable extends Seeder
             // Administrator
             [
                 'name' => 'SuperAdmin',
-                'email'=> 'superadmin@example.com',
+                'email'=> 'superadmin@gmail.com',
                 'password'=> Hash::make('superadmin'),
+                'user_tpye' => 1,
             ],
 
             // manager
             [
                 'name'=> 'Owner',
-                'email'=> 'owner@example.com',
+                'email'=> 'owner@gmail.com',
                 'password'=> Hash::make('owner'),
+                'user_tpye' => 2,
             ],
             // User
             [
                 'name'=> 'User',
-                'email'=> 'user@example.com',
+                'email'=> 'user@gmail.com',
                 'password'=> Hash::make('user'),
+                'user_tpye' => 3,
             ],
         ]);
     }

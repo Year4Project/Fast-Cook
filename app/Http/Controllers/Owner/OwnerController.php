@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Owner;
 
+use App\Http\Controllers\Controller;
 use App\Models\Food;
+use App\Models\Restaurant;
 use Illuminate\Http\Request;
 
 class OwnerController extends Controller
 {
     public function listMenu(){
-        $menu = Food::all();
+            // $restaurant = Restaurant::with('foods')->get();
+            // $food = Food::with('restaurants')->get();
+            $menu = Food::all();
         return view('owner.listMenu',compact('menu'));
     }
 
@@ -33,6 +37,7 @@ class OwnerController extends Controller
             $menu->dPrice=$request->dPrice;
             $menu->image=$imagename;
             $menu->stock=$request->stock;
+            // $menu->restaurant_id=$restaurant_id;
             $menu->save();
 
             return redirect('owner/listMenu')->with('success', "Food successfully add to list.");

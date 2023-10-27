@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('food', function (Blueprint $table) {
+        Schema::create('foods', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('restaurant_id');
             $table->string('name')->nullable();
             $table->string('code')->nullable();
             $table->string('oPrice')->nullable();
             $table->string('dPrice')->nullable();
             $table->string('image')->nullable();
-            $table->string('stock')->default(1); // 0:Unavialible stock 1:Avialibale stock,
-            $table->string('action')->nullable();
-            $table->string('food_id')->id();
+            $table->enum('stock',['available','unavailable'])->default('available');// 0:Unavialible stock 1:Avialibale stock
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('food');
+        Schema::dropIfExists('foods');
     }
 };

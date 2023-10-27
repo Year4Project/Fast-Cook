@@ -21,6 +21,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr style="color: black">
+                                <th scope="col">#</th>
                                 <th>Name</th>
 								<th>Item Code</th>
 								<th>Original Price</th>
@@ -30,16 +31,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                   @foreach ($menu as $menuItem)
+                   @foreach ($restaurant as $restaurantz)
                         <tr>
-                            <td>{{ $menuItem->name ?? 'None'}}</td>
-                            <td>{{ $menuItem->code }}</td>
-                            <td>{{ $menuItem->oPrice }}</td>
-                            <td>{{ $menuItem->dPrice }}</td>
-                            <td><img height="75" width="75" src="/foodimage/{{$menuItem->image}}" alt=""></td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $restaurantz->name}}</td>
+                            <td>{{ $restaurantz->code }}</td>
+                            <td>{{ $restaurantz->oPrice }}</td>
+                            <td>{{ $restaurantz->dPrice }}</td>
+                            <td><img height="75" width="75" src="/foodimage/{{$restaurantz->image}}" alt=""></td>
                             <td>
-                                <a href="{{ url('owner/edit/'.$menuItem->id) }}" class="btn btn-primary">Edit</a>
-                                <a href="{{ url('owner/delete/'.$menuItem->id) }}" class="btn btn-danger">Delete</a>
+                                <a href="{{ url('owner/edit/'.$restaurantz->id) }}" class="btn btn-primary">Edit</a>
+                                <a href="{{ url('owner/delete/'.$restaurantz->id) }}" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
                        
