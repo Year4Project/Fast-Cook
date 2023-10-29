@@ -53,15 +53,17 @@ Route::group(['middleware' => 'admin'], function () {
 
 Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/dashboard', [DashboardController::class, 'dashboard']);
-    Route::get('owner/listMenu', [OwnerController::class, 'listMenu']);
-    Route::get('owner/addFood', [OwnerController::class, 'addFood']);
-    Route::post('owner/addFood', [OwnerController::class, 'insertFood']);
-    Route::get('owner/edit/{id}', [OwnerController::class, 'edit']);
-    Route::post('owner/edit/{id}', [OwnerController::class, 'update']);
-    Route::get('owner/delete/{id}', [OwnerController::class, 'destroy']);
+
+    Route::get('owner/food/index', [OwnerController::class, 'index'])->name('MenuFood');
+    Route::get('owner/food/create', [OwnerController::class, 'create'])->name('CreateFood');
+    Route::post('owner/food/create', [OwnerController::class, 'store'])->name('StoreFood');
+    Route::get('owner/food/edit/{id}', [OwnerController::class, 'edit'])->name('edit');
+    Route::post('owner/food/edit/{id}', [OwnerController::class, 'update'])->name('UpdateFood');
+    Route::get('owner/food/delete/{id}', [OwnerController::class, 'delete'])->name('DeleteFood');
+    
 
     // Generate QR Code
-    Route::get('owner/generateQRCode', [OwnerController::class, 'qrCode']);
+    // Route::get('owner/generateQRCode', [OwnerController::class, 'qrCode']);
 });
 
 Route::group(['middleware' => 'user'], function () {

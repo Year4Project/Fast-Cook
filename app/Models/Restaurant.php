@@ -20,5 +20,8 @@ class Restaurant extends Model
         return self::find($id);
     }
 
+    public function menus(){
+        return $this->hasMany(Menu::class,'restaurant_id','id');
+    }
 
 }

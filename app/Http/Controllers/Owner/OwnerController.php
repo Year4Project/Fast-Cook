@@ -3,27 +3,26 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
-use App\Models\Food;
+use App\Models\Menu;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OwnerController extends Controller
 {
-    public function listMenu(){
-            // $restaurant = Restaurant::with('foods')->get();
-            // $food = Food::with('restaurants')->get();
-            $menu = Food::all();
-        return view('owner.listMenu',compact('menu'));
+    public function index(){
+        $menu = Menu::all();
+        return view('owner.food.index',compact('menu'));
+    }
+    public function create(){
+        $menu = Menu::all();
+        return view('owner.food.create',compact('menu'));
     }
 
-    public function addFood(){
-        return view('owner.addFood');
-    }
-    
-    public function insertFood(Request $request)
-    {
+    public function store(Request $request){
         // dd($request->all());
-        $menu = new Food();;
+        $menu = new Menu;
         
         $image=$request->image;
 
@@ -33,64 +32,46 @@ class OwnerController extends Controller
 
             $menu->name=$request->name;
             $menu->code=$request->code;
+            $menu->image=$imagename;
             $menu->oPrice=$request->oPrice;
             $menu->dPrice=$request->dPrice;
-            $menu->image=$imagename;
-            $menu->stock=$request->stock;
-            // $menu->restaurant_id=$restaurant_id;
+            $menu->restaurant_id = Auth::user()->id;
             $menu->save();
 
-            return redirect('owner/listMenu')->with('success', "Food successfully add to list.");
+            return redirect('owner/food/index')->with('success', "Food successfully Create.");
     }
 
-     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $menu = Food::find($id);
-        return view('owner.editFood',compact('menu'));
+    public function edit($id){
+        $menu = Menu::findOrFail($id);
+        return view('owner/food/edit',compact('menu'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        $menu=Food::find($id);
+    public function update(Request $request, $id){
 
-        $image=$request->image;
+        $menu = Menu::findOrFail($id);
         
+        $image=$request->image;
+
         $imagename = time().'.'.$image->getClientOriginalExtension();
 
             $request->image->move('foodimage', $imagename);
 
             $menu->name=$request->name;
             $menu->code=$request->code;
+            $menu->image=$imagename;
             $menu->oPrice=$request->oPrice;
             $menu->dPrice=$request->dPrice;
-            $menu->image=$imagename;
-            $menu->stock=$request->stock;
+            $menu->restaurant_id = Auth::user()->id;
             $menu->save();
 
-
-            return redirect('owner/listMenu')->with('success', "Food successfully update.");
-
+            return redirect('owner/food/index')->with('success', "Food successfully update.");
     }
 
-     /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+    public function delete($id) // Function to delete a user from the admin
     {
-        $menu=Food::find($id);
-
+        $menu = Menu::find(request()->id);
         $menu->delete();
 
-        return redirect()->back();
-    }
-
-    public function qrCode(){
-        return view('owner.generateQRCode');
+        return redirect('owner/food/index')->with('success', "Food successfully delete.");
     }
 }
