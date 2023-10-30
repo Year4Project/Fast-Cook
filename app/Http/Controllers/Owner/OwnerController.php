@@ -22,6 +22,7 @@ class OwnerController extends Controller
 
     public function store(Request $request){
         // dd($request->all());
+        // $restaurant = new Restaurant();
         $menu = new Menu;
         
         $image=$request->image;

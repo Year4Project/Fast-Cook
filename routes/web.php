@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\RestaurantController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Owner\OrderController;
 use App\Http\Controllers\Owner\OwnerController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +62,8 @@ Route::group(['middleware' => 'owner'], function () {
     Route::post('owner/food/edit/{id}', [OwnerController::class, 'update'])->name('UpdateFood');
     Route::get('owner/food/delete/{id}', [OwnerController::class, 'delete'])->name('DeleteFood');
     
+    // Order Food
+    Route::get('owner/order/index', [OrderController::class, 'index'])->name('ShowOrder');
 
     // Generate QR Code
     // Route::get('owner/generateQRCode', [OwnerController::class, 'qrCode']);
