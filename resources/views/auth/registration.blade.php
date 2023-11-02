@@ -45,7 +45,7 @@
                                         value="{{ old('first_name') }}" name="first_name" id="first_name" required placeholder="First Name">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" name="last_name" class="form-control form-control-user" required value="{{ old('LastName') }}"  id="last_name"
+                                        <input type="text" name="last_name" class="form-control form-control-user" required value="{{ old('last_name') }}"  id="last_name"
                                             placeholder="Last Name">
                                     </div>
                                 </div>

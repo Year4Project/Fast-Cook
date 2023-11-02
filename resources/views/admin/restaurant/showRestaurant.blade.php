@@ -21,6 +21,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr style="color: black">
+                            <th>Restaurant ID</th>
                             <th>Restaurant Name</th>
                             <th>Owner Name</th>
                             <th>Address</th>
@@ -33,14 +34,20 @@
                                 <tr>
                                    
                         @foreach ($data as $restaurant)
+                                <td>{{ $restaurant->id }}</td>
                                 <td>{{ $restaurant->restaurant_name }}</td>
                                 <td>{{ $restaurant->first_name }} {{ $restaurant->last_name }}</td>
                                 <td>{{ $restaurant->address }}</td>
                                 <td>{{ $restaurant->email }}</td>
                                 <td>{{ $restaurant->phone }}</td>
                                 <td>
-                                    <a href="{{ url('admin/restaurant/edit/'.$restaurant->id) }}" class="btn btn-primary">Edit</a>
-                                    <a href="{{ url('admin/restaurant/delete/'.$restaurant->id) }}" class="btn btn-danger">Delete</a>
+                                    <a class="nav-link" href="{{ url('admin/restaurant/edit/'.$restaurant->id) }}">
+                                        <i class="fas fa-fw fa-edit"></i>
+                                    </a>
+    
+                                    <a class="nav-link" href="{{ url('admin/restaurant/delete/'.$restaurant->id) }}">
+                                        <i class="fas fa-fw fa-trash-alt icon-trash-red"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

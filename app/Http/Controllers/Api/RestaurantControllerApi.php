@@ -30,10 +30,11 @@ class RestaurantControllerApi extends Controller
 
     public function orderConfirm(Request $request){
         $validator = Validator::make($request->all(), [
-            'foodname' => 'required|string|max:191',
-            'price' => 'required|string|max:191',
-            'quantity' => 'required|string|max:191',
-            'tablenote' => 'required',
+            'user_id' => 'required',
+            'food_id' => 'required',
+            'quantity' => 'required',
+            'remark' => 'required|string|max:191',
+            'table_note' => 'required',
         ]);
 
         if($validator->fails()){
@@ -45,10 +46,11 @@ class RestaurantControllerApi extends Controller
         }else{
 
             $order = Order::create([
-                'foodname' => $request->foodname,
-                'price' => $request->price,
+                'user_id' => $request->user_id,
+                'food_id' => $request->food_id,
                 'quantity' => $request->quantity,
-                'tablenote' => $request->tablenote,
+                'remark' => $request->remark,
+                'table_note'=> $request->table_note,
             ]);
 
             if($order){

@@ -29,24 +29,28 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label>Name</label>
-                    <input type="text" class="form-control" value="{{ old('name')}}" name="name" required placeholder="Name Food">
+                    <input type="text" class="form-control" value="{{ old('name', $menu->name)}}" name="name" required>
                   </div>
-                  {{-- <div class="form-group">
+                  <div class="form-group">
                     <label>Code</label>
-                    <input type="num" class="form-control" value="{{ old('code')}}" name="code" required placeholder="Code Food">
-                  </div> --}}
+                    <input type="num" class="form-control" value="{{ old('code',$menu->code)}}" name="code" required>
+                  </div>
                   <div class="form-group">
                     <label>Original Price</label>
-                    <input type="num" class="form-control" value="{{ old('oPrice')}}" name="oPrice" required placeholder="Original Price">
+                    <input type="number" class="form-control" value="{{ old('oPrice',$menu->oPrice)}}" name="oPrice" required>
                     {{-- <div style="color: red">{{ $errors->first('email')}}</div> --}}
                   </div>
                   <div class="form-group">
                     <label>Discound Price</label>
-                    <input type="number" class="form-control" value="{{ old('dPrice')}}" name="dPrice" required placeholder="Discound Price">
+                    <input type="number" class="form-control" value="{{ old('dPrice',$menu->dPrice)}}" name="dPrice" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Old Image Food</label>
+                    <img height="200" width="200" src="/foodimage/{{$menu->image}}" alt="">
                   </div>
                   <div class="form-group">
                     <label>Image Food</label>
-                    <input type="file" class="form-control" name="image" required>
+                    <input type="file" class="form-control" name="image">
                   </div>
 
 

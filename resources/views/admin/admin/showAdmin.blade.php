@@ -38,7 +38,7 @@
 
                             <td>{{ date('d-m-Y H:i A', strtotime($adm->created_at)) }}</td>
                             <td>
-                                <a href="{{ url('admin/admin/edit/'.$adm->id) }}" class="btn btn-primary">Edit</a>
+                                {{-- <a href="{{ url('admin/admin/edit/'.$adm->id) }}" class="btn btn-primary">Edit</a> --}}
                                 <a href="{{ url('admin/admin/delete/'.$adm->id) }}" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>

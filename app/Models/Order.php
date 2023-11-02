@@ -9,9 +9,20 @@ class Order extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'foodname',
-        'price',
+        'user_id',
+        'food_id',
         'quantity',
-        'tablenote'
+        'table_note',
+        'remark'
     ];
+
+ 
+    // Relationship order has many menu
+    public function menus(){
+        return $this->hasMany(Menu::class);
+    }
+
+    public function user(){
+        return $this->hasMany(User::class);
+    }
 }

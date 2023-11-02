@@ -23,39 +23,25 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr style="color: black">
+                            <th>Customer ID</th>
                             <th>Customer Name</th>
-                            <th>Food Name</th>
-                            <th>Code Food</th>
                             <th>Quantity</th>
                             <th>Table Note</th>
                             <th>Remak</th>
-                            <th>Image</th>
-                            <th>Original Price</th>
-                            <th>Discound Price</th>
-                            <th>Total Price</th>
-                            <th>Action</th>
+                            <th>More Order</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($order as $orderItem)
                             <tr>
+                                <td>{{ $orderItem->user_id }}</td>
                                 <td>{{ $orderItem->first_name }} {{ $orderItem->last_name }}</td>
-                                <td>{{ $orderItem->name }}</td>
-                                <td>{{ $orderItem->code }}</td>
                                 <td>{{ $orderItem->quantity }}</td>
                                 <td>{{ $orderItem->table_note }}</td>
                                 <td>{{ $orderItem->remark }}</td>
-                                <td><img height="75" width="75" src="/foodimage/{{$orderItem->image}}" alt=""></td>
-                                <td>{{ $orderItem->oPrice}}$</td>
-                                <td>{{ $orderItem->dPrice}}$</td>
-                                <td>{{ ($orderItem->oPrice * $orderItem->quantity) - ($orderItem->dPrice * $orderItem->quantity) }}$</td>
                                 <td>
-                                    <a class="nav-link" href="{{ url('owner/order/edit/'.$orderItem->id) }}">
-                                        <i class="fas fa-fw fa-edit"></i>
-                                    </a>
-
-                                    <a class="nav-link" href="{{ url('owner/order/delete/'.$orderItem->id) }}">
-                                        <i class="fas fa-fw fa-trash-alt icon-trash-red"></i>
+                                    <a class="nav-link" href="{{ url('owner/order/index/'.$orderItem->user_id) }}">
+                                        <i class="fab fa-elementor"></i>
                                     </a>
                                 </td>
                             </tr>                        

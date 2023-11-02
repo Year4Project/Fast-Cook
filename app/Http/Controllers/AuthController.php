@@ -61,12 +61,14 @@ class AuthController extends Controller
    
     function registrationPost(Request $request){
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required'
+            'first_name' => 'required',
+            'last_name'=> 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|confirmed'
         ]);
 
-        $data['name'] = $request->name;
+        $data['first_name'] = $request->first_name;
+        $data['last_name'] = $request->last_name;
         $data['email'] = $request->email;
         $data['password'] = Hash::make($request->password);
         $user = User::create($data);

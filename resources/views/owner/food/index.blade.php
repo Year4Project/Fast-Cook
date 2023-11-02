@@ -23,8 +23,8 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr style="color: black">
-                            <th>Name</th>
                             <th>Code</th>
+                            <th>Name</th>
                             <th>Original Price</th>
                             <th>Discound Price</th>
                             <th>Image</th>
@@ -36,16 +36,21 @@
                     <tbody>
                    @foreach ($menu as $item)
                        <tr>
-                            <td>{{ $item->name }}</td>
                             <td>{{ $item->code }}</td>
+                            <td>{{ $item->name }}</td>
                             <td>{{ $item->oPrice }}</td>
                             <td>{{ $item->dPrice }}</td>
                             <td><img height="75" width="75" src="/foodimage/{{$item->image}}" alt=""></td>
                             <td>{{ $item->stock }}</td>
                             <td>{{ date('d-m-Y H:i A', strtotime($item->created_at)) }}</td>
                             <td>
-                                <a href="{{ url('owner/food/edit/'.$item->id) }}" class="btn btn-primary">Edit</a>
-                                <a href="{{ url('owner/food/delete/'.$item->id) }}" class="btn btn-danger">Delete</a>
+                                <a class="nav-link" href="{{ url('owner/food/edit/'.$item->id) }}">
+                                    <i class="fas fa-fw fa-edit"></i>
+                                </a>
+
+                                <a class="nav-link" href="{{ url('owner/food/delete/'.$item->id) }}">
+                                    <i class="fas fa-fw fa-trash-alt icon-trash-red"></i>
+                                </a>
                             </td>
                        </tr>
                    @endforeach

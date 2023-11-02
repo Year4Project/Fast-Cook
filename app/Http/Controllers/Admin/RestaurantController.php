@@ -54,7 +54,9 @@ class RestaurantController extends Controller
 
         $user = DB::table('users')
             ->get();
+
         $restaurant = Restaurant::find(request()->id);
+        
         return view('admin.restaurant.edit',['restaurant'=> $restaurant,'user'=> $user]);
     }
 

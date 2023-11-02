@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\DB;
 class OwnerController extends Controller
 {
     public function index(){
-        $menu = Menu::all();
+        $user = Auth::user();
+        $menu = Menu::where("restaurant_id", $user->id)->orderBy('id','asc')->get();
+
         return view('owner.food.index',compact('menu'));
     }
     public function create(){
@@ -32,7 +34,6 @@ class OwnerController extends Controller
             $request->image->move('foodimage', $imagename);
 
             $menu->name=$request->name;
-            $menu->code=$request->code;
             $menu->image=$imagename;
             $menu->oPrice=$request->oPrice;
             $menu->dPrice=$request->dPrice;

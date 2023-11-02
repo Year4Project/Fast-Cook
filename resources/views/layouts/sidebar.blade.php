@@ -81,7 +81,7 @@
             <span>Food Menu</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ url('owner/order/index') }}">
+        <a class="nav-link" href="{{ url('owner/order/userorder') }}">
             <i class="fas fa-fw fa-book"></i>
             <span>Order Food</span></a>
     </li>

@@ -27,8 +27,8 @@ Route::get('/',[AuthController::class, 'login']);
 Route::post('login',[AuthController::class, 'AuthLogin']);
 Route::get('logout', [AuthController::class, 'logout']);
 
-Route::get('/registration',[AuthController::class, 'registration']);
-Route::post('/registration',[AuthController::class,'registrationPost'])->name('registration.post');
+// Route::get('/registration',[AuthController::class, 'registration']);
+// Route::post('/registration',[AuthController::class,'registrationPost'])->name('registration.post');
 
 
 Route::middleware('auth')->group(function(){
@@ -39,8 +39,8 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('admin/admin/showAdmin', [AdminController::class, 'showAdmin']);
     Route::get('admin/admin/add', [AdminController::class, 'add']);
     Route::post('admin/admin/add', [AdminController::class, 'insert']);
-    Route::get('admin/admin/edit/{id}', [AdminController::class, 'edit']);
-    Route::post('admin/admin/edit/{id}', [AdminController::class, 'update']);
+    // Route::get('admin/admin/edit/{id}', [AdminController::class, 'edit']);
+    // Route::post('admin/admin/edit/{id}', [AdminController::class, 'update']);
     Route::get('admin/admin/delete/{id}', [AdminController::class, 'delete']);
 
     // All Restaurant Routes
@@ -63,7 +63,9 @@ Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/food/delete/{id}', [OwnerController::class, 'delete'])->name('DeleteFood');
     
     // Order Food
-    Route::get('owner/order/index', [OrderController::class, 'index'])->name('ShowOrder');
+    Route::get('owner/order/userorder', [OrderController::class, 'userorder'])->name('userOrder');
+    Route::get('owner/order/index/', [OrderController::class, 'index'])->name('ShowOrder');
+    Route::get('owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
 
     // Generate QR Code
     // Route::get('owner/generateQRCode', [OwnerController::class, 'qrCode']);
