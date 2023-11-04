@@ -3,7 +3,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('admin/dashboard') }}">
         <div class="sidebar-brand-text mx-3">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
     </a>
 
@@ -95,14 +95,16 @@
             <i class="fas fa-fw fa-box"></i>
             <span>Chats</span></a>
     </li>
-    @elseif(Auth::user()->user_type == 3)
+
+    {{-- @elseif(Auth::user()->user_type == 3)
     <li class="nav-item active">
         <a class="nav-link" href="{{ url('user/dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
     <!-- Divider -->
-    <hr class="sidebar-divider">
+    <hr class="sidebar-divider"> --}}
+    
     @endif
 
    

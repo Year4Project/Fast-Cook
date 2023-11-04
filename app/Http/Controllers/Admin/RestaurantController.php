@@ -22,6 +22,7 @@ class RestaurantController extends Controller
 
         return view('admin.restaurant.showRestaurant',compact('data'));
     }
+
     public function create(){
         $restaurant = DB::table('restaurants')
                     ->join('users', 'users.id','=' ,'restaurants.user_id')
@@ -43,18 +44,17 @@ class RestaurantController extends Controller
         $restaurant->save();
 
         return redirect('admin/restaurant/showRestaurant')->with('success', "Restaurant successfully created.");
-        
     }
 
-    public function edit(){
+    public function edit(string $id){
+
+        // $restaurant = Restaurant::find($id);
         $restaurant = DB::table('restaurants')
         ->join('users', 'users.id','=' ,'restaurants.user_id')
         // ->select('users.*','users.first_name','users.last_name','users')
         ->get();
-
         $user = DB::table('users')
             ->get();
-
         $restaurant = Restaurant::find(request()->id);
         
         return view('admin.restaurant.edit',['restaurant'=> $restaurant,'user'=> $user]);

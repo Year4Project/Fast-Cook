@@ -43,6 +43,17 @@ class OwnerController extends Controller
             return redirect('owner/food/index')->with('success', "Food successfully Create.");
     }
 
+    public function updateStock($id){
+        $getStock = Menu::select('stock')->where('id',$id)->first();
+        if($getStock->stock == 1){
+            $stock = 0;
+        }else{
+            $stock = 1;
+        }
+        Menu::where('id',$id)->update(['stock'=>$stock]);
+        return redirect('owner/food/index')->with('success', "Stock successfully update.");
+    }
+
     public function edit($id){
         $menu = Menu::findOrFail($id);
         return view('owner/food/edit',compact('menu'));

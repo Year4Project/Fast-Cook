@@ -42,6 +42,7 @@ Route::group(['middleware' => 'admin'], function () {
     // Route::get('admin/admin/edit/{id}', [AdminController::class, 'edit']);
     // Route::post('admin/admin/edit/{id}', [AdminController::class, 'update']);
     Route::get('admin/admin/delete/{id}', [AdminController::class, 'delete']);
+    Route::get('admin/admin/updateStatus/{id}', [AdminController::class, 'updateStatus'])->name('updateStatus');
 
     // All Restaurant Routes
     Route::get('admin/restaurant/showRestaurant', [RestaurantController::class, 'showRestaurant']);
@@ -59,20 +60,23 @@ Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/food/create', [OwnerController::class, 'create'])->name('CreateFood');
     Route::post('owner/food/create', [OwnerController::class, 'store'])->name('StoreFood');
     Route::get('owner/food/edit/{id}', [OwnerController::class, 'edit'])->name('edit');
+
+    Route::get('owner/food/updateStock/{id}', [OwnerController::class, 'updateStock'])->name('updateStock');
+
     Route::post('owner/food/edit/{id}', [OwnerController::class, 'update'])->name('UpdateFood');
     Route::get('owner/food/delete/{id}', [OwnerController::class, 'delete'])->name('DeleteFood');
     
     // Order Food
-    Route::get('owner/order/userorder', [OrderController::class, 'userorder'])->name('userOrder');
-    Route::get('owner/order/index/', [OrderController::class, 'index'])->name('ShowOrder');
-    Route::get('owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
+    Route::get('/owner/order/userorder', [OrderController::class, 'userOrder'])->name('userOrder');
+    Route::get('/owner/order/listFoodUser/{id}', [OrderController::class, 'listFoodUser'])->name('foodUserOrder');
+    Route::get('/owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
 
     // Generate QR Code
     // Route::get('owner/generateQRCode', [OwnerController::class, 'qrCode']);
 });
 
-Route::group(['middleware' => 'user'], function () {
-    Route::get('user/dashboard', [DashboardController::class, 'dashboard']);
-});
+// Route::group(['middleware' => 'user'], function () {
+//     Route::get('user/dashboard', [DashboardController::class, 'dashboard']);
+// });
 
 });

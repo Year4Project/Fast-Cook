@@ -41,7 +41,13 @@
                             <td>{{ $item->oPrice }}</td>
                             <td>{{ $item->dPrice }}</td>
                             <td><img height="75" width="75" src="/foodimage/{{$item->image}}" alt=""></td>
-                            <td>{{ $item->stock }}</td>
+                            <td>
+                               @if($item->stock ==1)
+                                    <a href="{{ url('owner/food/updateStock/'.$item->id) }}" onclick="return confirm('Are you Sure?')" class="btn btn-sm btn-success">Available</a>
+                                @else
+                                <a href="{{ url('owner/food/updateStock/'.$item->id) }}" onclick="return confirm('Are you Sure?')" class="btn btn-sm btn-danger">Unavailable</a>
+                                @endif
+                            </td>
                             <td>{{ date('d-m-Y H:i A', strtotime($item->created_at)) }}</td>
                             <td>
                                 <a class="nav-link" href="{{ url('owner/food/edit/'.$item->id) }}">

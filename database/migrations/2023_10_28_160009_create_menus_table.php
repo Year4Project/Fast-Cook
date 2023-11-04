@@ -19,7 +19,6 @@ return new class extends Migration
             $table->integer('oPrice')->nullable();
             $table->integer('dPrice')->nullable();
             $table->string('image')->nullable();
-            $table->enum('stock',['available','unavailable'])->default('available');// 0:Unavialible stock 1:Avialibale stock
             $table->timestamps();
         });
     }

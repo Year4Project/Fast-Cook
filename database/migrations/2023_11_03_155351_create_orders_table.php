@@ -16,7 +16,9 @@ return new class extends Migration
             $table->bigInteger('user_id');
             $table->bigInteger('food_id');
             $table->string('quantity');
-            $table->string('table_note');
+            $table->string('table_no');
+            // $table->string('payment_mode');
+            // $table->string('payment_id');
             $table->string('remark');
             $table->timestamps();
         });

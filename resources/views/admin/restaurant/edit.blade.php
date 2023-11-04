@@ -29,7 +29,7 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label>Restaurant Name</label>
-                    <input type="text" class="form-control" name="restaurant_name"  required>
+                    <input type="text" class="form-control" value="{{ old('restaurant_name', $restaurant->restaurant_name )}}" name="restaurant_name"  required>
                   </div>
                   <div class="form-group">
                     <label>Owner Name</label>
@@ -42,7 +42,7 @@
                   </div>
                   <div class="form-group">
                     <label>Address</label>
-                    <textarea class="form-control" name="address" id="address" rows="5" required value="{{ old('address', $restaurant->address)}}"></textarea>
+                    <textarea class="form-control" name="address" id="address" rows="5" required >{{ old('address', $restaurant->address )}}</textarea>
                   </div>
 
                 </div>

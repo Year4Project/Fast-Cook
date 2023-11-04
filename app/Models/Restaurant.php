@@ -11,6 +11,8 @@ class Restaurant extends Model
     
     protected $fillable = ['restaurant_name', 'address','user_id'];
 
+
+
     // Restaurant belongsto User
     public function users(){
         return $this->belongsTo(User::class);

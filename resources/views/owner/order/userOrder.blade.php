@@ -23,28 +23,32 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr style="color: black">
-                            <th>Customer ID</th>
+                            <th>Order ID</th>
                             <th>Customer Name</th>
                             <th>Quantity</th>
                             <th>Table Note</th>
                             <th>Remak</th>
-                            <th>More Order</th>
+                            <th>Payment Mode</th>
+                            <th>Ordered Date</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($order as $orderItem)
-                            <tr>
-                                <td>{{ $orderItem->user_id }}</td>
-                                <td>{{ $orderItem->first_name }} {{ $orderItem->last_name }}</td>
-                                <td>{{ $orderItem->quantity }}</td>
-                                <td>{{ $orderItem->table_note }}</td>
-                                <td>{{ $orderItem->remark }}</td>
-                                <td>
-                                    <a class="nav-link" href="{{ url('owner/order/index/'.$orderItem->user_id) }}">
-                                        <i class="fab fa-elementor"></i>
-                                    </a>
-                                </td>
-                            </tr>                        
+                        @foreach ($orders as $orders)
+                        <tr>
+                            <td>{{ $orders->id }}</td>
+                            <td>{{ $orders->first_name }} {{ $orders->last_name }}</td>
+                            <td>{{ $orders->quantity }}</td>
+                            <td>{{ $orders->table_no }}</td>
+                            <td>{{ $orders->remark }}</td>
+                            <td></td>
+                            <td>{{ date('d-m-Y | h:i A', strtotime($orders->created_at)) }}</td>
+                            <td>
+                                <a class="nav-link" href="{{ url('owner/order/listFoodUser/'.$orders->user_id) }}">
+                                    <i class="fas fa-list">  List Order</i>
+                                </a>
+                            </td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,42 +15,31 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function userorder(){
-        $order = DB::table('orders')
-                ->join('users','users.id','=','orders.user_id')
-                ->join('menus','menus.id','=','orders.food_id')
-                ->get();
-        
-        $user = DB::table('users')
-                ->get();
-
-        $menu = DB::table('menus')
-                ->get();
-
-        return view('owner.order.userOrder', ['order' => $order,'$user' => $user, 'menu' => $menu]);
-    }
-    public function index()
+    public function userOrder()
     {
-        $order = DB::table('orders')
-                ->join('users','users.id','=','orders.user_id')
-                ->join('menus','menus.id','=','orders.food_id')
-                ->get();
-        
-        $user = DB::table('users')
+
+        // $orders = Order::with('menus')->get();
+        // $menus = Menu::with('orders')->get();
+
+        $orders = DB::table('orders')
+                ->join('users', 'users.id', '=', 'orders.user_id')
+                ->join('menus','menus.id', '=', 'orders.food_id')
                 ->get();
 
-        $menu = DB::table('menus')
-                ->get();
-
-        return view('owner.order.index', ['order' => $order,'$user' => $user, 'menu' => $menu]);
+        return view('owner.order.userOrder', ['orders' => $orders]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function listFoodUser()
     {
-        //
+        $orders = DB::table('orders')
+                ->join('users', 'users.id', '=', 'orders.user_id')
+                ->join('menus','menus.id', '=', 'orders.food_id')
+                ->get();
+
+        return view('owner.order.listFoodUser',['orders' => $orders]);
     }
 
     /**

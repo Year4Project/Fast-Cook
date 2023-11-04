@@ -42,6 +42,7 @@
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
                                     @include('_massage')
+                                    
                                     <form class="user" action="{{url('login')}}" method="post">
                                         {{csrf_field()}}
                                         <div class="form-group">

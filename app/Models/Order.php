@@ -12,17 +12,17 @@ class Order extends Model
         'user_id',
         'food_id',
         'quantity',
-        'table_note',
+        'table_no',
         'remark'
     ];
 
  
     // Relationship order has many menu
     public function menus(){
-        return $this->hasMany(Menu::class);
+        return $this->belongsTo(Menu::class);
     }
 
     public function user(){
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }

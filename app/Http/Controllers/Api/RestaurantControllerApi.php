@@ -34,7 +34,7 @@ class RestaurantControllerApi extends Controller
             'food_id' => 'required',
             'quantity' => 'required',
             'remark' => 'required|string|max:191',
-            'table_note' => 'required',
+            'table_no' => 'required',
         ]);
 
         if($validator->fails()){
@@ -50,7 +50,7 @@ class RestaurantControllerApi extends Controller
                 'food_id' => $request->food_id,
                 'quantity' => $request->quantity,
                 'remark' => $request->remark,
-                'table_note'=> $request->table_note,
+                'table_no'=> $request->table_note,
             ]);
 
             if($order){

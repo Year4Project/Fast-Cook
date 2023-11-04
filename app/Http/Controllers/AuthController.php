@@ -11,23 +11,9 @@ class AuthController extends Controller
 {
     public function login(){
         // dd(Hash::make(12345));
-        if(!empty(Auth::check())){
-            if (Auth::user()->user_type == 1)
-            {
-                return redirect('admin/dashboard');
-            }
-            else if (Auth::user()->user_type == 2)
-            {
-                return redirect('owner/dashboard');
-            }
-            else if (Auth::user()->user_type == 3)
-            {
-                return redirect('user/dashboard');
-            }
-        }
-        else{
-            return view('auth/login');
-        }
+
+        return view('auth/login');
+        
     }
 
     public function AuthLogin(Request $request)
@@ -44,16 +30,17 @@ class AuthController extends Controller
             {
                 return redirect('owner/dashboard');
             }
-            else if (Auth::user()->user_type == 3)
-            {
-                return redirect('user/dashboard');
-            }
+            // else if (Auth::user()->user_type == 3)
+            // {
+            //     return redirect('user/dashboard');
+            // }
 
         } else
         {
-            return redirect()->back()->with('error','Please enter correct email address and password');
+            return redirect()->back();
         }
     }
+
     function registration(){
         return view('auth.registration');
     }

@@ -23,6 +23,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr style="color: black">
+                            <th>Customer ID</th>
                             <th>Customer Name</th>
                             <th>Food Name</th>
                             <th>Code Food</th>
@@ -37,13 +38,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($order as $orderItem)
+                        @foreach ($orders as $orderItem)
                             <tr>
+                                <td>{{ $orderItem->user_id }}</td>
                                 <td>{{ $orderItem->first_name }} {{ $orderItem->last_name }}</td>
                                 <td>{{ $orderItem->name }}</td>
                                 <td>{{ $orderItem->code }}</td>
                                 <td>{{ $orderItem->quantity }}</td>
-                                <td>{{ $orderItem->table_note }}</td>
+                                <td>{{ $orderItem->table_no }}</td>
                                 <td>{{ $orderItem->remark }}</td>
                                 <td><img height="75" width="75" src="/foodimage/{{$orderItem->image}}" alt=""></td>
                                 <td>{{ $orderItem->oPrice}}$</td>
