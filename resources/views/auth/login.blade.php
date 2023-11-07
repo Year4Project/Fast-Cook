@@ -42,6 +42,7 @@
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
                                     @include('_massage')
+                                    
                                     <form class="user" action="{{url('login')}}" method="post">
                                         {{csrf_field()}}
                                         <div class="form-group">
@@ -73,10 +74,10 @@
 
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                        <a class="small" href=#>Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="">Create an Account!</a>
+                                        <a class="small" href="#">Create an Account!</a>
                                     </div>
                                 </div>
                             </div>

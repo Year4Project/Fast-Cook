@@ -18,8 +18,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'user_id',
+        'first_name',
+        'last_name',
         'email',
+        'phone',
         'password',
     ];
 
@@ -43,8 +46,37 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    // Generate automatic number or id
+    protected static function boot(){
+        parent::boot();
+        self::creating(function ($user){
+            $getUser = self::orderBy('user_id','desc')->first();
+            if ($getUser){
+                $lastestID = intval(substr($getUser->user_id,3));
+                $nextID = $lastestID + 1;
+            } else {
+                $nextID = 1;
+            }
+            $user->user_id = 'KHF_'.sprintf("%03s",$nextID);
+            while(self::where('user_id',$user->user_id)->exists()) {
+                $nextID++;
+                $user->user_id = 'KHF_' . sprintf("%03s", $nextID);
+            }
+        });
+    }
+
     public static function getSingle($id)
     {
         return self::find($id);
     }
+
+    // Relationship User has many restaurant
+    public function restaurants(){
+        return $this->hasMany(Restaurant::class);
+    }
+
+    public function order(){
+        return $this->hasMany(Order::class);
+    }
+    
 }

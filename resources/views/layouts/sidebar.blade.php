@@ -3,8 +3,8 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-text mx-3">{{ Auth::user()->name }}</div>
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('admin/dashboard') }}">
+        <div class="sidebar-brand-text mx-3">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
     </a>
 
     <!-- Divider -->
@@ -40,12 +40,12 @@
             Addons
         </div>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('/admin/showAdmin') }}">
+            <a class="nav-link" href="{{ url('/admin/admin/showAdmin') }}">
                 <i class="fas fa-fw fa-user"></i>
                 <span>Admin</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ url('/admin/restaurant/showRestaurant') }}">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Restaurants</span></a>
         </li>
@@ -76,12 +76,12 @@
         Category
     </div>
     <li class="nav-item">
-        <a class="nav-link" href="{{ url('owner/listMenu') }}">
+        <a class="nav-link" href="{{ url('owner/food/index') }}">
             <i class="fas fa-fw fa-table"></i>
-            <span>List Food</span></a>
+            <span>Food Menu</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{{ url('owner/order/userorder') }}">
             <i class="fas fa-fw fa-book"></i>
             <span>Order Food</span></a>
     </li>
@@ -95,14 +95,16 @@
             <i class="fas fa-fw fa-box"></i>
             <span>Chats</span></a>
     </li>
-    @elseif(Auth::user()->user_type == 3)
+
+    {{-- @elseif(Auth::user()->user_type == 3)
     <li class="nav-item active">
         <a class="nav-link" href="{{ url('user/dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
     <!-- Divider -->
-    <hr class="sidebar-divider">
+    <hr class="sidebar-divider"> --}}
+    
     @endif
 
    

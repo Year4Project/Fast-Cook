@@ -36,36 +36,47 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form class="user" action="" method="POST">
+                            <form class="user" action="{{ url('/registration') }}" method="POST">
                                 @csrf
-
+                                
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
+                                        <input type="text" class="form-control form-control-user" 
+                                        value="{{ old('first_name') }}" name="first_name" id="first_name" required placeholder="First Name">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
+                                        <input type="text" name="last_name" class="form-control form-control-user" required value="{{ old('last_name') }}"  id="last_name"
                                             placeholder="Last Name">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
+                                    <input type="email" class="form-control form-control-user" id="email"
+                                        placeholder="Email Address" required name="email" value="{{ old('email') }}">
+                                        
+                                    {{-- @if ($error->has('email'))
+                                        <span class="text-danger">{{ $error->first('email') }}</span>
+                                    @endif --}}
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
+                                            id="password" name="password" required placeholder="Input Password">
+                                           
+                                    {{-- @if ($error->has('password'))
+                                        <span class="text-danger">{{ $error->first('password') }}</span>
+                                    @endif --}}
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
+                                            id="password" name="password" required placeholder="Repeat Password">
+                                            {{-- @if ($error->has('password'))
+                                            <span class="text-danger">{{ $error->first('password') }}</span>
+                                        @endif --}}
                                     </div>
                                 </div>
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
+                                <button class="btn btn-primary btn-user btn-block" type="submit" name="submit">
                                     Register Account
-                                </a>
+                                </button>
                                 <hr>
                                 <a href="index.html" class="btn btn-google btn-user btn-block">
                                     <i class="fab fa-google fa-fw"></i> Register with Google
@@ -79,7 +90,7 @@
                                 <a class="small" href="forgot-password.html">Forgot Password?</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="">Already have an account? Login!</a>
+                                <a class="small" href="{{ url('') }}">Already have an account? Login!</a>
                             </div>
                         </div>
                     </div>
