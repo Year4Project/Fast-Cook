@@ -17,8 +17,8 @@ return new class extends Migration
             $table->bigInteger('food_id');
             $table->string('quantity');
             $table->string('table_no');
-            // $table->string('payment_mode');
-            // $table->string('payment_id');
+            // $table->string('payment_mode')->default('PayByOnline'); // PayByOnline , PayByCash
+            // $table->string('payment_id')->nullable;
             $table->string('remark');
             $table->timestamps();
         });

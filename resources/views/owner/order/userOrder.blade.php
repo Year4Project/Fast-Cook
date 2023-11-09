@@ -34,7 +34,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($orders as $orders)
+                        @foreach ($getRecord as $orders)
                         <tr>
                             <td>{{ $orders->id }}</td>
                             <td>{{ $orders->first_name }} {{ $orders->last_name }}</td>

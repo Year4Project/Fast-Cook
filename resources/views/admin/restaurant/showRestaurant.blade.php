@@ -27,7 +27,7 @@
                             <th>Address</th>
                             <th>Email</th>
                             <th>Phone Number</th>
-                            <td>Action</td>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,7 +35,7 @@
                                    
                         @foreach ($data as $restaurant)
                                 <td>{{ $restaurant->id }}</td>
-                                <td>{{ $restaurant->restaurant_name }}</td>
+                                <td>{{ $restaurant->restaurants_name }}</td>
                                 <td>{{ $restaurant->first_name }} {{ $restaurant->last_name }}</td>
                                 <td>{{ $restaurant->address }}</td>
                                 <td>{{ $restaurant->email }}</td>

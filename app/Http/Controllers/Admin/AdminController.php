@@ -12,15 +12,16 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {
     public function showAdmin(){
-        $admin = User::all();
-        // if($admin->user_type){
-        //     $admin->user_type == 1;
-        // }
-        return view('admin.admin.showAdmin',compact('admin'));
+        $data['getRecord'] = User::getAdmin();
+        $data['header_title'] = 'Owner Restaurant List';
+        return view('admin.admin.showAdmin', $data);
     }
+
     public function add(){
-        return view('admin.admin.add');
+        $data['header_title'] = "Add New Owner Restaurant";
+        return view('admin.admin.add', $data);
     }
+
     public function insert(Request $request){
         request()->validate([
             'first_name' => 'required',
@@ -54,37 +55,45 @@ class AdminController extends Controller
 
     public function edit(string $id)
     {
-        $user = User::findOrFail($id);
+        $data['getRecord'] = User::getSingle($id);
+        if(!empty($data['getRecord']))
+        {
+            $data['header_title'] = "Edit Admin";
+            return view('admin.admin.edit', $data);
+        }
+        else
+        {
+            abort(404);
+        }
 
-        return view('admin.admin.edit', compact('user'));
+        
     }
      
-    // public function update(Request $request, $id) // Function for updating a user
-    // {
-    //     request()->validate([
-    //         'email' => 'required|email|unique:users,email,'.$id,
-    //         'phone' => 'required|unique:users|numeric'
-    //     ]);
+    public function update(Request $request, $id) // Function for updating a user
+    {
+        request()->validate([
+            'email' => 'required|email|unique:users,email,'.$id
+        ]);
 
-    //     $user = User::findOrFail($id);
-    //     $user->first_name = trim($request->first_name);
-    //     $user->last_name = trim($request->last_name);
-    //     $user->email = trim($request->email);
-    //     $user->phone = $request->phone;
-    //     $user->password = Hash::make($request->password);
-    //     if(!empty($request->password))
-    //     {
-    //         $user->password = Hash::make($request->password);
-    //     }
+        $user = User::getSingle($id);
+        $user->first_name = trim($request->first_name);
+        $user->last_name = trim($request->last_name);
+        $user->email = trim($request->email);
+        $user->phone = trim($request->phone);
+        $user->password = Hash::make($request->password);
+        if(!empty($request->password))
+        {
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
 
-    //     $user->save();
-
-    //     return redirect('admin/admin/showAdmin')->with('success', "Admin successfully update.");
-    // }
+        return redirect('admin/admin/showAdmin')->with('success', "Admin successfully created.");
+    }
 
     public function delete($id) // Function to delete a user from the admin
     {
         $user = User::find(request()->id);
+        $user->is_delete = 1;
         $user->delete();
 
         return redirect('admin/admin/showAdmin')->with('success', "Admin successfully delete.");

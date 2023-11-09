@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            // $table->bigInteger('restaurant_id');
+            $table->bigInteger('restaurant_id');
             $table->string('name')->nullable();
             $table->string('code')->nullable();
             $table->integer('oPrice')->nullable();
             $table->integer('dPrice')->nullable();
             $table->string('image')->nullable();
+            $table->integer('status')->default(1); // 0 Unavailable , 1 Available
             $table->timestamps();
         });
     }

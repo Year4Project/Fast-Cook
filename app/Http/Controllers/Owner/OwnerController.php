@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Menu;
+use App\Models\Order;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class OwnerController extends Controller
 {
@@ -27,14 +29,18 @@ class OwnerController extends Controller
         // $restaurant = new Restaurant();
         $menu = new Menu;
         
-        $image=$request->image;
-
-        $imagename = time().'.'.$image->getClientOriginalExtension();
-
-            $request->image->move('foodimage', $imagename);
 
             $menu->name=$request->name;
-            $menu->image=$imagename;
+
+            if(!empty($request->file('image'))) {
+                $ext = $request->file('image')->getClientOriginalExtension();
+                $file = $request->file('image');
+                $randomStr = date('Ymdhis').Str::random(20);
+                $filename = strtolower($randomStr).'.'.$ext;
+                $file->move('upload/food/', $filename);
+    
+                $menu->image = $filename;
+            }
             $menu->oPrice=$request->oPrice;
             $menu->dPrice=$request->dPrice;
             $menu->restaurant_id = Auth::user()->id;
@@ -43,35 +49,55 @@ class OwnerController extends Controller
             return redirect('owner/food/index')->with('success', "Food successfully Create.");
     }
 
-    public function updateStock($id){
-        $getStock = Menu::select('stock')->where('id',$id)->first();
-        if($getStock->stock == 1){
-            $stock = 0;
+    public function updateStatus($id){
+        $getStatus = Menu::select('status')->where('restaurant_id',$id)->first();
+        if($getStatus->status == 1){
+            $status = 0;
         }else{
-            $stock = 1;
+            $status = 1;
         }
-        Menu::where('id',$id)->update(['stock'=>$stock]);
-        return redirect('owner/food/index')->with('success', "Stock successfully update.");
+        Menu::where('restaurant_id',$id)->update(['status'=>$status]);
+        return redirect('owner/food/showRestaurant')->with('success', "status successfully update.");
     }
 
     public function edit($id){
-        $menu = Menu::findOrFail($id);
-        return view('owner/food/edit',compact('menu'));
+        $menu = Order::findOrFail($id);
+        if(!empty($data))
+        {
+            $menu['getOrderUser'] = Order::getOrderUser($id);
+            $menu['header_titles'] = "Edit Order";
+            return view('owner/food/edit',compact('menu'));
+        }
+        else
+        {
+            abort(404);
+        }
+
+        
     }
 
     public function update(Request $request, $id){
 
         $menu = Menu::findOrFail($id);
         
-        $image=$request->image;
+        // $image=$request->image;
 
-        $imagename = time().'.'.$image->getClientOriginalExtension();
+        // $imagename = time().'.'.$image->getClientOriginalExtension();
 
-            $request->image->move('foodimage', $imagename);
+        //     $request->image->move('foodimage', $imagename);
 
             $menu->name=$request->name;
-            $menu->code=$request->code;
-            $menu->image=$imagename;
+
+            if(!empty($request->file('image'))) {
+            $ext = $request->file('image')->getClientOriginalExtension();
+            $file = $request->file('image');
+            $randomStr = date('Ymdhis').Str::random(20);
+            $filename = strtolower($randomStr).'.'.$ext;
+            $file->move('upload/food/', $filename);
+
+            $menu->image = $filename;
+        }
+            
             $menu->oPrice=$request->oPrice;
             $menu->dPrice=$request->dPrice;
             $menu->restaurant_id = Auth::user()->id;

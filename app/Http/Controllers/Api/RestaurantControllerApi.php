@@ -50,7 +50,7 @@ class RestaurantControllerApi extends Controller
                 'food_id' => $request->food_id,
                 'quantity' => $request->quantity,
                 'remark' => $request->remark,
-                'table_no'=> $request->table_note,
+                'table_no'=> $request->table_no,
             ]);
 
             if($order){

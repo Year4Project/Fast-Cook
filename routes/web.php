@@ -39,8 +39,8 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('admin/admin/showAdmin', [AdminController::class, 'showAdmin']);
     Route::get('admin/admin/add', [AdminController::class, 'add']);
     Route::post('admin/admin/add', [AdminController::class, 'insert']);
-    // Route::get('admin/admin/edit/{id}', [AdminController::class, 'edit']);
-    // Route::post('admin/admin/edit/{id}', [AdminController::class, 'update']);
+    Route::get('admin/admin/edit/{id}', [AdminController::class, 'edit']);
+    Route::post('admin/admin/edit/{id}', [AdminController::class, 'update']);
     Route::get('admin/admin/delete/{id}', [AdminController::class, 'delete']);
     Route::get('admin/admin/updateStatus/{id}', [AdminController::class, 'updateStatus'])->name('updateStatus');
 
@@ -49,7 +49,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('admin/restaurant/create', [RestaurantController::class, 'create']);
     Route::post('admin/restaurant/store', [RestaurantController::class, 'store']);
     Route::get('admin/restaurant/edit/{id}', [RestaurantController::class, 'edit']);
-
+    Route::put('admin/restaurant/updateRestaurant/{id}', [RestaurantController::class, 'updateRestaurant']);
     Route::get('admin/restaurant/delete/{id}', [RestaurantController::class, 'delete']);
 });
 
@@ -61,7 +61,7 @@ Route::group(['middleware' => 'owner'], function () {
     Route::post('owner/food/create', [OwnerController::class, 'store'])->name('StoreFood');
     Route::get('owner/food/edit/{id}', [OwnerController::class, 'edit'])->name('edit');
 
-    Route::get('owner/food/updateStock/{id}', [OwnerController::class, 'updateStock'])->name('updateStock');
+    Route::get('owner/food/updateStatus/{id}', [OwnerController::class, 'updateStatus'])->name('updateStatus');
 
     Route::post('owner/food/edit/{id}', [OwnerController::class, 'update'])->name('UpdateFood');
     Route::get('owner/food/delete/{id}', [OwnerController::class, 'delete'])->name('DeleteFood');
