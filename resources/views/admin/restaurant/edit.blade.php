@@ -29,7 +29,7 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label>Restaurant Name</label>
-                    <input type="text" class="form-control" value="{{ old('restaurant_name', $restaurant->restaurant_name )}}" name="restaurant_name"  required>
+                    <input type="text" class="form-control" value="{{ old('restaurants_name', $restaurant->restaurants_name )}}" name="restaurants_name"  required>
                   </div>
                   <div class="form-group">
                     <label>Owner Name</label>

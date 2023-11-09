@@ -17,7 +17,7 @@ class Menu extends Model
         'oPrice',
         'dPrice',
         'image',
-        'stock'
+        'status'
     ];
     
     // Genterate Code Menu

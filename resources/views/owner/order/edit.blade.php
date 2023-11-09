@@ -29,24 +29,24 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label>Name</label>
-                    <input type="text" class="form-control" value="{{ old('name', $menu->name)}}" name="name" required>
+                    <input type="text" class="form-control" value="{{ old('name', $order->name)}}" name="name" required>
                   </div>
                   <div class="form-group">
                     <label>Code</label>
-                    <input type="num" class="form-control" value="{{ old('code',$menu->code)}}" name="code" required>
+                    <input type="num" class="form-control" value="{{ old('code',$order->code)}}" name="code" required>
                   </div>
                   <div class="form-group">
                     <label>Original Price</label>
-                    <input type="number" class="form-control" value="{{ old('oPrice',$menu->oPrice)}}" name="oPrice" required>
+                    <input type="number" class="form-control" value="{{ old('oPrice',$order->oPrice)}}" name="oPrice" required>
                     {{-- <div style="color: red">{{ $errors->first('email')}}</div> --}}
                   </div>
                   <div class="form-group">
                     <label>Discound Price</label>
-                    <input type="number" class="form-control" value="{{ old('dPrice',$menu->dPrice)}}" name="dPrice" required>
+                    <input type="number" class="form-control" value="{{ old('dPrice',$order->dPrice)}}" name="dPrice" required>
                   </div>
                   <div class="form-group">
                     <label>Old Image Food</label>
-                    <img height="200" width="200" src="/foodimage/{{$menu->image}}" alt="">
+                    <img height="200" width="200" src="/foodimage/{{$order->image}}" alt="">
                   </div>
                   <div class="form-group">
                     <label>Image Food</label>

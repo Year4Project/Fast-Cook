@@ -17,29 +17,22 @@ class OrderController extends Controller
      */
     public function userOrder()
     {
+        $data['getRecord'] = Order::getRecord();
+        $data['header_title'] = 'User Order Food';
 
-        // $orders = Order::with('menus')->get();
-        // $menus = Menu::with('orders')->get();
-
-        $orders = DB::table('orders')
-                ->join('users', 'users.id', '=', 'orders.user_id')
-                ->join('menus','menus.id', '=', 'orders.food_id')
-                ->get();
-
-        return view('owner.order.userOrder', ['orders' => $orders]);
+        return view('owner.order.userOrder', $data);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function listFoodUser()
+    public function listFoodUser($id)
     {
-        $orders = DB::table('orders')
-                ->join('users', 'users.id', '=', 'orders.user_id')
-                ->join('menus','menus.id', '=', 'orders.food_id')
-                ->get();
+        
+        $data['getOrderUser'] = Order::getOrderUser($id);
+        $data['header_title'] = 'User Order Food';
 
-        return view('owner.order.listFoodUser',['orders' => $orders]);
+        return view('owner.order.listFoodUser', $data);
     }
 
     /**
@@ -63,19 +56,9 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-        $order = DB::table('orders')
-                ->join('users','users.id','=','orders.user_id')
-                ->join('menus','menus.id','=','orders.food_id')
-                ->get();
+        $order = Order::findOrFail($id);
         
-        $user = DB::table('users')
-                ->get();
-
-        $menu = DB::table('menus')
-                ->get();
-        $order = Order::find(request()->id);
-        
-        return view('owner.order.edit', ['order' => $order,'$user' => $user, 'menu' => $menu]);
+        return view('owner.order.edit',compact('order'));
     }
 
     /**

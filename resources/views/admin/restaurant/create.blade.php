@@ -8,7 +8,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Add New Admin</h1>
+            <h1>Assign Owner to Restaurant</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -29,7 +29,7 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label>Restaurant Name</label>
-                    <input type="text" class="form-control" name="restaurant_name" required placeholder="Restaurant Name">
+                    <input type="text" class="form-control" name="restaurants_name" required placeholder="Restaurant Name">
                   </div>
                   <div class="form-group">
                     <label>Owner Name</label>

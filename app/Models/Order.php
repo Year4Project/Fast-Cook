@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class Order extends Model
 {
@@ -25,4 +27,32 @@ class Order extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    static public function getRecord()
+    {
+        $return = Order::select('orders.*','users.first_name', 'users.last_name')
+                    ->join('users','users.id','orders.user_id');
+                    // ->join('menus','menus.id','orders.food_id');
+
+        $return = $return->orderBy('orders.id', 'desc')
+            ->paginate(5);
+
+        return $return;
+    }
+
+    
+    static public function getOrderUser($getFoodUser)
+    {
+        $return = Order::select('orders.*','menus.*', 'users.first_name', 'users.last_name',)
+                    ->join('users','users.id','=','orders.user_id')
+                    ->join('menus','menus.id','=','orders.food_id')
+                    ->where('orders.user_id','=', $getFoodUser );
+                    
+        $return = $return->orderBy('orders.id', 'desc')
+            ->paginate(5);
+
+        return $return;
+    }
+    
+    
 }

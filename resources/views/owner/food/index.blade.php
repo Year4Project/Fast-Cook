@@ -40,13 +40,13 @@
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->oPrice }}</td>
                             <td>{{ $item->dPrice }}</td>
-                            <td><img height="75" width="75" src="/foodimage/{{$item->image}}" alt=""></td>
+                            <td><img height="75" width="75" src="/upload/food/{{$item->image}}" alt=""></td>
                             <td>
-                               @if($item->stock ==1)
-                                    <a href="{{ url('owner/food/updateStock/'.$item->id) }}" onclick="return confirm('Are you Sure?')" class="btn btn-sm btn-success">Available</a>
-                                @else
-                                <a href="{{ url('owner/food/updateStock/'.$item->id) }}" onclick="return confirm('Are you Sure?')" class="btn btn-sm btn-danger">Unavailable</a>
-                                @endif
+                                @if($item->status ==1)
+                                <a href="{{ url('owner/food/updateStatus/'.$item->restaurant_id) }}" onclick="return confirm('Are you Sure?')" class="btn btn-sm btn-success">Active</a>
+                            @else
+                            <a href="{{ url('owner/food/updateStatus/'.$item->restaurant_id) }}" onclick="return confirm('Are you Sure?')" class="btn btn-sm btn-danger">InActive</a>
+                            @endif
                             </td>
                             <td>{{ date('d-m-Y H:i A', strtotime($item->created_at)) }}</td>
                             <td>

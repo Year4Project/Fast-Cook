@@ -32,7 +32,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                   @foreach ($admin as $adm)
+                   @foreach ($getRecord as $adm)
                         <tr>
                             <td>{{ $adm->user_id }}</td>
                             <td>{{ $adm->first_name }}</td>
@@ -51,10 +51,14 @@
 
                             <td>{{ date('d-m-Y H:i A', strtotime($adm->created_at)) }}</td>
                             <td>
-                                {{-- <a href="{{ url('admin/admin/edit/'.$adm->id) }}" class="btn btn-primary">Edit</a> --}}
+                                
+                                <a class="nav-link" href="{{ url('admin/admin/edit/'.$adm->id) }}">
+                                    <i class="fas fa-fw fa-edit"></i>
+                                </a>
                                 <a class="nav-link" href="{{ url('admin/admin/delete/'.$adm->id) }}">
                                     <i class="fas fa-fw fa-trash-alt icon-trash-red"></i>
                                 </a>
+                                
                             </td>
                         </tr>
                        

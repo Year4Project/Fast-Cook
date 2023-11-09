@@ -38,7 +38,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($orders as $orderItem)
+                        @foreach ($getOrderUser as $orderItem)
                             <tr>
                                 <td>{{ $orderItem->user_id }}</td>
                                 <td>{{ $orderItem->first_name }} {{ $orderItem->last_name }}</td>
@@ -47,7 +47,7 @@
                                 <td>{{ $orderItem->quantity }}</td>
                                 <td>{{ $orderItem->table_no }}</td>
                                 <td>{{ $orderItem->remark }}</td>
-                                <td><img height="75" width="75" src="/foodimage/{{$orderItem->image}}" alt=""></td>
+                                <td><img height="75" width="75" src="/upload/food/{{$orderItem->image}}" alt=""></td>
                                 <td>{{ $orderItem->oPrice}}$</td>
                                 <td>{{ $orderItem->dPrice}}$</td>
                                 <td>{{ ($orderItem->oPrice * $orderItem->quantity) - ($orderItem->dPrice * $orderItem->quantity) }}$</td>
