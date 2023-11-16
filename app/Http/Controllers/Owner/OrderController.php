@@ -17,7 +17,7 @@ class OrderController extends Controller
      */
     public function userOrder()
     {
-        $data['getRecord'] = Order::getRecord();
+        $data['getRecord'] = Order::getOrder();
         $data['header_title'] = 'User Order Food';
 
         return view('owner.order.userOrder', $data);

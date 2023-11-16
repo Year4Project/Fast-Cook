@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('restaurant_id');
             $table->string('name')->nullable();
-            $table->string('code')->nullable();
-            $table->integer('oPrice')->nullable();
-            $table->integer('dPrice')->nullable();
             $table->string('image')->nullable();
-            $table->integer('status')->default(1); // 0 Unavailable , 1 Available
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->integer('status')->default(1); // 0 Inactive, 1 Active
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('restaurants');
     }
 };

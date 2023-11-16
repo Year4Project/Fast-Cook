@@ -24,32 +24,43 @@
             <div class="card card-primary">
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" action="{{ URL::to('admin/restaurant/store') }}">
+              <form method="post" action="" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="card-body">
                   <div class="form-group">
                     <label>Restaurant Name</label>
-                    <input type="text" class="form-control" value="{{ old('restaurants_name', $restaurant->restaurants_name )}}" name="restaurants_name"  required>
+                    <input type="text" class="form-control" name="name" value="{{ old('name', $getRestaurant->name)}}" required>
                   </div>
                   <div class="form-group">
-                    <label>Owner Name</label>
-                    <select class="form-select" name="user" name="first_name">
-                      @foreach($user as $user)
-                          
-                          <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name }}</option>
-                      @endforeach
-                  </select>
+                    <label>Email</label>
+                    <input type="email" class="form-control" name="email" value="{{ old('email', $getRestaurant->email)}}" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Phone</label>
+                    <input type="phone" class="form-control" name="phone" value="{{ old('phone', $getRestaurant->phone)}}" required >
                   </div>
                   <div class="form-group">
                     <label>Address</label>
-                    <textarea class="form-control" name="address" id="address" rows="5" required >{{ old('address', $restaurant->address )}}</textarea>
+                    <textarea class="form-control" name="address"  rows="5" required>{{ $getRestaurant->address }}</textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Old Image Food </label>
+                    @if(!empty($getRestaurant->getProfile()))
+                      <img src="{{ $getRestaurant->getProfile() }}" style="width: 100px" alt="">
+                    @endif
+                    
+                  </div>
+
+                  <div class="form-group">
+                    <label>New Image</label>
+                    <input type="file" class="form-control" name="image">
                   </div>
 
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary">Update</button>
                 </div>
               </form>
             </div>

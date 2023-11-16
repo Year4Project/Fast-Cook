@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/auth/register', [UserController::class, 'createUser']);
 Route::post('/auth/login', [UserController::class, 'loginUser']);
 
-Route::get('listFood',[RestaurantControllerApi::class,'getListFood']);
+Route::get('listFood/{id}',[RestaurantControllerApi::class,'getListFood']);
 Route::post('orderConfirm',[RestaurantControllerApi::class,'orderConfirm']);
 Route::get('showOrder/{id}',[RestaurantControllerApi::class,'showOrder']);
 

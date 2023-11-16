@@ -46,7 +46,7 @@
                                     <form class="user" action="{{url('login')}}" method="post">
                                         {{csrf_field()}}
                                         <div class="form-group">
-                                            <input type="email" required name="email" class="form-control form-control-user"
+                                            <input type="email" required name="email" value="{{ old('email') }}" class="form-control form-control-user"
                                                 aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address...">
                                         </div>

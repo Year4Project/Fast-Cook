@@ -8,7 +8,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Add New Admin</h1>
+            <h1>Create Food</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -24,7 +24,7 @@
             <div class="card card-primary">
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" action="" enctype="multipart/form-data">
+              <form method="post" action="{{ url ('owner/food/store') }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="card-body">
                   <div class="form-group">
@@ -43,6 +43,10 @@
                   <div class="form-group">
                     <label>Discound Price</label>
                     <input type="number" class="form-control" value="{{ old('dPrice')}}" name="dPrice" required placeholder="Discound Price">
+                  </div>
+                  <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" class="form-control" value="{{ old('description')}}" name="description" required placeholder="Enter Description">
                   </div>
                   <div class="form-group">
                     <label>Image Food</label>

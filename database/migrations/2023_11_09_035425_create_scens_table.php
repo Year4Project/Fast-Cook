@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('restaurants', function (Blueprint $table) {
-            $table->id(); //primary key
-            $table->bigInteger('user_id'); // foreign key
-            $table->string('restaurants_name')->nullable();
-            $table->string('address')->nullable();
+        Schema::create('scens', function (Blueprint $table) {
+            $table->id();
+            $table->integer('table_no');
+            $table->integer('restaurant_id');
             $table->timestamps();
         });
     }
@@ -25,7 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('restaurants');
-        
+        Schema::dropIfExists('scens');
     }
 };

@@ -28,11 +28,13 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    static public function getRecord()
+    static public function getOrder()
     {
         $return = Order::select('orders.*','users.first_name', 'users.last_name')
-                    ->join('users','users.id','orders.user_id');
-                    // ->join('menus','menus.id','orders.food_id');
+                    ->join('users','users.id','=','orders.user_id');
+                    
+                    // ->join('restaurants','restaurants.id','=','orders.user_id');
+                    // ->where('orders.user_id','=', Auth::user()->id);
 
         $return = $return->orderBy('orders.id', 'desc')
             ->paginate(5);

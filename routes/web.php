@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\RestaurantController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Owner\FoodController;
+use App\Http\Controllers\Owner\GeneratorQRController;
 use App\Http\Controllers\Owner\OrderController;
 use App\Http\Controllers\Owner\OwnerController;
 use Illuminate\Support\Facades\Route;
@@ -46,25 +48,26 @@ Route::group(['middleware' => 'admin'], function () {
 
     // All Restaurant Routes
     Route::get('admin/restaurant/showRestaurant', [RestaurantController::class, 'showRestaurant']);
+
     Route::get('admin/restaurant/create', [RestaurantController::class, 'create']);
-    Route::post('admin/restaurant/store', [RestaurantController::class, 'store']);
+    Route::post('admin/restaurant/store', [RestaurantController::class, 'createRestaurant']);
     Route::get('admin/restaurant/edit/{id}', [RestaurantController::class, 'edit']);
-    Route::put('admin/restaurant/updateRestaurant/{id}', [RestaurantController::class, 'updateRestaurant']);
+    Route::post('admin/restaurant/edit/{id}', [RestaurantController::class, 'updateRestaurant']);
     Route::get('admin/restaurant/delete/{id}', [RestaurantController::class, 'delete']);
 });
 
 Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/dashboard', [DashboardController::class, 'dashboard']);
 
-    Route::get('owner/food/index', [OwnerController::class, 'index'])->name('MenuFood');
-    Route::get('owner/food/create', [OwnerController::class, 'create'])->name('CreateFood');
-    Route::post('owner/food/create', [OwnerController::class, 'store'])->name('StoreFood');
-    Route::get('owner/food/edit/{id}', [OwnerController::class, 'edit'])->name('edit');
+    Route::get('owner/food/showFood', [FoodController::class, 'showFood'])->name('MenuFood');
+    Route::get('owner/food/createFood', [FoodController::class, 'createFood']);
+    Route::post('owner/food/store', [FoodController::class, 'storeFood']);
+    Route::get('owner/food/edit/{id}', [FoodController::class, 'edit'])->name('edit');
 
-    Route::get('owner/food/updateStatus/{id}', [OwnerController::class, 'updateStatus'])->name('updateStatus');
+    Route::get('owner/food/updateStatus/{id}', [FoodController::class, 'updateStatus'])->name('updateStatus');
 
-    Route::post('owner/food/edit/{id}', [OwnerController::class, 'update'])->name('UpdateFood');
-    Route::get('owner/food/delete/{id}', [OwnerController::class, 'delete'])->name('DeleteFood');
+    Route::post('owner/food/edit/{id}', [FoodController::class, 'update'])->name('UpdateFood');
+    Route::get('owner/food/delete/{id}', [FoodController::class, 'delete'])->name('DeleteFood');
     
     // Order Food
     Route::get('/owner/order/userorder', [OrderController::class, 'userOrder'])->name('userOrder');
@@ -72,7 +75,11 @@ Route::group(['middleware' => 'owner'], function () {
     Route::get('/owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
 
     // Generate QR Code
-    // Route::get('owner/generateQRCode', [OwnerController::class, 'qrCode']);
+    Route::get('owner/qr/generateQRCode', [GeneratorQRController::class, 'qrCode'])->name('Generate QR Code');
+    Route::get('owner/qr/create', [GeneratorQRController::class, 'create'])->name('Generate QR Code');
+    Route::get('owner/qr/createQRCode', [GeneratorQRController::class, 'qrCode'])->name('Generate QR Code');
+    Route::post('owner/qr/store', [GeneratorQRController::class, 'store'])->name('Generate QR Code');
+    Route::get('owner/qr/download', [GeneratorQRController::class, 'download'])->name('qrcode.download');
 });
 
 // Route::group(['middleware' => 'user'], function () {

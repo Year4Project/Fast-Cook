@@ -76,17 +76,19 @@
         Category
     </div>
     <li class="nav-item">
-        <a class="nav-link" href="{{ url('owner/food/index') }}">
+        <a class="nav-link" href="{{ url('owner/food/showFood') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Food Menu</span></a>
     </li>
+
     <li class="nav-item">
         <a class="nav-link" href="{{ url('owner/order/userorder') }}">
             <i class="fas fa-fw fa-book"></i>
             <span>Order Food</span></a>
     </li>
+    
     <li class="nav-item">
-        <a class="nav-link" href="{{ url('owner/generateQRCode') }}">
+        <a class="nav-link" href="{{ url('owner/qr/generateQRCode') }}">
             <i class="fas fa-fw fa-key"></i>
             <span>Generate QR</span></a>
     </li>

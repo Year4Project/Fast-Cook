@@ -7,12 +7,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class RestaurantControllerApi extends Controller
 {
-    public function getListFood(){
-        $menu = Menu::all();
+    public function getListFood($id){
+        
+        $menu = Menu::where("restaurant_id", $id )->orderBy('id','asc')->get();
+        
         if($menu->count() > 0){
 
             return response()->json([

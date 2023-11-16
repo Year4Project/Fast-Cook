@@ -22,10 +22,10 @@ class UserController extends Controller
             //Validated
             $validateUser = Validator::make($request->all(), 
             [
-                'first_name' => 'required',
-                'last_name'=> 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required'
+                'first_name' => 'required|min:2|max:100',
+                'last_name'=> 'required|min:2|max:100',
+                'password' => 'required|min:6|max:100',
+                'confirm_password' => 'required|same:password'
             ]);
 
             if($validateUser->fails()){

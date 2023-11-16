@@ -65,24 +65,41 @@ class User extends Authenticatable
             }
         });
     }
+    
+    // Relationship User has many restaurant
+        public function restaurants(){
+            return $this->hasMany(Restaurant::class,'owner_id');
+        }
+    
+
+    public static function getOwner()
+    {
+        $return = self::select('users.*')
+                ->where('user_type', '=', 2);
+
+        $return = $return->orderBy('id', 'desc')
+                            ->paginate(5);
+
+        return $return;
+    }
 
     public static function getAdmin()
     {
         $return = self::select('users.*')
+                ->where('user_type', '=', 1);
+        //     // ->where('is_delete', '=', 0);
 
-            ->where('user_type', '=', 2);
-            // ->where('is_delete', '=', 0);
-        if(!empty(Request::get('name'))) {
-            $return = $return->where('name', 'like', '%'.Request::get('name'). '%');
-        }
+        // if(!empty(Request::get('name'))) {
+        //     $return = $return->where('name', 'like', '%'.Request::get('name'). '%');
+        // }
 
-        if(!empty(Request::get('email'))) {
-            $return = $return->where('email', 'like', '%'.Request::get('email'));
-        }
+        // if(!empty(Request::get('email'))) {
+        //     $return = $return->where('email', 'like', '%'.Request::get('email'));
+        // }
 
-        if(!empty(Request::get('date'))) {
-            $return = $return->whereDate('created_at', 'like', '%'.Request::get('date'));
-        }
+        // if(!empty(Request::get('date'))) {
+        //     $return = $return->whereDate('created_at', 'like', '%'.Request::get('date'));
+        // }
 
         $return = $return->orderBy('id', 'desc')
                             ->paginate(5);
@@ -95,10 +112,7 @@ class User extends Authenticatable
         return self::find($id);
     }
 
-    // Relationship User has many restaurant
-    public function restaurants(){
-        return $this->hasMany(Restaurant::class);
-    }
+    
 
     public function order(){
         return $this->hasMany(Order::class);

@@ -8,8 +8,10 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">List Menu</h1>
-        <a href="{{ url('owner/food/create') }}" 
-        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Add Menu</a>
+   
+        <a href="{{ url('owner/food/createFood/') }}" 
+
+        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Menu</a>
     </div>
 
     @include('_massage')
@@ -34,9 +36,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                   @foreach ($menu as $item)
+                   @foreach ($getFood as $item)
                        <tr>
-                            <td>{{ $item->code }}</td>
+                            <td>{{ $item->id }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->oPrice }}</td>
                             <td>{{ $item->dPrice }}</td>

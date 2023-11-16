@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
-use App\Models\Menu;
+use App\Models\Food;
 use App\Models\Order;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
@@ -14,23 +14,27 @@ use Illuminate\Support\Str;
 class OwnerController extends Controller
 {
     public function index(){
-        $user = Auth::user();
-        $menu = Menu::where("restaurant_id", $user->id)->orderBy('id','asc')->get();
-
-        return view('owner.food.index',compact('menu'));
+    //    $data['getRestauran'] = Restaurant::getRestaurant();
+    //    $data['getFood'] = Food::getFood();
+    //    $data['header_title'] = 'List Food';
+        return view('owner.food.index');
     }
-    public function create(){
-        $menu = Menu::all();
-        return view('owner.food.create',compact('menu'));
+    public function create($id){
+        $restaurant = Restaurant::find($id);
+        return view('owner.food.create',compact('restaurant'));
     }
 
-    public function store(Request $request){
-        // dd($request->all());
-        // $restaurant = new Restaurant();
-        $menu = new Menu;
-        
+    public function storeFood(Request $request, $restaurant_id){
+       
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
 
-            $menu->name=$request->name;
+        $food = new Food;
+        $food->name = $validatedData['name'];
+        $food->description = $validatedData['description'];
+        $food->restaurant_id = $restaurant_id;
 
             if(!empty($request->file('image'))) {
                 $ext = $request->file('image')->getClientOriginalExtension();
@@ -39,24 +43,25 @@ class OwnerController extends Controller
                 $filename = strtolower($randomStr).'.'.$ext;
                 $file->move('upload/food/', $filename);
     
-                $menu->image = $filename;
+                $food->image = $filename;
             }
-            $menu->oPrice=$request->oPrice;
-            $menu->dPrice=$request->dPrice;
-            $menu->restaurant_id = Auth::user()->id;
-            $menu->save();
+            $food->oPrice=$request->oPrice;
+            $food->dPrice=$request->dPrice;
 
-            return redirect('owner/food/index')->with('success', "Food successfully Create.");
+            $food->save();
+
+            
+            return redirect()->route('owner.food.index', $restaurant_id)->with('success', "Food successfully Create.");
     }
 
     public function updateStatus($id){
-        $getStatus = Menu::select('status')->where('restaurant_id',$id)->first();
+        $getStatus = Food::select('status')->where('restaurant_id',$id)->first();
         if($getStatus->status == 1){
             $status = 0;
         }else{
             $status = 1;
         }
-        Menu::where('restaurant_id',$id)->update(['status'=>$status]);
+        Food::where('restaurant_id',$id)->update(['status'=>$status]);
         return redirect('owner/food/showRestaurant')->with('success', "status successfully update.");
     }
 
@@ -78,13 +83,7 @@ class OwnerController extends Controller
 
     public function update(Request $request, $id){
 
-        $menu = Menu::findOrFail($id);
-        
-        // $image=$request->image;
-
-        // $imagename = time().'.'.$image->getClientOriginalExtension();
-
-        //     $request->image->move('foodimage', $imagename);
+        $menu = Food::findOrFail($id);
 
             $menu->name=$request->name;
 
@@ -108,9 +107,10 @@ class OwnerController extends Controller
 
     public function delete($id) // Function to delete a user from the admin
     {
-        $menu = Menu::find(request()->id);
+        $menu = Food::find(request()->id);
         $menu->delete();
 
         return redirect('owner/food/index')->with('success', "Food successfully delete.");
     }
+
 }
