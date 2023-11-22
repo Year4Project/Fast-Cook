@@ -8,7 +8,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Generate QRCode</h1>
+            <h1>Add New Admin</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -24,7 +24,21 @@
             <div class="card card-primary">
               <!-- /.card-header -->
               <!-- form start -->
-              
+              <form method="post" action="{{ url('owner/qr/store') }}" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                <div class="card-body">
+                  <div class="form-group">
+                    <label>Create Table No</label>
+                    <input type="num" class="form-control" name="table_no" required placeholder="Input table number">
+                  </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

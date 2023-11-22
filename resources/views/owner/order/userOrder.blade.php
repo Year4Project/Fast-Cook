@@ -44,7 +44,7 @@
                             <td></td>
                             <td>{{ date('d-m-Y | h:i A', strtotime($orders->created_at)) }}</td>
                             <td>
-                                <a class="nav-link" href="{{ url('owner/order/listFoodUser/'.$orders->user_id) }}">
+                                <a class="nav-link" href="{{ url('owner/order/listFoodUser/'.$orders->id) }}">
                                     <i class="fas fa-list">  List Order</i>
                                 </a>
                             </td>
