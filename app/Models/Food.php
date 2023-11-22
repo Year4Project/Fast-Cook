@@ -20,19 +20,25 @@ class Food extends Model
         'status',
     ];
 
+
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);
     }
 
-    public static function getFood()
-    {
-        $return = Food::select('food.*','restaurants.*','food.id','food.image')
-        ->join('restaurants', 'restaurants.id', '=', 'food.restaurant_id');
-        // ->where('user_type', '=', 2);
+    // public static function getFood()
+    // {
+    //     $return = self::select('food.*')
+    //             ->join('restaurants','restaurants.owner_id', '=', 'food.restaurant_id')
+    //             ->where('restaurants.owner_id','=',21);
 
-        $return = $return->orderBy('food.restaurant_id', 'desc')
-                        ->paginate(5);
-        return $return;
+    //     $return = $return->orderBy('id', 'desc')
+    //                         ->paginate(5);
+    //     return $return;
+    // }
+
+    static public function getSingle($id)
+    {
+        return self::find($id);
     }
 }

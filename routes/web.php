@@ -8,6 +8,7 @@ use App\Http\Controllers\Owner\FoodController;
 use App\Http\Controllers\Owner\GeneratorQRController;
 use App\Http\Controllers\Owner\OrderController;
 use App\Http\Controllers\Owner\OwnerController;
+use App\Http\Controllers\Owner\StaffController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -73,6 +74,11 @@ Route::group(['middleware' => 'owner'], function () {
     Route::get('/owner/order/userorder', [OrderController::class, 'userOrder'])->name('userOrder');
     Route::get('/owner/order/listFoodUser/{id}', [OrderController::class, 'listFoodUser'])->name('foodUserOrder');
     Route::get('/owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
+
+    // Staff
+    Route::get('/owner/staff/listStaff', [StaffController::class, 'listStaff']);
+    Route::get('/owner/staff/createStaff', [StaffController::class, 'createStaff']);
+    Route::post('/owner/staff/store', [StaffController::class, 'storeStaff']);
 
     // Generate QR Code
     Route::get('owner/qr/generateQRCode', [GeneratorQRController::class, 'qrCode'])->name('Generate QR Code');

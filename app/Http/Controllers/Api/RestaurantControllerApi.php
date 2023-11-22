@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\Food;
 use App\Models\Menu;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -14,13 +14,13 @@ class RestaurantControllerApi extends Controller
 {
     public function getListFood($id){
         
-        $menu = Menu::where("restaurant_id", $id )->orderBy('id','asc')->get();
+        $food = Food::where("restaurant_id", $id )->orderBy('id','asc')->get();
         
-        if($menu->count() > 0){
+        if($food->count() > 0){
 
             return response()->json([
                 'status' => 200,
-                'menus' => $menu
+                'foods' => $food
             ],200);
         }else{
 

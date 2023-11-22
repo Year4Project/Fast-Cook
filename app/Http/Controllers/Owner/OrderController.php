@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use App\Models\Order;
+use App\Models\Restaurant;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,8 +20,12 @@ class OrderController extends Controller
     {
         $data['getRecord'] = Order::getOrder();
         $data['header_title'] = 'User Order Food';
+        // $user = Auth::user();
+        // $order = Order::where("restaurant_id", $user->id)->orderBy('id','asc')
+        //                 ->get();
+        
 
-        return view('owner.order.userOrder', $data);
+        return view('owner.order.userOrder',$data);
     }
 
     /**

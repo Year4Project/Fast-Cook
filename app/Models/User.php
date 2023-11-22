@@ -67,10 +67,15 @@ class User extends Authenticatable
     }
     
     // Relationship User has many restaurant
-        public function restaurants(){
-            return $this->hasMany(Restaurant::class,'owner_id');
-        }
+    public function restaurant()
+    {
+        return $this->hasOne(Restaurant::class);
+    }
     
+    public function restaurants()
+    {
+        return $this->hasMany(Restaurant::class);
+    }
 
     public static function getOwner()
     {

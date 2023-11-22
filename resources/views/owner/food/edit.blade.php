@@ -29,24 +29,28 @@
                 <div class="card-body">
                   <div class="form-group">
                     <label>Name</label>
-                    <input type="text" class="form-control" value="{{ old('name', $getOrderUser->first_name)}}" name="name" required>
+                    <input type="text" class="form-control" value="{{ old('name', $getRecord->name)}}" name="name" required>
                   </div>
                   {{-- <div class="form-group">
                     <label>Code</label>
-                    <input type="num" class="form-control" value="{{ old('code',$getOrderUser->code)}}" name="code" required>
+                    <input type="num" class="form-control" value="{{ old('code',$getRecord->code)}}" name="code" required>
                   </div> --}}
                   <div class="form-group">
                     <label>Original Price</label>
-                    <input type="number" class="form-control" value="{{ old('oPrice',$getOrderUser->oPrice)}}" name="oPrice" required>
+                    <input type="number" class="form-control" value="{{ old('oPrice',$getRecord->oPrice)}}" name="oPrice" required>
                     {{-- <div style="color: red">{{ $errors->first('email')}}</div> --}}
                   </div>
                   <div class="form-group">
                     <label>Discound Price</label>
-                    <input type="number" class="form-control" value="{{ old('dPrice',$getOrderUser->dPrice)}}" name="dPrice" required>
+                    <input type="number" class="form-control" value="{{ old('dPrice',$getRecord->dPrice)}}" name="dPrice" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" class="form-control" value="{{ old('description',$getRecord->description)}}" name="description" required placeholder="Enter Description">
                   </div>
                   <div class="form-group">
                     <label>Old Image Food</label>
-                    <img height="200" width="200" src="/upload/food/{{$getOrderUser->image}}" alt="">
+                    <img height="200" width="200" src="/upload/food/{{$getRecord->image}}" alt="">
                   </div>
                   <div class="form-group">
                     <label>Image Food</label>

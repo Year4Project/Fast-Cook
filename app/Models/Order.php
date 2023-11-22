@@ -21,7 +21,7 @@ class Order extends Model
  
     // Relationship order has many menu
     public function menus(){
-        return $this->belongsTo(Menu::class);
+        return $this->belongsTo(Food::class);
     }
 
     public function user(){
@@ -30,11 +30,10 @@ class Order extends Model
 
     static public function getOrder()
     {
-        $return = Order::select('orders.*','users.first_name', 'users.last_name')
-                    ->join('users','users.id','=','orders.user_id');
-                    
-                    // ->join('restaurants','restaurants.id','=','orders.user_id');
-                    // ->where('orders.user_id','=', Auth::user()->id);
+        $user = Auth::user();
+        $return = self::select('orders.*','users.first_name','users.last_name')
+                    ->join('users','users.id','=','orders.user_id')
+                    ->where('restaurant_id', $user->id);
 
         $return = $return->orderBy('orders.id', 'desc')
             ->paginate(5);
@@ -45,12 +44,12 @@ class Order extends Model
     
     static public function getOrderUser($getFoodUser)
     {
-        $return = Order::select('orders.*','menus.*', 'users.first_name', 'users.last_name',)
+        $return = Order::select('orders.*','food.*', 'users.first_name', 'users.last_name','orders.id')
                     ->join('users','users.id','=','orders.user_id')
-                    ->join('menus','menus.id','=','orders.food_id')
-                    ->where('orders.user_id','=', $getFoodUser );
+                    ->join('food','food.id','=','orders.food_id')
+                    ->where('orders.id','=', $getFoodUser );
                     
-        $return = $return->orderBy('orders.id', 'desc')
+        $return = $return->orderBy('orders.food_id', 'desc')
             ->paginate(5);
 
         return $return;

@@ -36,7 +36,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                   @foreach ($getFood as $item)
+                   @foreach ($foods as $item)
                        <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->name }}</td>
@@ -45,9 +45,9 @@
                             <td><img height="75" width="75" src="/upload/food/{{$item->image}}" alt=""></td>
                             <td>
                                 @if($item->status ==1)
-                                <a href="{{ url('owner/food/updateStatus/'.$item->restaurant_id) }}" onclick="return confirm('Are you Sure?')" class="btn btn-sm btn-success">Active</a>
+                                <a href="{{ url('owner/food/updateStatus/'.$item->id) }}" onclick="return confirm('Are you Sure?')" class="btn btn-sm btn-success">Active</a>
                             @else
-                            <a href="{{ url('owner/food/updateStatus/'.$item->restaurant_id) }}" onclick="return confirm('Are you Sure?')" class="btn btn-sm btn-danger">InActive</a>
+                            <a href="{{ url('owner/food/updateStatus/'.$item->id) }}" onclick="return confirm('Are you Sure?')" class="btn btn-sm btn-danger">InActive</a>
                             @endif
                             </td>
                             <td>{{ date('d-m-Y H:i A', strtotime($item->created_at)) }}</td>
