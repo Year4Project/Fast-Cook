@@ -18,10 +18,11 @@ class GeneratorQRController extends Controller
     }
     public function qrCode(){
 
-        $data['getListMenu'] = Scen::getScen();
-        $data['header_title'] = 'QR Code';
-        
-        return view('owner.qr.generateQRCode',$data);
+        // $data['getListMenu'] = Scen::getScen();
+        // $data['header_title'] = 'QR Code';
+        $user = Auth::user();
+        $scen = Scen::where('restaurant_id', $user->id)->orderBy('id', 'asc')->get();
+        return view('owner.qr.generateQRCode',compact('scen'));
     }
 
 
@@ -31,25 +32,17 @@ class GeneratorQRController extends Controller
         if ($this->tableCodeExists($number)) {
             $number = mt_rand(1000000000,999999999);
         }
-         
-        $request['table_code'] = $number;
-        Scen::create($request->all());
- 
+        
+        $scen = new Scen;
+        $scen->table_no = $request->table_no;
+        $scen->table_code = $number;
+        $scen->restaurant_id= Auth::user()->id;
+        $scen->save();
         return redirect('owner/qr/generateQRCode');
     }
 
     public function tableCodeExists($number){
         return Scen::whereTableCode($number)->exists();
     }
-    // public function download(){
-    //     $imageName = 'qrcode';
 
-    //     $header = array('Content-Type' => ['png','svg','eqs']);
-
-    //     $qrcode = Scen::format('png')->size(200)->errorCorrection('H')->generate(Scen::all());
-        
-    //     Scen::disk('public')->put($imageName, $qrcode);
-        
-    //     return response()->download('storage/'.$imageName, $imageName.'.png', $header)->deleteFileAfterSend();
-    // }
 }

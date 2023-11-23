@@ -16,16 +16,16 @@ class Scen extends Model
         'table_code'
     ];
 
-    static public function getScen()
-    {
-        $return = scen::select('scens.*','restaurants.id')
-                    ->join('restaurants','restaurants.id','=','scens.restaurant_id');
+    // static public function getScen()
+    // {
+    //     $return = scen::select('scens.*','restaurants.id')
+    //                 ->join('restaurants','restaurants.id','=','scens.restaurant_id');
                     
-        $return = $return->orderBy('scens.id', 'desc')
-            ->paginate(5);
+    //     $return = $return->orderBy('scens.id', 'desc')
+    //         ->paginate(5);
 
-        return $return;
-    }
+    //     return $return;
+    // }
 
     
 }

@@ -17,10 +17,11 @@ class FoodController extends Controller
      */
     public function showFood()
     {
-        $user = Auth::user();
-        $foods = Food::where("restaurant_id", $user->id)->orderBy('id','asc')->get();
-        
-            return view('owner.food.showFood',compact('foods'));
+        // $user = Auth::user();
+        // $foods = Food::where("restaurant_id", $user->id)->orderBy('id','asc')->get();
+        $data['getRecord'] = Food::getFood();
+        $data['header_title'] = 'User Order Food';
+            return view('owner.food.showFood',$data);
         
     }
 
@@ -138,6 +139,8 @@ class FoodController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $food = Food::findOrFail($id);
+        $food->delete();
+        return redirect('owner/food/showFood')->with('success', "Food successfully Delete.");
     }
 }

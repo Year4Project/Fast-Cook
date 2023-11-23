@@ -7,7 +7,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Owner\FoodController;
 use App\Http\Controllers\Owner\GeneratorQRController;
 use App\Http\Controllers\Owner\OrderController;
-use App\Http\Controllers\Owner\OwnerController;
 use App\Http\Controllers\Owner\StaffController;
 use Illuminate\Support\Facades\Route;
 
@@ -68,7 +67,7 @@ Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/food/updateStatus/{id}', [FoodController::class, 'updateStatus'])->name('updateStatus');
 
     Route::post('owner/food/edit/{id}', [FoodController::class, 'update'])->name('UpdateFood');
-    Route::get('owner/food/delete/{id}', [FoodController::class, 'delete'])->name('DeleteFood');
+    Route::get('owner/food/delete/{id}', [FoodController::class, 'destroy'])->name('DeleteFood');
     
     // Order Food
     Route::get('/owner/order/userorder', [OrderController::class, 'userOrder'])->name('userOrder');
@@ -79,6 +78,9 @@ Route::group(['middleware' => 'owner'], function () {
     Route::get('/owner/staff/listStaff', [StaffController::class, 'listStaff']);
     Route::get('/owner/staff/createStaff', [StaffController::class, 'createStaff']);
     Route::post('/owner/staff/store', [StaffController::class, 'storeStaff']);
+    Route::get('/owner/staff/edit/{id}', [StaffController::class, 'edit']);
+    Route::post('/owner/staff/edit/{id}', [staffController::class, 'updateStaff']);
+    Route::get('owner/staff/delete/{id}', [staffController::class, 'destroy']);
 
     // Generate QR Code
     Route::get('owner/qr/generateQRCode', [GeneratorQRController::class, 'qrCode'])->name('Generate QR Code');
