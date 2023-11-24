@@ -23,7 +23,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr style="color: black">
-                            <th>Order ID</th>
+                            <th>#</th>
                             <th>Customer Name</th>
                             <th>Quantity</th>
                             <th>Table Note</th>
@@ -42,7 +42,7 @@
                             <td>{{ $orders->table_no }}</td>
                             <td>{{ $orders->remark }}</td>
                             <td></td>
-                            <td>{{ date('d-m-Y | h:i A', strtotime($orders->created_at)) }}</td>
+                            <td>{{ date('d,M,Y | h:i A', strtotime($orders->created_at)) }}</td>
                             <td>
                                 <a class="nav-link" href="{{ url('owner/order/listFoodUser/'.$orders->id) }}">
                                     <i class="fas fa-list">  List Order</i>

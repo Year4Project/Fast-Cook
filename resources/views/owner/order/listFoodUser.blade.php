@@ -52,12 +52,12 @@
                                 <td>{{ $orderItem->dPrice}}$</td>
                                 <td>{{ ($orderItem->oPrice * $orderItem->quantity) - ($orderItem->dPrice * $orderItem->quantity) }}$</td>
                                 <td>
-                                    <a class="nav-link" href="{{ url('owner/order/edit/'.$orderItem->id) }}">
+                                    <a class="btn btn-sm btn-circle btn-outline-primary" href="{{ url('owner/order/edit/'.$orderItem->id) }}">
                                         <i class="fas fa-fw fa-edit"></i>
                                     </a>
 
-                                    <a class="nav-link" href="{{ url('owner/order/delete/'.$orderItem->id) }}">
-                                        <i class="fas fa-fw fa-trash-alt icon-trash-red"></i>
+                                    <a class="btn btn-sm btn-circle btn-outline-danger ms-2" href="{{ url('owner/order/delete/'.$orderItem->id) }}">
+                                        <i class="fas fa-fw fa-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>                        

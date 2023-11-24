@@ -9,9 +9,12 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">List Menu</h1>
    
-        <a href="{{ url('owner/food/createFood/') }}" 
+        {{-- <a href="{{ url('owner/food/createFood/') }}" 
+        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Menu</a> --}}
 
-        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Menu</a>
+        <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addnew">
+            <i class="bi bi-clipboard2-plus-fill"></i> Add New Food
+          </button>
     </div>
 
     @include('_massage')
@@ -36,7 +39,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                   @foreach ($foods as $item)
+                   @foreach ($getRecord as $item)
                        <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->name }}</td>
@@ -50,14 +53,14 @@
                             <a href="{{ url('owner/food/updateStatus/'.$item->id) }}" onclick="return confirm('Are you Sure?')" class="btn btn-sm btn-danger">InActive</a>
                             @endif
                             </td>
-                            <td>{{ date('d-m-Y H:i A', strtotime($item->created_at)) }}</td>
+                            <td>{{ date('d,M,Y | h:i A', strtotime($item->created_at)) }}</td>
                             <td>
-                                <a class="nav-link" href="{{ url('owner/food/edit/'.$item->id) }}">
+                                <a class="btn btn-sm btn-circle btn-outline-info" href="{{ url('owner/food/edit/'.$item->id) }}">
                                     <i class="fas fa-fw fa-edit"></i>
                                 </a>
 
-                                <a class="nav-link" href="{{ url('owner/food/delete/'.$item->id) }}">
-                                    <i class="fas fa-fw fa-trash-alt icon-trash-red"></i>
+                                <a class="btn btn-sm btn-circle btn-outline-danger ms-2" href="{{ url('owner/food/delete/'.$item->id) }}">
+                                    <i class="fas fa-fw fa-trash-alt"></i>
                                 </a>
                             </td>
                        </tr>
@@ -67,6 +70,7 @@
             </div>
         </div>
     </div>
+    @include('owner.food.createFood')
 
 </div>
 

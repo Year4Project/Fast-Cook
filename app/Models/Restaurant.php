@@ -40,9 +40,8 @@ class Restaurant extends Model
     
     static public function getRestaurant()
     {
-        $return = Restaurant::select('restaurants.*','users.*','restaurants.id')
+        $return = self::select('restaurants.*','users.*')
                     ->join('users', 'users.id', '=', 'restaurants.owner_id');
-                    // ->where('user_type', '=', 2);
 
         $return = $return->orderBy('restaurants.id', 'desc')
                             ->paginate(5);

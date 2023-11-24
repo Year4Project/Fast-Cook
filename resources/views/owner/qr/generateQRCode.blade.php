@@ -21,7 +21,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr style="color: black">
-                            <th>ID</th>
+                            <th>#</th>
                             <th>Table No</th>
                             <th>Restaurant ID</th>
                             <th>Qr Code</th>
@@ -29,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($getListMenu as $item)
+                        @foreach ($scen as $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->table_no }}</td>
