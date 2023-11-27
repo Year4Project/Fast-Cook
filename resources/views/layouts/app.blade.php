@@ -25,6 +25,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
+
 </head>
 
 <body id="page-top">
@@ -33,19 +34,19 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        @include('layouts.sidebar') 
+        @include('layouts.sidebar')
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-            
+
             <!-- Main Content -->
             <div id="content">
                 @include('layouts.topbar')
-               
+
                 @yield('content')
                 <!-- /.container-fluid -->
-                
+
 
             </div>
             <!-- End of Main Content -->
@@ -101,6 +102,8 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('admin/js/demo/chart-pie-demo.js') }}"></script>
+    <script src="{{ asset('admin/js/script.js') }}"></script>
+
 
 </body>
 

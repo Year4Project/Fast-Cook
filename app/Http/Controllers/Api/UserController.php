@@ -14,13 +14,13 @@ class UserController extends Controller
     /**
      * Create User
      * @param Request $request
-     * @return User 
+     * @return User
      */
     public function createUser(Request $request)
     {
         try {
             //Validated
-            $validateUser = Validator::make($request->all(), 
+            $validateUser = Validator::make($request->all(),
             [
                 'first_name' => 'required|min:2|max:100',
                 'last_name'=> 'required|min:2|max:100',
@@ -64,11 +64,11 @@ class UserController extends Controller
      * @param Request $request
      * @return User
      */
-    
+
     public function loginUser(Request $request)
     {
         try {
-            $validateUser = Validator::make($request->all(), 
+            $validateUser = Validator::make($request->all(),
             [
                 'email' => 'required|email',
                 'password' => 'required'
@@ -104,4 +104,5 @@ class UserController extends Controller
             ], 500);
         }
     }
+    
 }

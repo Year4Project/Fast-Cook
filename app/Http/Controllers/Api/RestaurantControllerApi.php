@@ -31,7 +31,8 @@ class RestaurantControllerApi extends Controller
         }
     }
 
-    public function orderConfirm(Request $request){
+    public function orderConfirm(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'food_id' => 'required',
@@ -47,9 +48,8 @@ class RestaurantControllerApi extends Controller
                 'errors' => $validator->messages()
             ], 422);
         }else{
-
             $order = Order::create([
-                'user_id' => $request->user_id,
+                'user_id' => Auth::id(),
                 'food_id' => $request->food_id,
                 'quantity' => $request->quantity,
                 'remark' => $request->remark,

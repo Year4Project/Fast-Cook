@@ -8,10 +8,20 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Request;
 use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    // public function getJWTIdentifier(){
+	// 	return $this->getKey();
+	//     }
+
+	//     public function getJWTCustomClaims()
+	//     {
+	// 	return [];
+	//     }
 
     /**
      * The attributes that are mass assignable.
@@ -65,13 +75,13 @@ class User extends Authenticatable
             }
         });
     }
-    
+
     // Relationship User has many restaurant
     public function restaurant()
     {
         return $this->hasOne(Restaurant::class);
     }
-    
+
     public function restaurants()
     {
         return $this->hasMany(Restaurant::class);
@@ -117,12 +127,12 @@ class User extends Authenticatable
         return self::find($id);
     }
 
-    
+
 
     public function order(){
         return $this->hasMany(Order::class);
     }
 
-    
-    
+
+
 }

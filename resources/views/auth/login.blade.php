@@ -42,7 +42,7 @@
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
                                     @include('_massage')
-                                    
+
                                     <form class="user" action="{{url('login')}}" method="post">
                                         {{csrf_field()}}
                                         <div class="form-group">
@@ -62,7 +62,7 @@
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
-                                        
+
                                         <hr>
                                         <a href="index.html" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Login with Google

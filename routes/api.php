@@ -26,18 +26,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
     Route::post('/auth/register', [UserController::class, 'createUser']);
     Route::post('/auth/login', [UserController::class, 'loginUser']);
 
 
-Route::middleware('auth:api')->group(function () {
-
-    
-});
-
-
  Route::get('listFood/{id}',[RestaurantControllerApi::class,'getListFood']);
-    Route::post('orderConfirm',[RestaurantControllerApi::class,'orderConfirm']);
+    Route::post('orderConfirm/{id}',[RestaurantControllerApi::class,'orderConfirm']);
     Route::get('showOrder/{id}',[RestaurantControllerApi::class,'showOrder']);
 
-    Route::post('foodOrder',[OrderController::class,'foodOrder']);
+    // Route::post('foodOrder',[OrderController::class,'foodOrder']);

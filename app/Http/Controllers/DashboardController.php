@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Food;
 use App\Models\Order;
 use App\Models\Restaurant;
+use App\Models\Scen;
 use App\Models\Staff;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class DashboardController extends Controller
     public function dashboard()
     {
         $data['header_title'] = 'Dashboard';
-        
+
         if (Auth::user()->user_type == 1)
             {
                 $totalUser = User::count();
@@ -29,13 +30,14 @@ class DashboardController extends Controller
                 $data['getOrder'] = Order::getOrder()->count();
                 $data['getFood'] = Food::getFood()->count();
                 $data['getStaff'] = Staff::getStaff()->count();
+                $data['getTables'] = Scen::getQrcode()->count();
                 return view('owner.dashboard',$data);
 
-            } 
+            }
             // else if (Auth::user()->user_type == 3)
             // {
             //     return view('user.dashboard',$data);
 
-            // } 
+            // }
     }
 }

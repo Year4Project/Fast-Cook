@@ -13,7 +13,7 @@ class AuthController extends Controller
         // dd(Hash::make(12345));
 
         return view('auth/login');
-        
+
     }
 
     public function AuthLogin(Request $request)
@@ -45,7 +45,7 @@ class AuthController extends Controller
         return view('auth.registration');
     }
 
-   
+
     function registrationPost(Request $request){
         $request->validate([
             'first_name' => 'required',
@@ -59,7 +59,7 @@ class AuthController extends Controller
         $data['email'] = $request->email;
         $data['password'] = Hash::make($request->password);
         $user = User::create($data);
-        
+
         if(!$user){
             return redirect(route(''))->with("success","Registration failed, try again.");
         }

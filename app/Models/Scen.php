@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Scen extends Model
 {
@@ -16,16 +17,18 @@ class Scen extends Model
         'table_code'
     ];
 
-    // static public function getScen()
-    // {
-    //     $return = scen::select('scens.*','restaurants.id')
-    //                 ->join('restaurants','restaurants.id','=','scens.restaurant_id');
-                    
-    //     $return = $return->orderBy('scens.id', 'desc')
-    //         ->paginate(5);
+    static public function getQrcode()
+    {
+        $user = Auth::user();
+        $return = self::select('scens.*')
+            ->join('users','users.id','=','scens.restaurant_id')
+            ->where('restaurant_id', $user->id);
 
-    //     return $return;
-    // }
+            $return = $return->orderBy('scens.id', 'desc')
+            ->paginate(5);
+
+        return $return;
+    }
 
     
 }

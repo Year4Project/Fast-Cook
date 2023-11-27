@@ -6,15 +6,20 @@
     
 
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
         <h1 class="h3 mb-0 text-gray-800">Generator QR Code</h1>
-        <a href="{{ url('owner/qr/create') }}" 
-        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create QR</a>
+        {{-- <a href="{{ url('owner/qr/create') }}" 
+        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create QR</a> --}}
     </div>
   
     <div class="card shadow mb-4 mt-4">
-        <div class="card-header py-3">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">DataTables Of Owner Restaurant</h6>
+            {{-- <a href="{{ url('owner/qr/create') }}" 
+        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create QR</a> --}}
+        <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addnew">
+            <i class="bi bi-clipboard2-plus-fill"></i> Generate QR Code Table
+          </button>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -29,13 +34,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($scen as $item)
+                        @foreach ($getQrcode as $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->table_no }}</td>
-                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->restaurant_id }}</td>
                                 <td>{!! DNS2D::getBarcodeHTML("{restaurant_id: $item->id, table_no: $item->table_no}",'QRCODE') !!}
-                                <td><a href="#">Download</a></td>
+                                <td><a class="btn btn-primary" href="#">Download</a></td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -43,8 +48,9 @@
             </div>
         </div>
     </div>
-
+    @include('owner.qr.create')
 </div>
+
 
 
 

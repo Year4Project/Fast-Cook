@@ -4,9 +4,11 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\RestaurantController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Owner\ChatController;
 use App\Http\Controllers\Owner\FoodController;
 use App\Http\Controllers\Owner\GeneratorQRController;
 use App\Http\Controllers\Owner\OrderController;
+use App\Http\Controllers\Owner\ProfileController;
 use App\Http\Controllers\Owner\StaffController;
 use Illuminate\Support\Facades\Route;
 
@@ -68,7 +70,7 @@ Route::group(['middleware' => 'owner'], function () {
 
     Route::post('owner/food/edit/{id}', [FoodController::class, 'update'])->name('UpdateFood');
     Route::get('owner/food/delete/{id}', [FoodController::class, 'destroy'])->name('DeleteFood');
-    
+
     // Order Food
     Route::get('/owner/order/userorder', [OrderController::class, 'userOrder'])->name('userOrder');
     Route::get('/owner/order/listFoodUser/{id}', [OrderController::class, 'listFoodUser'])->name('foodUserOrder');
@@ -88,6 +90,13 @@ Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/qr/createQRCode', [GeneratorQRController::class, 'qrCode'])->name('Generate QR Code');
     Route::post('owner/qr/store', [GeneratorQRController::class, 'store'])->name('Generate QR Code');
     Route::get('owner/qr/download', [GeneratorQRController::class, 'download'])->name('qrcode.download');
+
+    // Chats
+    Route::get('owner/chat/chat', [ChatController::class, 'chat']);
+
+
+    // Profile Settings
+    Route::get('owner/profile/profile', [ProfileController::class, 'profile']);
 });
 
 // Route::group(['middleware' => 'user'], function () {
