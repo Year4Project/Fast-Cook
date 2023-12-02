@@ -11,14 +11,15 @@ class AuthController extends Controller
 {
     public function login(){
         // dd(Hash::make(12345));
-
-        return view('auth/login');
+        $data['header_title'] = 'Login';
+        return view('auth/login',$data);
 
     }
 
     public function AuthLogin(Request $request)
      {
         // dd($request->all());
+        $data['header_title'] = 'Dashboard';
         $remember = !empty($request->remember) ? true : false;
         if (Auth::attempt(['email' => $request->email,'password' => $request->password],$remember))
         {

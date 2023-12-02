@@ -23,16 +23,37 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::middleware(['auth:api'])->group(function () {
+    // Your API routes here
+
+});
+Route::group(['middleware'=>'api'],function($routes){
+
+    Route::post('/register',[UserController::class,'register']);
+    Route::post('/login',[UserController::class,'login']);
+    // Route::post('/profile',[UserController::class,'profile']);
+    // Route::post('/refresh',[UserController::class,'refresh']);
+    // Route::post('/logout',[UserController::class,'logout']);
+
 });
 
-    Route::post('/auth/register', [UserController::class, 'createUser']);
-    Route::post('/auth/login', [UserController::class, 'loginUser']);
+Route::group(["middleware" => ["auth:api"]], function(){
+
+    Route::get("profile", [UserController::class, "profile"]);
+    Route::get("refresh", [UserController::class, "refreshToken"]);
+    Route::get("logout", [UserController::class, "logout"]);
+});
+
+//     Route::post('/auth/register', [UserController::class, 'createUser']);
+//     Route::post('/auth/login', [UserController::class, 'loginUser']);
 
 
- Route::get('listFood/{id}',[RestaurantControllerApi::class,'getListFood']);
-    Route::post('orderConfirm/{id}',[RestaurantControllerApi::class,'orderConfirm']);
-    Route::get('showOrder/{id}',[RestaurantControllerApi::class,'showOrder']);
+//  Route::get('listFood/{id}',[RestaurantControllerApi::class,'getListFood']);
+//     Route::post('orderConfirm/{id}',[RestaurantControllerApi::class,'orderConfirm']);
+//     Route::get('showOrder/{id}',[RestaurantControllerApi::class,'showOrder']);
 
     // Route::post('foodOrder',[OrderController::class,'foodOrder']);

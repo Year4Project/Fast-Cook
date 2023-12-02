@@ -16,7 +16,7 @@ class StaffController extends Controller
     public function listStaff()
     {
         $data['getStaff'] = Staff::getStaff();
-        $data['header_title'] = 'User Order Food';
+        $data['header_title'] = 'List Staff';
         // $user = Auth::user();
         // $staff = Staff::where("restaurant_id", $user->id)->orderBy('id','asc')->get();
         return view('owner/staff/listStaff',$data);
@@ -74,7 +74,7 @@ class StaffController extends Controller
         {
             abort(404);
         }
-        
+
     }
 
     /**

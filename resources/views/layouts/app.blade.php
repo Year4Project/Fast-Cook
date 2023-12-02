@@ -4,12 +4,13 @@
 <head>
 
     <meta charset="utf-8">
+    <link rel="shortcut icon" type="x-icon" href="{{ asset('admin/img/bg.jpg') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Fast Cook</title>
+    <title>{{ !empty($header_title) ? $header_title : '' }} - Restaurant</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('admin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Restaurant extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = ['name', 'address','image','email','status','phone'];
 
 
@@ -37,18 +37,18 @@ class Restaurant extends Model
             return "";
         }
     }
-    
+
     static public function getRestaurant()
     {
         $return = self::select('restaurants.*','users.*')
-                    ->join('users', 'users.id', '=', 'restaurants.owner_id');
+                    ->join('users', 'users.id', '=', 'restaurants.user_id');
 
         $return = $return->orderBy('restaurants.id', 'desc')
                             ->paginate(5);
         return $return;
     }
 
-    
+
 
 
 }

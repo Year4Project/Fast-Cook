@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class ChatController extends Controller
 {
     public function chat(){
-        return view('owner.chat.chat');
+        $data['header_title'] = 'Chat';
+        return view('owner.chat.chat',$data);
     }
 }

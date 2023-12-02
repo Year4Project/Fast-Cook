@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
@@ -16,16 +16,16 @@ class UserController extends Controller
      * @param Request $request
      * @return User
      */
-    public function createUser(Request $request)
+    public function register(Request $request)
     {
         try {
             //Validated
             $validateUser = Validator::make($request->all(),
             [
-                'first_name' => 'required|min:2|max:100',
-                'last_name'=> 'required|min:2|max:100',
-                'password' => 'required|min:6|max:100',
-                'confirm_password' => 'required|same:password'
+                'first_name' => 'required|string|min:2|max:100',
+                'last_name'=> 'required|string|min:2|max:100',
+                'email'=> 'required|string|email|max:100|unique:users',
+                'password' => 'required|string|min:6|max:100|confirmed',
             ]);
 
             if($validateUser->fails()){
@@ -33,7 +33,7 @@ class UserController extends Controller
                     'status' => false,
                     'message' => 'validation error',
                     'errors' => $validateUser->errors()
-                ], 401);
+                ], 400);
             }
 
             $user = User::create([
@@ -48,7 +48,8 @@ class UserController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'user' => $user,
+                // 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
 
         } catch (\Throwable $th) {
@@ -65,44 +66,69 @@ class UserController extends Controller
      * @return User
      */
 
-    public function loginUser(Request $request)
-    {
-        try {
-            $validateUser = Validator::make($request->all(),
-            [
-                'email' => 'required|email',
-                'password' => 'required'
+     public function login(Request $request){
+
+        // data validation
+        $request->validate([
+            "email" => "required|email",
+            "password" => "required"
+        ]);
+
+        // JWTAuth
+        $token = JWTAuth::attempt([
+            "email" => $request->email,
+            "password" => $request->password
+        ]);
+
+        if(!empty($token)){
+
+            return response()->json([
+                "status" => true,
+                "message" => "User logged in succcessfully",
+                "token" => $token
             ]);
-
-            if($validateUser->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
-            if(!Auth::attempt($request->only(['email', 'password']))){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
-                ], 401);
-            }
-
-            $user = User::where('email', $request->email)->first();
-
-            return response()->json([
-                'status' => true,
-                'message' => 'User Logged In Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
-            ], 200);
-
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
         }
+
+        return response()->json([
+            "status" => false,
+            "message" => "Invalid details"
+        ]);
     }
-    
+
+
+    // User Profile (GET)
+    public function profile(){
+
+        $userdata = auth()->user();
+
+        return response()->json([
+            "status" => true,
+            "message" => "Profile data",
+            "data" => $userdata
+        ]);
+    }
+
+    // To generate refresh token value
+    public function refreshToken(){
+
+        $newToken = auth()->refresh();
+
+        return response()->json([
+            "status" => true,
+            "message" => "New access token",
+            "token" => $newToken
+        ]);
+    }
+
+    // User Logout (GET)
+    public function logout(){
+
+        auth()->logout();
+
+        return response()->json([
+            "status" => true,
+            "message" => "User logged out successfully"
+        ]);
+    }
+
 }

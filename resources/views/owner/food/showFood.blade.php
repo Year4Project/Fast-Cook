@@ -20,6 +20,9 @@
     <div class="card shadow">
         <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
             <h6 class="font-weight-bold text-primary">DataTables Of Menu</h6>
+            <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addnew">
+                <i class="bi bi-clipboard2-plus-fill"></i> Add New Food
+            </button>
         </div>
         <div class="card-body">
             <div class="table-responsive">

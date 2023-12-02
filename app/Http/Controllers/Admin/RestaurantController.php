@@ -18,12 +18,12 @@ class RestaurantController extends Controller
     public function showRestaurant(){
         $data['getRestaurant'] = Restaurant::getRestaurant();
         $data['header_title'] = 'Add Restaurant';
-       
+
         return view('admin.restaurant.showRestaurant',$data);
     }
 
     public function create(){
-        
+
         return view('admin.restaurant.create');
     }
 
@@ -36,9 +36,9 @@ class RestaurantController extends Controller
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required'
             ]);
-            
+
             $owner = new User();
-            
+
             $owner->first_name = $request->first_name;
             $owner->last_name = $request->last_name;
             $owner->phone = $request->phone;
@@ -58,16 +58,16 @@ class RestaurantController extends Controller
                     $randomStr = date('Ymdhis').Str::random(20);
                     $filename = strtolower($randomStr).'.'.$ext;
                     $file->move('upload/profile/', $filename);
-        
+
                     $restaurant->image = $filename;
                 }
             
             $restaurant->phone = $request->phone;
 
             $owner->restaurants()->save($restaurant);
-            
+
         return redirect('admin/restaurant/showRestaurant')->with('success', "Restaurant successfully Create.");
-      
+
 }
 
     public function edit(string $id){
@@ -110,7 +110,7 @@ class RestaurantController extends Controller
 
             $restaurant->image = $filename;
         }
-        
+
         $restaurant->phone = $request->phone;
         $restaurant->user_type = 2;
 
