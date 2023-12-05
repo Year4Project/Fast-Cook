@@ -25,26 +25,31 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['middleware'=>'api'],function($routes){
+// Route::group(['middleware'=>'api'],function($routes){
 
-    Route::post('/register',[UserController::class,'register']);
-    Route::post('/login',[UserController::class,'login']);
+//     Route::post('/register',[UserController::class,'register']);
+//     Route::post('/login',[UserController::class,'login']);
 
-});
+// });
 
-Route::group(["middleware" => ["auth:api"]], function(){
+// Route::group(["middleware" => ["auth:api"]], function(){
 
-    Route::get("profile", [UserController::class, "profile"]);
-    Route::get("refresh", [UserController::class, "refreshToken"]);
-    Route::get("logout", [UserController::class, "logout"]);
-});
+//     Route::get("profile", [UserController::class, "profile"]);
+//     Route::get("refresh", [UserController::class, "refreshToken"]);
+//     Route::get("logout", [UserController::class, "logout"]);
+// });
 
 
 
 
 Route::middleware(['apikey'])->group(function () {
+    /**Route for login API */
+    Route::post('/register',[UserController::class,'register']);
+    /**Route for register API */
+    Route::post('/login',[UserController::class,'login']);
 
     Route::get('listFood/{id}',[RestaurantControllerApi::class,'getListFood']);
+
     
 });
 
@@ -52,7 +57,7 @@ Route::middleware(['apikey'])->group(function () {
 // Route::get('listFood/{id}',[RestaurantControllerApi::class,'getListFood'])->middleware('apikey');
 
 
-Route::post('/restaurants/{restaurantId}/orders', [FoodOrderController::class, 'store']);
+// Route::post('/restaurants/{restaurantId}/orders', [FoodOrderController::class, 'store']);
 
 
 

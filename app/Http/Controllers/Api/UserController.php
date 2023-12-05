@@ -49,7 +49,7 @@ class UserController extends Controller
                 'status' => true,
                 'message' => 'User Created Successfully',
                 'user' => $user,
-                // 'token' => $user->createToken("API TOKEN")->plainTextToken
+                'token' => $user->createToken("API TOKEN")->accessToken
             ], 200);
 
         } catch (\Throwable $th) {

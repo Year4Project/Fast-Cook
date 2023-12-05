@@ -16,22 +16,36 @@ class ApiKey
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // $keys = DB::talbe('api_keys')->select('key')->get();
-        // $result = false;
-        // foreach ($keys as $k){
-        //     if ($k->key == $request->header('api_key')) {
-        //         $result = true;
-        //         break;
-        //     }
-        // }
+            // dd($request->header());
+            $event_dd = [
+                'api_key_id' => 0,
+                'api_address' => $request->header('host'),
+                'url' => $request->url(),
+                'user_agent' =>json_encode($request->header('user_agent')),
+            ];
+            $event_id = DB::table('api_event_histories')->insertGetId($event_dd);
 
-        if($request->header('api_key') == "123"){
-            return $next($request);
-        }else{
-            return response()->json([
-                'status' => 404,
-                'message' => 'Project Unauhorized!'
-            ], 404);
+            $keys = DB::table('api_keys')->select('id','key')->get();
+            $result = false;
+            foreach ($keys as $k){
+            if ($k->key == $request->header('api_key')) {
+                // update api_key_id if authorized
+                DB::table('api_event_histories')->where('id', $event_id)->update(['api_key_id' => $k->id]);
+                $result = true;
+                break;
+            }
         }
+
+            if($result){
+                return $next($request);
+            }else{
+                // dd($keys);
+                $data = [
+                    'status' => 200,
+                    'message' => 'Project Unauhorized!',
+                ];
+                return response()->json($data);
+            }
+        
     }
 }
