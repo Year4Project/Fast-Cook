@@ -24,14 +24,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-// Route::group(['middleware'=>'api'],function($routes){
-
-//     Route::post('/register',[UserController::class,'register']);
-//     Route::post('/login',[UserController::class,'login']);
-
-// });
-
 // Route::group(["middleware" => ["auth:api"]], function(){
 
 //     Route::get("profile", [UserController::class, "profile"]);
@@ -43,21 +35,19 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['apikey'])->group(function () {
+
     /**Route for login API */
     Route::post('/register',[UserController::class,'register']);
     /**Route for register API */
     Route::post('/login',[UserController::class,'login']);
 
     Route::get('listFood/{id}',[RestaurantControllerApi::class,'getListFood']);
+    Route::post('/restaurants/{restaurantId}/orders', [FoodOrderController::class, 'store']);
 
-    
+    /**Route for logout API */
+    Route::post('/logout',[UserController::class,'logout']);
 });
 
-
-// Route::get('listFood/{id}',[RestaurantControllerApi::class,'getListFood'])->middleware('apikey');
-
-
-// Route::post('/restaurants/{restaurantId}/orders', [FoodOrderController::class, 'store']);
 
 
 

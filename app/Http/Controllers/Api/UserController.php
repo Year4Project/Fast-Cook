@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -81,9 +82,10 @@ class UserController extends Controller
         ]);
 
         if(!empty($token)){
-
+            $user = Auth::user();
             return response()->json([
                 "status" => true,
+                'userData' =>$user,
                 "message" => "User logged in succcessfully",
                 "token" => $token
             ]);
