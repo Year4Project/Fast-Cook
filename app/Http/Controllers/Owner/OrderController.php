@@ -19,11 +19,11 @@ class OrderController extends Controller
     public function userOrder()
     {
         $data['getRecord'] = Order::getOrder();
-        $data['header_title'] = 'User Order Food';
+        $data['header_title'] = 'User Order';
         // $user = Auth::user();
         // $order = Order::where("restaurant_id", $user->id)->orderBy('id','asc')
         //                 ->get();
-        
+
 
         return view('owner.order.userOrder',$data);
     }
@@ -33,9 +33,9 @@ class OrderController extends Controller
      */
     public function listFoodUser($id)
     {
-        
+
         $data['getOrderUser'] = Order::getOrderUser($id);
-        $data['header_title'] = 'User Order Food';
+        $data['header_title'] = 'Get Order';
 
         return view('owner.order.listFoodUser', $data);
     }
@@ -62,7 +62,7 @@ class OrderController extends Controller
     public function edit(string $id)
     {
         $order = Order::findOrFail($id);
-        
+
         return view('owner.order.edit',compact('order'));
     }
 

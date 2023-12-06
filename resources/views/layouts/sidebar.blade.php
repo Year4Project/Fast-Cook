@@ -49,7 +49,7 @@
         </li>
         <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" href="charts.html">
+            <a class="nav-link" href="#">
                 <i class="fas fa-fw fa-chart-area"></i>
                 <span>Charts</span></a>
         </li>
@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </li> --}}
-        
+
     <li class="nav-item">
         <a class="nav-link" href="{{ url('owner/food/showFood') }}">
             <i class="fas fa-fw fa-table"></i>
@@ -101,19 +101,32 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{url('owner/staff/listStaff')}}">
-            <i class="fas fa-fw fa-user"></i>
+            <i class="fas fa-fw fa-users"></i>
             <span>Stuff</span></a>
     </li>
-    
+
     <li class="nav-item">
         <a class="nav-link" href="{{ url('owner/qr/generateQRCode') }}">
             <i class="fas fa-fw fa-key"></i>
             <span>Generate QR</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{{ url('owner/chat/chat') }}">
             <i class="fas fa-fw fa-box"></i>
             <span>Chats</span></a>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    <li class="nav-item">
+        <a class="nav-link" href="">
+            <i class="fas fa-receipt"></i>
+            <span>Report</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url('owner/profile/profile') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Profile</span></a>
     </li>
 
     {{-- @elseif(Auth::user()->user_type == 3)
@@ -124,10 +137,10 @@
     </li>
     <!-- Divider -->
     <hr class="sidebar-divider"> --}}
-    
+
     @endif
 
-   
+
 
     <hr class="sidebar-divider">
 
@@ -146,7 +159,7 @@
     </div>
 
     <!-- Sidebar Message -->
-    
+
 
 </ul>
 

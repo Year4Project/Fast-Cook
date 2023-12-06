@@ -3,25 +3,26 @@
 @section("content")
 
 <div class="container-fluid">
-    
+
 
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
         <h1 class="h3 mb-0 text-gray-800">List Menu</h1>
-   
-        {{-- <a href="{{ url('owner/food/createFood/') }}" 
+
+        {{-- <a href="{{ url('owner/food/createFood/') }}"
         class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Menu</a> --}}
 
-        <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addnew">
-            <i class="bi bi-clipboard2-plus-fill"></i> Add New Food
-          </button>
+
     </div>
 
     @include('_massage')
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Of Menu</h6>
+    <div class="card shadow">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h6 class="font-weight-bold text-primary">DataTables Of Menu</h6>
+            <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addnew">
+                <i class="bi bi-clipboard2-plus-fill"></i> Add New Food
+            </button>
         </div>
         <div class="card-body">
             <div class="table-responsive">

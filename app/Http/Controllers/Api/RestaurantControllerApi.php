@@ -4,18 +4,44 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Food;
-use App\Models\Menu;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class RestaurantControllerApi extends Controller
 {
-    public function getListFood($id){
+    public function checkKey($apikey){
+        $keys = array('12345678','987654321');
+        if(in_array($apikey, $keys)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+
+    public function getListFood(Request $r, $id){
+       
+        // if(!$this->checkKey($r->header('api_key'))){
+        //     return response()->json([
+        //         'status' => 404,
+        //         'message' => 'Project Unauhorized!'
+        //     ], 404);
+        // }
+
+        // $food = Food::where("restaurant_id", $id )->orderBy('id','asc')->get();
+
+        $food = DB::table('food')->where("restaurant_id", $id );
         
-        $food = Food::where("restaurant_id", $id )->orderBy('id','asc')->get();
-        
+        if($r->keyword){
+            $food = $food->where('name', 'LIKE', "%$r->keyword%")
+                        ->orWhere('dPrice', $r->keyword);
+        }
+        $food = $food->get();
+
         if($food->count() > 0){
 
             return response()->json([
@@ -31,7 +57,8 @@ class RestaurantControllerApi extends Controller
         }
     }
 
-    public function orderConfirm(Request $request){
+    public function orderConfirm(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'food_id' => 'required',
@@ -47,9 +74,8 @@ class RestaurantControllerApi extends Controller
                 'errors' => $validator->messages()
             ], 422);
         }else{
-
             $order = Order::create([
-                'user_id' => $request->user_id,
+                'user_id' => Auth::id(),
                 'food_id' => $request->food_id,
                 'quantity' => $request->quantity,
                 'remark' => $request->remark,

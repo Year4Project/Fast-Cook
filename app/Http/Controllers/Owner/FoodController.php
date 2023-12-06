@@ -20,9 +20,9 @@ class FoodController extends Controller
         // $user = Auth::user();
         // $foods = Food::where("restaurant_id", $user->id)->orderBy('id','asc')->get();
         $data['getRecord'] = Food::getFood();
-        $data['header_title'] = 'User Order Food';
+        $data['header_title'] = 'List Food';
             return view('owner.food.showFood',$data);
-        
+
     }
 
     /**
@@ -32,7 +32,7 @@ class FoodController extends Controller
      public function createFood(){
 
     return view('owner.food.createFood');
-       
+
     }
 
     /**
@@ -41,17 +41,17 @@ class FoodController extends Controller
     public function storeFood(Request $request)
     {
         $food = new Food();
-        
+
         $food->name = $request->name;
         $food->description = $request->description;
-        
+
             if(!empty($request->file('image'))) {
                 $ext = $request->file('image')->getClientOriginalExtension();
                 $file = $request->file('image');
                 $randomStr = date('Ymdhis').Str::random(20);
                 $filename = strtolower($randomStr).'.'.$ext;
                 $file->move('upload/food/', $filename);
-    
+
                 $food->image = $filename;
             }
             $food->oPrice=$request->oPrice;
@@ -59,7 +59,7 @@ class FoodController extends Controller
             $food->restaurant_id= Auth::user()->id;
             $food->save();
             // $restaurant->foods()->save($food);
-        
+
             return redirect('owner/food/showFood')->with('success', "Food successfully Create.");
     }
 
@@ -79,7 +79,7 @@ class FoodController extends Controller
      */
     public function show(string $id)
     {
-        
+
     }
 
     /**
@@ -112,17 +112,17 @@ class FoodController extends Controller
         ]);
 
         $food = Food::getSingle($id);
-        
+
         $food->name = $request->name;
         $food->description = $request->description;
-        
+
             if(!empty($request->file('image'))) {
                 $ext = $request->file('image')->getClientOriginalExtension();
                 $file = $request->file('image');
                 $randomStr = date('Ymdhis').Str::random(20);
                 $filename = strtolower($randomStr).'.'.$ext;
                 $file->move('upload/food/', $filename);
-    
+
                 $food->image = $filename;
             }
             $food->oPrice=$request->oPrice;
@@ -130,7 +130,7 @@ class FoodController extends Controller
             $food->restaurant_id= Auth::user()->id;
             $food->save();
             // $restaurant->foods()->save($food);
-        
+
             return redirect('owner/food/showFood')->with('success', "Food successfully Update.");
     }
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\RestaurantController;
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\FoodOrderController;
 use App\Http\Controllers\Api\OrderController as ApiOrderController;
 use App\Http\Controllers\Api\RestaurantControllerApi;
 use App\Http\Controllers\Api\UserController;
@@ -23,21 +24,50 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::group(["middleware" => ["auth:api"]], function(){
+
+//     Route::get("profile", [UserController::class, "profile"]);
+//     Route::get("refresh", [UserController::class, "refreshToken"]);
+//     Route::get("logout", [UserController::class, "logout"]);
+// });
+
+
+
+
+Route::middleware(['apikey'])->group(function () {
+
+    /**Route for login API */
+    Route::post('/register',[UserController::class,'register']);
+    /**Route for register API */
+    Route::post('/login',[UserController::class,'login']);
+
+    Route::get('listFood/{id}',[RestaurantControllerApi::class,'getListFood']);
+    Route::post('/restaurants/{restaurantId}/orders', [FoodOrderController::class, 'store']);
+
+    /**Route for logout API */
+    Route::post('/logout',[UserController::class,'logout']);
 });
-    Route::post('/auth/register', [UserController::class, 'createUser']);
-    Route::post('/auth/login', [UserController::class, 'loginUser']);
 
 
-Route::middleware('auth:api')->group(function () {
-
-    
-});
 
 
- Route::get('listFood/{id}',[RestaurantControllerApi::class,'getListFood']);
-    Route::post('orderConfirm',[RestaurantControllerApi::class,'orderConfirm']);
-    Route::get('showOrder/{id}',[RestaurantControllerApi::class,'showOrder']);
 
-    Route::post('foodOrder',[OrderController::class,'foodOrder']);
+
+
+
+
+
+
+
+
+
+
+//     Route::post('/auth/register', [UserController::class, 'createUser']);
+//     Route::post('/auth/login', [UserController::class, 'loginUser']);
+
+
+//
+//     Route::post('orderConfirm/{id}',[RestaurantControllerApi::class,'orderConfirm']);
+//     Route::get('showOrder/{id}',[RestaurantControllerApi::class,'showOrder']);
+
+    // Route::post('foodOrder',[OrderController::class,'foodOrder']);

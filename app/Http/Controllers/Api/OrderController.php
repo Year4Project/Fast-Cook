@@ -34,8 +34,10 @@ class OrderController extends Controller
                 ], 401);
             }
 
-            $order = User::where('user_id', $request->id)->first();
+            // $order = User::where('user_id', $request->id)->first();
+            $restaurantId = Auth::user()->id;
             $order = Order::create([
+                'restaurant_id' => $restaurantId->id,
                 'user_id' => $request->user_id,
                 'food_id' => $request->food_id,
                 'quantity' => $request->quantity,

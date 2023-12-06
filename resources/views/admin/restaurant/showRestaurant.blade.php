@@ -3,18 +3,19 @@
 @section("content")
 
 <div class="container-fluid">
-    
+
 
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
         <h1 class="h3 mb-0 text-gray-800">List Restaurant</h1>
-        <a href="{{ url('admin/restaurant/create') }}" 
-        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Restaurant</a>
+
     </div>
     @include('_massage')
     <div class="card shadow mb-4 mx-auto">
-        <div class="card-header py-3">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">DataTables Of Restaurant</h6>
+            <a href="{{ url('admin/restaurant/create') }}"
+        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create Restaurant</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -31,7 +32,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($getRestaurant as $restaurant) 
+                        @foreach ($getRestaurant as $restaurant)
                             <tr>
                                 <td style="color: black">{{ $restaurant->id }}</td>
                                 <td>{{ $restaurant->name }}</td>

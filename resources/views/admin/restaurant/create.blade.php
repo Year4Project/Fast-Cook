@@ -6,7 +6,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
-                <div class="row mb-2">
+                <div class="row mb-2 mb-4 mt-4">
                     <div class="col-sm-6">
                         <h1>Add Restaurant</h1>
                     </div>

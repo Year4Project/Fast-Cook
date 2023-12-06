@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('restaurants', function (Blueprint $table) {
-            $table->bigInteger('owner_id')->after('id');
+        Schema::create('api_event_histories', function (Blueprint $table) {
+            $table->id();
+            $table->integer('api_key_id');
+            $table->string('api_address');
+            $table->string('url');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('restaurants', function (Blueprint $table) {
-            $table->dropColumn('owner_id');
-        });
+        Schema::dropIfExists('api_event_histories');
     }
 };
