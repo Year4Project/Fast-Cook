@@ -43,7 +43,7 @@ class ApiKey
                 $data = [
                     'status' => 200,
                     'message' => 'Project Unauhorized!',
-                    'api_address' => $request->header('host'),
+                    'user_agent' =>json_encode($request->header('user_agent')),
                 ];
                 return response()->json($data);
             }
