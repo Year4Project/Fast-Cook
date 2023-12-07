@@ -43,7 +43,7 @@ class ApiKey
                 $data = [
                     'status' => 200,
                     'message' => 'Project Unauhorized!',
-                    'user_agent' =>json_encode($request->header('user_agent')),
+                    'api_key' => $request->header('api_key'),
                 ];
                 return response()->json($data);
             }
