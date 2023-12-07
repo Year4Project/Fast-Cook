@@ -39,7 +39,7 @@ class ApiKey
             if($result){
                 return $next($request);
             }else{
-                // dd($keys);
+                dd($keys);
                 $data = [
                     'status' => 200,
                     'message' => 'Project Unauhorized!',
