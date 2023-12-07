@@ -89,48 +89,56 @@ class UserController extends Controller
                 "message" => "User logged in succcessfully",
                 "token" => $token
             ]);
-        }
-
-        return response()->json([
+        }else{
+            return response()->json([
             "status" => false,
             "message" => "Invalid details"
         ]);
+        }
+        
     }
 
 
     // User Profile (GET)
-    public function profile(){
+    // public function profile(){
 
-        $userdata = auth()->user();
+    //     $userdata = auth()->user();
 
-        return response()->json([
-            "status" => true,
-            "message" => "Profile data",
-            "data" => $userdata
-        ]);
-    }
+    //     return response()->json([
+    //         "status" => true,
+    //         "message" => "Profile data",
+    //         "data" => $userdata
+    //     ]);
+    // }
 
-    // To generate refresh token value
-    public function refreshToken(){
+    // // To generate refresh token value
+    // public function refreshToken(){
 
-        $newToken = auth()->refresh();
+    //     $newToken = auth()->refresh();
 
-        return response()->json([
-            "status" => true,
-            "message" => "New access token",
-            "token" => $newToken
-        ]);
-    }
+    //     return response()->json([
+    //         "status" => true,
+    //         "message" => "New access token",
+    //         "token" => $newToken
+    //     ]);
+    // }
 
     // User Logout (GET)
     public function logout(){
 
-        auth()->logout();
-
-        return response()->json([
-            "status" => true,
-            "message" => "User logged out successfully"
+        try{
+            auth()->logout();
+            return response()->json([
+                'success' => true,
+                'msg' => "User logged out successfully"
         ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'success' => false,
+                'msg' => $e->getMessage()
+        ]);
+        }
+        
     }
 
 }
