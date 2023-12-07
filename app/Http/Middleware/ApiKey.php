@@ -39,10 +39,11 @@ class ApiKey
             if($result){
                 return $next($request);
             }else{
-                dd($keys);
+                // dd($keys);
                 $data = [
                     'status' => 200,
                     'message' => 'Project Unauhorized!',
+                    'api_address' => $request->header('host'),
                 ];
                 return response()->json($data);
             }
