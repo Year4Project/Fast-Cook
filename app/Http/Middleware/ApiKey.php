@@ -28,7 +28,7 @@ class ApiKey
             $keys = DB::table('api_keys')->select('id','key')->get();
             $result = false;
             foreach ($keys as $k){
-            if ($k->key == $request->header('api_key')) {
+                if (trim($k->key) == trim($request->header('api_key'))) {
                 // update api_key_id if authorized
                 DB::table('api_event_histories')->where('id', $event_id)->update(['api_key_id' => $k->id]);
                 $result = true;
