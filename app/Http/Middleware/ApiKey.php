@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\ApiKey as ModelsApiKey;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,35 +18,22 @@ class ApiKey
     public function handle(Request $request, Closure $next): Response
     {
             // dd($request->header());
-            $event_dd = [
-                'api_key_id' => 0,
-                'api_address' => $request->header('host'),
-                'url' => $request->url(),
-                'user_agent' =>json_encode($request->header('user_agent')),
-            ];
-            $event_id = DB::table('api_event_histories')->insertGetId($event_dd);
+            // $event_dd = [
+            //     'api_key_id' => 0,
+            //     'api_address' => $request->header('host'),
+            //     'url' => $request->url(),
+            //     'user_agent' =>json_encode($request->header('user_agent')),
+            // ];
+            // $event_id = DB::table('api_event_histories')->insertGetId($event_dd);
 
-            $keys = DB::table('api_keys')->select('id','key')->get();
-            $result = false;
-            foreach ($keys as $k){
-                if (trim($k->key) == trim($request->header('api_key'))) {
-                // update api_key_id if authorized
-                DB::table('api_event_histories')->where('id', $event_id)->update(['api_key_id' => $k->id]);
-                $result = true;
-                break;
-            }
-        }
+            $apiKey = $request->header('X-API-Key');
 
-            if($result){
-                return $next($request);
-            }else{
-                // dd($keys);
-                $data = [
-                    'status' => 200,
-                    'message' => 'Project Unauhorized!',
-                ];
-                return response()->json($data);
+            if (!$apiKey || !ModelsApiKey::where('key', $apiKey)->exists()) {
+                return response()->json(['error' => 'Unauthorized'], 401);
             }
+    
+            return $next($request);
+        
         
     }
 }
