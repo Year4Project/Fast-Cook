@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Request;
-use Laravel\Sanctum\HasApiTokens;
-// use Laravel\Passport\HasApiTokens;
+// use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
@@ -17,12 +17,12 @@ class User extends Authenticatable implements JWTSubject
 
     public function getJWTIdentifier()
     {
-      return $this->getKey();
+        return $this->getKey();
     }
 
     public function getJWTCustomClaims()
     {
-      return [];
+        return [];
     }
 
     /**

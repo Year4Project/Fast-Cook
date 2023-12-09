@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RestaurantControllerApi extends Controller
 {
@@ -22,6 +23,8 @@ class RestaurantControllerApi extends Controller
     // }
 
     public function getListFood(Request $r, $id){
+
+        $user = JWTAuth::user();
        
         $food = DB::table('food')->where("restaurant_id", $id );
         
@@ -35,10 +38,10 @@ class RestaurantControllerApi extends Controller
 
             return response()->json([
                 'status' => 200,
-                'foods' => $food
+                'foods' => $food,
+                'user' => $user
             ],200);
         }else{
-
             return response()->json([
                 'status' => 404,
                 'message' => 'No Records Found'

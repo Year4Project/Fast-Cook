@@ -32,22 +32,19 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-// Route::group(['middleware'=>'api'],function($routes){
-//     Route::post('/register',[UserController::class,'register']);
-//     Route::post('/login',[UserController::class,'login']);
-//     Route::post('/profile',[UserController::class,'profile']);
-//     Route::post('/refresh',[UserController::class,'refresh']);
-//     Route::post('/logout',[UserController::class,'logout']);
-
-// });
-
-
-Route::middleware(['apikey','api'])->group(function () {
-
+// Route::middleware(['apikey','auth'])->group(function (){
     /**Route for login API */
     Route::post('/register',[UserController::class,'register']);
     /**Route for register API */
     Route::post('/login',[UserController::class,'login']);
+
+// });
+
+// Route::group(['middleware' => 'jwt.auth'], function ()
+
+Route::middleware(['apikey','jwt.auth'])->group(function () {
+
+   
     Route::post('/profile', [UserController::class, "profile"]);
     Route::get('listFood/{id}',[RestaurantControllerApi::class,'getListFood']);
     Route::post('/restaurants/{restaurantId}/orders', [FoodOrderController::class, 'store']);
