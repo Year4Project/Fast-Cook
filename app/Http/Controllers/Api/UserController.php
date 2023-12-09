@@ -26,8 +26,9 @@ class UserController extends Controller
             [
                 'first_name' => 'required|string|min:2|max:100',
                 'last_name'=> 'required|string|min:2|max:100',
-                'email'=> 'required|string|email|max:100|unique:users',
+                'email'=> 'string|email|max:100|unique:users',
                 'password' => 'required|string|min:6|max:100|confirmed',
+                'phone' => 'required|string|max:10',
             ]);
 
             if($validateUser->fails()){
