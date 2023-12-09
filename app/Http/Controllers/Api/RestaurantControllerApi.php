@@ -12,28 +12,17 @@ use Illuminate\Support\Facades\Validator;
 
 class RestaurantControllerApi extends Controller
 {
-    public function checkKey($apikey){
-        $keys = array('12345678','987654321');
-        if(in_array($apikey, $keys)){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-
+    // public function checkKey($apikey){
+    //     $keys = array('12345678','987654321');
+    //     if(in_array($apikey, $keys)){
+    //         return true;
+    //     }else{
+    //         return false;
+    //     }
+    // }
 
     public function getListFood(Request $r, $id){
        
-        // if(!$this->checkKey($r->header('api_key'))){
-        //     return response()->json([
-        //         'status' => 404,
-        //         'message' => 'Project Unauhorized!'
-        //     ], 404);
-        // }
-
-        // $food = Food::where("restaurant_id", $id )->orderBy('id','asc')->get();
-
         $food = DB::table('food')->where("restaurant_id", $id );
         
         if($r->keyword){

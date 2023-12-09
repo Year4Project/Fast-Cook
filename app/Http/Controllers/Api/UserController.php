@@ -12,6 +12,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
+    
     /**
      * Create User
      * @param Request $request
@@ -67,6 +68,8 @@ class UserController extends Controller
      * @return User
      */
 
+     
+
      public function login(Request $request){
 
         // data validation
@@ -100,45 +103,50 @@ class UserController extends Controller
 
 
     // User Profile (GET)
-    // public function profile(){
+    public function profile()
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
 
-    //     $userdata = auth()->user();
+        return response()->json($user);
+    }
 
-    //     return response()->json([
-    //         "status" => true,
-    //         "message" => "Profile data",
-    //         "data" => $userdata
-    //     ]);
-    // }
+    // To generate refresh token value
+    public function refreshToken(){
 
-    // // To generate refresh token value
-    // public function refreshToken(){
+        $newToken = auth()->refresh();
 
-    //     $newToken = auth()->refresh();
-
-    //     return response()->json([
-    //         "status" => true,
-    //         "message" => "New access token",
-    //         "token" => $newToken
-    //     ]);
-    // }
+        return response()->json([
+            "status" => true,
+            "message" => "New access token",
+            "token" => $newToken
+        ]);
+    }
 
     // User Logout (GET)
-    public function logout(){
-
-        try{
-            auth()->logout();
-            return response()->json([
-                'success' => true,
-                'msg' => "User logged out successfully"
-        ]);
-        }catch(\Exception $e){
-            return response()->json([
-                'success' => false,
-                'msg' => $e->getMessage()
-        ]);
-        }
+    public function logout(Request $request)
+    {
+        $token = JWTAuth::getToken();
         
+        if ($token) {
+            try {
+                JWTAuth::invalidate($token);
+
+                // Optionally, you can also blacklist the token
+                // JWTAuth::manager()->getBlacklist()->add($token);
+            } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+                // Token has expired
+            } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+                // Token is invalid
+            }
+        }
+
+        Auth::logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
     }
 
 }
