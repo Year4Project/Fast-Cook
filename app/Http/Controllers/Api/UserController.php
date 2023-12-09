@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
@@ -49,10 +52,11 @@ class UserController extends Controller
             ]);
 
             return response()->json([
+
                 'status' => true,
                 'message' => 'User Created Successfully',
-                'user' => $user,
-                'token' => $user->createToken("API TOKEN")->accessToken
+                'data' => [ 'token' => $user->createToken("API TOKEN")->accessToken, "user"=>$user],
+
             ], 200);
 
         } catch (\Throwable $th) {
@@ -88,10 +92,12 @@ class UserController extends Controller
         if(!empty($token)){
             $user = Auth::user();
             return response()->json([
+
                 "status" => true,
-                'userData' =>$user,
                 "message" => "User logged in succcessfully",
-                "token" => $token
+                'data' =>["token" => $token,"user"=>$user ],
+                
+                
             ]);
         }else{
             return response()->json([
@@ -105,15 +111,23 @@ class UserController extends Controller
 
     // User Profile (GET)
     public function profile()
-    {
-        try {
-            $user = JWTAuth::parseToken()->authenticate();
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+{
+    try {
+        $user = JWTAuth::parseToken()->authenticate();
+    } catch (TokenExpiredException $e) {
+        // Log the token expiration for debugging
+        Log::error('JWT Token Expired: ' . $e->getMessage());
 
-        return response()->json($user);
+        return response()->json(['error' => 'Token has expired'], 401);
+    } catch (JWTException $e) {
+        // Log the JWT exception for debugging
+        Log::error('JWT Authentication Error: ' . $e->getMessage());
+
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
+
+    return response()->json($user);
+}
 
     // To generate refresh token value
     public function refreshToken(){
