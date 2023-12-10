@@ -56,7 +56,7 @@ class Order extends Model
                     ->where('orders.id','=', $getFoodUser );
                     
         $return = $return->orderBy('orders.food_id', 'desc')
-            ->paginate(5);
+            ->paginate(20);
 
         return $return;
     }
