@@ -11,12 +11,15 @@ class Order extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'restaurant_id',
         'user_id',
-        'food_id',
+        'restaurant_id',
+        'items',
         'quantity',
-        'remark',
         'table_no',
+        'remark',
+    ];
+    protected $casts = [
+        'items' => 'json',
     ];
 
  

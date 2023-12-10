@@ -4,41 +4,49 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\User;
-use App\Notifications\OrderFood;
-use App\Notifications\OrderNotification;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class OrderController extends Controller
 {
-    public function foodOrder(Request $request)
+    public function store(Request $request, $restaurantId)
     {
-        // Validate the request data
         $request->validate([
-            'user_id' => 'required',
-            'restaurant_id' => 'required',
-            'food_id' => 'required',
-            'table_no' => 'required',
-            'quantity' => 'required|min:1',
+            'items' => 'required|array',
+            'items.*.name' => 'required|string',
+            'items.*.quantity' => 'required|integer|min:1',
+            'quantity' => 'required|integer|min:1',
+            'table_no' => 'required|integer|min:1',
+            'remark' => 'nullable|string',
         ]);
 
-        $user = JWTAuth::user();
-        // Create a new order
-        $order = Order::create($request->all());
+        // Retrieve the authenticated user using JWTAuth
+        $user = JWTAuth::parseToken()->authenticate();
 
-        // Send notification to the restaurant owner
-    //    Notification::send($order, new OrderNotification($request->name));
+        // Create an order associated with the user
+        $order = Order::create([
+            'user_id' => $user->id,
+            'restaurant_id' => $restaurantId,
+            'items' => $request->input('items'),
+            'quantity' => $request->input('quantity'),
+            'table_no' => $request->input('table_no'),
+            'remark' => $request->input('remark'),
+        ]);
 
-        // You can add additional logic here, like sending notifications or processing the order
+        // Transform the order data for response
+        $responseData = [
+            'user_id' => $user->id,
+            'items' => $order->items, // Use the correct field name 'items'
+            'quantity' => $order->quantity,
+            'table_no' => $order->table_no,
+            'remark' => $order->remark,
+        ];
 
+        // Return a JSON response
         return response()->json([
-            'status' => 200,
-            'message' => 'Order placed successfully',
-            'data' => ['order' => $order,'userOrder' => $user]
-        ]);
+            'status' => 'success',
+            'message' => 'Order food successfully',
+            'order' => $responseData,
+        ], 201);
     }
 }

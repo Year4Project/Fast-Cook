@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class UserController extends Controller
 {
-    
+
     /**
      * Create User
      * @param Request $request
@@ -22,16 +23,17 @@ class UserController extends Controller
     {
         try {
             //Validated
-            $validateUser = Validator::make($request->all(),
-            [
-                'first_name' => 'required|string|min:2|max:100',
-                'last_name'=> 'required|string|min:2|max:100',
-                'email'=> 'string|email|max:100|unique:users',
-                'password' => 'required|string|min:6|max:100|confirmed',
-                'phone' => 'required|string|max:10',
-            ]);
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'first_name' => 'required|string|min:2|max:100',
+                    'last_name' => 'required|string|min:2|max:100',
+                    'password' => 'required|string|min:6|max:100|confirmed',
+                    'phone' => 'required|string|max:10|unique:users,phone',
+                ]
+            );
 
-            if($validateUser->fails()){
+            if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
@@ -41,9 +43,9 @@ class UserController extends Controller
 
             $user = User::create([
                 'first_name' => $request->first_name,
-                'last_name'=> $request->last_name,
+                'last_name' => $request->last_name,
                 'phone' => $request->phone,
-                'email' => $request->email,
+                // 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'user_tyep' => 3,
             ]);
@@ -52,10 +54,9 @@ class UserController extends Controller
 
                 'status' => true,
                 'message' => 'User Created Successfully',
-                'data' => [ 'token' => $user->createToken("API TOKEN")->accessToken, "user"=>$user],
+                'data' => ['token' => $user->createToken("API TOKEN")->accessToken, "user" => $user],
 
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -70,9 +71,9 @@ class UserController extends Controller
      * @return User
      */
 
-     
 
-     public function login(Request $request){
+    public function login(Request $request)
+    {
 
         // data validation
         $request->validate([
@@ -86,27 +87,26 @@ class UserController extends Controller
             "password" => $request->password
         ]);
 
-        if(!empty($token)){
+        if (!empty($token)) {
             $user = Auth::user();
             return response()->json([
 
                 "status" => true,
                 "message" => "User logged in succcessfully",
-                'data' =>["token" => $token,"user"=>$user ],
-                
-                
+                'data' => ["token" => $token, "user" => $user],
+
+
             ]);
-        }else{
+        } else {
             return response()->json([
-            "status" => false,
-            "message" => "Invalid details"
-        ]);
+                "status" => false,
+                "message" => "Invalid details"
+            ]);
         }
-        
     }
 
 
-    // User Profile (GET)
+    // User Profile
     public function profile()
     {
         try {
@@ -119,9 +119,10 @@ class UserController extends Controller
     }
 
     // To generate refresh token value
-    public function refreshToken(){
+    public function refreshToken()
+    {
 
-        $newToken = auth()->refresh();
+        $newToken = Auth::refresh();
 
         return response()->json([
             "status" => true,
@@ -130,27 +131,28 @@ class UserController extends Controller
         ]);
     }
 
-    // User Logout (GET)
     public function logout(Request $request)
     {
-        $token = JWTAuth::getToken();
-        
-        if ($token) {
-            try {
-                JWTAuth::invalidate($token);
+        // Check if the user is authenticated
+        if (Auth::check()) {
+            // Invalidate the JWT token
+            $token = JWTAuth::getToken();
 
-                // Optionally, you can also blacklist the token
-                // JWTAuth::manager()->getBlacklist()->add($token);
-            } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-                // Token has expired
-            } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-                // Token is invalid
+            if ($token) {
+                try {
+                    JWTAuth::invalidate($token);
+                } catch (TokenInvalidException $e) {
+                    // Handle token invalidation exception if needed
+                    return response()->json(['error' => 'Failed to invalidate token'], 500);
+                }
             }
+
+            // Logout the user
+            Auth::logout();
+
+            return response()->json(['message' => 'Successfully logged out']);
+        } else {
+            return response()->json(['message' => 'User not authenticated'], 401);
         }
-
-        Auth::logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
     }
-
 }

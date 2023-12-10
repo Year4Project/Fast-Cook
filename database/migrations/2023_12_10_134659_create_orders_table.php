@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('restaurant_id');
-            $table->bigInteger('user_id');
-            $table->bigInteger('food_id');
-            $table->string('quantity');
-            $table->string('table_no');
-            // $table->string('payment_mode')->default('PayByOnline'); // PayByOnline , PayByCash
-            // $table->string('payment_id')->nullable;
-            $table->string('remark');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('restaurant_id');
+            $table->text('items')->nullable();
+            $table->integer('quantity');
+            $table->integer('table_no');
+            $table->string('remark')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('restaurant_id')->references('id')->on('restaurants');
         });
     }
 
