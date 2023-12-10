@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Request;
 // use Laravel\Sanctum\HasApiTokens;
@@ -37,6 +38,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'phone',
         'password',
+        'restaurant_id',
     ];
 
     /**
@@ -79,14 +81,19 @@ class User extends Authenticatable implements JWTSubject
     }
 
     // Relationship User has many restaurant
-    public function restaurant()
-    {
-        return $this->hasOne(Restaurant::class);
-    }
+    // public function restaurant()
+    // {
+    //     return $this->hasOne(Restaurant::class);
+    // }
 
     public function restaurants()
     {
         return $this->hasMany(Restaurant::class);
+    }
+
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class, 'restaurant_id');
     }
 
     public static function getOwner()
@@ -99,6 +106,7 @@ class User extends Authenticatable implements JWTSubject
 
         return $return;
     }
+
 
     public static function getAdmin()
     {
@@ -133,6 +141,11 @@ class User extends Authenticatable implements JWTSubject
 
     public function order(){
         return $this->hasMany(Order::class);
+    }
+
+    public function notifications()
+    {
+        return $this->morphMany(DatabaseNotification::class, 'notifiable')->orderBy('created_at', 'desc');
     }
 
 

@@ -15,8 +15,9 @@ class Restaurant extends Model
 
 
     // Restaurant belongsto User
-    public function owner(){
-        return $this->belongsTo(User::class,);
+     public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function foods()
@@ -27,6 +28,11 @@ class Restaurant extends Model
     static public function getSingle($id)
     {
         return self::find($id);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 
     public function getProfile()

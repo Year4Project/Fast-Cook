@@ -24,50 +24,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::group(["middleware" => ["auth:api"]], function(){
 
-//     Route::get("profile", [UserController::class, "profile"]);
-//     Route::get("refresh", [UserController::class, "refreshToken"]);
-//     Route::get("logout", [UserController::class, "logout"]);
-// });
-
-
-// Route::middleware(['apikey','auth'])->group(function (){
     /**Route for login API */
     Route::post('/register',[UserController::class,'register']);
     /**Route for register API */
     Route::post('/login',[UserController::class,'login']);
 
-// });
-
-// Route::group(['middleware' => 'jwt.auth'], function ()
 
 Route::middleware(['apikey','jwt.auth'])->group(function () {
 
    
     Route::post('/profile', [UserController::class, "profile"]);
     Route::get('listFood/{id}',[RestaurantControllerApi::class,'getListFood']);
-    Route::post('/restaurants/{restaurantId}/orders', [FoodOrderController::class, 'store']);
+
+    Route::post('/orders', [OrderController::class, 'foodOrder']);
+
+    // Route::post('orderConfirm/{id}',[RestaurantControllerApi::class,'orderConfirm']);
 
     /**Route for logout API */
     Route::post('/logout',[UserController::class,'logout']);
 });
 
-
-
-
-
-
-
-
-
-
-//     Route::post('/auth/register', [UserController::class, 'createUser']);
-//     Route::post('/auth/login', [UserController::class, 'loginUser']);
-
-
-//
-//     Route::post('orderConfirm/{id}',[RestaurantControllerApi::class,'orderConfirm']);
+    
 //     Route::get('showOrder/{id}',[RestaurantControllerApi::class,'showOrder']);
 
     // Route::post('foodOrder',[OrderController::class,'foodOrder']);

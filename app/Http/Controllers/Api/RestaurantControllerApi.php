@@ -13,14 +13,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RestaurantControllerApi extends Controller
 {
-    // public function checkKey($apikey){
-    //     $keys = array('12345678','987654321');
-    //     if(in_array($apikey, $keys)){
-    //         return true;
-    //     }else{
-    //         return false;
-    //     }
-    // }
 
     public function getListFood(Request $r, $id){
 
@@ -59,6 +51,9 @@ class RestaurantControllerApi extends Controller
             'table_no' => 'required',
         ]);
 
+         // Get the authenticated user
+         $user = JWTAuth::parseToken()->authenticate();
+
         if($validator->fails()){
 
             return response()->json([
@@ -67,7 +62,7 @@ class RestaurantControllerApi extends Controller
             ], 422);
         }else{
             $order = Order::create([
-                'user_id' => Auth::id(),
+                'user_id' => $user->id,
                 'food_id' => $request->food_id,
                 'quantity' => $request->quantity,
                 'remark' => $request->remark,
