@@ -61,7 +61,7 @@
                     Alerts Center
                 </h6>
                 <a class="dropdown-item d-flex align-items-center" href="#">
-                    @forelse ($order->notifications as $notification)
+                    {{-- @forelse ($order->notifications as $notification) --}}
                         <div class="mr-3">
                         <div class="icon-circle bg-primary">
                             <i class="fas fa-file-alt text-white"></i>
@@ -69,11 +69,11 @@
                     </div>
                     <div>
                         <div class="small text-gray-500">December 12, 2019</div>
-                        <span class="font-weight-bold">{{ $notification->data['name'] }}</span>
+                        {{-- <span class="font-weight-bold">{{ $notification->data['name'] }}</span> --}}
                     </div>
-                    @empty
+                    {{-- @empty --}}
                         <a href="" class="dropdown-item d-flex align-items-center">No record found</a>
-                    @endforelse
+                    {{-- @endforelse --}}
                     
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
