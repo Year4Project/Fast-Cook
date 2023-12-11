@@ -28,7 +28,7 @@ class DashboardController extends Controller
                 $data['getRecord'] = Order::getOrder();
                 $data['header_title'] = 'User Order Food';
                 $data['getOrder'] = Order::getOrder()->count();
-                $data['getFood'] = Food::getFood()->count();
+                // $data['getFood'] = Food::getFood()->count();
                 $data['getStaff'] = Staff::getStaff()->count();
                 $data['getTables'] = Scen::getQrcode()->count();
                 return view('owner.dashboard',$data);

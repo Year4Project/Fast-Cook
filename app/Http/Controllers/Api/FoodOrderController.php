@@ -3,30 +3,67 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Food;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class FoodOrderController extends Controller
 {
     public function store(Request $request, $restaurantId)
     {
-        // Validate the request
-        $this->validate($request, [
-            'menu_item_id' => 'required|exists:menu_items,id',
+        $request->validate([
+            'items' => 'required|array',
+            'items.*.food_id' => 'required|exists:foods,id',
+            'items.*.quantity' => 'required|integer|min:1',
             'quantity' => 'required|integer|min:1',
+            'table_no' => 'required|integer|min:1',
+            'remark' => 'nullable|string',
         ]);
 
-        // Create a new order for a specific restaurant
-        $order = new Order([
-            'menu_item_id' => $request->input('menu_item_id'),
-            'quantity' => $request->input('quantity'),
-            'user_id' => Auth::id(),
+        // Retrieve the authenticated user using JWTAuth
+        $user = JWTAuth::parseToken()->authenticate();
+
+        // Create an order associated with the user
+        $order = Order::create([
+            'user_id' => $user->id,
             'restaurant_id' => $restaurantId,
+            'items' => $request->input('items'),
+            'quantity' => $request->input('quantity'),
+            'table_no' => $request->input('table_no'),
+            'remark' => $request->input('remark'),
         ]);
 
-        $order->save();
 
-        return response()->json(['order' => $order], 201);
+        // Capture food_id and quantity for each selected food
+        $foodOrders = [];
+        foreach ($request->input('items', []) as $food) {
+            $foodModel = Food::find($food['food_id']);
+            $foodOrders[] = [
+                'food_id' => $foodModel->id,
+                'quantity' => $food['quantity'],
+            ];
+        }
+         // Attach food items to the order
+         $order->foods()->attach($request->input('items'));
+
+
+        // Transform the order data for response
+        $responseData = [
+            'user_id' => $user->id,
+            'items' => $order->items,
+            'quantity' => $order->quantity,
+            'table_no' => $order->table_no,
+            'remark' => $order->remark,
+        ];
+
+        // Return a JSON response
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Order food successfully',
+            'order' => $responseData,
+        ], 201);
     }
 }

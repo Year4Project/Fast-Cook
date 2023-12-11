@@ -18,7 +18,7 @@ class RestaurantControllerApi extends Controller
 
         $user = JWTAuth::user();
        
-        $food = DB::table('food')->where("restaurant_id", $id );
+        $food = DB::table('foods')->where("restaurant_id", $id );
         
         if($r->keyword){
             $food = $food->where('name', 'LIKE', "%$r->keyword%")

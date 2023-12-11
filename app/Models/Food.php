@@ -9,22 +9,26 @@ use Illuminate\Support\Facades\Auth;
 class Food extends Model
 {
     use HasFactory;
-
+    protected $table = 'foods';
     protected $fillable = [
+        'restaurant_id',
         'name',
-        'description',
+        'code',
         'oPrice',
         'dPrice',
+        'description',
         'image',
-        'restaurant_id',
-        'code',
         'status',
     ];
-
 
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);
+    }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'food_orders')->withPivot('quantity');
     }
 
     static public function getSingle($id)
@@ -35,11 +39,11 @@ class Food extends Model
     static public function getFood()
     {
         $user = Auth::user();
-        $return = self::select('food.*')
-            ->join('users','users.id','=','food.restaurant_id')
+        $return = self::select('foods.*')
+            ->join('users','users.id','=','foods.restaurant_id')
             ->where('restaurant_id', $user->id);
 
-            $return = $return->orderBy('food.id', 'desc')
+            $return = $return->orderBy('foods.id', 'desc')
             ->paginate(5);
 
         return $return;

@@ -13,6 +13,7 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'restaurant_id',
+        'food_id',
         'items',
         'quantity',
         'table_no',
@@ -26,6 +27,11 @@ class Order extends Model
     // Relationship order has many menu
     public function menus(){
         return $this->belongsTo(Food::class);
+    }
+
+    public function foods()
+    {
+        return $this->belongsToMany(Food::class)->withPivot('quantity');
     }
 
     public function restaurant()
