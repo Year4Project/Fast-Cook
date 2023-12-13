@@ -41,7 +41,7 @@
                             <div class="col ms-4">
                                 <div class="text-xl font-weight-bold text-success text-uppercase mb-1">
                                     PRODUCTS</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getFood }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                             </div>
                             <div class="col-auto me-4">
                                 <i class="fas fa-utensils fa-2x text-black-300"></i>
@@ -59,7 +59,7 @@
                             <div class="col ml-4">
                                 <div class="text-xl font-weight-bold text-secondary text-uppercase mb-1">
                                     Tables</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getTables }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                             </div>
                             <div class="col-auto me-4">
                                 <i class="fas fa-border-all fa-2x text-black-300"></i>
@@ -79,7 +79,7 @@
                                 <div class="text-xl font-weight-bold text-info text-uppercase mb-1">
                                     ORDERS
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getOrder }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                 {{-- <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
@@ -142,7 +142,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($getRecord as $orders)
+                                    {{-- @foreach ($getRecord as $orders)
                                 <tr>
                                     <td>{{ $orders->id }}</td>
                                     <td>{{ $orders->first_name }} {{ $orders->last_name }}</td>
@@ -157,7 +157,7 @@
                                         </a>
                                     </td>
                                 </tr>
-                                @endforeach
+                                @endforeach --}}
                                 </tbody>
                             </table>
                         </div>

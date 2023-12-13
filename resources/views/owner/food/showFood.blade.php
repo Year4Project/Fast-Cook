@@ -40,13 +40,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                   @foreach ($getRecord as $item)
+                   @foreach ($getFood as $item)
                        <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->oPrice }}</td>
                             <td>{{ $item->dPrice }}</td>
-                            <td><img height="75" width="75" src="/upload/food/{{$item->image}}" alt=""></td>
+                            <td><img height="75" width="75" src="{{ asset('/upload/food/'. $item->image)}}" alt=""></td>
                             <td>
                                 @if($item->status ==1)
                                 <a href="{{ url('owner/food/updateStatus/'.$item->id) }}" onclick="return confirm('Are you Sure?')" class="btn btn-sm btn-success">Active</a>

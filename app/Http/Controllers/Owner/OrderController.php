@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Models\FoodOrder;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\Restaurant;
@@ -16,14 +17,10 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function userOrder()
+    public function userOrder($restaurantId)
     {
-        $data['getRecord'] = Order::getOrder();
-        $data['header_title'] = 'User Order';
-        // $user = Auth::user();
-        // $order = Order::where("restaurant_id", $user->id)->orderBy('id','asc')
-        //                 ->get();
-
+      
+        $data['getUserOrder'] = FoodOrder::getUserOrder();
 
         return view('owner.order.userOrder',$data);
     }

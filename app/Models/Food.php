@@ -28,7 +28,7 @@ class Food extends Model
 
     public function orders()
     {
-        return $this->belongsToMany(Order::class, 'food_orders')->withPivot('quantity');
+        return $this->belongsToMany(Order::class, 'food_order')->withPivot('quantity');
     }
 
     static public function getSingle($id)
@@ -39,13 +39,13 @@ class Food extends Model
     static public function getFood()
     {
         $user = Auth::user();
-        $return = self::select('foods.*')
-            ->join('users','users.id','=','foods.restaurant_id')
-            ->where('restaurant_id', $user->id);
 
-            $return = $return->orderBy('foods.id', 'desc')
-            ->paginate(5);
+        if (!$user->restaurant) {
+            // Handle the case where the user is not associated with a restaurant
+            return redirect()->back()->with('error', 'You are not associated with a restaurant.');
+        }
+        $foods = Food::where('restaurant_id', $user->restaurant->id)->get();
 
-        return $return;
+        return $foods;
     }
 }

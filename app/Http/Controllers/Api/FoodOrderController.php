@@ -38,10 +38,10 @@ class FoodOrderController extends Controller
 
 
         // Capture food_id and quantity for each selected food
-        $foodOrders = [];
+        $foodOrder = [];
         foreach ($request->input('items', []) as $food) {
             $foodModel = Food::find($food['food_id']);
-            $foodOrders[] = [
+            $foodOrder[] = [
                 'food_id' => $foodModel->id,
                 'quantity' => $food['quantity'],
             ];

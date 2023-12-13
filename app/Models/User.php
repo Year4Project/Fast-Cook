@@ -86,14 +86,17 @@ class User extends Authenticatable implements JWTSubject
     //     return $this->hasOne(Restaurant::class);
     // }
 
+    public function restaurant()
+{
+    return $this->hasOne(Restaurant::class);
+}
+
     public function restaurants()
     {
-        return $this->hasMany(Restaurant::class);
-    }
-
-    public function restaurant()
-    {
         return $this->belongsTo(Restaurant::class, 'restaurant_id');
+    }
+    public function foods() {
+        return $this->hasManyThrough(Food::class, Restaurant::class);
     }
 
     public static function getOwner()
@@ -139,7 +142,8 @@ class User extends Authenticatable implements JWTSubject
 
 
 
-    public function order(){
+    public function orders()
+    {
         return $this->hasMany(Order::class);
     }
 

@@ -25,9 +25,9 @@ class DashboardController extends Controller
 
             } else if (Auth::user()->user_type == 2)
             {
-                $data['getRecord'] = Order::getOrder();
+                // $data['getRecord'] = Order::getOrder();
                 $data['header_title'] = 'User Order Food';
-                $data['getOrder'] = Order::getOrder()->count();
+                // $data['getOrder'] = Order::getOrder()->count();
                 // $data['getFood'] = Food::getFood()->count();
                 $data['getStaff'] = Staff::getStaff()->count();
                 $data['getTables'] = Scen::getQrcode()->count();
