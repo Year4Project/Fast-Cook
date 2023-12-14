@@ -6,10 +6,11 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function login(){
+    public function login(Request $request){
         // dd(Hash::make(12345));
         $data['header_title'] = 'Login';
         return view('auth/login',$data);
@@ -18,28 +19,53 @@ class AuthController extends Controller
 
     public function AuthLogin(Request $request)
      {
-        // dd($request->all());
-        $data['header_title'] = 'Dashboard';
-        $remember = !empty($request->remember) ? true : false;
-        if (Auth::attempt(['email' => $request->email,'password' => $request->password],$remember))
-        {
-            if (Auth::user()->user_type == 1)
-            {
-                return redirect('admin/dashboard');
-            }
-            else if (Auth::user()->user_type == 2)
-            {
-                return redirect('owner/dashboard');
-            }
-            // else if (Auth::user()->user_type == 3)
-            // {
-            //     return redirect('user/dashboard');
-            // }
+       // Validation rules
+    $rules = [
+        'email' => 'required|email',
+        'password' => 'required',
+    ];
 
-        } else
-        {
-            return redirect()->back();
+    // Custom error messages
+    $messages = [
+        'email.required' => 'The email field is required.',
+        'email.email' => 'Please enter a valid email address.',
+        'password.required' => 'The password field is required.',
+    ];
+
+    // Validate the request
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    // Check if the validation fails
+    if ($validator->fails()) {
+        return redirect()
+            ->back()
+            ->withErrors($validator)
+            ->withInput($request->only('email', 'remember'));
+    }
+
+    $data['header_title'] = 'Dashboard';
+
+    $remember = !empty($request->remember) ? true : false;
+
+    if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
+        switch (Auth::user()->user_type) {
+            case 1:
+                return redirect('admin/dashboard');
+            case 2:
+                return redirect('owner/dashboard');
+            // Add more cases for other user types if needed
+            // case 3:
+            //     return redirect('user/dashboard');
+            default:
+                return redirect('/');
         }
+    } else {
+        // Authentication failed
+        return redirect()
+            ->back()
+            ->withErrors(['email' => 'Invalid email or password'])
+            ->withInput($request->only('email', 'remember'));
+    }
     }
 
     function registration(){

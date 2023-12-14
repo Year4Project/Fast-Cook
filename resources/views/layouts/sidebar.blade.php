@@ -8,21 +8,6 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
-    <!-- Nav Item - Dashboard -->
-    {{-- <li class="nav-item active">
-        <a class="nav-link" href="">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
-    </li>
-
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Addons
-    </div> --}}
 
     @if (Auth::user()->user_type == 1)
         <li class="nav-item active">
@@ -61,19 +46,19 @@
                 <span>Tables</span></a>
         </li>
     @elseif(Auth::user()->user_type == 2)
-    <li class="nav-item active">
-        <a class="nav-link" href="{{ url('owner/dashboard') }}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
-    </li>
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ url('owner/dashboard') }}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span></a>
+        </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Category
-    </div>
-    {{-- <li class="nav-item">
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Category
+        </div>
+        {{-- <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
@@ -88,48 +73,48 @@
                 </div>
             </li> --}}
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url('owner/food/showFood') }}">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Food Menu</span></a>
-    </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('owner/food/showFood') }}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Food Menu</span></a>
+        </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url('owner/order/{restaurantId}/userorder') }}">
-            <i class="fas fa-fw fa-book"></i>
-            <span>Order Food</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url('owner/staff/listStaff')}}">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Stuff</span></a>
-    </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('owner/order/userOrder') }}">
+                <i class="fas fa-fw fa-book"></i>
+                <span>Order Food</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('owner/staff/listStaff') }}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Stuff</span></a>
+        </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url('owner/qr/generateQRCode') }}">
-            <i class="fas fa-fw fa-key"></i>
-            <span>Generate QR</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url('owner/chat/chat') }}">
-            <i class="fas fa-fw fa-box"></i>
-            <span>Chats</span></a>
-    </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('owner/qr/generateQRCode') }}">
+                <i class="fas fa-fw fa-key"></i>
+                <span>Generate QR</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('owner/chat/chat') }}">
+                <i class="fas fa-fw fa-box"></i>
+                <span>Chats</span></a>
+        </li>
 
-    <hr class="sidebar-divider">
+        <hr class="sidebar-divider">
 
-    <li class="nav-item">
-        <a class="nav-link" href="">
-            <i class="fas fa-receipt"></i>
-            <span>Report</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url('owner/profile/profile') }}">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Profile</span></a>
-    </li>
+        <li class="nav-item">
+            <a class="nav-link" href="">
+                <i class="fas fa-receipt"></i>
+                <span>Report</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('owner/profile/profile') }}">
+                <i class="fas fa-fw fa-user"></i>
+                <span>Profile</span></a>
+        </li>
 
-    {{-- @elseif(Auth::user()->user_type == 3)
+        {{-- @elseif(Auth::user()->user_type == 3)
     <li class="nav-item active">
         <a class="nav-link" href="{{ url('user/dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -137,7 +122,6 @@
     </li>
     <!-- Divider -->
     <hr class="sidebar-divider"> --}}
-
     @endif
 
 
@@ -162,4 +146,3 @@
 
 
 </ul>
-

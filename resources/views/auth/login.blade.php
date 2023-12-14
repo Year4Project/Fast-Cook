@@ -45,27 +45,30 @@
                                     </div>
                                     @include('_massage')
 
-                                    <form class="user" action="{{url('login')}}" method="post">
-                                        {{csrf_field()}}
+                                    <form class="user" action="{{ url('login') }}" method="post">
+                                        {{ csrf_field() }}
                                         <div class="form-group">
-                                            <input type="email" required name="email" value="{{ old('email') }}" class="form-control form-control-user"
-                                                aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                            <input type="email" required name="email" value="{{ old('email') }}" class="form-control form-control-user" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                                            @error('email')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" required name="password" class="form-control form-control-user"
-                                                 placeholder="Password">
+                                            <input type="password" required name="password" class="form-control form-control-user" placeholder="Password">
+                                            @error('password')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
+                                                <input type="checkbox" class="custom-control-input" id="customCheck" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="customCheck">Remember Me</label>
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
-
+                                    
                                         <hr>
+                                    
                                         <a href="index.html" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Login with Google
                                         </a>
@@ -73,6 +76,7 @@
                                             <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
                                         </a>
                                     </form>
+                                    
                                     <p class="result"></p>
                                     <hr>
                                     <div class="text-center">

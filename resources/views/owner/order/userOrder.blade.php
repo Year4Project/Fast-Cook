@@ -23,8 +23,8 @@
                         <thead>
                             <tr class="text-align-center">
                                 <th>ID</th>
-                                <th>User ID</th>
-                                <th>Restaurant ID</th>
+                                <th>User Name</th>
+                                <th>Food Name</th>
                                 <th>Items</th>
                                 <th>Quantity</th>
                                 <th>Table No</th>
@@ -36,26 +36,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($getUserOrder as $food)
+                            @foreach ($foodOrders as $foodOrder)
                                 <tr>
-                                    <td>{{ $food->id }}</td>
-                                    <td>{{ $food->user_id }}</td>
-                                    <td>{{ $food->restaurant_id }}</td>
-                                    
-                                    <td>{{ $food->quantity }}</td>
-                                    <td>{{ $food->table_no }}</td>
-                                    <td>{{ $food->remark }}</td>
-                                    <td></td>
-                                    <td>{{ $food->created_at }}</td>
+                                    <td>{{ $foodOrder->id }}</td>
                                     <td>
-                                        <a class="btn btn-sm btn-circle btn-outline-success me-2" href="{{url('owner/food/listFoodUser')}}">
-                                            <i class="far fa-list-alt">List Food Order</i>
-                                        </a>
+                                        {{ $foodOrder->first_name }} {{ $foodOrder->last_name }}
                                     </td>
+                                    <td>{{ $foodOrder->food->name }}</td>
+                                    {{-- <td>{{ $foodOrder->food_name }}</td> --}}
+                                    <td></td>
+                                    <td>{{ $foodOrder->order->quantity }}</td>
+                                    <td>{{ $foodOrder->order->table_no }}</td>
+                                    <td>{{ $foodOrder->order->remark }}</td>
+                                    <td></td>
+                                    <td>{{ $foodOrder->order->created_at }}</td>
+                                    <!-- Add other cells as needed -->
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $foodOrders->links() }} <!-- Pagination links -->
                 </div>
             </div>
         </div>

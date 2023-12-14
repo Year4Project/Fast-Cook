@@ -14,22 +14,12 @@ class FoodOrder extends Model
 
     public function food()
     {
-        return $this->belongsTo(Food::class);
+        return $this->belongsTo(Food::class, 'food_id');
     }
 
-    static public function getUserOrder()
+    public function order()
     {
-        $user = Auth::user();
-
-        $return = self::select('food_order.food_id','foods.*')
-                    ->join('orders','orders.id','=','food_order.order_id')
-                    ->join('foods','foods.id','=','food_order.food_id')
-                    // ->join('users','users.id','=','food_order.user_id')
-                    ->where('orders.restaurant_id', $user->id);
-
-        $return = $return->orderBy('orders.id', 'desc')
-            ->paginate(20);
-
-        return $return;
+        return $this->belongsTo(Order::class, 'order_id');
     }
+    
 }

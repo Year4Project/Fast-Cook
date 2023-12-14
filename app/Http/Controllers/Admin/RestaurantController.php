@@ -64,7 +64,7 @@ class RestaurantController extends Controller
             
             $restaurant->phone = $request->phone;
 
-            $owner->restaurants()->save($restaurant);
+            $owner->restaurant()->save($restaurant);
 
         return redirect('admin/restaurant/showRestaurant')->with('success', "Restaurant successfully Create.");
 
@@ -122,7 +122,7 @@ class RestaurantController extends Controller
     public function delete($id)
     {
         $owner = User::findOrFail($id);
-        $owner->restaurants->delete();
+        $owner->restaurant->delete();
         $owner->delete();
 
         return redirect('admin/restaurant/showRestaurant')->with('success', "Admin successfully delete.");

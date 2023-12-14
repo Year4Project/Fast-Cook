@@ -87,9 +87,9 @@ class User extends Authenticatable implements JWTSubject
     // }
 
     public function restaurant()
-{
-    return $this->hasOne(Restaurant::class);
-}
+    {
+        return $this->hasOne(Restaurant::class);
+    }
 
     public function restaurants()
     {
@@ -98,6 +98,8 @@ class User extends Authenticatable implements JWTSubject
     public function foods() {
         return $this->hasManyThrough(Food::class, Restaurant::class);
     }
+
+    
 
     public static function getOwner()
     {
@@ -144,7 +146,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'user_id');
     }
 
     public function notifications()
