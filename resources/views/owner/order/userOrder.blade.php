@@ -25,13 +25,11 @@
                                 <th>ID</th>
                                 <th>User Name</th>
                                 <th>Food Name</th>
-                                <th>Items</th>
                                 <th>Quantity</th>
                                 <th>Table No</th>
                                 <th>Remark</th>
                                 <th>Payment</th>
                                 <th>Created At</th>
-                                <th>Action</th>
 
                             </tr>
                         </thead>
@@ -39,18 +37,13 @@
                             @foreach ($foodOrders as $foodOrder)
                                 <tr>
                                     <td>{{ $foodOrder->id }}</td>
-                                    <td>
-                                        {{ $foodOrder->first_name }} {{ $foodOrder->last_name }}
-                                    </td>
+                                    <td>{{ $foodOrder->first_name }}{{ $foodOrder->last_name }}</td>
                                     <td>{{ $foodOrder->food->name }}</td>
-                                    {{-- <td>{{ $foodOrder->food_name }}</td> --}}
-                                    <td></td>
                                     <td>{{ $foodOrder->order->quantity }}</td>
                                     <td>{{ $foodOrder->order->table_no }}</td>
                                     <td>{{ $foodOrder->order->remark }}</td>
-                                    <td></td>
+                                    <td>Pay Online</td>
                                     <td>{{ $foodOrder->order->created_at }}</td>
-                                    <!-- Add other cells as needed -->
                                 </tr>
                             @endforeach
                         </tbody>
