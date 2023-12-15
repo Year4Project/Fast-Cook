@@ -19,7 +19,7 @@ class Scen extends Model
 
     static public function getQrcode()
     {
-        $user = Auth::user();
+        $user = Auth::user()->restaurant;
         $return = self::select('scens.*')
             ->join('users','users.id','=','scens.restaurant_id')
             ->where('restaurant_id', $user->id);

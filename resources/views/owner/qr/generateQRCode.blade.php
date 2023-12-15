@@ -23,24 +23,22 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table mx-auto table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
-                        <tr style="color: black">
-                            <th>#</th>
-                            <th>Table No</th>
-                            <th>Restaurant ID</th>
-                            <th>Qr Code</th>
-                            <th>Action</th>
+                        <tr>
+                            <th class="text-center" scope="col">#</th>
+                            <th class="text-center" scope="col">Table No</th>
+                            <th class="text-center" scope="col">Qr Code</th>
+                            <th class="text-center" scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($getQrcode as $item)
                             <tr>
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->table_no }}</td>
-                                <td>{{ $item->restaurant_id }}</td>
-                                <td>{!! DNS2D::getBarcodeHTML("{restaurant_id: $item->id, table_no: $item->table_no}",'QRCODE') !!}
-                                <td><a class="btn btn-primary" href="#">Download</a></td>
+                                <td class="text-center">{{ $item->id }}</td>
+                                <td class="text-center">{{ $item->table_no }}</td>
+                                <td class="text-center">{!! QrCode::size(100)->generate(json_encode(["restaurant_id" => $item->id, "table_no" => $item->table_no])) !!}</td>
+                                <td class="text-center"><a href="{{ route('owner.qr.download', ['scen' => $item->id]) }}" class="btn btn-primary">Download QR Code</a></td>
                             </tr>
                         @endforeach
                     </tbody>
