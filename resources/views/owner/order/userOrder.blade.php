@@ -17,6 +17,28 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">DataTables Of Order</h6>
             </div>
+            <div id="app">
+                <order-component></order-component>
+              </div>
+              <script>
+                // Initialize Laravel Echo
+                const echo = new Echo({
+                    broadcaster: 'pusher',
+                    key: '{{ env('PUSHER_APP_KEY') }}',
+                    cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
+                    encrypted: true,
+                });
+        
+                // Listen for the OrderCreated event
+                echo.channel('orders')
+                    .listen('OrderCreated', (event) => {
+                        console.log('OrderCreated event received:', event);
+        
+                        // Update the content on the client side with the new order data
+                        // For example, you can manipulate the DOM or use a frontend framework
+                    });
+            </script>
+             
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
@@ -54,4 +76,6 @@
         </div>
 
     </div>
+     <!-- Include compiled JavaScript -->
+     <script src="{{ mix('js/app.js') }}"></script>
 @endsection

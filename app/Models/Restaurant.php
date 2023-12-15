@@ -17,6 +17,10 @@ class Restaurant extends Model
     public function user() {
         return $this->hasOne(User::class);
     }
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function foods()
     {

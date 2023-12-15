@@ -8,6 +8,8 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Events\OrderCreated;
+
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class FoodOrderController extends Controller
@@ -46,8 +48,8 @@ class FoodOrderController extends Controller
                 'quantity' => $food['quantity'],
             ];
         }
-         // Attach food items to the order
-         $order->foods()->attach($request->input('items'));
+        // Attach food items to the order
+        $order->foods()->attach($request->input('items'));
 
 
         // Transform the order data for response
@@ -59,6 +61,10 @@ class FoodOrderController extends Controller
             'remark' => $order->remark,
         ];
 
+        // Dispatch the OrderCreated event
+        // In your controller
+        // event(new OrderCreated($responseData));
+       
         // Return a JSON response
         return response()->json([
             'status' => 'success',
