@@ -25,10 +25,10 @@ class Staff extends Model
 
     static public function getStaff()
     {
-        $user = Auth::user();
+        $user = Auth::user()->restaurant->id;
         $return = self::select('staff.*')
             ->join('users','users.id','=','staff.restaurant_id')
-            ->where('restaurant_id', $user->id);
+            ->where('restaurant_id', $user);
 
             $return = $return->orderBy('staff.id', 'desc')
             ->paginate(5);

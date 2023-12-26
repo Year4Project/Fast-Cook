@@ -6,20 +6,20 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-2 mb-4 mt-4">
           <div class="col-sm-6">
-            <h1>Add New Admin</h1>
+            <h1 class="h3 mb-0 text-gray-800">Add New Admin</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content ">
       <div class="container-fluid">
-        <div class="row">
+          <div class="row justify-content-center">
           <!-- left column -->
-          <div class="col-md-4">
+          <div class="col-md-8">
             <!-- general form elements -->
             <div class="card card-primary">
               <!-- /.card-header -->
@@ -31,18 +31,21 @@
                     <label>Name</label>
                     <input type="text" class="form-control" value="{{ old('name', $getRecord->name)}}" name="name" required>
                   </div>
-                  {{-- <div class="form-group">
-                    <label>Code</label>
-                    <input type="num" class="form-control" value="{{ old('code',$getRecord->code)}}" name="code" required>
-                  </div> --}}
-                  <div class="form-group">
-                    <label>Original Price</label>
-                    <input type="number" class="form-control" value="{{ old('oPrice',$getRecord->oPrice)}}" name="oPrice" required>
-                    {{-- <div style="color: red">{{ $errors->first('email')}}</div> --}}
-                  </div>
-                  <div class="form-group">
-                    <label>Discound Price</label>
-                    <input type="number" class="form-control" value="{{ old('dPrice',$getRecord->dPrice)}}" name="dPrice" required>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label>Original Price</label>
+                        <input type="number" class="form-control" value="{{ old('oPrice',$getRecord->oPrice)}}" name="oPrice" required>
+                        {{-- <div style="color: red">{{ $errors->first('email')}}</div> --}}
+                      </div>
+                      
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label>Discound Price</label>
+                        <input type="number" class="form-control" value="{{ old('dPrice',$getRecord->dPrice)}}" name="dPrice" required>
+                      </div>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label>Description</label>
@@ -50,7 +53,9 @@
                   </div>
                   <div class="form-group">
                     <label>Old Image Food</label>
-                    <img height="200" width="200" src="/upload/food/{{$getRecord->image}}" alt="">
+                    <div class="container ms-2 mt-2 ">
+                      <img height="150" width="150" src="/upload/food/{{$getRecord->image}}" alt="">
+                    </div>
                   </div>
                   <div class="form-group">
                     <label>Image Food</label>

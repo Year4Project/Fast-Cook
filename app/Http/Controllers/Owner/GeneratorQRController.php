@@ -76,4 +76,11 @@ class GeneratorQRController extends Controller
 
         return $response;
     }
+    public function deleteQrCode($scen){
+
+        $qrcode = Scen::findOrFail($scen);
+        $qrcode->delete();
+        return redirect('owner/qr/generateQRCode')->with('success', "QrCode successfully Delete.");
+    }
+    
 }

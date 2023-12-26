@@ -27,10 +27,11 @@ class DashboardController extends Controller
             {
                 // $data['getRecord'] = Order::getOrder();
                 $data['header_title'] = 'User Order Food';
-                // $data['getOrder'] = Order::getOrder()->count();
-                // $data['getFood'] = Food::getFood()->count();
+                $data['getOrder'] = Order::where('restaurant_id', Auth::user()->restaurant->id)->count();
+                $data['getFood'] = Food::where('restaurant_id',Auth::user()->restaurant->id)->count();
                 $data['getStaff'] = Staff::getStaff()->count();
-                $data['getTables'] = Scen::getQrcode()->count();
+                $data['getTables'] = Scen::where('restaurant_id',Auth::user()->restaurant->id)->count();
+
                 return view('owner.dashboard',$data);
 
             }

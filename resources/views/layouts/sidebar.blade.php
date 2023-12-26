@@ -1,15 +1,16 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-    <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('admin/dashboard') }}">
-        <div class="sidebar-brand-text mx-3">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
-    </a>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
 
 
     @if (Auth::user()->user_type == 1)
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('admin/dashboard') }}">
+            <div class="sidebar-brand-text mx-3">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
         <li class="nav-item active">
             <a class="nav-link" href="{{ url('admin/dashboard') }}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -46,6 +47,13 @@
                 <span>Tables</span></a>
         </li>
     @elseif(Auth::user()->user_type == 2)
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('owner/dashboard') }}">
+            <div class="sidebar-brand-text mx-3">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
         <li class="nav-item active">
             <a class="nav-link" href="{{ url('owner/dashboard') }}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -53,25 +61,19 @@
         </li>
         <!-- Divider -->
         <hr class="sidebar-divider">
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ url('owner/pos/pos_system') }}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>POS System</span></a>
+        </li>
+        
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
         <!-- Heading -->
         <div class="sidebar-heading">
             Category
         </div>
-        {{-- <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
-                    </div>
-                </div>
-            </li> --}}
 
         <li class="nav-item">
             <a class="nav-link" href="{{ url('owner/food/showFood') }}">
@@ -85,9 +87,18 @@
                 <span>Order Food</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('owner/staff/listStaff') }}">
-                <i class="fas fa-fw fa-users"></i>
-                <span>Stuff</span></a>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Employee</span>
+            </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Employee  Components:</h6>
+                    <a class="collapse-item" href="{{ url('owner/staff/listStaff') }}">List Employee</a>
+                    <a class="collapse-item" href="cards.html">History Order</a>
+                </div>
+            </div>
         </li>
 
         <li class="nav-item">
@@ -109,7 +120,7 @@
                 <span>Report</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('owner/profile/profile') }}">
+            <a class="nav-link" href="{{ url('owner/profile/profile/{id}') }}">
                 <i class="fas fa-fw fa-user"></i>
                 <span>Profile</span></a>
         </li>

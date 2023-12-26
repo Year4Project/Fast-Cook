@@ -42,14 +42,16 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr class="text-align-center">
+                        <thead class="table-dark">
+                            <tr>
                                 <th>ID</th>
                                 <th>User Name</th>
                                 <th>Food Name</th>
-                                <th>Quantity</th>
                                 <th>Table No</th>
                                 <th>Remark</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total Price</th>
                                 <th>Payment</th>
                                 <th>Created At</th>
 
@@ -61,9 +63,11 @@
                                     <td>{{ $foodOrder->id }}</td>
                                     <td>{{ $foodOrder->first_name }}{{ $foodOrder->last_name }}</td>
                                     <td>{{ $foodOrder->food->name }}</td>
-                                    <td>{{ $foodOrder->order->quantity }}</td>
                                     <td>{{ $foodOrder->order->table_no }}</td>
                                     <td>{{ $foodOrder->order->remark }}</td>
+                                    <td>{{ $foodOrder->order->quantity }}</td>
+                                    <td>{{ $foodOrder->food->oPrice }}</td>
+                                    <td>{{ $foodOrder->total_price }}</td>
                                     <td>Pay Online</td>
                                     <td>{{ $foodOrder->order->created_at }}</td>
                                 </tr>

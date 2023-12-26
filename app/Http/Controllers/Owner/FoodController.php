@@ -63,11 +63,17 @@ class FoodController extends Controller
             $file = $request->file('image');
             $randomStr = date('Ymdhis') . Str::random(20);
             $filename = strtolower($randomStr) . '.' . $ext;
+        
+            // Move the uploaded image to the specified directory
             $file->move(public_path('upload/food/'), $filename);
-
-
+        
             $food->image = $filename;
+        
+            // Generate the image URL
+            $imageUrl = url('upload/food/' . $filename);
+            $food->image_url = $imageUrl;
         }
+
         $food->oPrice = $request->oPrice;
         $food->dPrice = $request->dPrice;
 
@@ -78,15 +84,26 @@ class FoodController extends Controller
 
     public function updateStatus($id)
     {
-        $getStatus = Food::select('status')->where('id', $id)->first();
-        if ($getStatus->status == 1) {
-            $status = 0;
-        } else {
-            $status = 1;
+        try {
+            // Fetch the food item by ID
+            $food = Food::findOrFail($id);
+
+            // Toggle the status (assuming 'status' is a boolean field)
+            $food->status = !$food->status;
+
+            // Save the updated status
+            $food->save();
+
+            return redirect('owner/food/showFood')->with('success', 'Status successfully updated.');
+        } catch (\Exception $e) {
+            // Log the exception
+            // \Log::error('Exception during status update: ' . $e->getMessage());
+
+            // Handle the exception as needed
+            return redirect()->back()->with('error', 'An error occurred during status update.');
         }
-        Food::where('id', $id)->update(['status' => $status]);
-        return redirect('admin/admin/showAdmin')->with('success', "status successfully update.");
     }
+
 
     /**
      * Display the specified resource.
@@ -137,7 +154,7 @@ class FoodController extends Controller
         }
         $food->oPrice = $request->oPrice;
         $food->dPrice = $request->dPrice;
-        $food->restaurant_id = Auth::user()->id;
+        $food->restaurant_id = Auth::user()->restaurant->id;
         $food->save();
         // $restaurant->foods()->save($food);
 

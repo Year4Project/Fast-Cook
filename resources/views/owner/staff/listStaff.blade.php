@@ -24,8 +24,8 @@
             <div class="card-body">
                 <div class="table-responsive-sm">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr style="color: black">
+                        <thead class="table-dark">
+                            <tr>
                                 <th>#</th>
                                 <th>Image</th>
                                 <th>Name</th>
@@ -40,7 +40,7 @@
                             @foreach ($getStaff as $staff)
                                 <tr>
                                     <td>{{ $staff->id }}</td>
-                                    <td><img height="70" width="65" src="/upload/staff/{{ $staff->image }}" alt=""></td>
+                                    <td class=""><img class="rounded-circle" height="70" width="65" src="/upload/staff/{{ $staff->image }}" alt=""></td>
                                     <td>{{ $staff->name }}</td>
                                     <td>{{ $staff->phone }}</td>
                                     <td>{{ $staff->gender }}</td>

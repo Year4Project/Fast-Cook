@@ -51,11 +51,9 @@ class UserController extends Controller
             ]);
 
             return response()->json([
-
                 'status' => true,
                 'message' => 'User Created Successfully',
                 'data' => ['token' => $user->createToken("API TOKEN")->accessToken, "user" => $user],
-
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

@@ -1,0 +1,30 @@
+/* Add your custom styles here */
+
+/* Container styles */
+.container-fluid {
+    padding: 20px;
+}
+
+/* Food List styles */
+.food-list {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.food-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+/* Total Price styles */
+.total-price {
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+}
+
+#total-price-value {
+    font-size: 24px;
+    font-weight: bold;
+}

@@ -61,6 +61,7 @@ class RestaurantControllerApi extends Controller
                 'errors' => $validator->messages()
             ], 422);
         }else{
+            
             $order = Order::create([
                 'user_id' => $user->id,
                 'food_id' => $request->food_id,

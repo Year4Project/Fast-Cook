@@ -38,11 +38,6 @@ return [
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'encrypted' => true,
-                'useTLS' => true,
-                'host' => env('PUSHER_APP_HOST'),
-                'port' => env('PUSHER_APP_PORT'),
-                'scheme' => 'https',
-                'debug' => true, // Enable debug mode
             ],
             'client_options' => [
                 // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html

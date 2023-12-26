@@ -24,7 +24,7 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table mx-auto table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
+                    <thead class="table-dark">
                         <tr>
                             <th class="text-center" scope="col">#</th>
                             <th class="text-center" scope="col">Table No</th>
@@ -38,7 +38,12 @@
                                 <td class="text-center">{{ $item->id }}</td>
                                 <td class="text-center">{{ $item->table_no }}</td>
                                 <td class="text-center">{!! QrCode::size(100)->generate(json_encode(["restaurant_id" => $item->id, "table_no" => $item->table_no])) !!}</td>
-                                <td class="text-center"><a href="{{ route('owner.qr.download', ['scen' => $item->id]) }}" class="btn btn-primary">Download QR Code</a></td>
+                                <td class="text-center">
+                                    <a href="{{ route('owner.qr.download', ['scen' => $item->id]) }}" class="btn btn-primary">Download QR Code</a><br>
+                                    <a href="{{ url('owner/qr/delete/'. $item->id) }}" class="btn btn-danger mt-2">Delete QR Code</a>
+                                    
+                                </td>
+                                
                             </tr>
                         @endforeach
                     </tbody>

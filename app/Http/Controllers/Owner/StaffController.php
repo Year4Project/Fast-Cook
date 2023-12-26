@@ -42,7 +42,7 @@ class StaffController extends Controller
         $staff->age = $request->age;
         $staff->gender = $request->gender;
         $staff->position = $request->position;
-        $staff->restaurant_id= Auth::user()->id;
+        $staff->restaurant_id= Auth::user()->restaurant->id;
 
         if(!empty($request->file('image'))) {
             $ext = $request->file('image')->getClientOriginalExtension();
@@ -90,7 +90,7 @@ class StaffController extends Controller
         $staff->age = $request->age;
         $staff->gender = $request->gender;
         $staff->position = $request->position;
-        $staff->restaurant_id= Auth::user()->id;
+        $staff->restaurant_id= Auth::user()->restaurant->id;
 
         if(!empty($request->file('image'))) {
             if (!empty($staff->getProfile()))

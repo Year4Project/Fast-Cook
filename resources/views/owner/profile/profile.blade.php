@@ -20,7 +20,10 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
+                <h1>User Profile</h1>
 
+                <p>Name: {{ $user->first_name }} {{ $user->last_name }}</p>
+                <p>Email: {{ $user->email }}</p>
             </div>
         </div>
     </div>

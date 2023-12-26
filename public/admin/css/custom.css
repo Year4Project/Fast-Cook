@@ -1,5 +1,6 @@
 .big-banner{
     background-image: url('../img/bg.jpg');
     width: auto;
-    height: 260px;
+    height: 350px;
+    background-size: cover;
 }
