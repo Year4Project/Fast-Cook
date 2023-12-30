@@ -16,11 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('restaurant_id');
             $table->string('name')->nullable();
             $table->string('code')->nullable();
-            $table->integer('oPrice')->nullable();
-            $table->integer('dPrice')->nullable();
+            $table->integer('price')->nullable();
             $table->text('description');
             $table->string('image')->nullable();
             $table->integer('status')->default(1); // 0 Unavailable, 1 Available
+            $table->string('image_url')->nullable();
             $table->timestamps();
 
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');

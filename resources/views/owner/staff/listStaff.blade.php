@@ -40,7 +40,7 @@
                             @foreach ($getStaff as $staff)
                                 <tr>
                                     <td>{{ $staff->id }}</td>
-                                    <td class=""><img class="rounded-circle" height="70" width="65" src="/upload/staff/{{ $staff->image }}" alt=""></td>
+                                    <td class=""><img class="rounded-circle" height="75" width="75" src="/upload/staff/{{ $staff->image }}" alt=""></td>
                                     <td>{{ $staff->name }}</td>
                                     <td>{{ $staff->phone }}</td>
                                     <td>{{ $staff->gender }}</td>

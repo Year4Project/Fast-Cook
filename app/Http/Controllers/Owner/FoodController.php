@@ -43,8 +43,7 @@ class FoodController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'oPrice' => 'required|numeric',
-            'dPrice' => 'required|numeric',
+            'price' => 'required|numeric',
         ]);
 
         $food = new Food();
@@ -74,8 +73,7 @@ class FoodController extends Controller
             $food->image_url = $imageUrl;
         }
 
-        $food->oPrice = $request->oPrice;
-        $food->dPrice = $request->dPrice;
+        $food->price = $request->price;
 
         $food->restaurant_id = $user->restaurant->id;
         $food->save();

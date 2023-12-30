@@ -20,16 +20,16 @@
                     <input type="num" class="form-control" value="{{ old('code')}}" name="code" required placeholder="Code Food">
                   </div> --}}
                         <div class="form-group">
-                            <label>Original Price</label>
-                            <input type="num" class="form-control" value="{{ old('oPrice') }}" name="oPrice"
+                            <label>Price</label>
+                            <input type="num" class="form-control" value="{{ old('price') }}" name="price"
                                 required placeholder="Original Price">
                             {{-- <div style="color: red">{{ $errors->first('email')}}</div> --}}
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Discound Price</label>
                             <input type="number" class="form-control" value="{{ old('dPrice') }}" name="dPrice"
                                 required placeholder="Discound Price">
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label>Description</label>
                             <input type="text" class="form-control" value="{{ old('description') }}"

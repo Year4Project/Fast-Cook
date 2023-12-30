@@ -45,6 +45,7 @@ class FoodOrderController extends Controller
                 'quantity' => $food['quantity'],
             ];
         }
+        
         // Attach food items to the order
         $order->foods()->attach($request->input('items'));
 

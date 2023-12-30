@@ -82,7 +82,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('owner/order/userOrder') }}">
+            <a class="nav-link" href="{{ url('owner/order/userOrder/'. Auth::user()->restaurant->id)}}">
                 <i class="fas fa-fw fa-book"></i>
                 <span>Order Food</span></a>
         </li>

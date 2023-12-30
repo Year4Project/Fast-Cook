@@ -12,18 +12,22 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function userOrder()
+    public function userOrder($restaurantId)
     {
         // Latest Orders Subquery
         $latestOrdersSubquery = DB::table('food_order')
             ->select(
                 'users.id as user_id',
+                'users.first_name',
+                'users.last_name',
                 'orders.restaurant_id',
                 DB::raw('MAX(food_order.id) as latest_order_id')
             )
             ->join('orders', 'food_order.order_id', '=', 'orders.id')
             ->join('users', 'orders.user_id', '=', 'users.id')
-            ->groupBy('users.id', 'orders.restaurant_id');
+            ->groupBy('users.id', 'users.first_name', 'users.last_name', 'orders.restaurant_id');
+
+
 
         // Main Eloquent Query
         $foodOrders = FoodOrder::with(['food', 'order.user', 'order.restaurant'])
@@ -33,16 +37,15 @@ class OrderController extends Controller
             ->join('orders', 'food_order.order_id', '=', 'orders.id')
             ->join('users', 'orders.user_id', '=', 'users.id')
             ->join('foods', 'food_order.food_id', '=', 'foods.id')
+            ->where('orders.restaurant_id', '=', $restaurantId)
             ->select(
                 'users.id as user_id',
                 'users.first_name',
                 'users.last_name',
                 'food_order.*',
                 'orders.restaurant_id',
-                'foods.oPrice',
-                'foods.dPrice',
-                DB::raw('SUM(food_order.quantity) as total_quantity'),
-                DB::raw('SUM(food_order.quantity * (foods.oPrice - foods.dPrice)) as price_discound') // Calculate total price
+                'foods.price',
+                DB::raw('SUM(food_order.quantity *  foods.price) as price_discount') // Calculate total price
             )
             ->groupBy('users.id', 'users.first_name', 'users.last_name', 'food_order.id', 'orders.restaurant_id')
             ->orderBy('orders.id', 'DESC')
@@ -52,17 +55,38 @@ class OrderController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function listFoodUser($id)
+    public function showUserOrderDetails($orderId)
     {
-
-        $data['getOrderUser'] = Order::getOrderUser($id);
-        $data['header_title'] = 'Get Order';
-
-        return view('owner.order.listFoodUser', $data);
+        $orderDetails = FoodOrder::with(['food', 'order.user', 'order.restaurant'])
+            ->join('orders', 'food_order.order_id', '=', 'orders.id')
+            ->join('users', 'orders.user_id', '=', 'users.id')
+            ->join('foods', 'food_order.food_id', '=', 'foods.id')
+            ->select(
+                'users.id as user_id',
+                'users.first_name',
+                'users.last_name',
+                'food_order.*',
+                'orders.restaurant_id',
+                'foods.*',
+                'foods.name', 
+                DB::raw('SUM(food_order.quantity * foods.price) AS total_price')
+            )
+            ->where('food_order.id', $orderId)
+            ->groupBy('users.id', 'users.first_name', 'users.last_name', 'food_order.id', 'orders.restaurant_id', 'foods.price')
+            ->first();
+    
+            // dd($orderDetails->toArray());
+        if (!$orderDetails) {
+            // Handle the case where the order ID is not found
+            abort(404, 'Order not found');
+        }
+    
+        return view('owner.order.detailOrder', compact('orderDetails'));
     }
+    
+
+    
+
 
 
     /**

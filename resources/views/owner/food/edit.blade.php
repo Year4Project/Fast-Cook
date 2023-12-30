@@ -34,18 +34,18 @@
                   <div class="row">
                     <div class="col-6">
                       <div class="form-group">
-                        <label>Original Price</label>
-                        <input type="number" class="form-control" value="{{ old('oPrice',$getRecord->oPrice)}}" name="oPrice" required>
+                        <label>Price</label>
+                        <input type="number" class="form-control" value="{{ old('price',$getRecord->oPrice)}}" name="price" required>
                         {{-- <div style="color: red">{{ $errors->first('email')}}</div> --}}
                       </div>
                       
                     </div>
-                    <div class="col-6">
+                    {{-- <div class="col-6">
                       <div class="form-group">
                         <label>Discound Price</label>
                         <input type="number" class="form-control" value="{{ old('dPrice',$getRecord->dPrice)}}" name="dPrice" required>
                       </div>
-                    </div>
+                    </div> --}}
                   </div>
                   <div class="form-group">
                     <label>Description</label>

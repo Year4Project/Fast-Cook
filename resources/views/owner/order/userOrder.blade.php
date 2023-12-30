@@ -19,8 +19,8 @@
             </div>
             <div id="app">
                 <order-component></order-component>
-              </div>
-              <script>
+            </div>
+            <script>
                 // Initialize Laravel Echo
                 const echo = new Echo({
                     broadcaster: 'pusher',
@@ -28,17 +28,17 @@
                     cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
                     encrypted: true,
                 });
-        
+
                 // Listen for the OrderCreated event
                 echo.channel('orders')
                     .listen('OrderCreated', (event) => {
                         console.log('OrderCreated event received:', event);
-        
+
                         // Update the content on the client side with the new order data
                         // For example, you can manipulate the DOM or use a frontend framework
                     });
             </script>
-             
+
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
@@ -54,32 +54,48 @@
                                 <th>Total Price</th>
                                 <th>Payment</th>
                                 <th>Created At</th>
+                                <th>Action</th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($foodOrders as $foodOrder)
+                            @if ($foodOrders->isEmpty())
                                 <tr>
-                                    <td>{{ $foodOrder->id }}</td>
-                                    <td>{{ $foodOrder->first_name }}{{ $foodOrder->last_name }}</td>
-                                    <td>{{ $foodOrder->food->name }}</td>
-                                    <td>{{ $foodOrder->order->table_no }}</td>
-                                    <td>{{ $foodOrder->order->remark }}</td>
-                                    <td>{{ $foodOrder->order->quantity }}</td>
-                                    <td>{{ $foodOrder->food->oPrice }}</td>
-                                    <td>{{ $foodOrder->total_price }}</td>
-                                    <td>Pay Online</td>
-                                    <td>{{ $foodOrder->order->created_at }}</td>
+                                    <td colspan="11">
+                                        <div style="margin-top: 50px; text-align: center;">No records found.</div>
+                                    </td>
                                 </tr>
-                            @endforeach
+                            @else
+                                @foreach ($foodOrders as $foodOrder)
+                                    <tr>
+                                        <td>{{ $foodOrder->id }}</td>
+                                        <td>{{ $foodOrder->first_name }}{{ $foodOrder->last_name }}</td>
+                                        <td>{{ $foodOrder->food->name }}</td>
+                                        <td>{{ $foodOrder->order->table_no }}</td>
+                                        <td>{{ $foodOrder->order->remark }}</td>
+                                        <td>{{ $foodOrder->order->quantity }}</td>
+                                        <td>{{ $foodOrder->food->price }}</td>
+                                        <td>{{ $foodOrder->price_discount }}</td>
+                                        <td>Pay Online</td>
+                                        <td>{{ $foodOrder->order->created_at }}</td>
+                                        <td>
+                                            <a href="{{ route('owner.order.details', ['orderId' => $foodOrder->id]) }}"
+                                                class="btn btn-primary">
+                                                <i class="fas fa-list"> View Details</i>
+                                            </a>
+
+                                            <a class="btn btn-success" href="{{ url('owner/order/print/') }}">
+                                                <i class="fas fa-print">Print</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                     {{ $foodOrders->links() }} <!-- Pagination links -->
                 </div>
             </div>
         </div>
-
     </div>
-     <!-- Include compiled JavaScript -->
-     {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
 @endsection

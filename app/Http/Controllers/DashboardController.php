@@ -32,6 +32,8 @@ class DashboardController extends Controller
                 $data['getStaff'] = Staff::getStaff()->count();
                 $data['getTables'] = Scen::where('restaurant_id',Auth::user()->restaurant->id)->count();
 
+                // $data['getIDRestaurant'] = Restaurant::getSingle(Auth::user()->restaurant->id);
+
                 return view('owner.dashboard',$data);
 
             }

@@ -71,9 +71,11 @@ Route::middleware('auth')->group(function () {
         Route::get('owner/food/delete/{id}', [FoodController::class, 'destroy'])->name('DeleteFood');
 
         // Order Food
-        Route::get('/owner/order/userOrder/', [OrderController::class, 'userOrder'])->name('userOrder');
-        Route::get('/owner/order/listFoodUser/{id}', [OrderController::class, 'listFoodUser'])->name('foodUserOrder');
-        Route::get('/owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
+        Route::get('/owner/order/userOrder/{restaurantId}', [OrderController::class, 'userOrder'])->name('owner.order.userOrder');
+
+        Route::get('/owner/order/details/{orderId}', [OrderController::class, 'showUserOrderDetails'])->name('owner.order.details');
+        // Route::get('/owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
+        
 
         // Staff
         Route::get('/owner/staff/listStaff', [StaffController::class, 'listStaff']);
