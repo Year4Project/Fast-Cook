@@ -109,20 +109,25 @@ class UserController extends Controller
     {
         try {
             // Get the authenticated user
-            $user = Auth::user();
+             // Verify and refresh the token
+        $user = JWTAuth::parseToken()->authenticate();
     
-            // Concatenate first_name and last_name to create fullName
-            $fullName = $user->first_name . ' ' . $user->last_name;
+            // Check if the user is authenticated
+            if (!$user) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'User not authenticated',
+                ], 401);
+            }
     
             // You can customize the data you want to return
             $profileData = [
                 'id' => $user->id,
-                'first_name' => $user->first_name,
-                'last_name' => $user->last_name,
-                'fullName' => $fullName, // Concatenated full name
-                'phone' => $user->phone,
-                'user_id' => $user->user_id,
-                'email' => $user->email,
+                'first_name' => $user->first_name ?? null,
+                'last_name' => $user->last_name ?? null,
+                'phone' => $user->phone ?? null,
+                'user_id' => $user->user_id ?? null,
+                'email' => $user->email ?? null,
                 // Add more fields as needed
             ];
     
@@ -140,6 +145,7 @@ class UserController extends Controller
             ], 500);
         }
     }
+    
     
     
 
