@@ -33,7 +33,7 @@ Route::middleware(['apikey', 'auth:api'])->group(function () {
     
 
     /**Route for orders foods */
-    Route::resource('restaurants.orders', FoodOrderController::class);
+    Route::post('order', [FoodOrderController::class,'store']);
     /**Route for refresh-token */
     Route::get('/refresh-token', [UserController::class, 'refreshToken']);
     /**Route for logout API */

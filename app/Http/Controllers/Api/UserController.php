@@ -116,7 +116,8 @@ class UserController extends Controller
             // You can customize the data you want to return in the profile
             $profile = [
                 'id'    => $user->id,
-                'name'  => $user->name,
+                'first_name'  => $user->first_name,
+                'last_name'  => $user->last_name,
                 'email' => $user->email,
                 'phone' => $user->phone,
                 // Add more fields as needed
