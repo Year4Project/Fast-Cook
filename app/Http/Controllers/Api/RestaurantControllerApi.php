@@ -28,14 +28,14 @@ class RestaurantControllerApi extends Controller
         if ($food->count() > 0) {
 
             return response()->json([
-                'status' => "True",
+                'status' => true,
                 'message' => "Successfully list food",
                 'data' => $food,
                 'user' => $user
             ], 200);
         } else {
             return response()->json([
-                'status' => "False",
+                'status' => false,
                 'message' => 'No Records Found'
             ], 404);
         }
@@ -73,13 +73,13 @@ class RestaurantControllerApi extends Controller
             if ($order) {
 
                 return response()->json([
-                    'status' => "true",
+                    'status' => true,
                     'Orders' => "Order Created Successfully"
                 ], 200);
             } else {
 
                 return response()->json([
-                    'status' => 500,
+                    'status' => false,
                     'message' => 'Something Went Wrong'
                 ], 500);
             }
