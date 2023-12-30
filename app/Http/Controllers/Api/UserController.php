@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -105,47 +106,28 @@ class UserController extends Controller
 
 
     // User Profile
-    public function profile()
+   
+
+    public function profile(Request $request)
     {
         try {
-            // Get the authenticated user
-             // Verify and refresh the token
-        $user = JWTAuth::parseToken()->authenticate();
-    
-            // Check if the user is authenticated
-            if (!$user) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'User not authenticated',
-                ], 401);
-            }
-    
-            // You can customize the data you want to return
-            $profileData = [
-                'id' => $user->id,
-                'first_name' => $user->first_name ?? null,
-                'last_name' => $user->last_name ?? null,
-                'phone' => $user->phone ?? null,
-                'user_id' => $user->user_id ?? null,
-                'email' => $user->email ?? null,
+            $user = JWTAuth::parseToken()->authenticate();
+
+            // You can customize the data you want to return in the profile
+            $profile = [
+                'id'    => $user->id,
+                'name'  => $user->name,
+                'email' => $user->email,
+                'phone' => $user->phone,
                 // Add more fields as needed
             ];
-    
-            return response()->json([
-                'status' => true,
-                'message' => 'User profile retrieved successfully',
-                'data' => $profileData,
-            ], 200);
-    
+
+            return response()->json(['profile' => $profile], 200);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Failed to retrieve user profile',
-                'error' => $e->getMessage(),
-            ], 500);
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
-    
+
     
     
 

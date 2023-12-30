@@ -17,7 +17,6 @@ class FoodOrderController extends Controller
             'items' => 'required|array',
             'items.*.food_id' => 'required|exists:foods,id',
             'items.*.quantity' => 'required|integer|min:1',
-            'quantity' => 'required|integer|min:1',
             'table_no' => 'required|integer|min:1',
             'remark' => 'nullable|string',
         ]);
@@ -30,7 +29,6 @@ class FoodOrderController extends Controller
             'user_id' => $user->id,
             'restaurant_id' => $restaurantId,
             'items' => $request->input('items'),
-            'quantity' => $request->input('quantity'),
             'table_no' => $request->input('table_no'),
             'remark' => $request->input('remark'),
         ]);
@@ -49,25 +47,19 @@ class FoodOrderController extends Controller
         // Attach food items to the order
         $order->foods()->attach($request->input('items'));
 
-
         // Transform the order data for response
         $responseData = [
             'user_id' => $user->id,
             'items' => $order->items,
-            'quantity' => $order->quantity,
             'table_no' => $order->table_no,
             'remark' => $order->remark,
         ];
 
-        // Dispatch the OrderCreated event
-        // In your controller
-        // event(new OrderCreated($responseData));
-
         // Return a JSON response
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'message' => 'Order food successfully',
-            'order' => $responseData,
+            'data' => $responseData,
         ], 201);
     }
 

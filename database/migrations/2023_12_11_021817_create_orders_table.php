@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('restaurant_id');
             $table->json('items');
-            $table->integer('quantity');
             $table->integer('table_no');
             $table->string('remark')->nullable();
             $table->timestamps();
