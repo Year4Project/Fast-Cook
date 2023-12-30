@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Food;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,36 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RestaurantControllerApi extends Controller
 {
+    public function getAllFood(Request $r)
+    {
+        $user = JWTAuth::user();
+    
+        $food = Food::query();
+    
+        // for searching
+        if ($r->keyword) {
+            $food->where('name', 'LIKE', "%$r->keyword%")
+                ->orWhere('dPrice', $r->keyword);
+        }
+    
+        $food = $food->get();
+    
+        if ($food->count() > 0) {
+            return response()->json([
+                'status' => true,
+                'message' => "Successfully list food",
+                'data' => $food,
+                'user' => $user
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Records Found'
+            ], 404);
+        }
+    }
+    
+
 
     public function getListFood(Request $r, $id)
     {

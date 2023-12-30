@@ -72,18 +72,25 @@ class FoodOrderController extends Controller
     }
 
     // Get all images
-    public function getAllFood()
-    {
-        // Retrieve all food items from the database
-        $foods = Food::all();
-
-    
-
+   public function getAllFood()
+{
+    try {
+        // ... (existing code)
+        $foodData = Food::all();
         // Return a JSON response
         return response()->json([
-            'status' => 'success',
-            'data' => $foods,
+            'status' => true,
+            'data' => $foodData,
         ]);
+    } catch (\Exception $e) {
+
+        // Return an error response
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Failed to fetch food items',
+        ], 500);
     }
+}
+
 
 }

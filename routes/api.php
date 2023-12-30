@@ -28,7 +28,7 @@ Route::middleware(['apikey', 'auth:api'])->group(function () {
     Route::post('/profile', [UserController::class, "profile"]);
 
     /**Route for list Foods */
-    Route::get('getFood', [FoodOrderController::class, 'getAllFood']);
+    Route::get('get-food', [RestaurantControllerApi::class, 'getAllFood']);
     Route::get('listFood/{id}', [RestaurantControllerApi::class, 'getListFood']);
     
 
