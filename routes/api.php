@@ -26,8 +26,12 @@ Route::middleware(['apikey', 'auth:api'])->group(function () {
 
     /**Route for View Profile */
     Route::post('/profile', [UserController::class, "profile"]);
+
     /**Route for list Foods */
+    Route::get('getFood', [FoodOrderController::class, 'getAllFood']);
     Route::get('listFood/{id}', [RestaurantControllerApi::class, 'getListFood']);
+    
+
     /**Route for orders foods */
     Route::resource('restaurants.orders', FoodOrderController::class);
     /**Route for refresh-token */

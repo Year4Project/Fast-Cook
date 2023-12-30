@@ -45,7 +45,7 @@ class FoodOrderController extends Controller
                 'quantity' => $food['quantity'],
             ];
         }
-        
+
         // Attach food items to the order
         $order->foods()->attach($request->input('items'));
 
@@ -62,7 +62,7 @@ class FoodOrderController extends Controller
         // Dispatch the OrderCreated event
         // In your controller
         // event(new OrderCreated($responseData));
-       
+
         // Return a JSON response
         return response()->json([
             'status' => 'success',
@@ -72,5 +72,18 @@ class FoodOrderController extends Controller
     }
 
     // Get all images
+    public function getAllFood()
+    {
+        // Retrieve all food items from the database
+        $foods = Food::all();
+
     
+
+        // Return a JSON response
+        return response()->json([
+            'status' => 'success',
+            'data' => $foods,
+        ]);
+    }
+
 }

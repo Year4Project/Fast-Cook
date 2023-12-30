@@ -75,13 +75,13 @@ class UserController extends Controller
 
         // data validation
         $request->validate([
-            "email" => "required|email",
+            "phone" => "required",
             "password" => "required"
         ]);
 
         // JWTAuth
         $token = JWTAuth::attempt([
-            "email" => $request->email,
+            "phone" => $request->phone,
             "password" => $request->password
         ]);
 
