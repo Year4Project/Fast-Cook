@@ -18,10 +18,17 @@ class RestaurantControllerApi extends Controller
     
         $food = Food::query();
     
+        // Add join with the restaurant table
+        $food->join('restaurants', 'foods.restaurant_id', '=', 'restaurants.id');
+    
+        // Select the columns you want
+        $food->select('foods.*', 'restaurants.name as restaurant_name');
+    
         // for searching
         if ($r->keyword) {
-            $food->where('name', 'LIKE', "%$r->keyword%")
-                ->orWhere('dPrice', $r->keyword);
+            $food->where('foods.name', 'LIKE', "%$r->keyword%")
+                ->orWhere('foods.dPrice', $r->keyword)
+                ->orWhere('restaurants.name', 'LIKE', "%$r->keyword%");
         }
     
         $food = $food->get();
@@ -40,6 +47,7 @@ class RestaurantControllerApi extends Controller
             ], 404);
         }
     }
+    
     
 
 
