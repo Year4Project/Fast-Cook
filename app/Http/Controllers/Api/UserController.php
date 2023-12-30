@@ -106,18 +106,42 @@ class UserController extends Controller
 
     // User Profile
     public function profile()
-{
-    try {
-        // Attempt to authenticate the user using the provided JWT token
-        $user = JWTAuth::parseToken()->authenticate();
-    } catch (\Exception $e) {
-        // If authentication fails, return an 'Unauthorized' response with a 401 status code
-        return response()->json(['error' => 'Unauthorized'], 401);
+    {
+        try {
+            // Get the authenticated user
+            $user = Auth::user();
+    
+            // Concatenate first_name and last_name to create fullName
+            $fullName = $user->first_name . ' ' . $user->last_name;
+    
+            // You can customize the data you want to return
+            $profileData = [
+                'id' => $user->id,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'fullName' => $fullName, // Concatenated full name
+                'phone' => $user->phone,
+                'user_id' => $user->user_id,
+                'email' => $user->email,
+                // Add more fields as needed
+            ];
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'User profile retrieved successfully',
+                'data' => $profileData,
+            ], 200);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to retrieve user profile',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
-
-    // If authentication is successful, return the user data in a JSON response
-    return response()->json($user);
-}
+    
+    
 
 
     // To generate refresh token value
