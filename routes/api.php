@@ -26,6 +26,7 @@ Route::middleware(['apikey', 'auth:api'])->group(function () {
 
     /**Route for View Profile */
     Route::post('/profile', [UserController::class, "profile"]);
+    Route::put('/profile/update', [UserController::class, "updateProfile"]);
 
     /**Route for list Foods */
     Route::get('get-food', [RestaurantControllerApi::class, 'getAllFood']);
@@ -38,4 +39,5 @@ Route::middleware(['apikey', 'auth:api'])->group(function () {
     Route::get('/refresh-token', [UserController::class, 'refreshToken']);
     /**Route for logout API */
     Route::post('/logout', [UserController::class, 'logout']);
+    
 });

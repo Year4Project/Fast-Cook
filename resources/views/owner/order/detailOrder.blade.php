@@ -21,7 +21,7 @@
             <div id="app">
                 <order-component></order-component>
             </div>
-            <script>
+            {{-- <script>
                 // Initialize Laravel Echo
                 const echo = new Echo({
                     broadcaster: 'pusher',
@@ -38,7 +38,7 @@
                         // Update the content on the client side with the new order data
                         // For example, you can manipulate the DOM or use a frontend framework
                     });
-            </script>
+            </script> --}}
 
             <div class="card-body">
                 <div class="table-responsive">
@@ -70,7 +70,7 @@
                                 <td><img class="rounded-circle" height="75" width="75" src="{{ asset('/upload/food/' . $orderDetails->image) }}" alt=""></td>
                                 <th>{{ $orderDetails->code }}</th>
                                 <td>{{ $orderDetails->food->name }}</td>
-                                <th>{{ $orderDetails->order->quantity }}</th>
+                                <th>{{ $orderDetail->quantity }}</th>
                                 <th>{{ $orderDetails->price }}</th>
                                 <th>{{ $orderDetails->total_price }}</th>
                             </tr>

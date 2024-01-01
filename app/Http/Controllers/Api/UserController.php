@@ -106,7 +106,7 @@ class UserController extends Controller
 
 
     // User Profile
-   
+
 
     public function profile(Request $request)
     {
@@ -120,6 +120,7 @@ class UserController extends Controller
                 'last_name'  => $user->last_name,
                 'email' => $user->email,
                 'phone' => $user->phone,
+                'image'      => $this->getImageBase64($user->image_url),
                 // Add more fields as needed
             ];
 
@@ -129,8 +130,77 @@ class UserController extends Controller
         }
     }
 
-    
-    
+    public function updateProfile(Request $request)
+    {
+        try {
+            // Dump and die to inspect the request data
+            dd($request->all());
+
+            // Authenticate the user using JWT
+            $user = JWTAuth::parseToken()->authenticate();
+
+            // Validate the incoming request data
+            $request->validate([
+                'first_name' => 'string|max:255',
+                'last_name' => 'string|max:255',
+                'email' => 'email|max:255|unique:users,email,' . $user->id,
+                'phone' => 'string|max:20',
+                'image_url' => 'url|nullable',
+            ]);
+
+            // Update user data
+            $user->update([
+                'first_name' => $request->input('first_name', $user->first_name),
+                'last_name' => $request->input('last_name', $user->last_name),
+                'email' => $request->input('email', $user->email),
+                'phone' => $request->input('phone', $user->phone),
+                'image_url' => $request->input('image_url', $user->image_url),
+                // Add more fields as needed
+            ]);
+
+            // Optionally, you can refresh the user model to get the updated data
+            $user = $user->fresh();
+
+            // Return the updated profile
+            $profile = [
+                'id' => $user->id,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'image' => $this->getImageBase64($user->image_url),
+                // Add more fields as needed
+            ];
+
+            return response()->json(['profile' => $profile], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+    }
+
+
+    private function getImageBase64($imageUrl)
+    {
+        try {
+            // Check if the image URL is not empty
+            if (!empty($imageUrl)) {
+                // Fetch the image content
+                $imageContent = file_get_contents($imageUrl);
+
+                // Convert the image content to base64
+                $base64Image = base64_encode($imageContent);
+
+                return $base64Image;
+            }
+
+            return null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+
+
 
 
     // To generate refresh token value

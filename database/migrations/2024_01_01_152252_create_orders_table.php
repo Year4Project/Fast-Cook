@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('restaurant_id');
+            $table->integer('restaurant_id');
             $table->json('items');
             $table->integer('table_no');
             $table->string('remark')->nullable();
+            $table->integer('total_quantity')->default(0);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('restaurant_id')->references('id')->on('restaurants');
         });
     }
 

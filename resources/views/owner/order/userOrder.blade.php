@@ -43,7 +43,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
                         <thead class="table-dark">
-                            <tr>
+                            <tr class="text-center">
                                 <th>ID</th>
                                 <th>User Name</th>
                                 <th>Food Name</th>
@@ -67,18 +67,18 @@
                                 </tr>
                             @else
                                 @foreach ($foodOrders as $foodOrder)
-                                    <tr>
-                                        <td>{{ $foodOrder->id }}</td>
-                                        <td>{{ $foodOrder->first_name }}{{ $foodOrder->last_name }}</td>
-                                        <td>{{ $foodOrder->food->name }}</td>
-                                        <td>{{ $foodOrder->order->table_no }}</td>
-                                        <td>{{ $foodOrder->order->remark }}</td>
-                                        <td>{{ $foodOrder->order->quantity }}</td>
-                                        <td>{{ $foodOrder->food->price }}</td>
-                                        <td>{{ $foodOrder->price_discount }}</td>
-                                        <td>Pay Online</td>
-                                        <td>{{ $foodOrder->order->created_at }}</td>
-                                        <td>
+                                    <tr class="text-center">
+                                        <td class="align-middle">{{ $foodOrder->id }}</td>
+                                        <td class="align-middle">{{ $foodOrder->first_name }}{{ $foodOrder->last_name }}</td>
+                                        <td class="align-middle">{{ $foodOrder->food->name }}</td>
+                                        <td class="align-middle">{{ $foodOrder->order->table_no }}</td>
+                                        <td class="align-middle">{{ $foodOrder->order->remark }}</td>
+                                        <td class="align-middle">{{ $foodOrder->total_quantity }}</td>
+                                        <td class="align-middle">{{ $foodOrder->food->price }}</td>
+                                        <td class="align-middle">{{ $foodOrder->price_total }}</td>
+                                        <td class="align-middle">Pay Online</td>
+                                        <td class="align-middle">{{ $foodOrder->order->created_at }}</td>
+                                        <td class="align-middle">
                                             <a href="{{ route('owner.order.details', ['orderId' => $foodOrder->id]) }}"
                                                 class="btn btn-primary">
                                                 <i class="fas fa-list"> View Details</i>

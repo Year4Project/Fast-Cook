@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
 
 class Order extends Model
 {
@@ -19,6 +17,7 @@ class Order extends Model
         'quantity',
         'table_no',
         'remark',
+        'total_quantity'
         
     ];
     protected $casts = [

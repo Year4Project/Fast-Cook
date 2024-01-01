@@ -44,8 +44,9 @@ class OrderController extends Controller
                 'users.last_name',
                 'food_order.*',
                 'orders.restaurant_id',
+                'orders.total_quantity',
                 'foods.price',
-                DB::raw('SUM(food_order.quantity *  foods.price) as price_discount') // Calculate total price
+                DB::raw('SUM(food_order.quantity *  foods.price) as price_total') // Calculate total price
             )
             ->groupBy('users.id', 'users.first_name', 'users.last_name', 'food_order.id', 'orders.restaurant_id')
             ->orderBy('orders.id', 'DESC')
@@ -69,10 +70,11 @@ class OrderController extends Controller
                 'orders.restaurant_id',
                 'foods.*',
                 'foods.name', 
+                'food_order.quantity',
                 DB::raw('SUM(food_order.quantity * foods.price) AS total_price')
             )
             ->where('food_order.id', $orderId)
-            ->groupBy('users.id', 'users.first_name', 'users.last_name', 'food_order.id', 'orders.restaurant_id', 'foods.price')
+            ->groupBy('users.id', 'users.first_name', 'users.last_name', 'food_order.id','food_order.quantity', 'orders.restaurant_id', 'foods.price')
             ->first();
     
             // dd($orderDetails->toArray());
