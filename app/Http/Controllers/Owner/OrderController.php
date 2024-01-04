@@ -58,7 +58,7 @@ class OrderController extends Controller
 
     public function showUserOrderDetails($orderId)
     {
-        $orderDetails = FoodOrder::with(['food', 'order.user', 'order.restaurant'])
+        $orderDetails = FoodOrder::with(['food', 'order.user', 'order.restaurant','order.food'])
             ->join('orders', 'food_order.order_id', '=', 'orders.id')
             ->join('users', 'orders.user_id', '=', 'users.id')
             ->join('foods', 'food_order.food_id', '=', 'foods.id')
@@ -67,17 +67,20 @@ class OrderController extends Controller
                 'users.first_name',
                 'users.last_name',
                 'food_order.*',
+                'food_order.id',
                 'orders.restaurant_id',
                 'foods.*',
-                'foods.name', 
+                'foods.name',
+                'foods.image',
                 'food_order.quantity',
+                'food_order.food_id',
                 DB::raw('SUM(food_order.quantity * foods.price) AS total_price')
             )
             ->where('food_order.id', $orderId)
-            ->groupBy('users.id', 'users.first_name', 'users.last_name', 'food_order.id','food_order.quantity', 'orders.restaurant_id', 'foods.price')
+            ->groupBy('users.id', 'users.first_name', 'users.last_name', 'food_order.id','food_order.quantity', 'orders.restaurant_id', 'foods.price','foods.image')
             ->first();
     
-            // dd($orderDetails->toArray());
+            // dd($orderDeetails->toArray());
         if (!$orderDetails) {
             // Handle the case where the order ID is not found
             abort(404, 'Order not found');

@@ -10,6 +10,12 @@ class FoodOrder extends Model
 {
     use HasFactory;
     protected $table = 'food_order';
+
+    protected $fillable = [
+        'food_id',
+        'order_id',
+        
+    ];
     public $timestamps = true;
 
     public function food()

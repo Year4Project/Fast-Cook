@@ -20,7 +20,7 @@
             <div id="app">
                 <order-component></order-component>
             </div>
-            <script>
+            {{-- <script>
                 // Initialize Laravel Echo
                 const echo = new Echo({
                     broadcaster: 'pusher',
@@ -37,7 +37,7 @@
                         // Update the content on the client side with the new order data
                         // For example, you can manipulate the DOM or use a frontend framework
                     });
-            </script>
+            </script> --}}
 
             <div class="card-body">
                 <div class="table-responsive">
@@ -46,12 +46,12 @@
                             <tr class="text-center">
                                 <th>ID</th>
                                 <th>User Name</th>
-                                <th>Food Name</th>
+                                {{-- <th>Food Name</th> --}}
                                 <th>Table No</th>
                                 <th>Remark</th>
                                 <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Total Price</th>
+                                {{-- <th>Price</th> --}}
+                                {{-- <th>Total Price</th> --}}
                                 <th>Payment</th>
                                 <th>Created At</th>
                                 <th>Action</th>
@@ -70,12 +70,12 @@
                                     <tr class="text-center">
                                         <td class="align-middle">{{ $foodOrder->id }}</td>
                                         <td class="align-middle">{{ $foodOrder->first_name }}{{ $foodOrder->last_name }}</td>
-                                        <td class="align-middle">{{ $foodOrder->food->name }}</td>
+                                        {{-- <td class="align-middle">{{ $foodOrder->food->name }}</td> --}}
                                         <td class="align-middle">{{ $foodOrder->order->table_no }}</td>
                                         <td class="align-middle">{{ $foodOrder->order->remark }}</td>
                                         <td class="align-middle">{{ $foodOrder->total_quantity }}</td>
-                                        <td class="align-middle">{{ $foodOrder->food->price }}</td>
-                                        <td class="align-middle">{{ $foodOrder->price_total }}</td>
+                                        {{-- <td class="align-middle">{{ $foodOrder->food->price }}</td> --}}
+                                        {{-- <td class="align-middle">{{ $foodOrder->price_total }}</td> --}}
                                         <td class="align-middle">Pay Online</td>
                                         <td class="align-middle">{{ $foodOrder->order->created_at }}</td>
                                         <td class="align-middle">
