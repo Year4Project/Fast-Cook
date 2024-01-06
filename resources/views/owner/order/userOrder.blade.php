@@ -46,36 +46,30 @@
                             <tr class="text-center">
                                 <th>ID</th>
                                 <th>User Name</th>
-                                {{-- <th>Food Name</th> --}}
                                 <th>Table No</th>
                                 <th>Remark</th>
                                 <th>Quantity</th>
-                                {{-- <th>Price</th> --}}
-                                {{-- <th>Total Price</th> --}}
                                 <th>Payment</th>
                                 <th>Created At</th>
                                 <th>Action</th>
-
+                                <th>dsd</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($foodOrders->isEmpty())
+                            @if ($getOrderUser->isEmpty())
                                 <tr>
                                     <td colspan="11">
                                         <div style="margin-top: 50px; text-align: center;">No records found.</div>
                                     </td>
                                 </tr>
                             @else
-                                @foreach ($foodOrders as $foodOrder)
+                                @foreach ($getOrderUser as $foodOrder)
                                     <tr class="text-center">
                                         <td class="align-middle">{{ $foodOrder->id }}</td>
                                         <td class="align-middle">{{ $foodOrder->first_name }}{{ $foodOrder->last_name }}</td>
-                                        {{-- <td class="align-middle">{{ $foodOrder->food->name }}</td> --}}
                                         <td class="align-middle">{{ $foodOrder->order->table_no }}</td>
                                         <td class="align-middle">{{ $foodOrder->order->remark }}</td>
                                         <td class="align-middle">{{ $foodOrder->total_quantity }}</td>
-                                        {{-- <td class="align-middle">{{ $foodOrder->food->price }}</td> --}}
-                                        {{-- <td class="align-middle">{{ $foodOrder->price_total }}</td> --}}
                                         <td class="align-middle">Pay Online</td>
                                         <td class="align-middle">{{ $foodOrder->order->created_at }}</td>
                                         <td class="align-middle">
@@ -88,12 +82,13 @@
                                                 <i class="fas fa-print">Print</i>
                                             </a>
                                         </td>
+                                        <td class="align-middle">{{ $foodOrder->total_price }}</td>
                                     </tr>
                                 @endforeach
                             @endif
                         </tbody>
                     </table>
-                    {{ $foodOrders->links() }} <!-- Pagination links -->
+                    {{-- {{ $foodOrders->links() }} <!-- Pagination links --> --}}
                 </div>
             </div>
         </div>

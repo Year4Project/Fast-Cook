@@ -71,7 +71,7 @@ Route::middleware('auth')->group(function () {
         Route::get('owner/food/delete/{id}', [FoodController::class, 'destroy'])->name('DeleteFood');
 
         // Order Food
-        Route::get('/owner/order/userOrder/{restaurantId}', [OrderController::class, 'userOrder'])->name('owner.order.userOrder');
+        Route::get('/owner/order/userOrder', [OrderController::class, 'userOrder'])->name('owner.order.userOrder');
 
         Route::get('/owner/order/details/{orderId}', [OrderController::class, 'showUserOrderDetails'])->name('owner.order.details');
         // Route::get('/owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
@@ -98,7 +98,7 @@ Route::middleware('auth')->group(function () {
 
 
         // Profile Settings
-        Route::get('owner/profile/profile/{id}', [ProfileController::class, 'profile']);
+        Route::get('owner/profile/profile', [ProfileController::class, 'profile']);
     });
 
     // Route::group(['middleware' => 'user'], function () {

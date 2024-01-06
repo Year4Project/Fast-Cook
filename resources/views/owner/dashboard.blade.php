@@ -108,7 +108,7 @@
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
                                         SALES</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                 </div>
                                 <div class="col-auto me-4">
                                     <i class="fas fa-dollar-sign fa-2x text-black-300"></i>
@@ -130,33 +130,48 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead class="table-dark">
                                         <tr>
-                                            <th>#</th>
-                                            <th>Customer Name</th>
+                                            <th>ID</th>
+                                            <th>User Name</th>
+                                            <th>Table No</th>
+                                            <th>Remark</th>
                                             <th>Quantity</th>
-                                            <th>Table Note</th>
-                                            <th>Remak</th>
-                                            <th>Payment Mode</th>
-                                            <th>Ordered Date</th>
+                                            <th>Payment</th>
+                                            <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- @foreach ($getRecord as $orders)
-                                <tr>
-                                    <td>{{ $orders->id }}</td>
-                                    <td>{{ $orders->first_name }} {{ $orders->last_name }}</td>
-                                    <td>{{ $orders->quantity }}</td>
-                                    <td>{{ $orders->table_no }}</td>
-                                    <td>{{ $orders->remark }}</td>
-                                    <td></td>
-                                    <td>{{ date('d,M,Y | h:i A', strtotime($orders->created_at)) }}</td>
-                                    <td>
-                                        <a class="nav-link" href="{{ url('owner/order/listFoodUser/'.$orders->id) }}">
-                                            <i class="fas fa-list">  List Order</i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                @endforeach --}}
+                                        @if ($getOrderUser->isEmpty())
+                                            <tr>
+                                                <td colspan="11">
+                                                    <div style="margin-top: 50px; text-align: center;">No records found.
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @else
+                                            @foreach ($getOrderUser as $foodOrder)
+                                                <tr class="text-center">
+                                                    <td class="align-middle">{{ $foodOrder->id }}</td>
+                                                    <td class="align-middle">
+                                                        {{ $foodOrder->first_name }}{{ $foodOrder->last_name }}</td>
+                                                    <td class="align-middle">{{ $foodOrder->order->table_no }}</td>
+                                                    <td class="align-middle">{{ $foodOrder->order->remark }}</td>
+                                                    <td class="align-middle">{{ $foodOrder->total_quantity }}</td>
+                                                    <td class="align-middle">Pay Online</td>
+                                                    <td class="align-middle">{{ $foodOrder->order->created_at }}</td>
+                                                    <td class="align-middle">
+                                                        <a href="{{ route('owner.order.details', ['orderId' => $foodOrder->id]) }}"
+                                                            class="btn btn-primary">
+                                                            <i class="fas fa-list"> View Details</i>
+                                                        </a>
+
+                                                        <a class="btn btn-success" href="{{ url('owner/order/print/') }}">
+                                                            <i class="fas fa-print">Print</i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

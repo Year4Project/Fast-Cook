@@ -82,7 +82,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('owner/order/userOrder/'. Auth::user()->restaurant->id)}}">
+            <a class="nav-link" href="{{ url('owner/order/userOrder/') }}">
                 <i class="fas fa-fw fa-book"></i>
                 <span>Order Food</span></a>
         </li>
@@ -120,7 +120,7 @@
                 <span>Report</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('owner/profile/profile/{id}') }}">
+            <a class="nav-link" href="{{ url('owner/profile/profile') }}">
                 <i class="fas fa-fw fa-user"></i>
                 <span>Profile</span></a>
         </li>

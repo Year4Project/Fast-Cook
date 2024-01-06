@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    public function profile($id){
-        $user = User::findOrFail($id)->first();
+    public function profile(){
+        $user = Auth::user();
+        // dd($user);
         return view('owner.profile.profile',compact('user'));
     }
 }

@@ -17,30 +17,25 @@ class DashboardController extends Controller
     {
         $data['header_title'] = 'Dashboard';
 
-        if (Auth::user()->user_type == 1)
-            {
-                $totalUser = User::count();
-                $totalRestaurant = Restaurant::count();
-                return view('admin.dashboard',$data, compact('totalUser', 'totalRestaurant'));
+        if (Auth::user()->user_type == 1) {
+            $totalUser = User::count();
+            $totalRestaurant = Restaurant::count();
+            return view('admin.dashboard', $data, compact('totalUser', 'totalRestaurant'));
+        } else if (Auth::user()->user_type == 2) {
+            $data['header_title'] = 'User Order Food';
+            $data['getOrder'] = Order::where('restaurant_id', Auth::user()->restaurant->id)->count();
+            $data['getFood'] = Food::where('restaurant_id', Auth::user()->restaurant->id)->count();
+            $data['getStaff'] = Staff::getStaff()->count();
+            $data['getTables'] = Scen::where('restaurant_id', Auth::user()->restaurant->id)->count();
 
-            } else if (Auth::user()->user_type == 2)
-            {
-                // $data['getRecord'] = Order::getOrder();
-                $data['header_title'] = 'User Order Food';
-                $data['getOrder'] = Order::where('restaurant_id', Auth::user()->restaurant->id)->count();
-                $data['getFood'] = Food::where('restaurant_id',Auth::user()->restaurant->id)->count();
-                $data['getStaff'] = Staff::getStaff()->count();
-                $data['getTables'] = Scen::where('restaurant_id',Auth::user()->restaurant->id)->count();
+            $data['getOrderUser'] = Order::getOrderUser();
+            // $data['totalPrice'] = Order::sum('total_price');
+            return view('owner.dashboard', $data);
+        }
+        // else if (Auth::user()->user_type == 3)
+        // {
+        //     return view('user.dashboard',$data);
 
-                // $data['getIDRestaurant'] = Restaurant::getSingle(Auth::user()->restaurant->id);
-
-                return view('owner.dashboard',$data);
-
-            }
-            // else if (Auth::user()->user_type == 3)
-            // {
-            //     return view('user.dashboard',$data);
-
-            // }
+        // }
     }
 }

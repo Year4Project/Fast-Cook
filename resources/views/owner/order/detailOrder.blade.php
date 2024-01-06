@@ -36,13 +36,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <h1>User Order Details</h1>
-
                             <p><strong>User:</strong> {{ $orderDetails->first_name }} {{ $orderDetails->last_name }}</p>
                             <p><strong>Order ID:</strong> {{ $orderDetails->id }}</p>
                             <p><strong>Table No:</strong> {{ $orderDetails->order->table_no }}</h2>
                             <p><strong>Remark:</strong> {{ $orderDetails->order->remark }}</h2>
                             <p><strong>Time Order:</strong> {{ $orderDetails->order->created_at }}</h6>
+                               
                                 @php $itemNumber = 1; @endphp
                                 @foreach ($orderDetails->order->items as $item)
                                 <tr>
@@ -56,7 +55,7 @@
                                     <td>{{ $item['food']->name }}</td>
                                     <td>{{ $item['quantity'] }}</td>
                                     <td>{{ $item['food']->price }}</td>
-                                    <td>{{ $orderDetails->total_price }}</td>
+                                    <td>{{ $item['quantity'] * $item['food']->price }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
