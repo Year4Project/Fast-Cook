@@ -31,6 +31,7 @@
                                 <th>Image</th>
                                 <th>Name</th>
                                 <th>Price</th>
+                                <th>Description</th>
                                 <th>Stock</th>
                                 <th>Create At</th>
                                 <th>Action</th>
@@ -52,6 +53,7 @@
                                             src="{{ $item->image_url }}" alt=""></td>
                                     <td class="align-middle">{{ $item->name }}</td>
                                     <td class="align-middle">{{ $item->price }}</td>
+                                    <td class="align-middle">{{ $item->description }}</td>
                                     <td class="align-middle">
                                         @if ($item->status == 1)
                                             <a href="{{ route('updateStatus', ['id' => $item->id]) }}"

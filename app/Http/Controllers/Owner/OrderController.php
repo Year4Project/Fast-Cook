@@ -37,13 +37,12 @@ class OrderController extends Controller
                 'orders.restaurant_id',
                 'foods.*',
                 'foods.name',
-                'foods.image',
                 'food_order.quantity',
                 'food_order.food_id',
                 DB::raw('SUM(food_order.quantity * foods.price) AS total_price')
             )
             ->where('food_order.id', $orderId)
-            ->groupBy('users.id', 'users.first_name', 'users.last_name', 'food_order.id', 'food_order.quantity', 'orders.restaurant_id', 'foods.price', 'foods.image')
+            ->groupBy('users.id', 'users.first_name', 'users.last_name', 'food_order.id', 'food_order.quantity', 'orders.restaurant_id', 'foods.price')
             ->first();
 
         // dd($orderDeetails->toArray());
