@@ -35,7 +35,7 @@
                     <div class="col-6">
                       <div class="form-group">
                         <label>Price</label>
-                        <input type="number" class="form-control" value="{{ old('price',$getRecord->oPrice)}}" name="price" required>
+                        <input type="number" class="form-control" value="{{ old('price',$getRecord->price)}}" name="price" required>
                         {{-- <div style="color: red">{{ $errors->first('email')}}</div> --}}
                       </div>
                       

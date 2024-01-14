@@ -49,7 +49,7 @@
                                     <td class="align-middle">{{ $item->id }}</td>
                                     <td class="align-middle">{{ $item->code }}</td>
                                     <td><img class="rounded-circle" height="75" width="75"
-                                            src="{{ asset('/upload/food/' . $item->image) }}" alt=""></td>
+                                            src="{{ $item->image_url }}" alt=""></td>
                                     <td class="align-middle">{{ $item->name }}</td>
                                     <td class="align-middle">{{ $item->price }}</td>
                                     <td class="align-middle">

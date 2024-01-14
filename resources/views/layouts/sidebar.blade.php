@@ -119,11 +119,11 @@
                 <i class="fas fa-receipt"></i>
                 <span>Report</span></a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link" href="{{ url('owner/profile/profile') }}">
                 <i class="fas fa-fw fa-user"></i>
                 <span>Profile</span></a>
-        </li>
+        </li> --}}
 
         {{-- @elseif(Auth::user()->user_type == 3)
     <li class="nav-item active">

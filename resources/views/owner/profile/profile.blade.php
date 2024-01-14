@@ -21,14 +21,11 @@
               </button>
         </div> --}}
                     <div class="card-body text-center">
-                            <div class="align-middle">
-                                <img src="{{ $user->image_url }}" alt="User Image">
-
-                            </div>
+                            <img src="{{ $user->image_url }}" class="img-fluid rounded-circle" height="150" width="150" alt="User Image">
                             <p class="mt-4"><strong>Full Name: </strong>{{ $user->first_name }} {{ $user->last_name }}</p>
                             <p><strong>Email: </strong>{{ $user->email }}</p>
                             <p><strong>Phone: </strong>{{ $user->phone }}</p>
-                      
+                            <a class="btn bg-gray" href="{{ url('/owner/profile/edit') }}">Edit</a>
                     </div>
                 </div>
             </div>

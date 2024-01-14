@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Food;
-use App\Models\Order;
-use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -43,7 +41,7 @@ class FoodController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'price' => 'required|numeric',
+            'price' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
         ]);
 
         $food = new Food();
@@ -65,8 +63,6 @@ class FoodController extends Controller
         
             // Move the uploaded image to the specified directory
             $file->move(public_path('upload/food/'), $filename);
-        
-            $food->image = $filename;
         
             // Generate the image URL
             $imageUrl = url('upload/food/' . $filename);
@@ -129,15 +125,16 @@ class FoodController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        request()->validate([
-            'name' => 'required',
+        $request->validate([
+            'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'oPrice' => 'required',
-            'dPrice' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'price' => 'required|numeric',
         ]);
 
         $food = Food::getSingle($id);
-
+        $user = Auth::user();
+        
         $food->name = $request->name;
         $food->description = $request->description;
 
@@ -146,15 +143,21 @@ class FoodController extends Controller
             $file = $request->file('image');
             $randomStr = date('Ymdhis') . Str::random(20);
             $filename = strtolower($randomStr) . '.' . $ext;
-            $file->move('upload/food/', $filename);
-
+        
+            // Move the uploaded image to the specified directory
+            $file->move(public_path('upload/food/'), $filename);
+        
             $food->image = $filename;
+        
+            // Generate the image URL
+            $imageUrl = url('upload/food/' . $filename);
+            $food->image_url = $imageUrl;
         }
-        $food->oPrice = $request->oPrice;
-        $food->dPrice = $request->dPrice;
-        $food->restaurant_id = Auth::user()->restaurant->id;
+
+        $food->price = $request->price;
+
+        $food->restaurant_id = $user->restaurant->id;
         $food->save();
-        // $restaurant->foods()->save($food);
 
         return redirect('owner/food/showFood')->with('success', "Food successfully Update.");
     }

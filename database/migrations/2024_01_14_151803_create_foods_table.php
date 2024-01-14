@@ -16,9 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('restaurant_id');
             $table->string('name')->nullable();
             $table->string('code')->nullable();
-            $table->integer('price')->nullable();
+            $table->decimal('price', 8, 2)->nullable();
             $table->text('description');
-            $table->string('image')->nullable();
             $table->integer('status')->default(1); // 0 Unavailable, 1 Available
             $table->string('image_url')->nullable();
             $table->timestamps();

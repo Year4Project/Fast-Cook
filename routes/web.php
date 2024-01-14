@@ -75,7 +75,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/owner/order/details/{orderId}', [OrderController::class, 'showUserOrderDetails'])->name('owner.order.details');
         // Route::get('/owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
-        
+
 
         // Staff
         Route::get('/owner/staff/listStaff', [StaffController::class, 'listStaff']);
@@ -98,7 +98,9 @@ Route::middleware('auth')->group(function () {
 
 
         // Profile Settings
-        Route::get('owner/profile/profile', [ProfileController::class, 'profile']);
+        Route::get('/owner/profile/profile', [ProfileController::class, 'profile'])->name('owner.profile');
+        Route::get('/owner/profile/edit', [ProfileController::class, 'edit'])->name('owner.profile.edit');
+        Route::put('/owner/profile/update', [ProfileController::class, 'update'])->name('owner.profile.update');
     });
 
     // Route::group(['middleware' => 'user'], function () {
