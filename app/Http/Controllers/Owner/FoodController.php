@@ -59,7 +59,7 @@ class FoodController extends Controller
             $ext = $request->file('image')->getClientOriginalExtension();
             $file = $request->file('image');
             $randomStr = date('Ymdhis') . Str::random(20);
-            $filename = strtolower($randomStr) . '.' . $ext;
+            $filename =     strtolower($randomStr) . '.' . $ext;
         
             // Move the uploaded image to the specified directory
             $file->move(public_path('upload/food/'), $filename);
