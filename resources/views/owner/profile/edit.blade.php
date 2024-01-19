@@ -1,30 +1,35 @@
-<!-- resources/views/profile/edit.blade.php -->
-
 @extends('layouts.app')
 
 @section('content')
     <div class="container-fluid">
 
-
-        <h1>Edit Profile</h1>
+        <div class="d-sm-flex align-items-center justify-content-between mt-4 mb-4">
+            <h1 class="h1 mb-0 text-gray-800">Edit Profile</h1>
+        </div>
 
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
-        <div class="row mt-4 justify-content-center">
-            <div class="col-4">
+
+        <div class="row justify-content-center">
+            <div class="col-lg-4">
                 <div class="card shadow mb-4">
                     <div class="card-body">
+
                         <form method="POST" action="{{ route('owner.profile.update') }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            <img src="{{ $user->image_url }}" class="img-fluid" alt="User Image">
-                            <div class="form-group mt-4">
-                                <!-- New image upload section -->
-                                <label for="image">Profile Image:</label>
-                                <input type="file" name="image" accept="image/*">
-                                <small class="text-muted">Leave empty to keep the current image.</small>
+
+                            <div class="text-center mb-4">
+                                <label for="imageInput">
+                                    <img src="{{ $user->image_url }}" class="img-fluid rounded-circle" alt="User Image"
+                                        style="width: 150px; height: 150px; cursor: pointer;">
+                                </label>
+                                <input type="file" id="imageInput" class="form-control-file" name="image" accept="image/*"
+                                    style="display: none;">
+                                <small class="form-text text-muted">Click the image to change profile picture</small>
                             </div>
+
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
@@ -42,23 +47,31 @@
                                 </div>
                             </div>
 
-
                             <div class="form-group">
                                 <label for="email">Email:</label>
                                 <input type="email" class="form-control" name="email" value="{{ $user->email }}"
                                     required>
                             </div>
+
                             <div class="form-group">
                                 <label for="phone">Phone:</label>
                                 <input type="text" class="form-control" name="phone" value="{{ $user->phone }}"
                                     required>
                             </div>
 
-                            <button type="submit">Update Profile</button>
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // JavaScript to handle image click
+        document.getElementById('imageInput').addEventListener('change', function () {
+            // You can add logic here to trigger form submission or handle the file change
+            // For example, this.form.submit();
+        });
+    </script>
 @endsection

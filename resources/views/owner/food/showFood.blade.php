@@ -32,6 +32,7 @@
                                 <th>Name</th>
                                 <th>Price</th>
                                 <th>Description</th>
+                                <th>Type</th>
                                 <th>Stock</th>
                                 <th>Create At</th>
                                 <th>Action</th>
@@ -45,42 +46,48 @@
                                     </td>
                                 </tr>
                             @else
-                            @foreach ($getFood as $item)
-                                <tr class="text-center">
-                                    <td class="align-middle">{{ $item->id }}</td>
-                                    <td class="align-middle">{{ $item->code }}</td>
-                                    <td><img class="rounded-circle" height="75" width="75"
-                                            src="{{ $item->image_url }}" alt=""></td>
-                                    <td class="align-middle">{{ $item->name }}</td>
-                                    <td class="align-middle">{{ $item->price }}</td>
-                                    <td class="align-middle">{{ $item->description }}</td>
-                                    <td class="align-middle">
-                                        @if ($item->status == 1)
-                                            <a href="{{ route('updateStatus', ['id' => $item->id]) }}"
-                                                onclick="return confirm('Are you Sure?')"
-                                                class="btn btn-sm btn-success">Active</a>
-                                        @else
-                                            <a href="{{ route('updateStatus', ['id' => $item->id]) }}"
-                                                onclick="return confirm('Are you Sure?')"
-                                                class="btn btn-sm btn-danger">InActive</a>
-                                        @endif
-                                    </td>
-                                    <td class="align-middle">{{ date('d,M,Y | h:i A', strtotime($item->created_at)) }}</td>
-                                    <td class="align-middle text-center">
-                                        {{-- edit --}}
-                                        <a class="btn btn-md btn-circle btn-outline-info"
-                                            href="{{ url('owner/food/edit/' . $item->id) }}">
-                                            <i class="fas fa-fw fa-edit"></i>
-                                        </a>
-                                        {{-- delete --}}
-                                        <a class="btn btn-md btn-circle btn-outline-danger ms-2"
-                                            href="{{ url('owner/food/delete/' . $item->id) }}"
-                                            onclick="return confirm('Are you Sure?')">
-                                            <i class="fas fa-fw fa-trash-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                @foreach ($getFood as $item)
+                                    <tr class="text-center">
+                                        <td class="align-middle">{{ $item->id }}</td>
+                                        <td class="align-middle">{{ $item->code }}</td>
+                                        <td><img class="rounded-circle" height="75" width="75"
+                                                src="{{ $item->image_url }}" alt=""></td>
+                                        <td class="align-middle">{{ $item->name }}</td>
+                                        <td class="align-middle">{{ $item->price }}</td>
+                                        <td class="align-middle">{{ $item->description }}</td>
+                                        <td>
+                                            {{-- @foreach ($getFood->categories as $category)
+                                                <li>{{ $category->name }}</li>
+                                            @endforeach --}}
+                                        </td>
+                                        <td class="align-middle">
+                                            @if ($item->status == 1)
+                                                <a href="{{ route('updateStatus', ['id' => $item->id]) }}"
+                                                    onclick="return confirm('Are you Sure?')"
+                                                    class="btn btn-sm btn-success">Active</a>
+                                            @else
+                                                <a href="{{ route('updateStatus', ['id' => $item->id]) }}"
+                                                    onclick="return confirm('Are you Sure?')"
+                                                    class="btn btn-sm btn-danger">InActive</a>
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">{{ date('d,M,Y | h:i A', strtotime($item->created_at)) }}
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            {{-- edit --}}
+                                            <a class="btn btn-md btn-circle btn-outline-info"
+                                                href="{{ url('owner/food/edit/' . $item->id) }}">
+                                                <i class="fas fa-fw fa-edit"></i>
+                                            </a>
+                                            {{-- delete --}}
+                                            <a class="btn btn-md btn-circle btn-outline-danger ms-2"
+                                                href="{{ url('owner/food/delete/' . $item->id) }}"
+                                                onclick="return confirm('Are you Sure?')">
+                                                <i class="fas fa-fw fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             @endif
                         </tbody>
                     </table>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\RestaurantController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Owner\CategoryController;
 use App\Http\Controllers\Owner\ChatController;
 use App\Http\Controllers\Owner\FoodController;
 use App\Http\Controllers\Owner\GeneratorQRController;
@@ -60,15 +61,22 @@ Route::middleware('auth')->group(function () {
         // POS System
         Route::get('owner/pos/pos_system/', [POSController::class, 'posSystem'])->name('POS-System');
 
+        // Create foods
         Route::get('owner/food/showFood/', [FoodController::class, 'showFood'])->name('MenuFood');
         Route::get('owner/food/createFood', [FoodController::class, 'createFood']);
         Route::post('owner/food/store', [FoodController::class, 'storeFood']);
         Route::get('owner/food/edit/{id}', [FoodController::class, 'edit'])->name('edit');
-
         Route::get('owner/food/updateStatus/{id}', [FoodController::class, 'updateStatus'])->name('updateStatus');
-
         Route::post('owner/food/edit/{id}', [FoodController::class, 'update'])->name('UpdateFood');
         Route::get('owner/food/delete/{id}', [FoodController::class, 'destroy'])->name('DeleteFood');
+
+        // Category
+        Route::get('owner/category/typeFood/', [CategoryController::class, 'category'])->name('owner.category.typeFood');
+        Route::get('owner/category/createCategory/', [CategoryController::class, 'createCategory'])->name('owner.category.createCategory');
+        Route::post('owner/category/storeCategory/', [CategoryController::class, 'storeCategory'])->name('owner.category.storeCategory');
+        Route::get('owner/category/editCategory/{id}', [CategoryController::class, 'editCategory'])->name('owner.category.editCategory');
+        Route::post('owner/category/editCategory/{id}', [CategoryController::class, 'updateCategory'])->name('owner.category.updateCategory');
+        Route::get('owner/category/deleteCategory/{id}', [CategoryController::class, 'destroyCategory'])->name('owner.category.destroyCategory');
 
         // Order Food
         Route::get('/owner/order/userOrder', [OrderController::class, 'userOrder'])->name('owner.order.userOrder');
@@ -98,9 +106,10 @@ Route::middleware('auth')->group(function () {
 
 
         // Profile Settings
-        Route::get('/owner/profile/profile', [ProfileController::class, 'profile'])->name('owner.profile');
         Route::get('/owner/profile/edit', [ProfileController::class, 'edit'])->name('owner.profile.edit');
         Route::put('/owner/profile/update', [ProfileController::class, 'update'])->name('owner.profile.update');
+        Route::get('/owner/profile/profile', [ProfileController::class, 'profile'])->name('owner.profile');
+        Route::put('/owner/profile/update-image', 'ProfileController@updateImage')->name('owner.profile.update.image');
     });
 
     // Route::group(['middleware' => 'user'], function () {

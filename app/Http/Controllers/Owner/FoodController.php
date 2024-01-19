@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Food;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,7 @@ class FoodController extends Controller
        
         $data['getFood'] = Food::getFood();
         $data['header_title'] = 'List Food';
+        // $categories = Category::with('products')->get();
 
         return view('owner.food.showFood', $data);
     }
@@ -28,8 +30,13 @@ class FoodController extends Controller
 
     public function createFood()
     {
+        $user = Auth::user();
+        if (!$user->restaurant) {
+            return redirect()->back()->with('error', 'You are not associated with a restaurant.');
+        }
+        $category = Category::where('restaurant_id', $user->restaurant->id)->get();
 
-        return view('owner.food.createFood');
+        return view('owner.food.createFood', compact('category'));
     }
 
     /**

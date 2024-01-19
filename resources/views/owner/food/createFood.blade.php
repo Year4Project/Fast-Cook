@@ -15,10 +15,13 @@
                             <input type="text" class="form-control" value="{{ old('name') }}" name="name"
                                 required placeholder="Name Food">
                         </div>
-                        {{-- <div class="form-group">
-                    <label>Code</label>
-                    <input type="num" class="form-control" value="{{ old('code')}}" name="code" required placeholder="Code Food">
-                  </div> --}}
+                        <div class="form-group">
+                            <label>Type of Food</label>
+                            <select class="form-control" name="" id="">
+                                <option value="">Select Type</option>
+                                {{-- <option value="">{{ $category->name }}</option> --}}
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label>Price</label>
                             <input type="num" class="form-control" value="{{ old('price') }}" name="price"

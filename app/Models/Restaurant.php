@@ -56,5 +56,9 @@ class Restaurant extends Model
         return $return;
     }
 
+    public function category()
+    {
+        return $this->hasMany(Category::class);
+    }
 
 }

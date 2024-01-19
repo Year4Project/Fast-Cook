@@ -19,6 +19,7 @@ class Food extends Model
         'description',
         'image',
         'status',
+        'category_id',
     ];
 
     protected static function boot(){
@@ -59,16 +60,27 @@ class Food extends Model
     {
         return self::find($id);
     }
+    public function categories()
+    {
+        return $this->beloginto(Category::class);
+    }
 
-    static public function getFood()
+    public static function getFood()
     {
         $user = Auth::user();
 
-        if (!$user->restaurant) {
+        // Check if the user is associated with a restaurant
+        if (!$user || !$user->restaurant) {
             // Handle the case where the user is not associated with a restaurant
             return redirect()->back()->with('error', 'You are not associated with a restaurant.');
         }
-        $foods = Food::where('restaurant_id', $user->restaurant->id)->get();
+
+        // Fetch foods with categories for the user's restaurant
+        $foods = Food::with('categories')
+            ->where('restaurant_id', $user->restaurant->id)
+            ->get();
+
+            // dd($foods);
 
         return $foods;
     }
@@ -94,4 +106,6 @@ class Food extends Model
             }
         }
     }
+
+    
 }

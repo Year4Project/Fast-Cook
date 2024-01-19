@@ -72,8 +72,14 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Category
+            Function
         </div>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('owner/category/typeFood') }}">
+                <i class="fas fa-layer-group"></i>
+                <span>Category</span></a>
+        </li>
 
         <li class="nav-item">
             <a class="nav-link" href="{{ url('owner/food/showFood') }}">
