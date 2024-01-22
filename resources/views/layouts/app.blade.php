@@ -112,7 +112,7 @@
     <script src="{{ asset('admin/js/script.js') }}"></script>
 
     {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
-    <script src="{{ mix('js/dashboard.js') }}"></script>
+    {{-- <script src="{{ mix('js/dashboard.js') }}"></script> --}}
 
 
 </body>
