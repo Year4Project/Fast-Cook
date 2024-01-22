@@ -70,44 +70,38 @@ class UserController extends Controller
      * @return User
      */
 
+     public function login(Request $request)
+     {
+         // data validation
+         $request->validate([
+             "phone" => "required",
+             "password" => "required"
+         ]);
 
-    public function login(Request $request)
-    {
+         // JWTAuth with a longer expiration time (e.g., 1 year) or set it to null for unlimited duration
+         $token = JWTAuth::attempt([
+             "phone" => $request->phone,
+             "password" => $request->password
+         ], [
+             'exp' => now()->addYear()->timestamp, // Set expiration to 1 year (adjust as needed) or set to null
+         ]);
 
-        // data validation
-        $request->validate([
-            "phone" => "required",
-            "password" => "required"
-        ]);
-
-        // JWTAuth
-        $token = JWTAuth::attempt([
-            "phone" => $request->phone,
-            "password" => $request->password
-        ]);
-
-        if (!empty($token)) {
-            $user = Auth::user();
-            return response()->json([
-
-                "status" => true,
-                "message" => "User logged in succcessfully",
-                'data' => ["token" => $token, "user" => $user],
-
-
-            ]);
-        } else {
-            return response()->json([
-                "status" => false,
-                "message" => "Invalid details"
-            ]);
-        }
-    }
-
+         if (!empty($token)) {
+             $user = Auth::user();
+             return response()->json([
+                 "status" => true,
+                 "message" => "User logged in successfully",
+                 'data' => ["token" => $token, "user" => $user],
+             ]);
+         } else {
+             return response()->json([
+                 "status" => false,
+                 "message" => "Invalid details"
+             ]);
+         }
+     }
 
     // User Profile
-
-
     public function profile(Request $request)
     {
         try {

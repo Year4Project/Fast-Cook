@@ -81,7 +81,7 @@ class Food extends Model
             ->get();
 
             // dd($foods);
-
+        // return self::with('categories')->get();
         return $foods;
     }
 
@@ -107,5 +107,5 @@ class Food extends Model
         }
     }
 
-    
+
 }

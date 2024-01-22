@@ -17,9 +17,9 @@
             {{-- title page --}}
             <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
                 <h6 class="font-weight-bold text-primary">DataTables Of Menu</h6>
-                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addnew">
+                <a href="{{ url('owner/food/createFood') }}" type="button" class="btn btn-primary float-end">
                     <i class="bi bi-clipboard2-plus-fill"></i> Add New Food
-                </button>
+                </a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -56,9 +56,9 @@
                                         <td class="align-middle">{{ $item->price }}</td>
                                         <td class="align-middle">{{ $item->description }}</td>
                                         <td>
-                                            {{-- @foreach ($getFood->categories as $category)
-                                                <li>{{ $category->name }}</li>
-                                            @endforeach --}}
+                                            @foreach ($item->categories as $category)
+                                            {{ $category->name }}
+                                        @endforeach
                                         </td>
                                         <td class="align-middle">
                                             @if ($item->status == 1)
@@ -94,7 +94,7 @@
                 </div>
             </div>
         </div>
-        @include('owner.food.createFood')
+        {{-- @include('owner.food.createFood') --}}
 
     </div>
 @endsection

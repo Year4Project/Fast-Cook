@@ -16,7 +16,7 @@ class FoodController extends Controller
      */
     public function showFood()
     {
-       
+
         $data['getFood'] = Food::getFood();
         $data['header_title'] = 'List Food';
         // $categories = Category::with('products')->get();
@@ -28,16 +28,22 @@ class FoodController extends Controller
      * Show the form for creating a new resource.
      */
 
-    public function createFood()
-    {
-        $user = Auth::user();
-        if (!$user->restaurant) {
-            return redirect()->back()->with('error', 'You are not associated with a restaurant.');
-        }
-        $category = Category::where('restaurant_id', $user->restaurant->id)->get();
+     public function createFood()
+     {
+         $user = Auth::user();
 
-        return view('owner.food.createFood', compact('category'));
-    }
+         if (!$user->restaurant) {
+             return redirect()->back()->with('error', 'You are not associated with a restaurant.');
+         }
+
+         $categories = Category::where('restaurant_id', $user->restaurant->id)->get();
+
+         return view('owner.food.createFood', ['categories' => $categories]);
+     }
+
+
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -67,10 +73,10 @@ class FoodController extends Controller
             $file = $request->file('image');
             $randomStr = date('Ymdhis') . Str::random(20);
             $filename =     strtolower($randomStr) . '.' . $ext;
-        
+
             // Move the uploaded image to the specified directory
             $file->move(public_path('upload/food/'), $filename);
-        
+
             // Generate the image URL
             $imageUrl = url('upload/food/' . $filename);
             $food->image_url = $imageUrl;
@@ -79,6 +85,8 @@ class FoodController extends Controller
         $food->price = $request->price;
 
         $food->restaurant_id = $user->restaurant->id;
+
+
         $food->save();
         return redirect('owner/food/showFood')->with('success', "Food successfully Create.");
     }
@@ -141,7 +149,7 @@ class FoodController extends Controller
 
         $food = Food::getSingle($id);
         $user = Auth::user();
-        
+
         $food->name = $request->name;
         $food->description = $request->description;
 
@@ -150,12 +158,12 @@ class FoodController extends Controller
             $file = $request->file('image');
             $randomStr = date('Ymdhis') . Str::random(20);
             $filename = strtolower($randomStr) . '.' . $ext;
-        
+
             // Move the uploaded image to the specified directory
             $file->move(public_path('upload/food/'), $filename);
-        
+
             $food->image = $filename;
-        
+
             // Generate the image URL
             $imageUrl = url('upload/food/' . $filename);
             $food->image_url = $imageUrl;
