@@ -39,7 +39,7 @@
                                 <td>{{ $restaurant->email }}</td>
                                 <td>{{ $restaurant->phone }}</td>
                                 <td>{{ $restaurant->address }}</td>
-                                <td><img height="75" width="75" src="/upload/profile/{{$restaurant->image}}" alt=""></td>
+                                <td><img height="75" width="75" src="{{$restaurant->image}}" alt=""></td>
                             <td>
                                     <a class="nav-link" href="{{ url('admin/restaurant/edit/'.$restaurant->id) }}">
                                         <i class="fas fa-fw fa-edit"></i>

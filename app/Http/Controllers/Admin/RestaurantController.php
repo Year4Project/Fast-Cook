@@ -54,10 +54,14 @@ class RestaurantController extends Controller
             $ext = $request->file('image')->getClientOriginalExtension();
             $file = $request->file('image');
             $randomStr = date('Ymdhis') . Str::random(20);
-            $filename = strtolower($randomStr) . '.' . $ext;
-            $file->move('upload/profile/', $filename);
+            $filename =     strtolower($randomStr) . '.' . $ext;
 
-            $restaurant->image = $filename;
+            // Move the uploaded image to the specified directory
+            $file->move(public_path('upload/restaurant/'), $filename);
+
+            // Generate the image URL
+            $imageUrl = url('upload/restaurant/' . $filename);
+            $restaurant->image = $imageUrl;
         }
 
         $restaurant->phone = $request->phone;
