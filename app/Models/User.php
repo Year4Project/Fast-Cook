@@ -11,10 +11,14 @@ use Illuminate\Support\Facades\Request;
 // use Laravel\Sanctum\HasApiTokens;
 use Laravel\Passport\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+// use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    use Notifiable;
+
 
     public function getJWTIdentifier()
     {

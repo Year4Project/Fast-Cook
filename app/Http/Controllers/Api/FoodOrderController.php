@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Notifications\NewOrderNotification;
+use App\Events\NewOrderPlaced;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Food;
 use App\Models\Order;
-use Illuminate\Http\Request;
-
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class FoodOrderController extends Controller
 {
-    public function store(Request $request)
+    public function orderFood(Request $request)
     {
         $request->validate([
             'items' => 'required|array',
@@ -50,10 +51,20 @@ class FoodOrderController extends Controller
 
         // dd($order);
 
+       // Dispatch the notification
+       $user->notify(new NewOrderNotification($order));
 
 
+       
         // Attach food items to the order
         $order->foods()->attach($request->input('items'));
+        
+        event(new NewOrderPlaced($order));
+
+        // Dispatch the event with the created order
+        event(new NewOrderPlaced('New order has been placed!'));
+
+
 
         // Transform the order data for response
         $responseData = [

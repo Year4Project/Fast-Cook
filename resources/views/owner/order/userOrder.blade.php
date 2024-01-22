@@ -52,7 +52,6 @@
                                 <th>Payment</th>
                                 <th>Created At</th>
                                 <th>Action</th>
-                                <th>dsd</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,7 +81,7 @@
                                                 <i class="fas fa-print">Print</i>
                                             </a>
                                         </td>
-                                        <td class="align-middle">{{ $foodOrder->total_price }}</td>
+                                        {{-- <td class="align-middle">{{ $foodOrder->total_price }}</td> --}}
                                     </tr>
                                 @endforeach
                             @endif

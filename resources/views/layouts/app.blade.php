@@ -29,9 +29,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
-    <!-- Include Pusher and Laravel Echo -->
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+   <!-- Include Laravel Echo and Pusher -->
+   <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.1/dist/echo.iife.js"></script>
+   <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 
 </head>
 
@@ -110,6 +110,9 @@
     <script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('admin/js/demo/chart-pie-demo.js') }}"></script>
     <script src="{{ asset('admin/js/script.js') }}"></script>
+
+    <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ mix('js/dashboard.js') }}"></script>
 
 
 </body>

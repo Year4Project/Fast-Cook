@@ -2,21 +2,21 @@
 
 namespace App\Models;
 
-use App\Models\Scen;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable; // Correct class name
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Restaurant extends Model
+class Restaurant extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
-    protected $fillable = ['name', 'address','image','email','status','phone'];
+    protected $fillable = ['name', 'address', 'image', 'email', 'status', 'phone'];
 
-
-
-    public function user() {
+    public function user()
+    {
         return $this->hasOne(User::class);
     }
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -27,11 +27,6 @@ class Restaurant extends Model
         return $this->hasMany(Food::class);
     }
 
-    static public function getSingle($id)
-    {
-        return self::find($id);
-    }
-
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -39,20 +34,20 @@ class Restaurant extends Model
 
     public function getProfile()
     {
-        if(!empty($this->image) && file_exists('upload/profile/'.$this->image)) {
-            return url('upload/profile/'.$this->image);
+        if (!empty($this->image) && file_exists('upload/profile/' . $this->image)) {
+            return url('upload/profile/' . $this->image);
         } else {
             return "";
         }
     }
 
-    static public function getRestaurant()
+    public static function getRestaurant()
     {
-        $return = self::select('restaurants.*','users.*')
-                    ->join('users', 'users.id', '=', 'restaurants.user_id');
+        $return = self::select('restaurants.*', 'users.*')
+            ->join('users', 'users.id', '=', 'restaurants.user_id');
 
         $return = $return->orderBy('restaurants.id', 'desc')
-                            ->paginate(5);
+            ->paginate(5);
         return $return;
     }
 
@@ -60,5 +55,4 @@ class Restaurant extends Model
     {
         return $this->hasMany(Category::class);
     }
-
 }

@@ -39,9 +39,21 @@
                                 <td class="text-center">{{ $item->table_no }}</td>
                                 <td class="text-center">{!! QrCode::size(100)->generate(json_encode(["restaurant_id" => $item->id, "table_no" => $item->table_no])) !!}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('owner.qr.download', ['scen' => $item->id]) }}" class="btn btn-primary">Download QR Code</a><br>
-                                    <a href="{{ url('owner/qr/delete/'. $item->id) }}" class="btn btn-danger mt-2">Delete QR Code</a>
                                     
+                                    {{-- download --}}
+                                    <a class="btn btn-md btn-circle btn-primary ms-2"
+                                    href="{{ route('owner.qr.download', ['scen' => $item->id]) }}">
+                                    <i class="fas fa-download"></i>
+                                </a>
+
+                                    {{-- <a href="{{ route('owner.qr.download', ['scen' => $item->id]) }}" class="btn btn-primary">Download QR Code</a><br> --}}
+                                    {{-- <a href="{{ url('owner/qr/delete/'. $item->id) }}" class="btn btn-danger mt-2">Delete QR Code</a> --}}
+                                    {{-- delete --}}
+                                    <a class="btn btn-md btn-circle btn-outline-danger ms-2"
+                                    href="{{ url('owner/qr/delete/'. $item->id) }}"
+                                    onclick="return confirm('Are you Sure?')">
+                                    <i class="fas fa-fw fa-trash-alt"></i>
+                                </a>
                                 </td>
                                 
                             </tr>

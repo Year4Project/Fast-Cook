@@ -45,7 +45,6 @@ Route::middleware('auth')->group(function () {
 
         // All Restaurant Routes
         Route::get('admin/restaurant/showRestaurant', [RestaurantController::class, 'showRestaurant']);
-
         Route::get('admin/restaurant/create', [RestaurantController::class, 'create']);
         Route::post('admin/restaurant/store', [RestaurantController::class, 'createRestaurant']);
         Route::get('admin/restaurant/edit/{id}', [RestaurantController::class, 'edit']);

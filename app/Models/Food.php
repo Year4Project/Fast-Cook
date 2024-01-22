@@ -62,7 +62,7 @@ class Food extends Model
     }
     public function categories()
     {
-        return $this->beloginto(Category::class);
+        return $this->belongsToMany(Category::class);
     }
 
     public static function getFood()
