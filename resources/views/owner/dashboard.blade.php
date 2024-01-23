@@ -24,7 +24,7 @@
         });
 </script>
 
-           
+
             {{-- <order-notification></order-notification> --}}
 
             <!-- Page Heading -->
@@ -216,6 +216,6 @@
             // Add your logic to update the dashboard here
         });
 </script> --}}
-<script src="{{ mix('js/app.js') }}"></script>
+{{-- <script src="{{ mix('js/app.js') }}"></script> --}}
 
 @endsection
