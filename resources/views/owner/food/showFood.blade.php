@@ -55,10 +55,8 @@
                                         <td class="align-middle">{{ $item->name }}</td>
                                         <td class="align-middle">{{ $item->price }}</td>
                                         <td class="align-middle">{{ $item->description }}</td>
-                                        <td>
-                                            @foreach ($item->categories as $category)
-                                            {{ $category->name }}
-                                        @endforeach
+                                        <td class="align-middle">
+                                            {{ $item->category_name ?? 'No Category' }}
                                         </td>
                                         <td class="align-middle">
                                             @if ($item->status == 1)

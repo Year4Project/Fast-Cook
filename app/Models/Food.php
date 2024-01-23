@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class Food extends Model
@@ -67,7 +68,7 @@ class Food extends Model
 
     public static function getFood()
     {
-        $user = Auth::user();
+        $user = auth()->user();
 
         // Check if the user is associated with a restaurant
         if (!$user || !$user->restaurant) {
@@ -75,13 +76,15 @@ class Food extends Model
             return redirect()->back()->with('error', 'You are not associated with a restaurant.');
         }
 
-        // Fetch foods with categories for the user's restaurant
-        $foods = Food::with('categories')
-            ->where('restaurant_id', $user->restaurant->id)
-            ->get();
+        // Fetch foods with categories for the user's restaurant using eager loading
+        $foods = DB::table('foods')
+        ->select('foods.*', 'categories.name as category_name')
+        ->leftJoin('categories', 'foods.category_id', '=', 'categories.id')
+        ->where('foods.restaurant_id', $user->restaurant->id)
+        ->get();
 
-            // dd($foods);
-        // return self::with('categories')->get();
+        // dd($foods);
+
         return $foods;
     }
 

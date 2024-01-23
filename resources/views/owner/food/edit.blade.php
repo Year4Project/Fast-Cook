@@ -31,6 +31,7 @@
                     <label>Name</label>
                     <input type="text" class="form-control" value="{{ old('name', $getRecord->name)}}" name="name" required>
                   </div>
+                  {{-- {{ dd($getFood) }} --}}
                   <div class="row">
                     <div class="col-6">
                       <div class="form-group">
@@ -38,14 +39,21 @@
                         <input type="number" class="form-control" value="{{ old('price',$getRecord->price)}}" name="price" required>
                         {{-- <div style="color: red">{{ $errors->first('email')}}</div> --}}
                       </div>
-                      
+
                     </div>
-                    {{-- <div class="col-6">
-                      <div class="form-group">
-                        <label>Discound Price</label>
-                        <input type="number" class="form-control" value="{{ old('dPrice',$getRecord->dPrice)}}" name="dPrice" required>
-                      </div>
-                    </div> --}}
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Type of Food</label>
+                            <select class="form-control" name="category_id" required>
+                                {{-- <option value="">Select Type</option> --}}
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" {{ $getRecord->category_id == $category->id ? 'selected':'' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label>Description</label>
@@ -54,7 +62,7 @@
                   <div class="form-group">
                     <label>Old Image Food</label>
                     <div class="container ms-2 mt-2 ">
-                      <img height="150" width="150" src="/upload/food/{{$getRecord->image}}" alt="">
+                      <img height="150" width="150" src="{{$getRecord->image_url}}" alt="">
                     </div>
                   </div>
                   <div class="form-group">

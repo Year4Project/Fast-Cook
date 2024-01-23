@@ -55,6 +55,7 @@ class FoodController extends Controller
             'description' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'price' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
+            'category_id' => 'required|exists:categories,id',
         ]);
 
         $food = new Food();
@@ -85,6 +86,12 @@ class FoodController extends Controller
         $food->price = $request->price;
 
         $food->restaurant_id = $user->restaurant->id;
+        $food->category_id = $request->category_id;
+        // Retrieve the category name using the category_id
+    $category = Category::find($request->category_id);
+
+    // Set the type column with the category name
+    $food->type = $category ? $category->name : null;
 
 
         $food->save();
@@ -126,6 +133,7 @@ class FoodController extends Controller
      */
     public function edit(string $id)
     {
+        $data['categories'] = Category::all();
         $data['getRecord'] = Food::getSingle($id);
         if (!empty($data['getRecord'])) {
             $data['header_title'] = "Edit Admin";
@@ -145,6 +153,7 @@ class FoodController extends Controller
             'description' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'price' => 'required|numeric',
+            'category_id' => 'required|exists:categories,id',
         ]);
 
         $food = Food::getSingle($id);
@@ -162,8 +171,6 @@ class FoodController extends Controller
             // Move the uploaded image to the specified directory
             $file->move(public_path('upload/food/'), $filename);
 
-            $food->image = $filename;
-
             // Generate the image URL
             $imageUrl = url('upload/food/' . $filename);
             $food->image_url = $imageUrl;
@@ -172,6 +179,12 @@ class FoodController extends Controller
         $food->price = $request->price;
 
         $food->restaurant_id = $user->restaurant->id;
+        $food->category_id = $request->category_id;
+        // Retrieve the category name using the category_id
+    $category = Category::find($request->category_id);
+
+    // Set the type column with the category name
+    $food->type = $category ? $category->name : null;
         $food->save();
 
         return redirect('owner/food/showFood')->with('success', "Food successfully Update.");

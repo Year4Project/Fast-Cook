@@ -44,14 +44,14 @@
                                         </a>
                                         {{-- delete --}}
                                         <a class="btn btn-md btn-circle btn-outline-danger ms-2"
-                                            href="{{ url('owner/food/deleteCategory/' . $item->id) }}"
+                                            href="{{ url('owner/category/deleteCategory/' . $item->id) }}"
                                             onclick="return confirm('Are you Sure?')">
                                             <i class="fas fa-fw fa-trash-alt"></i>
                                         </a>
                                     </td>
                                 </tr>
                             @endforeach
-                           
+
                         </tbody>
                     </table>
                 </div>

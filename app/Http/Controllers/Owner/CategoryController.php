@@ -40,7 +40,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         return view('owner.category.editCategory',compact('category'));
     }
-    
+
     public function updateCategory(Request $request, string $id)
     {
         $request->validate([
@@ -55,5 +55,12 @@ class CategoryController extends Controller
         $category->save();
         // dd($category);
         return redirect('owner/category/typeFood')->with('success','TypeFood successfully Updated');
+    }
+
+    public function destroyCategory(string $id)
+    {
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect('owner/category/typeFood')->with('success','Category successfully Updated');
     }
 }
