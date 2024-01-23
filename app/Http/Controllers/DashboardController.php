@@ -28,7 +28,7 @@ class DashboardController extends Controller
             $data['getStaff'] = Staff::getStaff()->count();
             $data['getTables'] = Scen::where('restaurant_id', Auth::user()->restaurant->id)->count();
 
-            $data['getOrderUser'] = Order::getOrderUser();
+            // $data['getOrderUser'] = Order::getOrderUser();
             // $data['totalPrice'] = Order::sum('total_price');
             return view('owner.dashboard', $data);
         }

@@ -5,9 +5,9 @@
 
 
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
+        {{-- <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
             <h1 class="h3 mb-0 text-gray-800">List Menu</h1>
-        </div>
+        </div> --}}
 
         {{-- Alert Massage --}}
         @include('_massage')
@@ -53,7 +53,7 @@
                                         <td><img class="rounded-circle" height="75" width="75"
                                                 src="{{ $item->image_url }}" alt=""></td>
                                         <td class="align-middle">{{ $item->name }}</td>
-                                        <td class="align-middle">{{ $item->price }}</td>
+                                        <td class="align-middle">${{ $item->price }}</td>
                                         <td class="align-middle">{{ $item->description }}</td>
                                         <td class="align-middle">
                                             {{ $item->category_name ?? 'No Category' }}

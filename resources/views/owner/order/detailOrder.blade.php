@@ -3,9 +3,9 @@
 @section('content')
     <div class="container-fluid">
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
+        {{-- <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
             <h1 class="h3 mb-0 text-gray-800">User Order Details</h1>
-        </div>
+        </div> --}}
 
         @include('_massage')
 
@@ -30,41 +30,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <p><strong>User:</strong> {{ $orderDetails->first_name }} {{ $orderDetails->last_name }}</p>
-                            <p><strong>Order ID:</strong> {{ $orderDetails->id }}</p>
-                            <p><strong>Table No:</strong> {{ $orderDetails->order->table_no }}</h2>
-                            <p><strong>Remark:</strong> {{ $orderDetails->order->remark }}</h2>
-                            <p><strong>Time Order:</strong> {{ $orderDetails->order->created_at }}</h6>
-                            <p><strong>Total:</strong> {{ $orderDetails->order->created_at }}</h6>
-                            @php
-                                $itemNumber = 1;
-                                $totalPrice = 0;
-                            @endphp
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p><strong>User:</strong> {{ $getOrderDetails->user->first_name }} {{ $getOrderDetails->user->last_name }}</p>
+                                    <p><strong>Table No:</strong> {{ $getOrderDetails->table_no }}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p><strong>Remark:</strong> {{ $getOrderDetails->remark }}</p>
+                                    <p><strong>Total Quantity:</strong> {{ $getOrderDetails->total_quantity }}</p>
+                                </div>
+                                <div class="col-8"></div>
+                            </div>
 
-                            @foreach ($orderDetails->order->items as $item)
-                                <tr class="text-center">
-                                    <td class="align-middle">{{ $itemNumber++ }}</td>
-                                    <td class="align-middle">
-                                        <img class="rounded-circle" height="75" width="75"
-                                            src="{{ $item['food']->image_url }}"
-                                            alt="{{ $item['food']->image_url }}">
-                                    </td>
-                                    <td class="align-middle">{{ $item['food_id'] }}</td>
-                                    <td class="align-middle">{{ $item['food']->name }}</td>
-                                    <td class="align-middle">{{ $item['quantity'] }}</td>
-                                    <td class="align-middle">{{ $item['food']->price }}</td>
-                                    <td class="align-middle">{{ $subTotal = $item['quantity'] * $item['food']->price }}</td>
-                                    @php
-                                        $totalPrice += $subTotal;
-                                    @endphp
-                                </tr>
-                            @endforeach
 
-                            <tr class="text-center">
-                                <td colspan="6" class="text-right"><strong>Total:</strong></td>
-                                <td>{{ $totalPrice }}</td>
-                            </tr>
-                        </tbody>
+                @foreach ($getOrderDetails->foods as $food)
+                <tr class="text-center">
+                    <th class="align-middle">{{ $food->id }}</th>
+                    <td class="align-middle"><img class="rounded-circle" height="75" width="75"
+                        src="{{ $food->image_url }}" alt=""></td>
+                    <th class="align-middle">{{ $food->code }}</th>
+                    <th class="align-middle">{{ $food->name }}</th>
+                    <th class="align-middle">{{ $food->pivot->quantity }}</th>
+                    <th class="align-middle">{{ $food->price }}</th>
+                    <th class="align-middle"></th>
+                </tr>
+            @endforeach
+            </tbody>
                     </table>
                 </div>
             </div>

@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
         // Order Food
         Route::get('/owner/order/userOrder', [OrderController::class, 'userOrder'])->name('owner.order.userOrder');
 
-        Route::get('/owner/order/details/{orderId}', [OrderController::class, 'showUserOrderDetails'])->name('owner.order.details');
+        Route::get('/owner/order/details/{orderId}', [OrderController::class, 'orderDetails'])->name('owner.order.details');
         // Route::get('/owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
 
 
