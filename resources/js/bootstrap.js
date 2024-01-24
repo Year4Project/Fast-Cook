@@ -54,14 +54,15 @@ window.Echo = new Echo({
     encrypted: true,
 });
 
-window.Echo.channel('restaurant-dashboard')
-    .listen('NewOrderPlaced', (event) => {
-        console.log('New Order Placed:', event.message);
-        // Add your logic to display the message on the dashboard
-    });
 
-    Echo.channel('restaurant-dashboard')
-    .listen('App\\Events\\NewOrderPlaced', (event) => {
-        console.log('New Order Placed:', event);
-        // Add your logic to display the message on the dashboard
-    });
+// window.Echo.channel('restaurant-dashboard')
+//     .listen('NewOrderPlaced', (event) => {
+//         console.log('New Order Placed:', event.message);
+//         // Add your logic to display the message on the dashboard
+//     });
+
+//     Echo.channel('restaurant-dashboard')
+//     .listen('App\\Events\\NewOrderPlaced', (event) => {
+//         console.log('New Order Placed:', event);
+//         // Add your logic to display the message on the dashboard
+//     });

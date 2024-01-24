@@ -5,9 +5,9 @@
 
 
         <!-- Page Heading -->
-        {{-- <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
-            <h1 class="h3 mb-0 text-gray-800">List Menu</h1>
-        </div> --}}
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Foods Menu</h1>
+        </div>
 
         {{-- Alert Massage --}}
         @include('_massage')
@@ -69,8 +69,7 @@
                                                     class="btn btn-sm btn-danger">InActive</a>
                                             @endif
                                         </td>
-                                        <td class="align-middle">{{ date('d,M,Y | h:i A', strtotime($item->created_at)) }}
-                                        </td>
+                                        <td class="align-middle">{{ date('d,M,Y | h:i A', strtotime($item->created_at)) }}</td>
                                         <td class="align-middle text-center">
                                             {{-- edit --}}
                                             <a class="btn btn-md btn-circle btn-outline-info"

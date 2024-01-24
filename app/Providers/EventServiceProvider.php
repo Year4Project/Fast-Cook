@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\OrderPlacedEvent;
+use App\Listeners\OrderPlacedListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Broadcasting\Channel;
@@ -19,8 +21,11 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\OrderCreated' => [
             'App\Listeners\ProcessOrder', // Check this line
         ],
+        OrderPlacedEvent::class => [
+            OrderPlacedListener::class,
+        ],
     ];
-    
+
 
     public function broadcastOn()
 {

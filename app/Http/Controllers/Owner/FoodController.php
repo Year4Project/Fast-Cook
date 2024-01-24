@@ -28,18 +28,18 @@ class FoodController extends Controller
      * Show the form for creating a new resource.
      */
 
-     public function createFood()
-     {
-         $user = Auth::user();
+    public function createFood()
+    {
+        $user = Auth::user();
 
-         if (!$user->restaurant) {
-             return redirect()->back()->with('error', 'You are not associated with a restaurant.');
-         }
+        if (!$user->restaurant) {
+            return redirect()->back()->with('error', 'You are not associated with a restaurant.');
+        }
 
-         $categories = Category::where('restaurant_id', $user->restaurant->id)->get();
+        $categories = Category::where('restaurant_id', $user->restaurant->id)->get();
 
-         return view('owner.food.createFood', ['categories' => $categories]);
-     }
+        return view('owner.food.createFood', ['categories' => $categories]);
+    }
 
 
 
@@ -88,10 +88,10 @@ class FoodController extends Controller
         $food->restaurant_id = $user->restaurant->id;
         $food->category_id = $request->category_id;
         // Retrieve the category name using the category_id
-    $category = Category::find($request->category_id);
+        $category = Category::find($request->category_id);
 
-    // Set the type column with the category name
-    $food->type = $category ? $category->name : null;
+        // Set the type column with the category name
+        $food->type = $category ? $category->name : null;
 
 
         $food->save();
@@ -118,14 +118,6 @@ class FoodController extends Controller
             // Handle the exception as needed
             return redirect()->back()->with('error', 'An error occurred during status update.');
         }
-    }
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
     }
 
     /**
@@ -181,10 +173,10 @@ class FoodController extends Controller
         $food->restaurant_id = $user->restaurant->id;
         $food->category_id = $request->category_id;
         // Retrieve the category name using the category_id
-    $category = Category::find($request->category_id);
+        $category = Category::find($request->category_id);
 
-    // Set the type column with the category name
-    $food->type = $category ? $category->name : null;
+        // Set the type column with the category name
+        $food->type = $category ? $category->name : null;
         $food->save();
 
         return redirect('owner/food/showFood')->with('success', "Food successfully Update.");

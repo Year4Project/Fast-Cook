@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class Staff extends Model
@@ -34,17 +35,18 @@ class Staff extends Model
         }
     }
 
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class, 'restaurant_id');
+    }
+
     static public function getStaff()
     {
-        $user = Auth::user()->restaurant->id;
-        $return = self::select('staff.*')
-            ->join('users','users.id','=','staff.restaurant_id')
-            ->where('restaurant_id', $user);
-
-            $return = $return->orderBy('staff.id', 'desc')
-            ->paginate(5);
-
-        return $return;
+        $user = Auth::user();
+        $restaurant = $user->restaurant->id;
+        $staff = Staff::with('restaurant')->where('restaurant_id', $restaurant)->get();
+        // dd($staff);
+        return $staff;
     }
 
     public function delete()
@@ -67,4 +69,8 @@ class Staff extends Model
             }
         }
     }
+
+
+
+
 }

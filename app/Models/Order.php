@@ -61,50 +61,6 @@ class Order extends Model
         return $this->hasMany(FoodOrder::class);
     }
 
-
-    // static public function getOrderUser()
-    // {
-    //     // Get the authenticated user
-    //     $user = Auth::user();
-    //     $restaurantId = $user->restaurant->id;
-
-    //     // Latest Orders Subquery
-    //     $latestOrdersSubquery = DB::table('food_order')
-    //         ->select(
-    //             'users.id as user_id',
-    //             'users.first_name',
-    //             'users.last_name',
-    //             'orders.restaurant_id',
-    //             DB::raw('MAX(food_order.id) as latest_order_id')
-    //         )
-    //         ->join('orders', 'food_order.order_id', '=', 'orders.id')
-    //         ->join('users', 'orders.user_id', '=', 'users.id')
-    //         ->groupBy('users.id', 'users.first_name', 'users.last_name', 'orders.restaurant_id');
-
-    //     // Main Eloquent Query
-    //     $foodOrders = FoodOrder::with(['food', 'order.user', 'order.restaurant'])
-
-    //         ->join('orders', 'food_order.order_id', '=', 'orders.id')
-    //         ->join('users', 'orders.user_id', '=', 'users.id')
-    //         ->join('foods', 'food_order.food_id', '=', 'foods.id')
-    //         ->where('orders.restaurant_id', '=', $restaurantId)
-    //         ->select(
-    //             'users.id as user_id',
-    //             'users.first_name',
-    //             'users.last_name',
-    //             'food_order.*',
-    //             'orders.restaurant_id',
-    //             'orders.total_quantity',
-    //             'foods.price',
-    //             DB::raw('SUM(food_order.quantity *  foods.price) as price_total') // Calculate total price
-    //         )
-    //         ->groupBy('users.id', 'users.first_name', 'users.last_name', 'food_order.id', 'orders.restaurant_id')
-    //         ->orderBy('orders.id', 'DESC')
-    //         ->paginate(10);
-
-    //         return $foodOrders;
-    // }
-
     public static function getUserOrders()
     {
         // Get the authenticated user
@@ -123,6 +79,7 @@ class Order extends Model
 
         public static function getOrderDetails($orderId)
     {
+        // $user = Auth::user()->restaurant->id;
         $order = Order::with(['user', 'foods'])->find($orderId);
 
         if (!$order) {

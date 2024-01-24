@@ -5,11 +5,11 @@
 
 
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">List Staff</h1>
-            {{-- <a href="{{ url('owner/staff/createStaff') }}" 
+            {{-- <a href="{{ url('owner/staff/createStaff') }}"
         class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Add Staff</a> --}}
-            
+
         </div>
 
         @include('_massage')
@@ -25,7 +25,7 @@
                 <div class="table-responsive-sm">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead class="table-dark">
-                            <tr>
+                            <tr class="text-center">
                                 <th>#</th>
                                 <th>Image</th>
                                 <th>Name</th>
@@ -37,16 +37,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($getStaff as $staff)
+                            @if ($getStaff->isEmpty())
                                 <tr>
-                                    <td>{{ $staff->id }}</td>
-                                    <td class=""><img class="rounded-circle" height="75" width="75" src="/upload/staff/{{ $staff->image }}" alt=""></td>
-                                    <td>{{ $staff->name }}</td>
-                                    <td>{{ $staff->phone }}</td>
-                                    <td>{{ $staff->gender }}</td>
-                                    <td>{{ $staff->age }}</td>
-                                    <td>{{ $staff->position }}</td>
-                                    <td>
+                                    <td colspan="11">
+                                        <div style="margin-top: 50px; text-align: center;">No records found.</div>
+                                    </td>
+                                </tr>
+                            @else
+                            @foreach ($getStaff as $staff)
+                                <tr class="text-center">
+                                    <td class="align-middle">{{ $staff->id }}</td>
+                                    <td class="align-middle"><img class="rounded-circle" height="75" width="75" src="{{ $staff->image }}" alt=""></td>
+                                    <td class="align-middle">{{ $staff->name }}</td>
+                                    <td class="align-middle">{{ $staff->phone }}</td>
+                                    <td class="align-middle">{{ $staff->gender }}</td>
+                                    <td class="align-middle">{{ $staff->age }}</td>
+                                    <td class="align-middle">{{ $staff->position }}</td>
+                                    <td class="align-middle">
                                         <a class="btn btn-sm btn-circle btn-outline-info" href="{{ url('owner/staff/edit',$staff->id) }}">
                                             <i class="fas fa-fw fa-edit"></i>
                                         </a>
@@ -58,6 +65,7 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>

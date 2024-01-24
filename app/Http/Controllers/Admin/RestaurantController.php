@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 
 class RestaurantController extends Controller
 {
+    // display restaurant
     public function showRestaurant()
     {
         $data['getRestaurant'] = Restaurant::getRestaurant();
@@ -19,15 +20,15 @@ class RestaurantController extends Controller
         return view('admin.restaurant.showRestaurant', $data);
     }
 
+    // to view create restaurant
     public function create()
     {
-
         return view('admin.restaurant.create');
     }
 
+    // Store restaurant
     public function createRestaurant(Request $request)
     {
-
         request()->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -44,7 +45,6 @@ class RestaurantController extends Controller
         $owner->password = Hash::make($request->password);
         $owner->user_type = 2;
         $owner->save();
-
 
         $restaurant = new Restaurant();
         $restaurant->name = $request->name;
@@ -73,14 +73,14 @@ class RestaurantController extends Controller
 
     public function edit(string $id)
     {
+        // $data['getRestaurant'] = Restaurant::getRestaurant();
+        // $data['getRestaurant'] = Restaurant::getSingle($id);
+        // $data['header_title'] = 'Edit Restaurant';
+        $owner = User::with('restaurant')->findOrFail($id);
 
-        $data['getRestaurant'] = Restaurant::getSingle($id);
-        if (!empty($data['getRestaurant'])) {
-            $data['header_title'] = 'Edit Class';
-            return view('admin.restaurant.edit', $data);
-        } else {
-            abort(404);
-        }
+        // dd($owner);
+            return view('admin.restaurant.edit', compact('owner'));
+
     }
 
     public function updateRestaurant(Request $request, $id)

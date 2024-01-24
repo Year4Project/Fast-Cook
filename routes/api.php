@@ -21,7 +21,6 @@ Route::post('/register', [UserController::class, 'register']);
 /**Route for register API */
 Route::post('/login', [UserController::class, 'login']);
 
-Route::get('restaurant', [RestaurantControllerApi::class, 'getRestaurant']);
 
 
 Route::middleware(['apikey', 'auth:api'])->group(function () {
@@ -35,6 +34,8 @@ Route::middleware(['apikey', 'auth:api'])->group(function () {
     /**Route for list Foods */
     Route::get('get-food', [RestaurantControllerApi::class, 'getAllFood']);
     Route::get('listFood/{id}', [RestaurantControllerApi::class, 'getListFood']);
+
+    Route::get('restaurant', [RestaurantControllerApi::class, 'getRestaurant']);
 
 
     /**Route for orders foods */

@@ -162,25 +162,23 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    {{-- <tbody>
+                                    <tbody>
                                         @if ($getOrderUser->isEmpty())
                                             <tr>
                                                 <td colspan="11">
-                                                    <div style="margin-top: 50px; text-align: center;">No records found.
-                                                    </div>
+                                                    <div style="margin-top: 50px; text-align: center;">No records found.</div>
                                                 </td>
                                             </tr>
                                         @else
                                             @foreach ($getOrderUser as $foodOrder)
                                                 <tr class="text-center">
                                                     <td class="align-middle">{{ $foodOrder->id }}</td>
-                                                    <td class="align-middle">
-                                                        {{ $foodOrder->first_name }}{{ $foodOrder->last_name }}</td>
-                                                    <td class="align-middle">{{ $foodOrder->order->table_no }}</td>
-                                                    <td class="align-middle">{{ $foodOrder->order->remark }}</td>
+                                                    <td class="align-middle">{{ $foodOrder->user->first_name }} {{ $foodOrder->user->last_name }}</td>
+                                                    <td class="align-middle">{{ $foodOrder->table_no }}</td>
+                                                    <td class="align-middle">{{ $foodOrder->remark }}</td>
                                                     <td class="align-middle">{{ $foodOrder->total_quantity }}</td>
                                                     <td class="align-middle">Pay Online</td>
-                                                    <td class="align-middle">{{ $foodOrder->order->created_at }}</td>
+                                                    <td class="align-middle">{{ $foodOrder->created_at }}</td>
                                                     <td class="align-middle">
                                                         <a href="{{ route('owner.order.details', ['orderId' => $foodOrder->id]) }}"
                                                             class="btn btn-primary">
@@ -191,10 +189,11 @@
                                                             <i class="fas fa-print">Print</i>
                                                         </a>
                                                     </td>
+                                                    {{-- <td class="align-middle">{{ $foodOrder->total_price }}</td> --}}
                                                 </tr>
                                             @endforeach
                                         @endif
-                                    </tbody> --}}
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

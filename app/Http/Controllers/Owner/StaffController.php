@@ -49,9 +49,14 @@ class StaffController extends Controller
             $file = $request->file('image');
             $randomStr = date('Ymdhis') . Str::random(20);
             $filename = strtolower($randomStr) . '.' . $ext;
-            $file->move('upload/staff/', $filename);
 
-            $staff->image = $filename;
+            // Move the uploaded image to the specified directory
+            $file->move(public_path('upload/staff/'), $filename);
+
+            // Generate the image URL
+            $imageUrl = url('upload/staff/' . $filename);
+
+            $staff->image = $imageUrl;
         }
 
         $staff->save();

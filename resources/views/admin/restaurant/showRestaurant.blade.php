@@ -20,8 +20,8 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-striped" id="dataTable" width="100%" cellspacing="10">
-                    <thead>
-                        <tr style="color: black">
+                    <thead class="table-dark">
+                        <tr class="text-center">
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
@@ -33,19 +33,24 @@
                     </thead>
                     <tbody>
                         @foreach ($getRestaurant as $restaurant)
-                            <tr>
-                                <td style="color: black">{{ $restaurant->id }}</td>
-                                <td>{{ $restaurant->name }}</td>
-                                <td>{{ $restaurant->email }}</td>
-                                <td>{{ $restaurant->phone }}</td>
-                                <td>{{ $restaurant->address }}</td>
+                            <tr class="text-center">
+                                <td class="align-middle">{{ $restaurant->id }}</td>
+                                <td class="align-middle">{{ $restaurant->name }}</td>
+                                <td class="align-middle">{{ $restaurant->email }}</td>
+                                <td class="align-middle">{{ $restaurant->phone }}</td>
+                                <td class="align-middle">{{ $restaurant->address }}</td>
                                 <td><img height="75" width="75" src="{{$restaurant->image}}" alt=""></td>
-                            <td>
-                                    <a class="nav-link" href="{{ url('admin/restaurant/edit/'.$restaurant->id) }}">
+                                <td class="align-middle text-center">
+                                    {{-- edit --}}
+                                    <a class="btn btn-md btn-circle btn-outline-info"
+                                        href="{{ url('admin/restaurant/edit/'.$restaurant->id) }}">
                                         <i class="fas fa-fw fa-edit"></i>
                                     </a>
-                                    <a class="nav-link" href="{{ url('admin/restaurant/delete/'.$restaurant->id) }}" onclick="return confirm('Are you Sure?')">
-                                        <i class="fas fa-fw fa-trash-alt icon-trash-red"></i>
+                                    {{-- delete --}}
+                                    <a class="btn btn-md btn-circle btn-outline-danger ms-2"
+                                        href="{{ url('admin/restaurant/delete/'.$restaurant->id) }}"
+                                        onclick="return confirm('Are you Sure?')">
+                                        <i class="fas fa-fw fa-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>

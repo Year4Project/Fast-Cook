@@ -21,6 +21,7 @@ class DashboardController extends Controller
             $totalUser = User::count();
             $totalRestaurant = Restaurant::count();
             return view('admin.dashboard', $data, compact('totalUser', 'totalRestaurant'));
+            
         } else if (Auth::user()->user_type == 2) {
             $data['header_title'] = 'User Order Food';
             $data['getOrder'] = Order::where('restaurant_id', Auth::user()->restaurant->id)->count();
@@ -29,6 +30,7 @@ class DashboardController extends Controller
             $data['getTables'] = Scen::where('restaurant_id', Auth::user()->restaurant->id)->count();
 
             // $data['getOrderUser'] = Order::getOrderUser();
+            $data['getOrderUser'] = Order::getUserOrders();
             // $data['totalPrice'] = Order::sum('total_price');
             return view('owner.dashboard', $data);
         }

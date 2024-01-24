@@ -12,6 +12,11 @@ class Restaurant extends Authenticatable
 
     protected $fillable = ['name', 'address', 'image', 'email', 'status', 'phone'];
 
+    static public function getSingle($id)
+    {
+        return self::find($id);
+    }
+    
     public function user()
     {
         return $this->hasOne(User::class);
@@ -54,5 +59,10 @@ class Restaurant extends Authenticatable
     public function category()
     {
         return $this->hasMany(Category::class);
+    }
+
+    public function staff()
+    {
+        return $this->hasMany(Staff::class, 'restaurant_id');
     }
 }

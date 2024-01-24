@@ -53,4 +53,12 @@
     e.preventDefault();
   });
 
+  // Example using Laravel Echo and Pusher
+// window.Echo.channel('restaurant-dashboard')
+// .listen('OrderPlacedEvent', (event) => {
+//     // Update the dashboard with the new order information
+//     alert('New order placed: ' + JSON.stringify(event.order));
+// });
+
+
 })(jQuery); // End of use strict

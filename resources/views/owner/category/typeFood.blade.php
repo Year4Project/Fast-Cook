@@ -28,14 +28,23 @@
                             <tr class="text-center">
                                 <th>ID</th>
                                 <th>Name</th>
+                                <th>Create At</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @if ($category->isEmpty())
+                                            <tr>
+                                                <td colspan="11">
+                                                    <div style="margin-top: 50px; text-align: center;">No records found.</div>
+                                                </td>
+                                            </tr>
+                            @else
                             @foreach ($category as $item)
                                 <tr class="text-center">
                                     <th class="align-middle">{{ $item->id }}</th>
                                     <th class="align-middle">{{ $item->name }}</th>
+                                    <th class="align-middle">{{ date('d,M,Y | h:i A', strtotime($item->created_at)) }}</th>
                                     <td class="align-middle text-center">
                                         {{-- edit --}}
                                         <a class="btn btn-md btn-circle btn-outline-info"
@@ -51,7 +60,7 @@
                                     </td>
                                 </tr>
                             @endforeach
-
+                            @endif
                         </tbody>
                     </table>
                 </div>

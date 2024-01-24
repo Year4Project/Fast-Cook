@@ -63,10 +63,10 @@
         <hr class="sidebar-divider">
         <li class="nav-item active">
             <a class="nav-link" href="{{ url('owner/pos/pos_system') }}">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <i class="fas fa-desktop"></i>
                 <span>POS System</span></a>
         </li>
-        
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 

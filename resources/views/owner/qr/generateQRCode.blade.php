@@ -3,19 +3,19 @@
 @section("content")
 
 <div class="container-fluid">
-    
+
 
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Generator QR Code</h1>
-        {{-- <a href="{{ url('owner/qr/create') }}" 
+        {{-- <a href="{{ url('owner/qr/create') }}"
         class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create QR</a> --}}
     </div>
-  
+
     <div class="card shadow mb-4 mt-4">
         <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Of Owner Restaurant</h6>
-            {{-- <a href="{{ url('owner/qr/create') }}" 
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Of QR Code</h6>
+            {{-- <a href="{{ url('owner/qr/create') }}"
         class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Create QR</a> --}}
         <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addnew">
             <i class="bi bi-clipboard2-plus-fill"></i> Generate QR Code Table
@@ -33,13 +33,20 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if ($getQrcode->isEmpty())
+                                <tr>
+                                    <td colspan="11">
+                                        <div style="margin-top: 50px; text-align: center;">No records found.</div>
+                                    </td>
+                                </tr>
+                            @else
                         @foreach ($getQrcode as $item)
-                            <tr>
-                                <td class="text-center">{{ $item->id }}</td>
-                                <td class="text-center">{{ $item->table_no }}</td>
-                                <td class="text-center">{!! QrCode::size(100)->generate(json_encode(["restaurant_id" => $item->id, "table_no" => $item->table_no])) !!}</td>
-                                <td class="text-center">
-                                    
+                            <tr class="text-center">
+                                <td class="align-middle">{{ $item->id }}</td>
+                                <td class="align-middle">{{ $item->table_no }}</td>
+                                <td class="align-middle">{!! QrCode::size(100)->generate(json_encode(["restaurant_id" => $item->id, "table_no" => $item->table_no])) !!}</td>
+                                <td class="align-middle">
+
                                     {{-- download --}}
                                     <a class="btn btn-md btn-circle btn-primary ms-2"
                                     href="{{ route('owner.qr.download', ['scen' => $item->id]) }}">
@@ -55,9 +62,10 @@
                                     <i class="fas fa-fw fa-trash-alt"></i>
                                 </a>
                                 </td>
-                                
+
                             </tr>
                         @endforeach
+                        @endif
                     </tbody>
                 </table>
             </div>
