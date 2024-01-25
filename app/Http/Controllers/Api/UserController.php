@@ -92,12 +92,12 @@ class UserController extends Controller
                  "status" => true,
                  "message" => "User logged in successfully",
                  'data' => ["token" => $token, "user" => $user],
-             ]);
+             ],200);
          } else {
              return response()->json([
                  "status" => false,
                  "message" => "Invalid details"
-             ]);
+             ],400);
          }
      }
 
