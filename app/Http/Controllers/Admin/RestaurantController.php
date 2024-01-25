@@ -93,6 +93,7 @@ class RestaurantController extends Controller
 
         $restaurant = Restaurant::getSingle($id);
 
+        // $restaurant->name = $request->name;
         $restaurant->name = $request->name;
         $restaurant->email = $request->email;
         $restaurant->address = $request->address;

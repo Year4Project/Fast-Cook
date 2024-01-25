@@ -50,7 +50,7 @@ class GeneratorQRController extends Controller
             return redirect('owner/qr/generateQRCode')->with('error', 'Error creating Scen record: ' . $e->getMessage());
         }
     }
-
+// old code downloadqr
     // public function downloadQrCode($scenId)
     // {
     //     // Retrieve the Scen record
@@ -66,7 +66,7 @@ class GeneratorQRController extends Controller
 
     //     // Set response headers
     //     $headers = [
-    //         'Content-Type' => 'image/png',
+    //         'Content-Type' => 'image/jpf',
     //         'Content-Disposition' => 'attachment; filename="qrcode.png"',
     //     ];
 
@@ -78,40 +78,73 @@ class GeneratorQRController extends Controller
 
     //     return $response;
     // }
+
+// error download
+    // public function downloadQrCode($scenId)
+    // {
+    //     try {
+    //         // Retrieve the Scen record
+    //         $scen = Scen::findOrFail($scenId);
+
+    //         // Generate QR code
+    //         $qrCode = QrCode::size(100)
+    //             ->margin(10)
+    //             ->generate(json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]));
+
+    //         // Create an Intervention Image instance from the QR code PNG
+    //         $image = Image::make($qrCode);
+
+    //         // Set response headers
+    //         $headers = [
+    //             'Content-Type' => 'image/png',
+    //             'Content-Disposition' => 'attachment; filename="qrcode.png"',
+    //         ];
+
+    //         // Return the response with QR code image in PNG format
+    //         return response()->stream(
+    //             function () use ($image) {
+    //                 echo $image->encode('png');
+    //             },
+    //             200,
+    //             $headers
+    //         );
+
+    //     } catch (\Exception $e) {
+    //         // Handle exceptions (e.g., Scen not found)
+    //         return response()->json(['error' => $e->getMessage()], 404);
+    //     }
+    // }
+
+    // new code download
+
     public function downloadQrCode($scenId)
-    {
-        try {
-            // Retrieve the Scen record
-            $scen = Scen::findOrFail($scenId);
+{
+    // Retrieve the Scen record
+    $scen = Scen::findOrFail($scenId);
 
-            // Generate QR code
-            $qrCode = QrCode::size(100)
-                ->margin(10)
-                ->generate(json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]));
+    // Set the margin (border) to 10 (adjust as needed)
+    $marginSize = 10;
 
-            // Create an Intervention Image instance from the QR code PNG
-            $image = Image::make($qrCode);
+    // Generate QR code
+    $qrCode = QrCode::size(100)
+        ->margin($marginSize)
+        ->generate(json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]));
 
-            // Set response headers
-            $headers = [
-                'Content-Type' => 'image/png',
-                'Content-Disposition' => 'attachment; filename="qrcode.png"',
-            ];
+    // Set response headers
+    $headers = [
+        'Content-Type' => 'image/png',
+        'Content-Disposition' => 'attachment; filename="qrcode.png"',
+    ];
 
-            // Return the response with QR code image in PNG format
-            return response()->stream(
-                function () use ($image) {
-                    echo $image->encode('png');
-                },
-                200,
-                $headers
-            );
+    // Return the response with QR code image
+    $response = response($qrCode, 200, $headers);
 
-        } catch (\Exception $e) {
-            // Handle exceptions (e.g., Scen not found)
-            return response()->json(['error' => $e->getMessage()], 404);
-        }
-    }
+    // Add a custom header to indicate that the download has occurred
+    $response->header('Downloaded', true);
+
+    return $response;
+}
+
 
     public function deleteQrCode($scen){
 
