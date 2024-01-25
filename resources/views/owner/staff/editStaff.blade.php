@@ -74,7 +74,7 @@
                   <div class="form-group">
                     <label>Old Image Staff</label>
                     <div class="container ms-2 mt-2 ">
-                    <img height="150" width="150" src="/upload/staff/{{$getStaff->image}}" alt="">
+                    <img height="150" width="150" src="{{$getStaff->image}}" alt="">
                     </div>
                   </div>
                   <div class="form-group">
