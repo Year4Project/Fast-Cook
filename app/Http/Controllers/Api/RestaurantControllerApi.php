@@ -71,10 +71,10 @@ class RestaurantControllerApi extends Controller
             ], 200);
         } else {
             return response()->json([
-                // 'status' => false,
-                // 'message' => 'No Records Found',
+                'status' => true,
+                'message' => 'No Record',
                 'data' => []
-            ], 404);
+            ], 200);
         }
     }
 
