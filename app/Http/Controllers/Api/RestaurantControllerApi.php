@@ -42,7 +42,8 @@ class RestaurantControllerApi extends Controller
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'No Records Found'
+                'message' => 'No Records Found',
+                'data' => []
             ], 404);
         }
     }
@@ -122,7 +123,6 @@ class RestaurantControllerApi extends Controller
     //     }
     // }
 
-
     public function getRestaurant(Request $request)
 {
     $query = $request->input('name'); // Assuming 'name' is the parameter for the restaurant name search
@@ -145,7 +145,8 @@ class RestaurantControllerApi extends Controller
     } else {
         return response()->json([
             'status' => false,
-            'message' => 'No Records Found'
+            'message' => 'No Records Found',
+            'data' => []
         ], 404);
     }
 }

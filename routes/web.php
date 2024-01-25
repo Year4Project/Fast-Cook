@@ -99,7 +99,7 @@ Route::middleware('auth')->group(function () {
         Route::get('owner/qr/createQRCode', [GeneratorQRController::class, 'qrCode'])->name('Generate QR Code');
         Route::post('owner/qr/store', [GeneratorQRController::class, 'store'])->name('Generate QR Code');
         Route::get('owner/qr/download-qrcode/{scen}', [GeneratorQRController::class, 'downloadQrCode'])->name('owner.qr.download');
-        Route::delete('owner/qr/delete-qrcode/{scen}', [GeneratorQRController::class, 'deleteQrCode'])->name('owner.qr.delete');
+        Route::get('owner/qr/delete-qrcode/{scen}', [GeneratorQRController::class, 'deleteQrCode'])->name('owner.qr.delete');
 
         // Chats
         Route::get('owner/chat/chat', [ChatController::class, 'chat']);
