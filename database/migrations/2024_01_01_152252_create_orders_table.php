@@ -18,6 +18,8 @@ return new class extends Migration
             $table->json('items');
             $table->integer('table_no');
             $table->string('remark')->nullable();
+            $table->decimal('payment', 10, 2)->nullable();
+            $table->string('payment_type')->nullable();
             $table->integer('total_quantity')->default(0);
             $table->timestamps();
 
