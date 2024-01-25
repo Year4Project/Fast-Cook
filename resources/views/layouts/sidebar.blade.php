@@ -1,9 +1,5 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-    @php
-    use Illuminate\Support\Facades\Auth;
-@endphp
-
 
     @if (Auth::user()->user_type == 1)
         <!-- Sidebar - Brand -->
