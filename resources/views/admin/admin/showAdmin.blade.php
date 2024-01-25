@@ -1,9 +1,9 @@
 @extends("layouts.app")
 
 @section("content")
-
+<div class="big-banner">
 <div class="container-fluid">
-    
+
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -51,17 +51,17 @@
 
                             <td>{{ date('d-m-Y H:i A', strtotime($adm->created_at)) }}</td>
                             <td>
-                                
+
                                 <a class="nav-link" href="{{ url('admin/admin/edit/'.$adm->id) }}">
                                     <i class="fas fa-fw fa-edit"></i>
                                 </a>
                                 <a class="nav-link" href="{{ url('admin/admin/delete/'.$adm->id) }}">
                                     <i class="fas fa-fw fa-trash-alt icon-trash-red"></i>
                                 </a>
-                                
+
                             </td>
                         </tr>
-                       
+
                    @endforeach
                     </tbody>
                 </table>
@@ -71,6 +71,6 @@
 
 </div>
 
-
+</div>
 
 @endsection

@@ -1,9 +1,9 @@
 @extends("layouts.app")
 
 @section("content")
-
+<div class="big-banner">
 <div class="container-fluid">
-    
+
     <!-- Content Row -->
     <div class="row align-items-end">
       <section class="content-header">
@@ -15,7 +15,7 @@
           </div>
         </div><!-- /.container-fluid -->
       </section>
-      
+
         <form method="post" action="">
             {{ csrf_field() }}
             <div class="card-body">
@@ -53,6 +53,6 @@
     </div>
 </div>
 
-
+</div>
 
 @endsection

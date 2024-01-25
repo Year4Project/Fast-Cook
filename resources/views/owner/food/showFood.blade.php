@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="big-banner">
     <div class="container-fluid">
 
 
@@ -94,4 +95,5 @@
         {{-- @include('owner.food.createFood') --}}
 
     </div>
+</div>
 @endsection

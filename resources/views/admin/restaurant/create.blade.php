@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="big-banner">
     <div class="content">
 
         <!-- Content Header (Page header) -->
@@ -107,4 +108,5 @@
         </section>
         <!-- /.content -->
     </div>
+</div>
 @endsection

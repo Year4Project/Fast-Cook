@@ -4,7 +4,7 @@
     <div class="big-banner">
         <div class="container-fluid">
 
-            <!-- Include Laravel Echo and Pusher -->
+            {{-- <!-- Include Laravel Echo and Pusher -->
 <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.1/dist/echo.iife.js"></script>
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 
@@ -25,7 +25,7 @@
 </script>
 
 
-            {{-- <order-notification></order-notification> --}}
+            <order-notification></order-notification> --}}
 
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="big-banner">
     <div class="container-fluid">
 
 
@@ -69,4 +70,5 @@
         @include('owner.category.createCategory')
 
     </div>
+</div>
 @endsection

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="big-banner">
     <div class="container-fluid">
         @include('_massage')
 
@@ -63,6 +64,7 @@
             </div>
         </div>
     </div>
+</div>
 
     <style>
         /* Add hover effect */
@@ -234,4 +236,5 @@
             }
         });
     </script>
+
 @endsection

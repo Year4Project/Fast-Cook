@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="big-banner">
     <div class="container-fluid">
 
 
@@ -75,4 +76,5 @@
     </div>
     @include('owner.staff.createStaff')
     {{-- @include('owner.staff.editStaff') --}}
+</div>
 @endsection

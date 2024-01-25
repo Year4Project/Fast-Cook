@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="big-banner">
     <div class="container-fluid">
 
         <div class="d-sm-flex align-items-center justify-content-between mt-4 mb-4">
@@ -66,7 +67,7 @@
             </div>
         </div>
     </div>
-
+</div>
     <script>
         // JavaScript to handle image click
         document.getElementById('imageInput').addEventListener('change', function () {
