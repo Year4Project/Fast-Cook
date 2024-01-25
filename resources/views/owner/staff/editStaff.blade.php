@@ -6,7 +6,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2 mb-4 mt-4">
+        <div class="row mb-2 mb-4">
           <div class="col-sm-6">
             <h1 class="h3 mb-0 text-gray-800">List Staff</h1>
 
@@ -16,7 +16,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content ">
+    <section class="content">
       <div class="container-fluid">
           <div class="row justify-content-center">
           <!-- left column -->
