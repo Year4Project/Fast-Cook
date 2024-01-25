@@ -78,77 +78,31 @@ class RestaurantControllerApi extends Controller
         }
     }
 
-    // public function orderConfirm(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'user_id' => 'required',
-    //         'food_id' => 'required',
-    //         'quantity' => 'required',
-    //         'remark' => 'required|string|max:191',
-    //         'table_no' => 'required',
-    //     ]);
-
-    //     // Get the authenticated user
-    //     $user = JWTAuth::parseToken()->authenticate();
-
-    //     if ($validator->fails()) {
-
-    //         return response()->json([
-    //             'status' => 422,
-    //             'errors' => $validator->messages()
-    //         ], 422);
-    //     } else {
-
-    //         $order = Order::create([
-    //             'user_id' => $user->id,
-    //             'food_id' => $request->food_id,
-    //             'quantity' => $request->quantity,
-    //             'remark' => $request->remark,
-    //             'table_no' => $request->table_no,
-    //         ]);
-
-    //         if ($order) {
-
-    //             return response()->json([
-    //                 'status' => true,
-    //                 'Orders' => "Order Created Successfully"
-    //             ], 200);
-    //         } else {
-
-    //             return response()->json([
-    //                 'status' => false,
-    //                 'message' => 'Something Went Wrong'
-    //             ], 500);
-    //         }
-    //     }
-    // }
-
     public function getRestaurant(Request $request)
-{
-    $query = $request->input('name'); // Assuming 'name' is the parameter for the restaurant name search
+    {
+        $query = $request->input('name'); // Assuming 'name' is the parameter for the restaurant name search
 
-    $restaurants = Restaurant::query();
+        $restaurants = Restaurant::query();
 
-    // If a search query is provided, filter restaurants by name
-    if ($query) {
-        $restaurants->where('name', 'like', '%' . $query . '%');
+        // If a search query is provided, filter restaurants by name
+        if ($query) {
+            $restaurants->where('name', 'like', '%' . $query . '%');
+        }
+
+        $restaurants = $restaurants->get();
+
+        if ($restaurants->count() > 0) {
+            return response()->json([
+                'status' => true,
+                'message' => "Successfully list restaurant",
+                'data' => $restaurants
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Records Found',
+                'data' => []
+            ], 404);
+        }
     }
-
-    $restaurants = $restaurants->get();
-
-    if ($restaurants->count() > 0) {
-        return response()->json([
-            'status' => true,
-            'message' => "Successfully list restaurant",
-            'data' => $restaurants
-        ], 200);
-    } else {
-        return response()->json([
-            'status' => false,
-            'message' => 'No Records Found',
-            'data' => []
-        ], 404);
-    }
-}
-
 }

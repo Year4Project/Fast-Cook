@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="big-banner">
+    <div class="big-banner bg-dashboard">
         <div class="container-fluid">
 
             <!-- Include Laravel Echo and Pusher -->
