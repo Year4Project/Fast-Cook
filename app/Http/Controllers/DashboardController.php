@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alert;
 use App\Models\Food;
 use App\Models\Order;
 use App\Models\Restaurant;
@@ -21,13 +22,15 @@ class DashboardController extends Controller
             $totalUser = User::count();
             $totalRestaurant = Restaurant::count();
             return view('admin.dashboard', $data, compact('totalUser', 'totalRestaurant'));
-            
+
         } else if (Auth::user()->user_type == 2) {
             $data['header_title'] = 'User Order Food';
             $data['getOrder'] = Order::where('restaurant_id', Auth::user()->restaurant->id)->count();
             $data['getFood'] = Food::where('restaurant_id', Auth::user()->restaurant->id)->count();
             $data['getStaff'] = Staff::getStaff()->count();
             $data['getTables'] = Scen::where('restaurant_id', Auth::user()->restaurant->id)->count();
+            $data['alerts'] = Alert::latest()->get();
+
 
             // $data['getOrderUser'] = Order::getOrderUser();
             $data['getOrderUser'] = Order::getUserOrders();

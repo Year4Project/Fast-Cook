@@ -67,6 +67,9 @@
                     </div>
                     <div>
                         <div class="small text-gray-500">December 12, 2019</div>
+                        @foreach($alerts as $alert)
+                        <div>{{ $alert->message }}</div>
+                    @endforeach
                         {{-- <span class="font-weight-bold">{{ $notification->data['name'] }}</span> --}}
                     </div>
                     {{-- @empty --}}

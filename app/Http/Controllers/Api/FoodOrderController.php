@@ -78,6 +78,7 @@ class FoodOrderController extends Controller
     //         'data' => $responseData,
     //     ], 201);
     // }
+
     public function orderFood(Request $request)
     {
         $request->validate([
@@ -142,21 +143,21 @@ class FoodOrderController extends Controller
 
 
     // Get all images
-    public function getAllFood()
-    {
-        try {
-            $foodData = Food::all();
-            // Return a JSON response
-            return response()->json([
-                'status' => true,
-                'data' => $foodData,
-            ]);
-        } catch (\Exception $e) {
-            // Return an error response
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Failed to fetch food items',
-            ], 500);
-        }
-    }
+    // public function getAllFood()
+    // {
+    //     try {
+    //         $foodData = Food::all();
+    //         // Return a JSON response
+    //         return response()->json([
+    //             'status' => true,
+    //             'data' => $foodData,
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         // Return an error response
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => 'Failed to fetch food items',
+    //         ], 500);
+    //     }
+    // }
 }

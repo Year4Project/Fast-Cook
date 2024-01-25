@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
     export default {
         mounted() {
             window.Echo.channel('new-order')
@@ -9,4 +9,4 @@
                 });
         },
     }
-</script>
+</script> -->

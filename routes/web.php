@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\RestaurantController;
+use App\Http\Controllers\AlertController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Owner\CategoryController;
@@ -109,6 +110,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/owner/profile/update', [ProfileController::class, 'update'])->name('owner.profile.update');
         Route::get('/owner/profile/profile', [ProfileController::class, 'profile'])->name('owner.profile');
         Route::put('/owner/profile/update-image', 'ProfileController@updateImage')->name('owner.profile.update.image');
+
+        Route::get('/alerts', [AlertController::class, 'index']);
     });
 
     // Route::group(['middleware' => 'user'], function () {

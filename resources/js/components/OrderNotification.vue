@@ -8,7 +8,7 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   export default {
     data() {
@@ -16,15 +16,14 @@
         notification: null,
       };
     },
-    mounted() {
-      window.Echo.channel('private-user.' + userId)
-        .notification((notification) => {
-          // Handle the new order notification
-          console.log('New Order Notification:', notification);
-          this.notification = notification;
-          // Add your logic to update the UI or display a notification
-        });
-    },
+    // mounted() {
+    //   window.Echo.channel('private-user.' + userId)
+    //     .notification((notification) => {
+    //       // Handle the new order notification
+    //       console.log('New Order Notification:', notification);
+    //       this.notification = notification;
+    //       // Add your logic to update the UI or display a notification
+    //     });
+    // },
   };
   </script>
-  
