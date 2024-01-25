@@ -2,17 +2,15 @@
 
 namespace App\Events;
 
-use App\Models\Order;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use App\Models\Alert;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use App\Models\Order;
 
 class OrderPlacedEvent implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use InteractsWithSockets, SerializesModels;
 
     public $order;
 
@@ -24,10 +22,22 @@ class OrderPlacedEvent implements ShouldBroadcast
         if (!$this->order->relationLoaded('user')) {
             $this->order->load('user');
         }
+    }
 
-        // Save the alert to the database
-        Alert::create([
-            'message' => "New order placed by {$this->order->user->first_name} {$this->order->user->last_name}",
-        ]);
+    public function broadcastOn()
+    {
+        return new Channel('restaurant-dashboard');
+    }
+
+    public function broadcastWith()
+    {
+        // Get the user information
+        $user = $this->order->user;
+
+        // Broadcasting data
+        return [
+            'order' => $this->order,
+            'user' => $user,
+        ];
     }
 }

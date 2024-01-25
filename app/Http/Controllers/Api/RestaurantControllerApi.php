@@ -73,7 +73,6 @@ class RestaurantControllerApi extends Controller
                 // 'status' => false,
                 // 'message' => 'No Records Found',
                 'data' => []
-
             ], 404);
         }
     }
