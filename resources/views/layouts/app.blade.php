@@ -54,12 +54,12 @@
                 @yield('content')
                 <!-- /.container-fluid -->
 
-
+                {{-- @include('layouts.footer') --}}
             </div>
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            @include('layouts.footer')
+
             <!-- End of Footer -->
 
         </div>
