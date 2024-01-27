@@ -23,7 +23,7 @@
 
                             <div class="text-center mb-4">
                                 <label for="imageInput">
-                                    <img src="{{ $user->image_url }}" class="img-fluid rounded-circle" alt="User Image"
+                                    <img src="{{ Auth::user()->restaurant->image }}" class="img-fluid rounded-circle" alt="User Image"
                                         style="width: 150px; height: 150px; cursor: pointer;">
                                 </label>
                                 <input type="file" id="imageInput" class="form-control-file" name="image" accept="image/*"

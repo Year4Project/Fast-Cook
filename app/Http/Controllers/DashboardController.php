@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alert;
+use App\Models\Category;
 use App\Models\Food;
 use App\Models\Order;
 use App\Models\Restaurant;
@@ -29,6 +30,7 @@ class DashboardController extends Controller
             $data['getFood'] = Food::where('restaurant_id', Auth::user()->restaurant->id)->count();
             $data['getStaff'] = Staff::getStaff()->count();
             $data['getTables'] = Scen::where('restaurant_id', Auth::user()->restaurant->id)->count();
+            $data['getCategory'] = Category::where('restaurant_id', Auth::user()->restaurant->id)->count();
             $data['alerts'] = Alert::latest()->get();
 
 

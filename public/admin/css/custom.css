@@ -1,11 +1,12 @@
 .big-banner{
 
     width: auto;
-    height: 350px;
+    height: auto;
     /* background-size: cover; */
 }
 
 .big-banner.bg-dashboard{
+    height: 380px;
     background-image: url('../img/bg.jpg');
     background-size: cover;
 

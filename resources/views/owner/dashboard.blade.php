@@ -54,6 +54,8 @@
                     </div>
                 </div>
 
+
+
                 <!-- Earnings (Monthly) Card Example -->
                 <div class="col-xl-2 col-md-6 mb-4">
                     <div class="card border-left-success shadow h-100 py-2">
@@ -73,14 +75,16 @@
                     </div>
                 </div>
 
+
+
                 <div class="col-xl-2 col-md-6 mb-4">
                     <div class="card border-left-secondary shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col ml-4">
                                     <div class="text-xl font-weight-bold text-secondary text-uppercase mb-1">
-                                        Tables</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getTables }}</div>
+                                        Category</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getCategory }}</div>
                                 </div>
                                 <div class="col-auto me-4">
                                     <i class="fas fa-border-all fa-2x text-black-300"></i>
@@ -90,6 +94,8 @@
                         </div>
                     </div>
                 </div>
+
+
 
                 <!-- Earnings (Monthly) Card Example -->
                 <div class="col-xl-2 col-md-6 mb-4">
@@ -123,6 +129,11 @@
                 </div>
 
                 <!-- Pending Requests Card Example -->
+
+            </div>
+
+
+            <div class="row mt-4 justify-content-center">
                 <div class="col-xl-2 col-md-6 mb-4">
                     <div class="card border-left-warning shadow h-100 py-2">
                         <div class="card-body">
@@ -139,6 +150,39 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-xl-2 col-md-6 mb-4">
+                    <div class="card border-left-secondary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col ml-4">
+                                    <div class="text-xl font-weight-bold text-secondary text-uppercase mb-1">
+                                        Tables</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getTables }}</div>
+                                </div>
+                                <div class="col-auto me-4">
+                                    <i class="fas fa-border-all fa-2x text-black-300"></i>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="col-xl-2 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col ms-4">
+                                    <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
+                                        dd</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getStaff }}</div>
+                                </div>
+                                <div class="col-auto me-4">
+                                    <i class="fas fa-user fa-2x text-blue-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
             </div>
 
             <div class="row mt-4 justify-content-center">
@@ -166,14 +210,16 @@
                                         @if ($getOrderUser->isEmpty())
                                             <tr>
                                                 <td colspan="11">
-                                                    <div style="margin-top: 50px; text-align: center;">No records found.</div>
+                                                    <div style="margin-top: 50px; text-align: center;">No records found.
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @else
                                             @foreach ($getOrderUser as $foodOrder)
                                                 <tr class="text-center">
                                                     <td class="align-middle">{{ $foodOrder->id }}</td>
-                                                    <td class="align-middle">{{ $foodOrder->user->first_name }} {{ $foodOrder->user->last_name }}</td>
+                                                    <td class="align-middle">{{ $foodOrder->user->first_name }}
+                                                        {{ $foodOrder->user->last_name }}</td>
                                                     <td class="align-middle">{{ $foodOrder->table_no }}</td>
                                                     <td class="align-middle">{{ $foodOrder->remark }}</td>
                                                     <td class="align-middle">{{ $foodOrder->total_quantity }}</td>
@@ -204,7 +250,7 @@
     </div>
 
     <!-- Include Laravel Echo and Pusher -->
-{{-- <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.1/dist/echo.iife.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.1/dist/echo.iife.js"></script>
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 
 <script>
@@ -215,6 +261,6 @@
             // Add your logic to update the dashboard here
         });
 </script> --}}
-{{-- <script src="{{ mix('js/app.js') }}"></script> --}}
+    {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
 
 @endsection
