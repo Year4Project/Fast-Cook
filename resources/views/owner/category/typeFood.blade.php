@@ -43,9 +43,9 @@
                             @else
                             @foreach ($category as $item)
                                 <tr class="text-center">
-                                    <th class="align-middle">{{ $item->id }}</th>
-                                    <th class="align-middle">{{ $item->name }}</th>
-                                    <th class="align-middle">{{ date('d,M,Y | h:i A', strtotime($item->created_at)) }}</th>
+                                    <td class="align-middle">{{ $loop->iteration }}</td>
+                                    <td class="align-middle">{{ $item->name }}</td>
+                                    <td class="align-middle">{{ date('d,M,Y | h:i A', strtotime($item->created_at)) }}</td>
                                     <td class="align-middle text-center">
                                         {{-- edit --}}
                                         <a class="btn btn-md btn-circle btn-outline-info"

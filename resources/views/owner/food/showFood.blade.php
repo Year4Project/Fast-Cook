@@ -49,7 +49,7 @@
                             @else
                                 @foreach ($getFood as $item)
                                     <tr class="text-center">
-                                        <td class="align-middle">{{ $item->id }}</td>
+                                        <td class="align-middle">{{ $loop->iteration }}</td>
                                         <td class="align-middle">{{ $item->code }}</td>
                                         <td><img class="rounded-circle" height="75" width="75"
                                                 src="{{ $item->image_url }}" alt=""></td>

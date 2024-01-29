@@ -7,102 +7,149 @@ use App\Models\Food;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RestaurantControllerApi extends Controller
 {
+
+    /**
+     * Function fo get all food another restaurant
+     * It can searching food name and price
+     */
+
     public function getAllFood(Request $r)
     {
-        $user = JWTAuth::user();
+        try {
+            $user = JWTAuth::user();
 
-        $food = Food::query();
+            $food = Food::query();
 
-        // Add join with the restaurant table
-        $food->join('restaurants', 'foods.restaurant_id', '=', 'restaurants.id');
+            // Add join with the restaurant table
+            $food->join('restaurants', 'foods.restaurant_id', '=', 'restaurants.id');
 
-        // Select the columns you want
-        $food->select('foods.*', 'restaurants.name as restaurant_name');
+            // Select the columns you want
+            $food->select('foods.*', 'restaurants.name as restaurant_name');
 
-        // for searching
-        if ($r->keyword) {
-            $food->where('foods.name', 'LIKE', "%$r->keyword%")
-                ->orWhere('foods.dPrice', $r->keyword)
-                ->orWhere('restaurants.name', 'LIKE', "%$r->keyword%");
-        }
+            // for searching
+            if ($r->keyword) {
+                $food->where('foods.name', 'LIKE', "%$r->keyword%")
+                    ->orWhere('foods.price', $r->keyword)
+                    ->orWhere('restaurants.name', 'LIKE', "%$r->keyword%");
+            }
 
-        $food = $food->get();
+            $food = $food->get();
 
-        if ($food->count() > 0) {
+            if ($food->count() > 0) {
+                return response()->json([
+                    'status' => true,
+                    'message' => "Successfully list food",
+                    'data' => $food,
+                    'user' => $user
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'No Records Found',
+                    'data' => null // returning null instead of an empty array
+                ], 200);
+            }
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            Log::error('Error retrieving food: ' . $e->getMessage());
             return response()->json([
                 'status' => true,
-                'message' => "Successfully list food",
-                'data' => $food,
-                'user' => $user
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'No Records Found',
-                'data' => []
+                'message' => 'Error retrieving food. Please try again later.',
+                'data' => null
             ], 200);
         }
     }
+
+
+    /**
+     * This function for get List food by restaurant ID
+     */
 
     public function getListFood(Request $r, $id)
     {
+        try {
+            $user = JWTAuth::user();
 
-        $user = JWTAuth::user();
+            $foodQuery = DB::table('foods')->where("restaurant_id", $id);
 
-        $food = DB::table('foods')->where("restaurant_id", $id);
+            if ($r->keyword) {
+                $foodQuery->where(function ($query) use ($r) {
+                    $query->where('name', 'LIKE', "%$r->keyword%")
+                        ->orWhere('dPrice', $r->keyword);
+                });
+            }
 
-        if ($r->keyword) {
-            $food = $food->where('name', 'LIKE', "%$r->keyword%")
-                ->orWhere('dPrice', $r->keyword);
-        }
-        $food = $food->get();
+            $food = $foodQuery->get();
 
-        if ($food->count() > 0) {
-
+            if ($food->isNotEmpty()) {
+                return response()->json([
+                    'status' => true,
+                    'message' => "Successfully listed food",
+                    'data' => $food,
+                    'user' => $user
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'No Records Found',
+                    'data' => []
+                ], 200);
+            }
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            Log::error('Error retrieving food list: ' . $e->getMessage());
             return response()->json([
-                'status' => true,
-                'message' => "Successfully list food",
-                'data' => $food,
-                'user' => $user
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => true,
-                'message' => 'No Record',
-                'data' => []
-            ], 200);
+                'status' => false,
+                'message' => 'Error retrieving food list. Please try again later.',
+                'data' => null
+            ], 500);
         }
     }
 
+    /**
+     * This function for get all restaurant
+     * For API this fucntion can serching data
+     */
+
     public function getRestaurant(Request $request)
     {
-        $query = $request->input('name'); // Assuming 'name' is the parameter for the restaurant name search
+        try {
+            $query = $request->input('keyword');
 
-        $restaurants = Restaurant::query();
+            $restaurants = Restaurant::query();
 
-        // If a search query is provided, filter restaurants by name
-        if ($query) {
-            $restaurants->where('name', 'like', '%' . $query . '%');
-        }
+            if ($query) {
+                $restaurants->where('name', 'like', '%' . $query . '%');
+            }
 
-        $restaurants = $restaurants->get();
+            $restaurants = $restaurants->get();
 
-        if ($restaurants->count() > 0) {
+            if ($restaurants->count() > 0) {
+                return response()->json([
+                    'status' => true,
+                    'message' => "Successfully listed restaurant",
+                    'data' => $restaurants
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'No Records Found',
+                    'data' => []
+                ], 200);
+            }
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            Log::error('Error retrieving restaurants: ' . $e->getMessage());
             return response()->json([
                 'status' => true,
-                'message' => "Successfully list restaurant",
-                'data' => $restaurants
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'No Records Found',
-                'data' => []
-            ], 404);
+                'message' => 'Error retrieving restaurants. Please try again later.',
+                'data' => null
+            ], 500);
         }
     }
 }

@@ -31,9 +31,7 @@ class ApiKey
             if (!$apiKey || !ModelsApiKey::where('key', $apiKey)->exists()) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
-    
+
             return $next($request);
-        
-        
     }
 }

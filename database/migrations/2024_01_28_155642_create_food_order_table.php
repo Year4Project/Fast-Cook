@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Check if the table does not exist before creating it
-        if (!Schema::hasTable('food_order')) {
-            Schema::create('food_order', function (Blueprint $table) {
-                $table->id();
+        Schema::create('food_order', function (Blueprint $table) {
+            $table->id();
                 $table->unsignedBigInteger('food_id');
                 $table->unsignedBigInteger('order_id');
                 $table->integer('quantity');
@@ -22,8 +20,7 @@ return new class extends Migration
 
                 $table->foreign('food_id')->references('id')->on('foods')->onDelete('cascade');
                 $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-            });
-        }
+        });
     }
 
     /**
@@ -31,7 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Drop the table if it exists
         Schema::dropIfExists('food_order');
     }
 };

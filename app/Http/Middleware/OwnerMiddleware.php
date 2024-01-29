@@ -21,11 +21,11 @@ class OwnerMiddleware
             return $next($request);
         } else {
             auth()->logout();
-            return redirect(url('/'));
+            return redirect(url(''));
         }
     } else {
         auth()->logout();
-        return redirect(url('/'));
+        return redirect(url(''));
     }
 }
 

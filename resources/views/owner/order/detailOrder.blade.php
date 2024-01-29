@@ -34,7 +34,7 @@
                     <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
                         <thead class="table-dark">
                             <tr class="text-center">
-                                <th>ID</th>
+                                <th>#</th>
                                 <th>Image</th>
                                 <th>Food ID</th>
                                 <th>Food Name</th>
@@ -47,7 +47,7 @@
                         <tbody>
                             @foreach ($getOrderDetails->foods as $food)
                                 <tr class="text-center">
-                                    <th class="align-middle">{{ $food->id }}</th>
+                                    <td class="align-middle">{{ $loop->iteration }}</td>
                                     <td class="align-middle"><img class="rounded-circle" height="75" width="75"
                                             src="{{ $food->image_url }}" alt=""></td>
                                     <th class="align-middle">{{ $food->code }}</th>

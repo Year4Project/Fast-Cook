@@ -32,23 +32,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($getRestaurant as $restaurant)
+                        @foreach ($getRestaurant as $item)
                             <tr class="text-center">
-                                <td class="align-middle">{{ $restaurant->id }}</td>
-                                <td class="align-middle">{{ $restaurant->name }}</td>
-                                <td class="align-middle">{{ $restaurant->email }}</td>
-                                <td class="align-middle">{{ $restaurant->phone }}</td>
-                                <td class="align-middle">{{ $restaurant->address }}</td>
-                                <td><img height="75" width="75" src="{{$restaurant->image}}" alt=""></td>
+                                <td class="align-middle">{{ $item->restaurant_id }}</td>
+                                <td class="align-middle">{{ $item->restaurant_name }}</td>
+                                <td class="align-middle">{{ $item->email }}</td>
+                                <td class="align-middle">{{ $item->phone }}</td>
+                                <td class="align-middle">{{ $item->restaurant_address }}</td>
+                                <td><img height="75" width="75" src="{{$item->image}}" alt=""></td>
                                 <td class="align-middle text-center">
                                     {{-- edit --}}
                                     <a class="btn btn-md btn-circle btn-outline-info"
-                                        href="{{ url('admin/restaurant/edit/'.$restaurant->id) }}">
+                                        href="{{ url('/admin/edit/user/restaurant/{restaurantId}'.$item->id,$item->restaurant_id) }}">
                                         <i class="fas fa-fw fa-edit"></i>
                                     </a>
                                     {{-- delete --}}
                                     <a class="btn btn-md btn-circle btn-outline-danger ms-2"
-                                        href="{{ url('admin/restaurant/delete/'.$restaurant->id) }}"
+                                        href="{{ url('admin/restaurant/delete/'.$item->restaurant_id) }}"
                                         onclick="return confirm('Are you Sure?')">
                                         <i class="fas fa-fw fa-trash-alt"></i>
                                     </a>

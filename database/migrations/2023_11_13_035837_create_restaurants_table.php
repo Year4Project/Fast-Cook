@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('user_id');
             $table->string('name')->nullable();
             $table->string('image')->nullable();
-            $table->string('phone')->nullable();
+            // $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->integer('status')->default(1); // 0 Inactive, 1 Active
             $table->timestamps();

@@ -47,8 +47,8 @@ Route::middleware('auth')->group(function () {
         // All Restaurant Routes
         Route::get('admin/restaurant/showRestaurant', [RestaurantController::class, 'showRestaurant']);
         Route::get('admin/restaurant/create', [RestaurantController::class, 'create']);
-        Route::post('admin/restaurant/store', [RestaurantController::class, 'createRestaurant']);
-        Route::get('admin/restaurant/edit/{id}', [RestaurantController::class, 'edit']);
+        Route::post('admin/restaurant/store', [RestaurantController::class, 'createUserAndRestaurant']);
+        Route::put('/admin/edit/user/{userId}/restaurant/{restaurantId}', [RestaurantController::class, 'edit']);
         Route::post('admin/restaurant/edit/{id}', [RestaurantController::class, 'updateRestaurant']);
         Route::get('admin/restaurant/delete/{id}', [RestaurantController::class, 'delete']);
     });

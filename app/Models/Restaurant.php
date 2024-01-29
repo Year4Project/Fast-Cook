@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable; // Correct class name
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Restaurant extends Authenticatable
 {
@@ -16,10 +18,10 @@ class Restaurant extends Authenticatable
     {
         return self::find($id);
     }
-    
+
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function owner()
@@ -48,12 +50,15 @@ class Restaurant extends Authenticatable
 
     public static function getRestaurant()
     {
-        $return = self::select('restaurants.*', 'users.*')
-            ->join('users', 'users.id', '=', 'restaurants.user_id');
+        $usersWithRestaurants = DB::table('users')
+    ->join('restaurants', 'users.id', '=', 'restaurants.user_id')
+    ->select('users.*', 'restaurants.name as restaurant_name', 'restaurants.address as restaurant_address', 'restaurants.image','restaurants.id as restaurant_id')
+    ->get();
 
-        $return = $return->orderBy('restaurants.id', 'desc')
-            ->paginate(5);
-        return $return;
+    // dd($usersWithRestaurants);
+
+
+        return $usersWithRestaurants;
     }
 
     public function category()
@@ -65,4 +70,18 @@ class Restaurant extends Authenticatable
     {
         return $this->hasMany(Staff::class, 'restaurant_id');
     }
+
+    public function desrtory($userId){
+        $user = DB::table('users')->where('id', $userId)->first();
+
+if ($user) {
+    // Delete the user
+    DB::table('users')->where('id', $userId)->delete();
+
+    // Delete associated restaurants
+    DB::table('restaurants')->where('user_id', $userId)->delete();
+}
+
+    }
+
 }

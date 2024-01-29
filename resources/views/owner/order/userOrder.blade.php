@@ -47,7 +47,7 @@
                             @else
                                 @foreach ($getOrderUser as $foodOrder)
                                     <tr class="text-center">
-                                        <td class="align-middle">{{ $foodOrder->id }}</td>
+                                        <td class="align-middle">{{ $loop->iteration }}</td>
                                         <td class="align-middle">{{ $foodOrder->user->first_name }} {{ $foodOrder->user->last_name }}</td>
                                         <td class="align-middle">{{ $foodOrder->table_no }}</td>
                                         <td class="align-middle">{{ $foodOrder->remark }}</td>

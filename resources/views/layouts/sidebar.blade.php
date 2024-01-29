@@ -47,7 +47,7 @@
     @elseif(Auth::user()->user_type == 2)
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('owner/dashboard') }}">
-            <div class="sidebar-brand-text mx-3">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
+            <div class="sidebar-brand-text mx-3">{{ Auth::user()->restaurant->name }}</div>
         </a>
 
         <!-- Divider -->

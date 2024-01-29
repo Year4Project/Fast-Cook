@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+use function Sodium\compare;
+
 class RestaurantController extends Controller
 {
     // display restaurant
@@ -17,6 +19,7 @@ class RestaurantController extends Controller
     {
         $data['getRestaurant'] = Restaurant::getRestaurant();
         $data['header_title'] = 'Add Restaurant';
+        // $restaurant = Restaurant::all();
 
         return view('admin.restaurant.showRestaurant', $data);
     }
@@ -28,96 +31,164 @@ class RestaurantController extends Controller
     }
 
     // Store restaurant
-    public function createRestaurant(Request $request)
-    {
-        request()->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required'
-        ]);
+    public function createUserAndRestaurant(Request $request)
+{
+    // Validate the incoming user data
+    $request->validate([
+        'first_name' => 'required',
+        'last_name' => 'required',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required'
+    ]);
 
-        $owner = new User();
+    // Create the user
+    $user = new User();
+    $user->first_name = $request->first_name;
+    $user->last_name = $request->last_name;
+    $user->email = $request->email;
+    $user->phone = $request->phone;
+    $user->password = Hash::make($request->password);
+    $user->user_type = 2; // Assuming user_type 2 represents restaurant owners
+    $user->save();
 
-        $owner->first_name = $request->first_name;
-        $owner->last_name = $request->last_name;
-        $owner->phone = $request->phone;
-        $owner->email = $request->email;
-        $owner->password = Hash::make($request->password);
-        $owner->user_type = 2;
-        $owner->save();
+    // Validate the incoming restaurant data
+    $request->validate([
+        'name' => 'required',
+        'address' => 'required',
+        'phone' => 'required',
+        // You may need additional validation rules here depending on your requirements
+    ]);
 
-        $restaurant = new Restaurant();
-        $restaurant->name = $request->name;
-        $restaurant->address = $request->address;
+    // Create the restaurant associated with the user
+    $restaurant = new Restaurant();
+    $restaurant->name = $request->name;
+    $restaurant->address = $request->address;
 
-        if (!empty($request->file('image'))) {
-            $ext = $request->file('image')->getClientOriginalExtension();
-            $file = $request->file('image');
-            $randomStr = date('Ymdhis') . Str::random(20);
-            $filename =     strtolower($randomStr) . '.' . $ext;
-
-            // Move the uploaded image to the specified directory
-            $file->move(public_path('upload/restaurant/'), $filename);
-
-            // Generate the image URL
-            $imageUrl = url('upload/restaurant/' . $filename);
-            $restaurant->image = $imageUrl;
-        }
-
-        $restaurant->phone = $request->phone;
-
-        $owner->restaurant()->save($restaurant);
-
-        return redirect('admin/restaurant/showRestaurant')->with('success', "Restaurant successfully Create.");
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $ext = $file->getClientOriginalExtension();
+        $randomStr = date('Ymdhis') . Str::random(20);
+        $filename = strtolower($randomStr) . '.' . $ext;
+        $file->move(public_path('upload/restaurant/'), $filename);
+        $imageUrl = url('upload/restaurant/' . $filename);
+        $restaurant->image = $imageUrl;
     }
 
-    public function edit(string $id)
-    {
-        // $data['getRestaurant'] = Restaurant::getRestaurant();
-        // $data['getRestaurant'] = Restaurant::getSingle($id);
-        // $data['header_title'] = 'Edit Restaurant';
-        $owner = User::with('restaurant')->findOrFail($id);
+    // Associate the restaurant with the user
+    $user->restaurant()->save($restaurant);
 
-        // dd($owner);
-            return view('admin.restaurant.edit', compact('owner'));
+    // Redirect to a success page or return a success response
+    return redirect('admin/restaurant/showRestaurant')->with('success', "User and restaurant successfully created.");
+}
+
+
+    public function edit(string $restaurantId, $userId)
+    {
+        $data['user'] = user::FindOrFail($userId);
+        $data['restaurant'] = Restaurant::FindOrFail($restaurantId);
+
+            // dd($restaurant);
+            return view('admin.restaurant.edit',$data);
 
     }
 
-    public function updateRestaurant(Request $request, $id)
-    {
+    // public function updateRestaurant(Request $request, $restaurantId)
+    // {
 
-        request()->validate([
-            'email' => 'required|email'
-        ]);
+    //     // Validate the incoming request data
+    // $request->validate([
+    //     'name' => 'required',
+    //     'address' => 'required',
+    //     'phone' => 'required',
+    //     // You may need additional validation rules here depending on your requirements
+    // ]);
 
-        $restaurant = Restaurant::getSingle($id);
+    // // Find the restaurant by ID
+    // $restaurant = Restaurant::findOrFail($restaurantId);
 
-        // $restaurant->name = $request->name;
-        $restaurant->name = $request->name;
-        $restaurant->email = $request->email;
-        $restaurant->address = $request->address;
 
-        if (!empty($request->file('image'))) {
-            if (!empty($restaurant->getProfile())) {
-                unlink('upload/profile/' . $restaurant->image);
-            }
-            $ext = $request->file('image')->getClientOriginalExtension();
-            $file = $request->file('image');
-            $randomStr = date('Ymdhis') . Str::random(20);
-            $filename = strtolower($randomStr) . '.' . $ext;
-            $file->move('upload/profile/', $filename);
+    // // Update the restaurant attributes
+    // $restaurant->name = $request->name;
+    // $restaurant->address = $request->address;
+    // $restaurant->phone = $request->phone;
 
-            $restaurant->image = $filename;
-        }
+    // // Check if a new image is uploaded
+    // if ($request->hasFile('image')) {
+    //     $file = $request->file('image');
+    //     $ext = $file->getClientOriginalExtension();
+    //     $randomStr = date('Ymdhis') . Str::random(20);
+    //     $filename = strtolower($randomStr) . '.' . $ext;
 
-        $restaurant->phone = $request->phone;
-        $restaurant->user_type = 2;
+    //     // Move the uploaded image to the specified directory
+    //     $file->move(public_path('upload/restaurant/'), $filename);
 
-        $restaurant->save();
+    //     // Generate the image URL
+    //     $imageUrl = url('upload/restaurant/' . $filename);
 
-        return redirect('admin/restaurant/showRestaurant')->with('success', "Restaurant successfully Update.");
+    //     // Update the restaurant's image attribute
+    //     $restaurant->image = $imageUrl;
+    // }
+
+    // // Save the updated restaurant data
+    // $restaurant->save();
+
+    // // Redirect back to the page showing the edited restaurant
+    // return redirect('admin/restaurant/showRestaurant')->with('success', "Restaurant successfully updated.");
+    // }
+
+    public function editUserAndRestaurant(Request $request, $userId, $restaurantId)
+{
+    // Validate the incoming user data
+    $request->validate([
+        'first_name' => 'required',
+        'last_name' => 'required',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required',
+        'phone' => 'required'
+    ]);
+
+    // Create the user
+    $user = User::findOrFail($userId);
+    $user->first_name = $request->first_name;
+    $user->last_name = $request->last_name;
+    $user->email = $request->email;
+    $user->phone = $request->phone;
+    $user->password = Hash::make($request->password);
+    $user->user_type = 2; // Assuming user_type 2 represents restaurant owners
+    $user->save();
+
+    // Validate the incoming restaurant data
+    $request->validate([
+        'name' => 'required',
+        'address' => 'required',
+        // You may need additional validation rules here depending on your requirements
+    ]);
+
+    // Create the restaurant associated with the user
+    $restaurant = Restaurant::findOrFail($restaurantId);
+    $restaurant->name = $request->name;
+    $restaurant->address = $request->address;
+
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $ext = $file->getClientOriginalExtension();
+        $randomStr = date('Ymdhis') . Str::random(20);
+        $filename = strtolower($randomStr) . '.' . $ext;
+        $file->move(public_path('upload/restaurant/'), $filename);
+        $imageUrl = url('upload/restaurant/' . $filename);
+        $restaurant->image = $imageUrl;
     }
+
+    // Associate the restaurant with the user
+    $user->restaurant()->save($restaurant);
+
+    // Redirect to a success page or return a success response
+    return redirect('admin/restaurant/showRestaurant')->with('success', "User and restaurant successfully Update.");
+}
+
+
+
+
 
     public function delete($id)
     {

@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
-use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -27,9 +26,9 @@ class UserController extends Controller
             $validateUser = Validator::make(
                 $request->all(),
                 [
-                    'first_name' => 'required|string|min:2|max:100',
-                    'last_name' => 'required|string|min:2|max:100',
-                    'password' => 'required|string|min:6|max:100|confirmed',
+                    'first_name' => 'required|string|min:2|max:50',
+                    'last_name' => 'required|string|min:2|max:50',
+                    'password' => 'required|string|min:6|max:50|confirmed',
                     'phone' => 'required|string|max:10|unique:users,phone',
                 ]
             );
@@ -46,7 +45,6 @@ class UserController extends Controller
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'phone' => $request->phone,
-                // 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'user_tyep' => 3,
             ]);
