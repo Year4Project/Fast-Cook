@@ -1,7 +1,9 @@
+import { defineConfig } from 'vite'; // Import defineConfig from 'vite'
+
 import ReactRefresh from '@vitejs/plugin-react';
 
-export default {
-  plugins: [ReactRefresh()],
+export default defineConfig({
+  plugins: [ReactRefresh()], // Wrap ReactRefresh in an array
   build: {
     target: 'esnext',
     polyfillDynamicImport: false,
@@ -10,9 +12,8 @@ export default {
     minify: 'terser',
     sourcemap: true,
     rollupOptions: {
-      // Add the following line to specify the jsx loader
-      // for files with the .js extension
+      // Adjust the plugins array
       plugins: [{ name: 'vite-plugin-jsx' }],
     },
   },
-};
+});
