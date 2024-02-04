@@ -1,8 +1,7 @@
-import { defineConfig } from 'vite';
-import reactRefresh from '@vitejs/plugin-react-refresh';
+import ReactRefresh from '@vitejs/plugin-react';
 
-export default defineConfig({
-  plugins: [reactRefresh()],
+export default {
+  plugins: [ReactRefresh()],
   build: {
     target: 'esnext',
     polyfillDynamicImport: false,
@@ -16,4 +15,4 @@ export default defineConfig({
       plugins: [{ name: 'vite-plugin-jsx' }],
     },
   },
-});
+};
