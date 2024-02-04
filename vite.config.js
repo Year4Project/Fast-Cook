@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite'; // Import defineConfig from 'vite'
-
 import ReactRefresh from '@vitejs/plugin-react';
 
 export default defineConfig({
@@ -13,7 +12,7 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       // Adjust the plugins array
-      plugins: [{ name: 'vite-plugin-jsx' }],
+      plugins: [],
     },
   },
 });
