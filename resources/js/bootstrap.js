@@ -43,17 +43,22 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 //     encrypted: true
 // });
 
-import Echo from 'laravel-echo';
+import Echo from "laravel-echo"
 
 window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    encrypted: true,
+    key: 'YOUR_PUSHER_APP_KEY',
+    cluster: 'YOUR_PUSHER_APP_CLUSTER',
+    encrypted: true
 });
 
+window.Echo.channel('new-order-channel')
+    .listen('.NewOrderPlaced', (data) => {
+        console.log('New order received:', data);
+        // Update the dashboard interface with the new order information
+    });
 
 // window.Echo.channel('restaurant-dashboard')
 //     .listen('NewOrderPlaced', (event) => {

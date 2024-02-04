@@ -33,6 +33,58 @@
    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.1/dist/echo.iife.js"></script>
    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 
+   {{-- Script Alert User Order --}}
+   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('16919ddd7512a2b8db62', {
+      cluster: 'ap1'
+    });
+
+    var channel = pusher.subscribe('restaurant-channel');
+    channel.bind('order-event', function(data) {
+       // Display a success toast, with a title
+       toastr.success(JSON.stringify(data.name) + ' has order');
+       console.log(data);
+    });
+
+    var channel = pusher.subscribe('restaurant-channel');
+    channel.bind('App\\Events\\OrderPlacedEvent', function(data) {
+       // Extract order information from the event data
+       var orderId = data.order.id;
+       var userName = data.user.first_name + ' ' + data.user.last_name;
+       var tableNo = data.order.table_no;
+
+       // Display a success toast with the order details
+       toastr.success('New order received - Order ID: ' + orderId + ', User: ' + userName + ', Table No: ' + tableNo);
+    });
+  </script>
+
+  {{-- <script>
+    import Echo from 'laravel-echo'
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    encrypted: true
+});
+
+window.Echo.channel('orders')
+    .listen('NewOrderEvent', (e) => {
+        console.log('New Order: ', e.order);
+        // Update UI or take necessary actions
+    });
+
+  </script> --}}
+
 </head>
 
 <body id="page-top">

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Food;
 use App\Models\Order;
+use Illuminate\Support\Facades\Notification;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class FoodOrderController extends Controller
@@ -68,8 +69,12 @@ class FoodOrderController extends Controller
             'total_quantity' => $totalQuantity,
         ];
 
+        // Dispatch the notification
+    Notification::send($user, new NewOrderNotification($order));
+
         // Dispatch the event
     event(new OrderPlacedEvent($order));
+    // event(new NewOrderPlaced($order));
 
         // Return a JSON response
         return response()->json([

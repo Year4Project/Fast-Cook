@@ -26,7 +26,7 @@ class OrderPlacedEvent implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('restaurant-dashboard');
+        return new Channel('restaurant-channel');
     }
 
     public function broadcastWith()
