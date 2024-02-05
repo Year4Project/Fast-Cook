@@ -73,7 +73,8 @@ class FoodOrderController extends Controller
     Notification::send($user, new NewOrderNotification($order));
 
         // Dispatch the event
-    event(new OrderPlacedEvent($order));
+    // event(new OrderPlacedEvent($order));
+
     // event(new NewOrderPlaced($order));
 
         // Return a JSON response
