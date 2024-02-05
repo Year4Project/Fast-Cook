@@ -66,24 +66,7 @@
     });
   </script>
 
-  {{-- <script>
-    import Echo from 'laravel-echo'
-window.Pusher = require('pusher-js');
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    encrypted: true
-});
-
-window.Echo.channel('orders')
-    .listen('NewOrderEvent', (e) => {
-        console.log('New Order: ', e.order);
-        // Update UI or take necessary actions
-    });
-
-  </script> --}}
 
 </head>
 
