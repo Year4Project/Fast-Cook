@@ -67,7 +67,8 @@ public function downloadQrCode($scenId)
         ->errorCorrection('H')
         ->generate(json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]));
 
-    $imageName = 'qrcode.png'; // Set the image name
+    // Set the image name with table number
+    $imageName = 'qrcode_table_' . $scen->table_no . '.png';
 
     // Save QR code to storage
     Storage::disk('public')->put($imageName, $qrCode);
