@@ -22,3 +22,63 @@
     max-width: 50px; /* Set the maximum width for the selected item image */
     margin-right: 10px;
 }
+
+
+
+/* ..............................POS.............................. */
+  /* Add hover effect */
+  .food-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    height: 100%;
+    max-height: auto;
+    width: 100%; /* Each item takes full width */
+    max-width: 300px; /* Limiting the maximum width to prevent stretching */
+
+}
+
+.food-item:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.food-item .card-img-top {
+    height: 120px; /* Adjust the height of the image */
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.food-item .card-body {
+    padding: 15px;
+    min-height: auto; /* Adjust the height of the body */
+}
+
+.food-item .title {
+    height: 20px;
+}
+
+.food-item .title .card-title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.food-item .card-text {
+    font-size: 14px;
+    color: #555;
+}
+
+.food-item .card-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* qrcode */
+.qr-code-container {
+    text-align: center;
+}

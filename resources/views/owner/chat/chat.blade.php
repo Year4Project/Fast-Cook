@@ -11,14 +11,4 @@
     </div>
 
 
-        <div id="app">
-            <chat></chat>
-        </div>
-
-
-
-
-    {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
-    <script src="{{ asset('js/app.js') }}"></script>
-</div>
 @endsection

@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Owner;
 
+
 use App\Http\Controllers\Controller;
 use App\Models\Scen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use SimpleSoftwareIO\QrCode\BaconQrCodeGenerator;
+
 use Intervention\Image\Facades\Image;
 
 
@@ -20,6 +24,7 @@ class GeneratorQRController extends Controller
 
         return view('owner.qr.create');
     }
+
     public function qrCode()
     {
 
@@ -51,99 +56,33 @@ class GeneratorQRController extends Controller
         }
     }
 // old code downloadqr
-    // public function downloadQrCode($scenId)
-    // {
-    //     // Retrieve the Scen record
-    //     $scen = Scen::findOrFail($scenId);
-
-    //     // Set the margin (border) to 10 (adjust as needed)
-    //     $marginSize = 10;
-
-    //     // Generate QR code
-    //     $qrCode = QrCode::size(100)
-    //         ->margin($marginSize)
-    //         ->generate(json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]));
-
-    //     // Set response headers
-    //     $headers = [
-    //         'Content-Type' => 'image/jpf',
-    //         'Content-Disposition' => 'attachment; filename="qrcode.png"',
-    //     ];
-
-    //     // Return the response with QR code image
-    //     $response = response($qrCode, 200, $headers);
-
-    //     // Add a custom header to indicate that the download has occurred
-    //     $response->header('Downloaded', true);
-
-    //     return $response;
-    // }
-
-// error download
-    // public function downloadQrCode($scenId)
-    // {
-    //     try {
-    //         // Retrieve the Scen record
-    //         $scen = Scen::findOrFail($scenId);
-
-    //         // Generate QR code
-    //         $qrCode = QrCode::size(100)
-    //             ->margin(10)
-    //             ->generate(json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]));
-
-    //         // Create an Intervention Image instance from the QR code PNG
-    //         $image = Image::make($qrCode);
-
-    //         // Set response headers
-    //         $headers = [
-    //             'Content-Type' => 'image/png',
-    //             'Content-Disposition' => 'attachment; filename="qrcode.png"',
-    //         ];
-
-    //         // Return the response with QR code image in PNG format
-    //         return response()->stream(
-    //             function () use ($image) {
-    //                 echo $image->encode('png');
-    //             },
-    //             200,
-    //             $headers
-    //         );
-
-    //     } catch (\Exception $e) {
-    //         // Handle exceptions (e.g., Scen not found)
-    //         return response()->json(['error' => $e->getMessage()], 404);
-    //     }
-    // }
-
-    // new code download
-
-    public function downloadQrCode($scenId)
+public function downloadQrCode($scenId)
 {
     // Retrieve the Scen record
     $scen = Scen::findOrFail($scenId);
 
-    // Set the margin (border) to 10 (adjust as needed)
-    $marginSize = 10;
-
     // Generate QR code
-    $qrCode = QrCode::size(100)
-        ->margin($marginSize)
+    $qrCode = QrCode::size(200)
+        ->format('png')
+        ->errorCorrection('H')
         ->generate(json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]));
 
-    // Set response headers
+    $imageName = 'qrcode.png'; // Set the image name
+
+    // Save QR code to storage
+    Storage::disk('public')->put($imageName, $qrCode);
+
+    $path = Storage::disk('public')->path($imageName); // Get the full path to the image
+
+    // Set headers for the download
     $headers = [
-        'Content-Type' => 'image/png',
-        'Content-Disposition' => 'attachment; filename="qrcode.png"',
+        'Content-Type' => 'image/png', // Set the content type to PNG
     ];
 
-    // Return the response with QR code image
-    $response = response($qrCode, 200, $headers);
-
-    // Add a custom header to indicate that the download has occurred
-    $response->header('Downloaded', true);
-
-    return $response;
+    // Return the file as a download response
+    return response()->download($path, $imageName, $headers)->deleteFileAfterSend();
 }
+
 
 
     public function deleteQrCode($scen){

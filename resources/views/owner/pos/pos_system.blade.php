@@ -1,74 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-
-<style>
-    /* Add hover effect */
-    .food-item {
-        position: relative;
-        overflow: hidden;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        cursor: pointer;
-        height: 100%;
-        max-height: 250px;
-        width: 100%; /* Each item takes full width */
-        max-width: 200px; /* Limiting the maximum width to prevent stretching */
-        margin-bottom: 40px;
-
-    }
-
-    .food-item:hover {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        transform: translateY(-5px);
-    }
-
-    .food-item .card-img-top {
-        height: 100px; /* Adjust the height of the image */
-        object-fit: cover;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-    }
-
-    .food-item .card-body {
-        padding: 15px;
-        min-height: 100px; /* Adjust the height of the body */
-    }
-
-    .food-item .title {
-        height: 20px;
-    }
-
-    .food-item .title .card-title {
-        font-size: 14px;
-        font-weight: bold;
-    }
-
-    .food-item .card-text {
-        font-size: 14px;
-        color: #555;
-        margin-top: 20px;
-    }
-
-    .food-item .card-price {
-        font-size: 16px;
-        font-weight: bold;
-        color: #007bff;
-    }
-
-</style>
-
     <div class="big-banner">
         <div class="container-fluid">
             @include('_massage')
 
             <div class="row">
                 <div class="col-md-8">
-                    <h1 class="mb-4 mt-4">Food Items</h1>
+                    <h1 class="mb-4">Food Items</h1>
                     <div class="row">
                         @foreach ($restaurant as $item)
-                            <div class="col-md-2">
+                            <div class="col-md-3 mb-4">
                                 <div class="card food-item" data-id="{{ $item->id }}" data-price="{{ $item->price }}"
                                     data-image="{{ $item->image_url }}">
                                     <img src="{{ $item->image_url }}" class="card-img-top" alt="{{ $item->name }}">
@@ -76,6 +18,8 @@
                                         <div class="title">
                                             <h6 class="card-title">{{ $item->name }}</h6>
                                         </div>
+                                        <p class="card-text">Price: ${{ number_format($item->price, 2) }}</p>
+
                                         {{-- <p class="card-text">Description:
                                             @if (strlen($item->description) > 10)
                                                 {{ substr($item->description, 0, 10) }} <span
@@ -85,11 +29,10 @@
                                                 {{ $item->description }}
                                             @endif
                                         </p> --}}
-                                        <p class="card-text">Price: ${{ number_format($item->price, 2) }}</p>
-
+k
 
                                     </div>
-                                    <div class="form-group quantity-buttons p-2 mb-3" id="quantity-buttons{{ $item->id }}">
+                                    <div class="form-group quantity-buttons p-2" id="quantity-buttons{{ $item->id }}">
                                         {{-- <label for="quantity{{ $item->id }}">Quantity:</label> --}}
 
                                         <div class="input-group">
@@ -110,10 +53,10 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="selected-items mt-4">
-                        <h2>Cart</h2>
-                        <table class="table">
+                <div class="col-md-4 mb-4">
+                    <div class="selected-items">
+                        <h1 class="mb-4">Card Items</h1>
+                        <table class="table mt-4">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -131,9 +74,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -237,25 +177,6 @@
                 });
             });
         });
-
-        document.getElementById('checkout-btn').addEventListener('click', function() {
-        // Generate the receipt content
-        var receiptContent = document.getElementById('receipt-content').innerHTML;
-
-        // Print the receipt
-        printReceipt(receiptContent);
-    });
-
-        // Function to print the receipt
-    function printReceipt(content) {
-        var printWindow = window.open('', '_blank');
-        printWindow.document.open();
-        printWindow.document.write('<html><head><title>Receipt</title></head><body>');
-        printWindow.document.write(content);
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-        printWindow.print();
-    }
     </script>
 
 @endsection

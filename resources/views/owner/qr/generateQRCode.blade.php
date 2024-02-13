@@ -26,6 +26,7 @@
                                 <tr>
                                     <th class="text-center" scope="col">#</th>
                                     <th class="text-center" scope="col">Table No</th>
+                                    <th class="text-center" scope="col">Restaurant ID</th>
                                     <th class="text-center" scope="col">Qr Code</th>
                                     <th class="text-center" scope="col">Action</th>
                                 </tr>
@@ -42,7 +43,8 @@
                                         <tr class="text-center">
                                             <td class="align-middle">{{ $loop->iteration }}</td>
                                             <td class="align-middle">{{ $item->table_no }}</td>
-                                            <td class="align-middle">{!! QrCode::size(100)->generate(json_encode(['restaurant_id' => $item->id, 'table_no' => $item->table_no])) !!}</td>
+                                            <td class="align-middle">{{ $item->restaurant_id }}</td>
+                                            <td class="align-middle">{!! QrCode::size(100)->generate(json_encode(["restaurant_id" => $item->restaurant_id, "table_no" => $item->table_no])) !!}</td>
                                             <td class="align-middle">
 
                                                 {{-- download --}}
