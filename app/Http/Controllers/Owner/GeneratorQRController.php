@@ -62,10 +62,14 @@ public function downloadQrCode($scenId)
     $scen = Scen::findOrFail($scenId);
 
     // Generate QR code
+    $qrData = json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]);
     $qrCode = QrCode::size(200)
         ->format('png')
         ->errorCorrection('H')
-        ->generate(json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]));
+        ->backgroundColor(255, 255, 255) // White background color (RGB)
+        ->color(0, 0, 0) // Black QR code color (RGB)
+        ->margin(2) // Add margin for border
+        ->generate($qrData);
 
     // Set the image name with table number
     $imageName = 'qrcode_table_' . $scen->table_no . '.png';
