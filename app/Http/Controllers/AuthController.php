@@ -98,13 +98,13 @@ class AuthController extends Controller
         return redirect()
             ->back()
             ->withErrors($validator)
-            ->withInput($request->only('email', 'remember'));
+            ->withInput($request->only('email', 'password', 'remember'));
     }
 
     // Attempt to authenticate the user
-    $remember = $request->has('remember'); // Check if "Remember Me" is checked
+    // $remember = $request->has('remember'); // Check if "Remember Me" is checked
 
-    if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
+    if (Auth::attempt(['email' => $request->email, 'password' => $request->password], true)) {
         // Authentication successful
         switch (Auth::user()->user_type) {
             case 1:
