@@ -69,6 +69,9 @@
                             @endif
                         </tbody>
                     </table>
+                    <div class="row">
+                        {{ $getStaff->links() }}
+                    </div>
                 </div>
             </div>
         </div>

@@ -20,6 +20,8 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
 
 
+
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -44,6 +46,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'restaurant_id',
         'image_url',
+        'remember_token'
     ];
 
     /**
@@ -104,7 +107,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasManyThrough(Food::class, Restaurant::class);
     }
 
-    
+
 
     public static function getOwner()
     {

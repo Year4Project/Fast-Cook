@@ -6,7 +6,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2 mb-4 mt-4">
+        <div class="row">
           <div class="col-sm-6">
             <h1 class="h3 mb-0 text-gray-800">Add New Admin</h1>
           </div>

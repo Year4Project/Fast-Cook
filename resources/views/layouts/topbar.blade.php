@@ -1,11 +1,6 @@
 <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
 
-    <!-- Sidebar Toggle (Topbar) -->
-    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-        <i class="fa fa-bars"></i>
-    </button>
-
-    <!-- Topbar Search -->
+    {{-- <!-- Topbar Search -->
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
         <div class="input-group">
             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
@@ -16,7 +11,13 @@
                 </button>
             </div>
         </div>
-    </form>
+    </form> --}}
+
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle">
+            <i class="fa fa-bars"></i>
+        </button>
+    </div>
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">

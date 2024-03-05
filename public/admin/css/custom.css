@@ -64,6 +64,7 @@
 
 .food-item .title .card-title {
     font-size: 14px;
+    text-align: center;
     font-weight: bold;
 }
 
@@ -82,3 +83,15 @@
 .qr-code-container {
     text-align: center;
 }
+
+
+/* topbar */
+.topbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Adjust z-index as needed */
+    background-color: #fff; /* Adjust background color as needed */
+    /* Add other styles as needed */
+}
+

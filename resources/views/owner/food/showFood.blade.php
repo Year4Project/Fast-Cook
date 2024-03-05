@@ -70,7 +70,7 @@
                                                     class="btn btn-sm btn-danger">InActive</a>
                                             @endif
                                         </td>
-                                        <td class="align-middle">{{ date('d,M,Y | h:i A', strtotime($item->created_at)) }}</td>
+                                        <td class="align-middle">{{ date('D d M Y | h:i A', strtotime($item->created_at)) }}</td>
                                         <td class="align-middle text-center">
                                             {{-- edit --}}
                                             <a class="btn btn-md btn-circle btn-outline-info"
@@ -89,6 +89,9 @@
                             @endif
                         </tbody>
                     </table>
+                    <div class="row">
+                        {{ $getFood->links() }}
+                    </div>
                 </div>
             </div>
         </div>

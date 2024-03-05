@@ -69,10 +69,8 @@ class Order extends Model
         // Retrieve all orders related to this restaurant
         $orders = Order::where('restaurant_id', $user->id)
             ->with(['user', 'foods'])
-            ->orderBy('created_at', 'DESC')
-            ->get();
-
-        // dd($orders);
+            ->orderBy('id', 'DESC')
+            ->paginate(10); // <-- Add pagination here
 
         return $orders;
     }

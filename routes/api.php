@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\RestaurantControllerApi;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +18,14 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+Route::middleware('jwt.auth')->get('user', function(Request $request) {
+    return auth()->user();
+});
 
 
 
-Route::middleware(['apikey', 'auth:api'])->group(function () {
+
+Route::middleware(['apikey', 'auth:api','jwt.auth'])->group(function () {
     /**Route for View Profile */
     Route::post('/profile', [UserController::class, "profile"]);
     Route::put('/profile/update', [UserController::class, "updateProfile"]);

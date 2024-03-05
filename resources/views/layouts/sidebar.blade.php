@@ -60,7 +60,7 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
         <li class="nav-item active">
-            <a class="nav-link" href="{{ url('owner/pos/pos_system') }}">
+            <a class="nav-link" href="{{ url('owner/cart/index') }}">
                 <i class="fas fa-desktop"></i>
                 <span>POS System</span></a>
         </li>
@@ -159,5 +159,9 @@
 
     <!-- Sidebar Message -->
 
+    <!-- Sidebar Toggle (Topbar) -->
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+    </button>
 
 </ul>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\RestaurantController;
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Owner\CartController;
 use App\Http\Controllers\Owner\CategoryController;
 use App\Http\Controllers\Owner\ChatController;
 use App\Http\Controllers\Owner\FoodController;
@@ -59,7 +60,7 @@ Route::middleware('auth')->group(function () {
         Route::get('owner/dashboard', [DashboardController::class, 'dashboard']);
 
         // POS System
-        Route::get('owner/pos/pos_system/', [POSController::class, 'posSystem'])->name('POS-System');
+        Route::get('owner/cart/index', [CartController::class, 'index'])->name('POS-System');
 
         // Create foods
         Route::get('owner/food/showFood/', [FoodController::class, 'showFood'])->name('MenuFood');

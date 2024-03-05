@@ -44,7 +44,7 @@ class Staff extends Model
     {
         $user = Auth::user();
         $restaurant = $user->restaurant->id;
-        $staff = Staff::with('restaurant')->where('restaurant_id', $restaurant)->get();
+        $staff = Staff::with('restaurant')->where('restaurant_id', $restaurant)->paginate(5);
         // dd($staff);
         return $staff;
     }

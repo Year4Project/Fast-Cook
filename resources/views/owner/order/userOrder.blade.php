@@ -56,12 +56,12 @@
                                         <td class="align-middle">{{ $foodOrder->created_at }}</td>
                                         <td class="align-middle">
                                             <a href="{{ route('owner.order.details', ['orderId' => $foodOrder->id]) }}"
-                                                class="btn btn-primary">
-                                                <i class="fas fa-list"> View Details</i>
+                                                class="btn btn-md btn-circle btn-outline-primary">
+                                                <i class="fas fa-list"></i>
                                             </a>
 
-                                            <a class="btn btn-success" href="{{ url('owner/order/print/') }}">
-                                                <i class="fas fa-print">Print</i>
+                                            <a class="btn btn-md btn-circle btn-outline-success" href="{{ url('owner/order/print/') }}">
+                                                <i class="fas fa-print"></i>
                                             </a>
                                         </td>
                                         {{-- <td class="align-middle">{{ $foodOrder->total_price }}</td> --}}
@@ -70,7 +70,9 @@
                             @endif
                         </tbody>
                     </table>
-                    {{-- {{ $foodOrders->links() }} <!-- Pagination links --> --}}
+                    <div class="row custom-center">
+                        {{ $getOrderUser->onEachSide(1)->links() }}
+                    </div>
                 </div>
             </div>
         </div>

@@ -4,12 +4,6 @@
 <div class="big-banner">
     <div class="container-fluid">
 
-
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Category</h1>
-        </div>
-
         {{-- Alert Massage --}}
         @include('_massage')
 
@@ -17,7 +11,7 @@
         <div class="card shadow">
             {{-- title page --}}
             <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-                <h6 class="font-weight-bold text-primary">DataTables Of Category</h6>
+                <h6 class="font-weight-bold text-primary">Category</h6>
                 <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addnew">
                     <i class="bi bi-clipboard2-plus-fill"></i> Add New Category
                 </button>
@@ -34,18 +28,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($category->isEmpty())
+                            @if ($getCategories->isEmpty())
                                             <tr>
                                                 <td colspan="11">
                                                     <div style="margin-top: 50px; text-align: center;">No records found.</div>
                                                 </td>
                                             </tr>
                             @else
-                            @foreach ($category as $item)
+                            @foreach ($getCategories as $item)
                                 <tr class="text-center">
                                     <td class="align-middle">{{ $loop->iteration }}</td>
                                     <td class="align-middle">{{ $item->name }}</td>
-                                    <td class="align-middle">{{ date('d,M,Y | h:i A', strtotime($item->created_at)) }}</td>
+                                    <td class="align-middle">{{ date('D d M Y | h:i A', strtotime($item->created_at)) }}</td>
                                     <td class="align-middle text-center">
                                         {{-- edit --}}
                                         <a class="btn btn-md btn-circle btn-outline-info"
@@ -64,6 +58,9 @@
                             @endif
                         </tbody>
                     </table>
+                    <div class="row">
+                        {{ $getCategories->links() }}
+                    </div>
                 </div>
             </div>
         </div>

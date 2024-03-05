@@ -10,13 +10,10 @@ use Illuminate\Support\Facades\Auth;
 class CategoryController extends Controller
 {
     public function category(){
-        $user = Auth::user();
-        if (!$user->restaurant) {
-            return redirect()->back()->with('error', 'You are not associated with a restaurant.');
-        }
-        $category = Category::where('restaurant_id', $user->restaurant->id)->get();
 
-        return view('owner.category.typeFood', compact('category'));
+        $data["getCategories"] = Category::getCategories();
+
+        return view('owner.category.typeFood', $data);
     }
 
     public function storeCategory(Request $request){

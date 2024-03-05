@@ -66,24 +66,6 @@
     });
   </script>
 
-  {{-- <script>
-    import Echo from 'laravel-echo'
-window.Pusher = require('pusher-js');
-
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    encrypted: true
-});
-
-window.Echo.channel('orders')
-    .listen('NewOrderEvent', (e) => {
-        console.log('New Order: ', e.order);
-        // Update UI or take necessary actions
-    });
-
-  </script> --}}
 
 </head>
 
@@ -99,9 +81,11 @@ window.Echo.channel('orders')
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
+            @include('layouts.topbar', ['class' => 'sticky-top'])
+
             <!-- Main Content -->
             <div id="content">
-                @include('layouts.topbar')
+
 
                 @yield('content')
                 <!-- /.container-fluid -->
@@ -162,9 +146,6 @@ window.Echo.channel('orders')
     <script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('admin/js/demo/chart-pie-demo.js') }}"></script>
     <script src="{{ asset('admin/js/script.js') }}"></script>
-
-    {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
-    {{-- <script src="{{ mix('js/dashboard.js') }}"></script> --}}
 
 
 </body>

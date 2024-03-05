@@ -172,7 +172,7 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead class="table-dark">
-                                        <tr>
+                                        <tr class="text-center">
                                             <th>ID</th>
                                             <th>User Name</th>
                                             <th>Table No</th>
@@ -204,12 +204,12 @@
                                                     <td class="align-middle">{{ $foodOrder->created_at }}</td>
                                                     <td class="align-middle">
                                                         <a href="{{ route('owner.order.details', ['orderId' => $foodOrder->id]) }}"
-                                                            class="btn btn-primary">
-                                                            <i class="fas fa-list"> View Details</i>
+                                                            class="btn btn-md btn-circle btn-outline-primary">
+                                                            <i class="fas fa-list"></i>
                                                         </a>
 
-                                                        <a class="btn btn-success" href="{{ url('owner/order/print/') }}">
-                                                            <i class="fas fa-print">Print</i>
+                                                        <a class="btn btn-md btn-circle btn-outline-success" href="{{ url('owner/order/print/') }}">
+                                                            <i class="fas fa-print"></i>
                                                         </a>
                                                     </td>
                                                     {{-- <td class="align-middle">{{ $foodOrder->total_price }}</td> --}}
