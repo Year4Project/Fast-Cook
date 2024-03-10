@@ -1,18 +1,31 @@
-import { defineConfig } from 'vite'; // Import defineConfig from 'vite'
-import ReactRefresh from '@vitejs/plugin-react';
+import { defineConfig } from "vite";
+import laravel from "laravel-vite-plugin";
 
 export default defineConfig({
-  plugins: [ReactRefresh()], // Wrap ReactRefresh in an array
-  build: {
-    target: 'esnext',
-    polyfillDynamicImport: false,
-    outDir: 'dist',
-    assetsDir: '.',
-    minify: 'terser',
-    sourcemap: true,
-    rollupOptions: {
-      // Adjust the plugins array
-      plugins: [],
+    base: '',
+    build: {
+        emptyOutDir: true,
+        manifest: true,
+        outDir: 'build',
+        assetsDir: 'assets'
     },
-  },
+      plugins: [
+            laravel({
+                  input: [
+                        'resources/sass/app.scss',
+                        'resources/js/app.js',
+                  ],
+                  refresh: [
+                    '**.php'
+                ]
+            }),
+      ],
+      resolve: {
+        alias: [
+            {
+                find: /~(.+)/,
+                replacement: process.cwd() + '/node_modules/$1'
+            },
+        ]
+    }
 });

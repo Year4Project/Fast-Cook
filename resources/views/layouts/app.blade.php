@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,11 +17,12 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
+
     <!-- Custom styles for this template-->
     <link href="{{ asset('admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/css/custom.css') }}" rel="stylesheet">
-
     <link href="{{ asset('restaurant/index.css') }}" rel="stylesheet">
+    {{-- <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}"> --}}
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
@@ -38,8 +38,8 @@
         <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        <script>
 
+        <script>
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
@@ -138,16 +138,9 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
+    {{-- <script src="{{ asset('admin/js/app.js') }}"></script> --}}
 
-    <!-- Page level plugins -->
-    <script src="{{ asset('admin/vendor/chart.js/Chart.min.js') }}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('admin/js/demo/chart-pie-demo.js') }}"></script>
-    <script src="{{ asset('admin/js/script.js') }}"></script>
-
-
+    {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
 </body>
 
 </html>

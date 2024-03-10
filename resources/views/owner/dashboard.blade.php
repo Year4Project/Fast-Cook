@@ -6,7 +6,11 @@
 
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-black-900">Dashboard</h1>
+                <div class="ms-4">
+                    <h1 class="h2 mb-0 text-primary text-900">Good Morning!</h1>
+                {{-- <h4 class="mb-0 text-primary text-300 ms-4">{{ Auth::user()->restaurant->name }}</h4> --}}
+
+                </div>
                 <a href="#" class="d-none mt-4 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                         class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
             </div>

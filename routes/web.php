@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
 
         // POS System
         Route::get('owner/cart/index', [CartController::class, 'index'])->name('POS-System');
+        Route::post('owner/cart/add-item', [CartController::class, 'addItemToCart'])->name('POS-System');
 
         // Create foods
         Route::get('owner/food/showFood/', [FoodController::class, 'showFood'])->name('MenuFood');

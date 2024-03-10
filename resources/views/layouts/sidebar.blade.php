@@ -59,10 +59,20 @@
         </li>
         <!-- Divider -->
         <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            POS & ORDER
+        </div>
+
         <li class="nav-item active">
             <a class="nav-link" href="{{ url('owner/cart/index') }}">
                 <i class="fas fa-desktop"></i>
-                <span>POS System</span></a>
+                <span>Point Of Sale</span></a>
+
+            <a class="nav-link" href="{{ url('owner/cart/index') }}">
+                    <i class="fas fa-desktop"></i>
+                <span>POS Order</span></a>
         </li>
 
         <!-- Divider -->
@@ -90,6 +100,23 @@
                 <i class="fas fa-fw fa-book"></i>
                 <span>Order Food</span></a>
         </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            USER
+        </div>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Customers</span>
+            </a>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                 aria-expanded="true" aria-controls="collapseTwo">
@@ -100,10 +127,13 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Employee  Components:</h6>
                     <a class="collapse-item" href="{{ url('owner/staff/listStaff') }}">List Employee</a>
-                    <a class="collapse-item" href="cards.html">History Order</a>
+                    <a class="collapse-item" href="cards.html">Employee End</a>
                 </div>
             </div>
         </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
         <li class="nav-item">
             <a class="nav-link" href="{{ url('owner/qr/generateQRCode') }}">

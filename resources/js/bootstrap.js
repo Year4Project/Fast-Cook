@@ -1,4 +1,5 @@
-window._ = require("lodash");
+import _ from 'lodash';
+window._ = _;
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -6,15 +7,28 @@ window._ = require("lodash");
  * code may be modified to fit the specific needs of your application.
  */
 
-window.Swal = require("sweetalert2");
+import Swal from 'sweetalert2';
+window.Swal = Swal;
 
-try {
-    window.Popper = require("popper.js").default;
-    window.$ = window.jQuery = require("jquery");
+import Popper from 'popper.js';
+window.Popper = Popper;
 
-    require("bootstrap");
-    require("admin-lte");
-} catch (e) {}
+import jQuery from 'jquery';
+window.$ = window.jQuery = jQuery;
+
+import DataTable from 'datatables.net-bs4';
+DataTable(window, window.$);
+
+import 'bootstrap';
+import 'admin-lte';
+
+window.SwalWithBootstrap = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-primary mx-3',
+    cancelButton: 'btn btn-danger mx-3',
+  },
+  buttonsStyling: false,
+});
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -22,7 +36,8 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require("axios");
+import axios from 'axios';
+window.axios = axios;
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
@@ -42,32 +57,3 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
-
-import Echo from "laravel-echo"
-
-window.Pusher = require('pusher-js');
-
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: 'YOUR_PUSHER_APP_KEY',
-    cluster: 'YOUR_PUSHER_APP_CLUSTER',
-    encrypted: true
-});
-
-window.Echo.channel('new-order-channel')
-    .listen('.NewOrderPlaced', (data) => {
-        console.log('New order received:', data);
-        // Update the dashboard interface with the new order information
-    });
-
-// window.Echo.channel('restaurant-dashboard')
-//     .listen('NewOrderPlaced', (event) => {
-//         console.log('New Order Placed:', event.message);
-//         // Add your logic to display the message on the dashboard
-//     });
-
-//     Echo.channel('restaurant-dashboard')
-//     .listen('App\\Events\\NewOrderPlaced', (event) => {
-//         console.log('New Order Placed:', event);
-//         // Add your logic to display the message on the dashboard
-//     });
