@@ -16,4 +16,9 @@ class Cart extends Model
         'price',
         'quantity',
     ];
+
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
 }

@@ -62,6 +62,12 @@ Route::middleware('auth')->group(function () {
         // POS System
         Route::get('owner/cart/index', [CartController::class, 'index'])->name('POS-System');
         Route::post('owner/cart/add-item', [CartController::class, 'addItemToCart'])->name('POS-System');
+        Route::get('owner/cart/delete-item/{id}', [CartController::class, 'deleteItem'])->name('DeleteItem');
+        Route::post('/cart/clear',[CartController::class, 'clearCart'])->name('cart.clear');
+        Route::post('owner/cart/checkout', [CartController::class, 'checkout'])->name('POS-Order');
+
+        Route::get('owner/cart/customerOrder', [CartController::class, 'customerOrder'])->name('POS-CustomerOrder');
+
 
         // Create foods
         Route::get('owner/food/showFood/', [FoodController::class, 'showFood'])->name('MenuFood');

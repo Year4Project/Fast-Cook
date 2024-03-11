@@ -70,7 +70,7 @@
                 <i class="fas fa-desktop"></i>
                 <span>Point Of Sale</span></a>
 
-            <a class="nav-link" href="{{ url('owner/cart/index') }}">
+            <a class="nav-link" href="{{ url('owner/cart/customerOrder') }}">
                     <i class="fas fa-desktop"></i>
                 <span>POS Order</span></a>
         </li>

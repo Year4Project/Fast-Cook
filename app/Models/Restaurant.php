@@ -84,4 +84,9 @@ if ($user) {
 
     }
 
+    public function cart()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
 }
