@@ -12,7 +12,7 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-                <h3 class="m-0 font-weight-bold text-primary">POS Order</h3>
+                <h3 class="m-0 font-weight-bold text-primary">DataTables Order Detail</h3>
                 <a href="{{ url()->previous() }}" class="btn btn-primary">Back to User Orders</a>
             </div>
 
@@ -35,32 +35,41 @@
                         <thead class="table-dark">
                             <tr class="text-center">
                                 <th>#</th>
-                                <th>Order Number</th>
-                                <th>Order Name</th>
-                                <th>Customer Phone</th>
-                                <th>Action</th>
+                                <th>Image</th>
+                                <th>Food Name</th>
+                                <th>Type of Food</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>SubTotal</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($orderCustomer as $orderItem)
+                            @php
+                                $totalSubtotal = 0;
+                            @endphp
+                            @foreach ($customerOrderFood as $food)
+                                @php
+                                    $subTotal = $food->quantity * $food->price;
+                                    $totalSubtotal += $subTotal;
+                                @endphp
                                 <tr class="text-center">
                                     <td class="align-middle">{{ $loop->iteration }}</td>
-                                    <th class="align-middle">{{ $orderItem->ordernumber }}</th>
-                                    <th class="align-middle">{{ $orderItem->customername }}</th>
-                                    <th class="align-middle">{{ $orderItem->customerphone }}</th>
-                                    <th class="align-middle">
-                                        <a href="{{ route('POS-CustomerOrder.detail', ['orderId' => $orderItem->id]) }}"
-                                            class="btn btn-md btn-circle btn-outline-primary">
-                                            <i class="fas fa-list"></i>
-                                        </a>
-
-                                        <a class="btn btn-md btn-circle btn-outline-success" href="{{ url('owner/order/print/') }}">
-                                            <i class="fas fa-print"></i>
-                                        </a>
-                                    </th>
+                                    <td class="align-middle"><img class="rounded-circle" height="75" width="75"
+                                            src="{{ $food->image }}" alt=""></td>
+                                    <th class="align-middle">{{ $food->name }}</th>
+                                    <th class="align-middle">{{ $food->type }}</th>
+                                    <th class="align-middle">{{ $food->quantity }}</th>
+                                    <th class="align-middle">${{ number_format($food->price, 2) }}</th>
+                                    <th class="align-middle">${{ number_format($subTotal, 2) }}</th>
                                 </tr>
                             @endforeach
-                           
+                            <tr class="text-center">
+                                <th colspan="5"></th>
+                                <th style="color: red;">Total:</th>
+                                <th class="align-middle" style="color: red;">
+                                    ${{ number_format($totalSubtotal, 2) }}
+                                </th>
+                            </tr>
                         </tbody>
                     </table>
                     {{-- End Table --}}

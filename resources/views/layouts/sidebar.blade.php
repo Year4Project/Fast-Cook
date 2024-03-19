@@ -64,15 +64,35 @@
         <div class="sidebar-heading">
             POS & ORDER
         </div>
-
+        
         <li class="nav-item active">
             <a class="nav-link" href="{{ url('owner/cart/index') }}">
                 <i class="fas fa-desktop"></i>
                 <span>Point Of Sale</span></a>
 
-            <a class="nav-link" href="{{ url('owner/cart/customerOrder') }}">
+            {{-- <a class="nav-link" href="{{ url('owner/cart/customerOrder') }}">
                     <i class="fas fa-desktop"></i>
-                <span>POS Order</span></a>
+                <span>POS Order</span></a> --}}
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                aria-expanded="true" aria-controls="collapseThree">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Orders</span>
+            </a>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    {{-- <h6 class="collapse-header">Employee  Components:</h6> --}}
+                    <a class="collapse-item" href="{{ url('owner/cart/customerOrder/') }}">All Orders</a>
+                    <a class="collapse-item" href="{{ url('owner/order/userOrder/') }}">App Orders</a>
+                    <a class="collapse-item" href="#">Pending Orders</a>
+                    <a class="collapse-item" href="#">Progress Orders</a>
+                    <a class="collapse-item" href="#">Delivered Orders</a>
+                    <a class="collapse-item" href="#">Completed Orders</a>
+                    <a class="collapse-item" href="#">Cash On Delivery</a>
+                </div>
+            </div>
         </li>
 
         <!-- Divider -->
@@ -80,26 +100,26 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Function
+            Manage Restaurant
         </div>
 
         <li class="nav-item">
             <a class="nav-link" href="{{ url('owner/category/typeFood') }}">
                 <i class="fas fa-layer-group"></i>
-                <span>Category</span></a>
+                <span>Create Category</span></a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" href="{{ url('owner/food/showFood') }}">
                 <i class="fas fa-fw fa-table"></i>
-                <span>Food Menu</span></a>
+                <span>Products</span></a>
         </li>
 
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link" href="{{ url('owner/order/userOrder/') }}">
                 <i class="fas fa-fw fa-book"></i>
                 <span>Order Food</span></a>
-        </li>
+        </li> --}}
 
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -110,17 +130,15 @@
         </div>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Customers</span>
-            </a>
+            <a class="nav-link" href="">
+                <i class="fas fa-users"></i>
+                <span>Customers</span></a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                 aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
+                <i class="fas fa-fw fa-users"></i>
                 <span>Employee</span>
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">

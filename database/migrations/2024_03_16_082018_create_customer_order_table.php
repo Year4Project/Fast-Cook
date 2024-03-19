@@ -11,17 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cart', function (Blueprint $table) {
+        Schema::create('customer_order', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('restaurant_id');
-            // Add other fields for your cart table as needed
-            $table->string('name')->nullable();
-            $table->decimal('price', 8, 2)->nullable();
-            $table->integer('quantity')->nullable();
-            $table->decimal('total_price', 8, 2)->nullable();
+            $table->unsignedBigInteger('restaurant_id')->nullable();
+            $table->bigInteger('ordernumber')->nullable();
+            $table->float('total')->nullable();
+            $table->string('customername')->nullable();
+            $table->string('customerphone')->nullable();
             $table->timestamps();
 
-            // Define foreign key constraint
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cart');
+        Schema::dropIfExists('customer_order');
     }
 };

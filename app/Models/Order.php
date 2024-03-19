@@ -11,17 +11,8 @@ class Order extends Model
 {
     use HasFactory;
     protected $table = 'orders';
-    protected $fillable = [
-        'user_id',
-        'restaurant_id',
-        'food_id',
-        'items',
-        'quantity',
-        'table_no',
-        'remark',
-        'total_quantity'
+    protected $fillable = ['user_id', 'restaurant_id', 'items', 'table_no', 'remark', 'total_quantity'];
 
-    ];
     protected $casts = [
         'items' => 'json',
     ];

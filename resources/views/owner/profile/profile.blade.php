@@ -18,14 +18,12 @@
                 <div class="card shadow mb-4">
                     <div class="card-body text-center">
                         <div class="profile-image-container">
-                            @if ($user->image_url)
-                                <label for="imageInput">
-                                    <img src="{{ $user->image_url }}" class="img-fluid rounded-circle" height="150"
-                                        width="150" alt="User Image" style="cursor: pointer;">
-                                </label>
-                            @else
-                                <p class="no-image-text">No image available</p>
-                            @endif
+
+
+                                    <img src="{{ Auth::user()->restaurant->image }}" class="img-fluid rounded-circle" alt="User Image"
+                                        style="width: 150px; height: 150px; cursor: pointer;">
+                        
+
                         </div>
                         <p class="mt-4"><strong>{{ $user->first_name }} {{ $user->last_name }}</strong></p>
                         <p class="user-info"><strong>Email:</strong> {{ $user->email }}</p>

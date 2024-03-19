@@ -5,19 +5,14 @@
     <div class="container-fluid">
 
 
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Customer Orders</h1>
-            {{-- <a href="{{ url('owner/food/create') }}"
-        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Add Menu</a> --}}
-        </div>
+
 
         @include('_massage')
 
         <div class="card shadow mb-4">
-            {{-- <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">DataTables Of Order</h6>
-            </div> --}}
+            <div class="card-header py-3">
+                <h3 class="m-0 font-weight-bold text-primary">Customer Orders From App</h3>
+            </div>
             <div id="app">
                 <order-component></order-component>
             </div>

@@ -89,4 +89,13 @@ if ($user) {
         return $this->hasMany(Cart::class);
     }
 
+    public function customerOrder()
+    {
+        return $this->hasOne(CustomerOrder::class);
+    }
+    public function customerOrderFood()
+    {
+        return $this->hasOne(CustomerOrderFood::class);
+    }
+
 }
