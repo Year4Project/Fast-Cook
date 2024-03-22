@@ -45,6 +45,7 @@ class FoodOrderController extends Controller
             $totalQuantity += $food['quantity'];
         }
 
+        
         // Create an order associated with the user
         $order = Order::create([
             'user_id' => $user->id,
