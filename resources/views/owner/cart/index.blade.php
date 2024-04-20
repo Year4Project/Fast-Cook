@@ -78,23 +78,40 @@
 
                     <table class="table table-bordered table-striped">
                         <thead class="table-dark">
-                            <tr>
-                                <th>ID</th>
+                            <tr class="text-center">
+                                {{-- <th>ID</th> --}}
                                 <th>Name</th>
                                 <th>Price</th>
                                 <th>Qty</th>
                                 <th>Total</th>
-                                <th>Action</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @php $totalPrice = 0; @endphp
                             @foreach ($addToCart as $addToCartItem)
                             <tr>
-                                <td>{{ $addToCartItem->food_id }}</td>
+                                {{-- <td>{{ $addToCartItem->food_id }}</td> --}}
                                 <td>{{ $addToCartItem->name }}</td>
                                 <td class="text-center">${{ $addToCartItem->price }}</td>
-                                <td class="text-center">{{ $addToCartItem->quantity }}</td>
+                                <td class="text-center">
+                                    <div class="input-group">
+                                        <form action="{{ route('cart.update') }}" method="post" id="updateQuantityForm{{ $addToCartItem->id }}" class="d-flex align-items-center">
+                                            @csrf
+                                            <input type="hidden" name="cart_item_id" value="{{ $addToCartItem->id }}">
+                                            
+                                            <!-- Decrease quantity button -->
+                                            <button class="btn btn-sm btn-secondary" type="button" onclick="updateQuantity({{ $addToCartItem->id }}, -1)">-</button>
+                                            
+                                            <!-- Quantity input field -->
+                                            <input type="text" name="quantity" value="{{ $addToCartItem->quantity }}" min="1" class="form-control text-center" style="width: 50px;">
+                                            
+                                            <!-- Increase quantity button -->
+                                            <button class="btn btn-sm btn-secondary" type="button" onclick="updateQuantity({{ $addToCartItem->id }}, 1)">+</button>
+                                        </form>
+                                        
+                                    </div>
+                                </td>                              
                                 <td class="text-center">${{ $addToCartItem->price * $addToCartItem->quantity }}</td>
                                 <td>
                                     <a class="btn btn-danger btn-sm" href="{{ route('cart.delete', $addToCartItem->id) }}" onclick="return confirm('Are you sure you want to delete this item?')"><i class="fas fa-trash-alt"></i></a>
@@ -106,8 +123,6 @@
                                 <td colspan="2"></td>
                                 <td colspan="2" class="text-center align-middle"><b>Total Price</b></td>
                                 <td class="text-center align-middle">${{ $totalPrice }}</td>
-                                <td>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -117,14 +132,6 @@
                     <form method="post" action="{{ route('order.checkout') }}">
                         @csrf
                     <div class="d-grid gap-2">
-                                    {{-- <input type="hidden" name="name" value="{{ $addToCartItem->name }}">
-                                    <input type="hidden" name="price" value="{{ $addToCartItem->price }}">
-                                    <input type="hidden" name="food_id" value="{{ $addToCartItem->id }}">
-                                    <input type="hidden" name="quantity" value="{{ $addToCartItem->quantity }}">
-                                    <input type="hidden" name="image_url" value="{{ $addToCartItem->image_url }}">
-                                    <input type="hidden" name="description" value="{{ $addToCartItem->description }}">
-                                    <input type="hidden" name="total" value="{{ $addToCartItem = $totalPrice }}"> --}}
-
                                     <div class="row">
                                         <div class="col-6">
                                             <label for="">Customer Name</label>
@@ -139,12 +146,11 @@
 
                                     <div class="row">
                                         <div class="col-6">
-                                            <button type="submit" class="btn btn-success btn-block">Checkout</button>
+                                            <button type="submit" class="btn btn-success btn-block">Place Order</button>
                                             
                                         </div>
                                         <div class="col-6">
                                            <a class="btn btn-danger btn-block" href="{{ route('cart.clear') }}" >Reset</a>
-
                                         </div>
                                     </div>
                     </div>
@@ -153,5 +159,22 @@
         </div>
     </div>
 
+    <script>
+        function updateQuantity(cartItemId, change) {
+            var form = document.getElementById('updateQuantityForm' + cartItemId);
+            var quantityField = form.querySelector('input[name="quantity"]');
+            var currentQuantity = parseInt(quantityField.value);
+            var newQuantity = currentQuantity + change;
+            
+            // Ensure quantity does not go below 1
+            if (newQuantity < 1) {
+                newQuantity = 1;
+            }
+            
+            quantityField.value = newQuantity;
+            form.submit();
+        }
+    </script>
+    
 </div>
 @endsection

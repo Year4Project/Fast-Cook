@@ -64,12 +64,14 @@ Route::middleware('auth')->group(function () {
         // POS System
         Route::get('owner/cart/index', [CartController::class, 'index'])->name('POS-System');
         Route::post('owner/cart/add-item', [CartController::class, 'addItemToCart'])->name('cart.add');
+        Route::post('owner/cart/update-qty', [CartController::class, 'updateCartItemQuantity'])->name('cart.update');
         Route::get('owner/cart/delete-item/{id}', [CartController::class, 'deleteItem'])->name('cart.delete');
         Route::get('cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
         Route::post('owner/cart/order', [CartController::class, 'order_submit'])->name('order.checkout');
         Route::get('owner/cart/customerOrder', [CartController::class, 'customerOrder'])->name('POS-CustomerOrder');
 
         Route::get('owner/cart/customerOrder-detail/{orderId}', [OrderController::class, 'customerOrderDetail'])->name('POS-CustomerOrder.detail');
+        Route::get('owner/print-recipe', [OrderController::class, 'printRecipe'])->name('pos-printRecipe');
 
 
         // Create foods

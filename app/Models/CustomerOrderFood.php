@@ -27,10 +27,6 @@ class CustomerOrderFood extends Model
         return $this->belongsTo(User::class);
     }
 
-    
-   
-    
-
     // Assuming the relationship name is customer_order_food
     public function food()
     {
@@ -43,16 +39,10 @@ class CustomerOrderFood extends Model
 
     public static function getCustomerOrders($orderId)
     {
-        // $user = Auth::user()->restaurant->id;
-        // $order = CustomerOrder::with(['user', 'customer_order_food'])->find($orderId);
+
         $customerOrder = CustomerOrder::find($orderId);
         $customerOrderFoods = $customerOrder->customerOrderFoods;
-        
-        // if (!$customerOrderFoods) {
-        //     // Handle case when order is not found
-        //     abort(404, 'Order not found');
-        // }
-        //  dd($customerOrderFoods);
+
         return $customerOrderFoods;
     }
 }

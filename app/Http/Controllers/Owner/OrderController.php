@@ -17,7 +17,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class OrderController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * display the order form mobile application using api routes
      */
     public function userOrder()
     {
@@ -28,11 +28,14 @@ class OrderController extends Controller
     }
 
 
+    /**
+     * display all order form mobile application using api routes
+     */
     public function orderDetails($orderId)
     {
 
         $data['getOrderDetails'] = Order::getOrderDetails($orderId);
-        return view('owner.order.detailOrder',$data);
+        return view('owner.order.detailOrder', $data);
     }
 
     /**
@@ -46,12 +49,23 @@ class OrderController extends Controller
     }
 
 
-    public function customerOrderDetail($orderId){
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function customerOrderDetail($orderId)
+    {
 
         $data['customerOrderFood'] = CustomerOrderFood::getCustomerOrders($orderId);
 
-            // dd($data['customerOrderFood']);
+        // dd($data['customerOrderFood']);
 
         return view('owner.pos.detailOrder', $data);
+    }
+
+
+    public function printRecipe()
+    {
+
+        return view('owner.pos.printRecipe');
     }
 }

@@ -68,38 +68,6 @@ class UserController extends Controller
      * @param Request $request
      * @return User
      */
-
-    //  public function login(Request $request)
-    //  {
-    //      // data validation
-    //      $request->validate([
-    //          "phone" => "required",
-    //          "password" => "required"
-    //      ]);
-
-    //      // JWTAuth with a longer expiration time (e.g., 1 year) or set it to null for unlimited duration
-    //      $token = JWTAuth::attempt([
-    //          "phone" => $request->phone,
-    //          "password" => $request->password
-    //      ], [
-    //          'exp' => now()->addYear()->timestamp, // Set expiration to 1 year (adjust as needed) or set to null
-    //      ]);
-
-    //      if (!empty($token)) {
-    //          $user = Auth::user();
-    //          return response()->json([
-    //              "status" => true,
-    //              "message" => "User logged in successfully",
-    //              'data' => ["token" => $token, "user" => $user],
-    //          ],200);
-    //      } else {
-    //          return response()->json([
-    //              "status" => false,
-    //              "message" => "Invalid details"
-    //          ],400);
-    //      }
-    //  }
-
     public function login(Request $request)
     {
         // Data validation
@@ -141,72 +109,17 @@ class UserController extends Controller
         } else {
             return response()->json([
                 "status" => false,
-                "message" => "Invalid details"
+                "message" => "Invalid Phone Number or Password"
             ], 400);
         }
     }
 
-
-    // public function login(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(),[
-    //         "phone" => "required|string|min:8",
-    //         "password" => "required|string|min:6"
-    //     ]);
-
-    //     if ($validator->fails())
-    //     {
-    //         return response()->json($validator->errors(), 400);
-    //     }
-
-    //     if(!$token = auth()->attempt($validator->validated()))
-    //     {
-    //         return response()->json(['success'=>false,'msg'=>'Phone $ Password is incorrect']);
-    //     }
-
-    //     $this->respondWithToken($token);
-    // }
-
-    // protected function respondWithToken($token)
-    // {
-    //     return response()->json([
-    //         'success' => true,
-    //         'access_token' => $token,
-    //         'token_type' => 'Bearer',
-    //         'expires_in' => auth()->factory()->getTTL() *60
-    //     ]);
-    // }
-
-
-    // User Profile
-    // public function profile(Request $request)
-    // {
-    //     try {
-    //         $user = JWTAuth::parseToken()->authenticate();
-
-    //         // You can customize the data you want to return in the profile
-    //         $profile = [
-    //             'id'    => $user->id,
-    //             'first_name'  => $user->first_name,
-    //             'last_name'  => $user->last_name,
-    //             'email' => $user->email,
-    //             'phone' => $user->phone,
-    //             'image'      => $this->getImageBase64($user->image_url),
-    //             // Add more fields as needed
-    //         ];
-
-    //         return response()->json(['profile' => $profile], 200);
-    //     } catch (\Exception $e) {
-    //         return response()->json(['error' => 'Unauthorized'], 401);
-    //     }
-    // }
-
     public function profile(Request $request)
     {
-        try{
-            return response()->json(['success'=>true,'data'=>auth()->user()]);
+        try {
+            return response()->json(['success' => true, 'data' => auth()->user()]);
         } catch (\Exception $e) {
-            return response()->json(['success'=>false,'message'=> $e->getMessage()]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 

@@ -15,8 +15,10 @@ class CustomerOrder extends Model
         'total',
         'customername',
         'customerphone',
+        'restaurant_id'
     ];
 
+  
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);
@@ -27,23 +29,10 @@ class CustomerOrder extends Model
         return $this->belongsTo(User::class);
     }
 
-   
+
 
     public function customerOrderFoods()
     {
         return $this->hasMany(CustomerOrderFood::class, 'order_id');
     }
-
-    // public static function getCustomerOrders($orderId)
-    // {
-    //     // $user = Auth::user()->restaurant->id;
-    //     $order = CustomerOrder::find($orderId);
-
-    //     if (!$order) {
-    //         // Handle case when order is not found
-    //         abort(404, 'Order not found');
-    //     }
-    //      dd($order);
-    //     return $order;
-    // }
 }
