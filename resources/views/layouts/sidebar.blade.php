@@ -84,13 +84,13 @@
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     {{-- <h6 class="collapse-header">Employee  Components:</h6> --}}
-                    <a class="collapse-item" href="{{ url('owner/cart/customerOrder/') }}">All Orders</a>
+                    <a class="collapse-item" href="{{ url('owner/cart/customerOrder/') }}">POS Orders</a>
                     <a class="collapse-item" href="{{ url('owner/order/userOrder/') }}">App Orders</a>
-                    <a class="collapse-item" href="#">Pending Orders</a>
+                    {{-- <a class="collapse-item" href="#">Pending Orders</a>
                     <a class="collapse-item" href="#">Progress Orders</a>
                     <a class="collapse-item" href="#">Delivered Orders</a>
                     <a class="collapse-item" href="#">Completed Orders</a>
-                    <a class="collapse-item" href="#">Cash On Delivery</a>
+                    <a class="collapse-item" href="#">Cash On Delivery</a> --}}
                 </div>
             </div>
         </li>

@@ -20,6 +20,9 @@ class CustomerOrderFood extends Model
         'price',
         'quantity',
         'total',
+        'payment_method',
+        'payment_usd',
+        'payment_khr'
     ];
 
     public function user()
@@ -45,4 +48,34 @@ class CustomerOrderFood extends Model
 
         return $customerOrderFoods;
     }
+
+//     public static function getCustomerOrders($orderId)
+// {
+//     $customerOrder = CustomerOrder::find($orderId);
+//     $customerOrderFoods = $customerOrder->customerOrderFoods;
+
+//     // Define conversion rate for USD to KHR
+//     $usdToKhrConversionRate = 4100; // Example conversion rate, replace with your actual rate
+
+//     // Iterate through each customer order food item
+//     foreach ($customerOrderFoods as $orderFood) {
+//         // Initialize the converted payment amount
+//         $convertedPaymentAmount = 0;
+
+//         // Check the currency and calculate the payment amount accordingly
+//         if ($orderFood->currency === 'USD') {
+//             // If the currency is USD, no conversion needed
+//             $convertedPaymentAmount = $orderFood->payment;
+//         } elseif ($orderFood->currency === 'KHR') {
+//             // If the currency is KHR, convert USD to KHR
+//             $convertedPaymentAmount = $orderFood->payment * $usdToKhrConversionRate;
+//         }
+
+//         // Set the converted payment amount
+//         $orderFood->converted_payment = $convertedPaymentAmount;
+//     }
+
+//     return $customerOrderFoods;
+// }
+
 }

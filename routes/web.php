@@ -15,6 +15,8 @@ use App\Http\Controllers\Owner\POSController;
 use App\Http\Controllers\Owner\ProfileController;
 use App\Http\Controllers\Owner\StaffController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Owner\InvoiceController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -93,10 +95,14 @@ Route::middleware('auth')->group(function () {
 
         // Order Food
         Route::get('/owner/order/userOrder', [OrderController::class, 'userOrder'])->name('owner.order.userOrder');
-
         Route::get('/owner/order/details/{orderId}', [OrderController::class, 'orderDetails'])->name('owner.order.details');
         // Route::get('/owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
         Route::post('/owner/order/food', [OrderController::class, 'orderFood'])->name('owner.order.food');
+        // Get all orders
+        Route::get('/owner/order/allOrder', [OrderController::class, 'allOrder'])->name('owner.order.allOrder');
+
+        // Invoice
+        Route::get('/generate-invoice/{orderId}', [InvoiceController::class, 'generateInvoice'])->name('generate.invoice');
 
 
         // Staff

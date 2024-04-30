@@ -6,9 +6,9 @@
 
 
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        {{-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Foods Menu</h1>
-        </div>
+        </div> --}}
 
         {{-- Alert Massage --}}
         @include('_massage')
@@ -17,7 +17,7 @@
         <div class="card shadow">
             {{-- title page --}}
             <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-                <h6 class="font-weight-bold text-primary">DataTables Of Menu</h6>
+                <h3 class="font-weight-bold text-primary">DataTables Of Menu</h3>
                 <a href="{{ url('owner/food/createFood') }}" type="button" class="btn btn-primary float-end">
                     <i class="bi bi-clipboard2-plus-fill"></i> Add New Food
                 </a>
@@ -27,7 +27,7 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead class="table-dark">
                             <tr class="text-center">
-                                <th>ID</th>
+                                <th>#</th>
                                 <th>Code</th>
                                 <th>Image</th>
                                 <th>Name</th>
@@ -49,7 +49,7 @@
                             @else
                                 @foreach ($getFood as $item)
                                     <tr class="text-center">
-                                        <td class="align-middle">{{ $loop->iteration }}</td>
+                                        <td class="align-middle">{{ $item->id }}</td>
                                         <td class="align-middle">{{ $item->code }}</td>
                                         <td><img class="rounded-circle" height="75" width="75"
                                                 src="{{ $item->image_url }}" alt=""></td>

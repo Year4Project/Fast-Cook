@@ -29,8 +29,8 @@ class UserController extends Controller
                 [
                     'first_name' => 'required|string|min:2|max:50',
                     'last_name' => 'required|string|min:2|max:50',
-                    'password' => 'required|string|min:6|max:50|confirmed',
                     'phone' => 'required|string|max:10|unique:users,phone',
+                    'password' => 'required|string|min:6|max:50|confirmed',
                 ]
             );
 
@@ -127,7 +127,7 @@ class UserController extends Controller
     {
         try {
             // Dump and die to inspect the request data
-            dd($request->all());
+            // dd($request->all());
 
             // Authenticate the user using JWT
             $user = JWTAuth::parseToken()->authenticate();
@@ -191,9 +191,6 @@ class UserController extends Controller
             return null;
         }
     }
-
-
-
 
 
     // To generate refresh token value

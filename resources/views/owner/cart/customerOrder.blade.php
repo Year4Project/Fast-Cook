@@ -45,7 +45,7 @@
                             <tbody>
                                 @foreach ($orderCustomer as $orderItem)
                                     <tr class="text-center">
-                                        <td class="align-middle">{{ $loop->iteration }}</td>
+                                        <td class="align-middle">{{ $orderItem->id }}</td>
                                         <th class="align-middle">{{ $orderItem->ordernumber }}</th>
                                         <th class="align-middle">{{ $orderItem->customername }}</th>
                                         <th class="align-middle">{{ $orderItem->customerphone }}</th>
@@ -56,9 +56,12 @@
                                             </a>
 
                                             <a class="btn btn-md btn-circle btn-outline-success"
-                                                href="{{ route('pos-printRecipe') }}">
+                                                href="{{ route('generate.invoice', ['orderId' => $orderItem->id]) }}"
+                                                target="_blank">
                                                 <i class="fas fa-print"></i>
                                             </a>
+                                            {{-- <a href="{{ route('generate.invoice', ['orderId' => $order->id]) }}" target="_blank">Generate Invoice</a> --}}
+
                                         </th>
                                     </tr>
                                 @endforeach

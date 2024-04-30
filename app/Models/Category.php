@@ -22,7 +22,7 @@ class Category extends Model
         if (!$user->restaurant) {
             return redirect()->back()->with('error', 'You are not associated with a restaurant.');
         }
-        $category = Category::where('restaurant_id', $user->restaurant->id)->paginate(5);
+        $category = Category::where('restaurant_id', $user->restaurant->id)->paginate(10);
 
         return $category;
     }

@@ -82,7 +82,7 @@ class Food extends Model
         ->leftJoin('categories', 'foods.category_id', '=', 'categories.id')
         ->where('foods.restaurant_id', $user->restaurant->id)
         ->orderBy('id','desc')
-        ->paginate(5);
+        ->paginate(10);
 
         // dd($foods);
 

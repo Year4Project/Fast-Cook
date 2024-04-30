@@ -11,7 +11,7 @@
         <div class="card shadow">
             {{-- title page --}}
             <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-                <h6 class="font-weight-bold text-primary">Category</h6>
+                <h3 class="font-weight-bold text-primary">Category</h3>
                 <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addnew">
                     <i class="bi bi-clipboard2-plus-fill"></i> Add New Category
                 </button>

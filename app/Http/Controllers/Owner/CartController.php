@@ -136,6 +136,16 @@ class CartController extends Controller
             $orderFood->description = $cartItem->description;
             $orderFood->total = $cartItem->price * $cartItem->quantity;
 
+             // Assuming payment information is stored in the request
+            $orderFood->payment_usd = $request->currency === 'USD' ? $request->payment : null;
+            $orderFood->payment_khr = $request->currency === 'KHR' ? $request->payment : null;
+
+            // Combine selected payment methods into a string
+            $paymentMethods = implode(',', $request->input('payment_method'));
+            $orderFood->payment_method = $paymentMethods;
+
+            // dd($orderFood);
+
             // Save the order food item
             $orderFood->save();
         }
@@ -144,45 +154,8 @@ class CartController extends Controller
         Cart::truncate();
 
         // Redirect or return a response as needed
-        return redirect()->back()->with('success', 'Checkout successful!');
+        return redirect()->route('POS-CustomerOrder.detail', ['orderId' => $data->id]);
     }
-
-    // public function decrementQuantity(int $cartId){
-    //     $cartData = Cart::where('id',$cartId)->where('user_id', auth()->user()->id)->first();
-    //     if($cartData){
-    //         $cartData->decrement('quantity');
-    //         $this->dispatchBrowserEvent('message', [
-    //             'text' => 'Quantity Updated',
-    //             'type' => 'success',
-    //             'status' => 200
-    //         ]);
-    //     }else{
-    //         $this->dispatchBrowserEvent('message', [
-    //             'text' => 'Something Went Wrong!',
-    //             'type' => 'error',
-    //             'status' => 404
-    //         ]);
-    //     }
-    // }   
-    // public function incrementQuantity(int $cartId){
-    //     $cartData = Cart::where('id',$cartId)->where('user_id', auth()->user()->id)->first();
-    //     if($cartData){
-    //         $cartData->increment('quantity');
-    //         $this->dispatchBrowserEvent('message', [
-    //             'text' => 'Quantity Updated',
-    //             'type' => 'success',
-    //             'status' => 200
-    //         ]);
-    //     }else{
-    //         $this->dispatchBrowserEvent('message', [
-    //             'text' => 'Something Went Wrong!',
-    //             'type' => 'error',
-    //             'status' => 404
-    //         ]);
-    //     }
-    // }
-
-
     public function deleteItem(Request $request)
     {
         $user = Auth::user();
@@ -204,103 +177,15 @@ class CartController extends Controller
         return back();
     }
 
-
-    // public function checkout(Request $request){
-
-    //     // Validate request data
-    //     $request->validate([
-    //         'items' => 'required|array', // Add more validation rules as needed
-    //         // Other validation rules...
-    //     ]);
-
-    //     $user = Auth::user();
-    //     $restaurant = $user->restaurant->id;
-
-    //     // Calculate total quantity
-    //     $totalQuantity = 0;
-    //     // Capture food_id and quantity for each selected food
-    //     $foodOrder = [];
-    //     foreach ($request->input('items', []) as $food) {
-    //         $foodModel = Food::find($food['food_id']);
-    //         $foodOrder[] = [
-    //             'food_id' => $foodModel->id,
-    //             'quantity' => $food['quantity'],
-    //         ];
-    //         $totalQuantity += $food['quantity'];
-    //     }
-
-    //     // Create an order associated with the user
-    //     $order = Order::create([
-    //         'restaurant_id' == $restaurant,
-    //         'items' => json_encode($request->input('items')),
-    //         'remark' => $request->input('remark'),
-    //         'total_quantity' => $totalQuantity,
-    //     ]);
-
-    //     // dd($order);
-    //     // Attach food items to the order
-    //     $order->foods()->attach($request->input('items'));
-
-    //     $order->save();
-
-    //     return back();
-    // }
-
-
-    // public function checkout(Request $request)
-    // {
-
-    //     $user = Auth::user();
-    //     $restaurant = $user->restaurant->id;
-
-    //     // Validate the request data
-    //     $request->validate([
-    //         'items' => 'required|array',
-    //         'items.*.food_id' => 'required|exists:foods,id',
-    //         'items.*.quantity' => 'required|integer|min:1',
-    //         'table_no' => 'required|integer|min:1',
-    //         'remark' => 'nullable|string',
-    //         'total_quantity' => 'required|integer|min:1', // Add validation for total_quantity if applicable
-    //     ]);
-
-
-    //     // Create a new Order instance
-    //     $order = new Order();
-
-    //     // Assign values to the Order attributes
-    //     $order->user_id = $user->id;
-    //     $order->restaurant_id = $restaurant;
-    //     $order->items = $request->input('items');
-    //     $order->table_no = $request->input('table_no');
-    //     $order->remark = $request->input('remark');
-    //     // $order->total_quantity = $request->input('total_quantity'); // Uncomment if you have a total_quantity field in your form
-
-    //     // Save the Order instance to the database
-    //     dd($order);
-    //     $order->save();
-
-    //     // Attach food items to the order
-    //     foreach ($request->input('items') as $item) {
-    //         $order->foods()->attach($item['food_id'], ['quantity' => $item['quantity']]);
-    //     }
-
-    //     return redirect()->back()->with('success', 'Order placed successfully!');
-    // }
-
-
     public function customerOrder(Request $request)
     {
         $user = Auth::user();
-        $data['orderCustomer'] = CustomerOrder::where('restaurant_id', $user->restaurant->id)->get();
+        $data['orderCustomer'] = CustomerOrder::where('restaurant_id', $user->restaurant->id)->orderBy('id', 'desc')->get();
 
         // dd($data);
         // $customerOrder = $user->restaurant->customerOrder->get();
         return view('owner.cart.customerOrder', $data);
     }
-
-
-
-    // Order
 
     public function clearCart()
     {

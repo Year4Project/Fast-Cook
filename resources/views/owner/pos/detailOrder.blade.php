@@ -19,17 +19,17 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         {{-- display top --}}
-                        <div class="row">
-                            {{-- <div class="col-md-2">
-                            <p><strong>User:</strong> {{ $getOrderDetails->user->first_name }}
+                        {{-- <div class="row">
+                            <div class="col-md-2">
+                            <p><strong>User:</strong> {{ $customerOrderFood->customerOrder->cus }}
                                 {{ $getOrderDetails->user->last_name }}</p>
                             <p><strong>Table No:</strong> {{ $getOrderDetails->table_no }}</p>
                         </div>
                         <div class="col-md-4">
                             <p><strong>Remark:</strong> {{ $getOrderDetails->remark }}</p>
                             <p><strong>Total Quantity:</strong> {{ $getOrderDetails->total_quantity }}</p>
-                        </div> --}}
                         </div>
+                        </div> --}}
                         {{-- table display food order --}}
                         <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
                             <thead class="table-dark">
@@ -37,8 +37,8 @@
                                     <th>#</th>
                                     <th>Image</th>
                                     <th>Food Name</th>
-                                    <th>Type of Food</th>
                                     <th>Quantity</th>
+                                    <th>Payment Method</th>
                                     <th>Price</th>
                                     <th>SubTotal</th>
                                 </tr>
@@ -56,23 +56,79 @@
                                         <td class="align-middle">{{ $loop->iteration }}</td>
                                         <td class="align-middle"><img class="rounded-circle" height="75" width="75"
                                                 src="{{ $food->image }}" alt=""></td>
-                                        <th class="align-middle">{{ $food->name }}</th>
-                                        <th class="align-middle">{{ $food->type }}</th>
-                                        <th class="align-middle">{{ $food->quantity }}</th>
-                                        <th class="align-middle">${{ number_format($food->price, 2) }}</th>
-                                        <th class="align-middle">${{ number_format($subTotal, 2) }}</th>
+                                        <td class="align-middle">{{ $food->name }}</td>
+                                        <td class="align-middle">{{ $food->quantity }}</td>
+                                        <td class="align-middle">{{ $food->payment_method }}</td>
+                                        <td class="align-middle">${{ number_format($food->price, 2) }}</td>
+                                        <td class="align-middle">${{ number_format($subTotal, 2) }}</td>
                                     </tr>
                                 @endforeach
-                                <tr class="text-center">
-                                    <th colspan="5"></th>
-                                    <th style="color: red;">Total:</th>
-                                    <th class="align-middle" style="color: red;">
-                                        ${{ number_format($totalSubtotal, 2) }}
+                                {{-- <tr class="text-center">
+                                    <th colspan="4"></th>
+                                    <th class="text-danger text-end"></th>
+                                    <th class="align-middle text-danger">
+                                        
                                     </th>
                                 </tr>
+                                <tr class="text-center">
+                                    <th colspan="4"></th>
+                                    <th class="text-danger text-end"></th>
+                                    <th class="align-middle text-danger">
+                                        
+                                    </th>
+                                </tr>
+                                
+                                <tr class="text-center">
+                                    <th colspan="4"></th>
+                                    <th class="align-middle text-end"></th>
+                                    <th>
+                                        
+                                    </th>
+                                </tr> --}}
                             </tbody>
                         </table>
+
                         {{-- End Table --}}
+                    </div>
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                        </div>
+                        <div class="col-4 ps-8">
+                            <div class="row">
+                                <div class="col-6 text-end">
+                                    <p>Total:</p>
+                                    <p>Payment:</p>
+                                    <p>Print:</p>
+
+                                </div>
+                                {{-- @php
+                                    dd($customerOrderFood);
+                                @endphp --}}
+
+                                <div class="col-6">
+                                    <p>${{ number_format($totalSubtotal, 2) }}</p>
+                                    <p>
+                                        @if ($customerOrderFood->isNotEmpty())
+                                            <div>
+                                                {{-- Check if payment_usd is available --}}
+                                                @if (isset($customerOrderFood->first()->payment_usd))
+                                                    <p>$: {{ $customerOrderFood->first()->payment_usd }}</p>
+                                                @else
+                                                    {{-- If payment_usd is not available, display payment_khr --}}
+                                                    <p>៛: {{ $customerOrderFood->first()->payment_khr }}</p>
+                                                @endif
+                                            </div>
+                                        @else
+                                            <p>No payment information available</p>
+                                        @endif
+                                    </p>
+                                    <a class="btn btn-md btn-outline-success" href="{{ route('pos-printRecipe') }}">
+                                        <i class="fas fa-print"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
