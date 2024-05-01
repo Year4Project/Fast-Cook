@@ -121,30 +121,33 @@ class UserController extends Controller
     //     }
     // }
   
-    public function profile(Request $request)
-{
-    try {
-        // Retrieve the authenticated user
-        $user = Auth::user();
-
-        if ($user) {
-            return response()->json([
-                'success' => true,
-                'data' => $user
-            ]);
-        } else {
+    public function profile()
+    {
+        try {
+            // Retrieve the token from the request headers
+            $token = JWTAuth::parseToken();
+    
+            // Attempt to authenticate the user using the token
+            $user = $token->authenticate();
+    
+            if ($user) {
+                return response()->json([
+                    'success' => true,
+                    'data' => $user
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found'
+                ], 404);
+            }
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'User not found'
-            ], 404);
+                'message' => $e->getMessage()
+            ], 500);
         }
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => $e->getMessage()
-        ], 500);
     }
-}
 
 
     public function updateProfile(Request $request)
