@@ -14,7 +14,6 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class UserController extends Controller
 {
-
     /**
      * Create User
      * @param Request $request
@@ -33,7 +32,6 @@ class UserController extends Controller
                     'password' => 'required|string|min:6|max:50|confirmed',
                 ]
             );
-
             if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
@@ -117,7 +115,7 @@ class UserController extends Controller
     public function profile(Request $request)
     {
         try {
-            return response()->json(['success' => true, 'data' => auth()->user()]);
+            return response()->json(['success' => true, 'data' => JWTAuth::user()]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
