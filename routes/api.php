@@ -27,7 +27,7 @@ Route::middleware('jwt.auth')->get('user', function(Request $request) {
 
 Route::middleware(['apikey', 'auth:api','jwt.auth'])->group(function () {
     /**Route for View Profile */
-    Route::post('/profile', [UserController::class, "profile"]);
+    Route::get('/profile', [UserController::class, "profile"]);
     Route::put('/profile/update', [UserController::class, "updateProfile"]);
 
     /**Route for list Foods */
