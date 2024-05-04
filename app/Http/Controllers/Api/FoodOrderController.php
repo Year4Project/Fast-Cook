@@ -24,6 +24,7 @@ class FoodOrderController extends Controller
             'items' => 'required|array',
             'items.*.food_id' => 'required|exists:foods,id',
             'items.*.quantity' => 'required|integer|min:1',
+            'table_no' => 'required|integer|min:1',
             'restaurant_id' => 'required|integer|min:1',
             'remark' => 'nullable|string',
         ]);
@@ -70,12 +71,12 @@ class FoodOrderController extends Controller
         ];
 
         // Dispatch the notification
-    Notification::send($user, new NewOrderNotification($order));
+    // Notification::send($user, new NewOrderNotification($order));
 
     //     // Dispatch the event
-    event(new OrderPlacedEvent($order));
+    // event(new OrderPlacedEvent($order));
 
-    event(new NewOrderPlaced($order));
+    // event(new NewOrderPlaced($order));
 
         // Return a JSON response
         return response()->json([

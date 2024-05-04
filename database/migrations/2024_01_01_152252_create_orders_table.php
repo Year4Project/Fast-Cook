@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->integer('restaurant_id');
             $table->json('items');
-            $table->integer('table_no');
+            $table->integer('table_no')->nullable();
             $table->string('remark')->nullable();
             $table->decimal('payment', 10, 2)->nullable();
             $table->string('payment_type')->nullable();
