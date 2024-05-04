@@ -15,12 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('restaurant_id')->nullable();
             $table->bigInteger('order_id')->nullable();
-            $table->string('name')->nullable();
-            $table->string('image')->nullable();
-            $table->longText('description')->nullable();
-            $table->float('price')->nullable();
-            $table->bigInteger('quantity')->nullable();
-            $table->float('total')->nullable();
+            $table->bigInteger('food_id')->nullable();
             $table->timestamps();
 
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
