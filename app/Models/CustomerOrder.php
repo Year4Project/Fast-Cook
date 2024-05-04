@@ -9,13 +9,14 @@ use Illuminate\Support\Facades\Auth;
 class CustomerOrder extends Model
 {
     use HasFactory;
-    protected $table = 'customer_order';
+    protected $table = 'customers';
     protected $fillable = [
+        'restaurant_id',
+        'customer_id',
         'ordernumber',
-        'total',
-        'customername',
-        'customerphone',
-        'restaurant_id'
+        'table_number',
+        'status',
+        'total_amount'
     ];
 
   

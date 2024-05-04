@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
+use App\Models\Customer;
 use App\Models\CustomerOrder;
 use App\Models\CustomerOrderFood;
 use App\Models\Food;
 use App\Models\FoodOrder;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Support\Facades\Request;
@@ -17,6 +20,71 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class OrderController extends Controller
 {
+    public function order_submit(Request $request)
+    {
+        $user = Auth::user();
+        $restaurant = $user->restaurant;
+
+        $customer = new Customer();
+        $customer->name = $request->name;
+        $customer->email = $request->email;
+        $customer->phone = $request->phone;
+        $customer->restaurant_id = $restaurant->id;
+        // dd($customer);
+        // $customer->save();
+
+
+        $customerOrder = new CustomerOrder();
+
+        // dd($customerOrder);
+
+        $customerOrder->restaurant_id = $restaurant->id;
+        $customerOrder->customer_id = $customer->id;
+        $customerOrder->ordernumber = random_int(10000000000, 99999999999);
+        $customerOrder->total_amount = $request->input('total');
+        $customerOrder->table_number = $request->table_number;
+        $customerOrder->status = $request->status;
+
+        $customerOrder->save();
+        $customerOrder->ordernumber = $customerOrder->ordernumber . $customerOrder->id;
+        $customerOrder->update();
+
+        // Retrieve all items from the cart
+        $cartItems = Cart::all();
+
+        // Iterate through each item in the cart
+        foreach ($cartItems as $cartItem) {
+            // Create a new instance of CustomerOrderFood
+            $orderFood = new OrderItem();
+
+            // Copy data from cart item to customer order food
+            $orderFood->restaurant_id = $restaurant->id;
+            $orderFood->order_id = $customerOrder->id;
+            $orderFood->food_id = $cartItem->food_id;
+            $orderFood->quantity = $cartItem->quantity;
+            $orderFood->notes = $cartItem->notes;
+            // dd($orderFood);
+
+            //  // Assuming payment information is stored in the request
+            // $orderFood->payment_usd = $request->currency === 'USD' ? $request->payment : null;
+            // $orderFood->payment_khr = $request->currency === 'KHR' ? $request->payment : null;
+
+            // // Combine selected payment methods into a string
+            // $paymentMethods = implode(',', $request->input('payment_method'));
+            // $orderFood->payment_method = $paymentMethods;
+
+            // // dd($orderFood);
+
+            // Save the order food item
+            $orderFood->save();
+        }
+
+        // Optional: You may want to clear the cart after checkout
+        Cart::truncate();
+
+        // Redirect or return a response as needed
+        return redirect()->route('POS-CustomerOrder.detail', ['orderId' => $customerOrder->id]);
+    }
     /**
      * display the order form mobile application using api routes
      */

@@ -103,59 +103,7 @@ class CartController extends Controller
     }
 
 
-    public function order_submit(Request $request)
-    {
-        $user = Auth::user();
-        $restaurant = $user->restaurant;
-
-        $data = new CustomerOrder();
-        $data->restaurant_id = $restaurant->id;
-        $data->ordernumber = random_int(10000000000, 99999999999);
-        $data->total = $request->input('total');
-        $data->customername = $request->customername;
-        $data->customerphone = $request->customerphone;
-        $data->save();
-        $data->ordernumber = $data->ordernumber . $data->id;
-        $data->update();
-
-        // Retrieve all items from the cart
-        $cartItems = Cart::all();
-
-        // Iterate through each item in the cart
-        foreach ($cartItems as $cartItem) {
-            // Create a new instance of CustomerOrderFood
-            $orderFood = new CustomerOrderFood();
-
-            // Copy data from cart item to customer order food
-            $orderFood->restaurant_id = $restaurant->id;
-            $orderFood->order_id = $data->id;
-            $orderFood->name = $cartItem->name;
-            $orderFood->price = $cartItem->price;
-            $orderFood->image = $cartItem->image_url;
-            $orderFood->quantity = $cartItem->quantity;
-            $orderFood->description = $cartItem->description;
-            $orderFood->total = $cartItem->price * $cartItem->quantity;
-
-             // Assuming payment information is stored in the request
-            $orderFood->payment_usd = $request->currency === 'USD' ? $request->payment : null;
-            $orderFood->payment_khr = $request->currency === 'KHR' ? $request->payment : null;
-
-            // Combine selected payment methods into a string
-            $paymentMethods = implode(',', $request->input('payment_method'));
-            $orderFood->payment_method = $paymentMethods;
-
-            // dd($orderFood);
-
-            // Save the order food item
-            $orderFood->save();
-        }
-
-        // Optional: You may want to clear the cart after checkout
-        Cart::truncate();
-
-        // Redirect or return a response as needed
-        return redirect()->route('POS-CustomerOrder.detail', ['orderId' => $data->id]);
-    }
+   
     public function deleteItem(Request $request)
     {
         $user = Auth::user();

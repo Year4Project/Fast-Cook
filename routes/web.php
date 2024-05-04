@@ -69,7 +69,6 @@ Route::middleware('auth')->group(function () {
         Route::post('owner/cart/update-qty', [CartController::class, 'updateCartItemQuantity'])->name('cart.update');
         Route::get('owner/cart/delete-item/{id}', [CartController::class, 'deleteItem'])->name('cart.delete');
         Route::get('cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
-        Route::post('owner/cart/order', [CartController::class, 'order_submit'])->name('order.checkout');
         Route::get('owner/cart/customerOrder', [CartController::class, 'customerOrder'])->name('POS-CustomerOrder');
 
         Route::get('owner/cart/customerOrder-detail/{orderId}', [OrderController::class, 'customerOrderDetail'])->name('POS-CustomerOrder.detail');
@@ -98,6 +97,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/owner/order/details/{orderId}', [OrderController::class, 'orderDetails'])->name('owner.order.details');
         // Route::get('/owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
         Route::post('/owner/order/food', [OrderController::class, 'orderFood'])->name('owner.order.food');
+
+        Route::post('owner/pos/order', [OrderController::class, 'order_submit'])->name('order.checkout');
+
         // Get all orders
         Route::get('/owner/order/allOrder', [OrderController::class, 'allOrder'])->name('owner.order.allOrder');
 

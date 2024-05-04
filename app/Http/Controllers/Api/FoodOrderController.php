@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Food;
 use App\Models\Order;
+use App\Models\Restaurant;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -31,6 +33,8 @@ class FoodOrderController extends Controller
         // Retrieve the authenticated user using JWTAuth
         $user = JWTAuth::parseToken()->authenticate();
 
+        
+
         // Calculate total quantity
         $totalQuantity = 0;
         // Capture food_id and quantity for each selected food
@@ -44,11 +48,13 @@ class FoodOrderController extends Controller
             $totalQuantity += $food['quantity'];
         }
 
+        $restaurant = Restaurant::findOrFail($request->input('restaurant_id'));
+
         
         // Create an order associated with the user
         $order = Order::create([
             'user_id' => $user->id,
-            'restaurant_id' => $request->input('restaurant_id'),
+            'restaurant_id' => $restaurant->id,
             'items' => $request->input('items'),
             'table_no' => $request->input('table_no'),
             'remark' => $request->input('remark'),
@@ -64,7 +70,8 @@ class FoodOrderController extends Controller
             'user_id' => $user->id,
             'items' => $order->items,
             'table_no' => $order->table_no,
-            'restaurant_id' => $order->restaurant_id,
+            'restaurant_id' => $order->restaurant_id, 
+            'restaurant_name' => $restaurant->name,
             'remark' => $order->remark,
             'total_quantity' => $totalQuantity,
         ];
