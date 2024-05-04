@@ -118,7 +118,7 @@ class UserController extends Controller
             $user->update(['remember_token' => $rememberToken]);
     
             // Extend the expiration time of the JWT token to a distant future
-            JWTAuth::factory()->setTTL(1); // 1 year in minutes
+            JWTAuth::factory()->setTTL(525600); // 1 year in minutes
     
             // Get the expiration time of the token
             $expirationTime = time() + (JWTAuth::factory()->getTTL() * 60); // Convert minutes to seconds
