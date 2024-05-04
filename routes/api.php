@@ -48,4 +48,5 @@ Route::middleware(['apikey', 'auth:api','jwt.auth'])->group(function () {
 
 /**Route for login and register API */
 Route::post('/register', [UserController::class, 'register']);
+Route::post('/temporary-account', [UserController::class, 'temporaryAccount']);
 Route::post('/login', [UserController::class, 'login']);

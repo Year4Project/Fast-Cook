@@ -19,7 +19,7 @@
         </div>
         <div class="invoice-header">
             <div class="logo">Restaurant <span>{{ $restaurant->name }}</span></div>
-            <div class="title">Recipt</div>
+            <div class="title">Receipt</div>
             <div class="inv-number">
                 <h3>Invoice#</h3>
                 <h4>{{ $restaurant->customerOrder->ordernumber }}</h4>
@@ -97,7 +97,10 @@
                     <div class="rec">
                         <p>ប្រាក់ទទួល</p>
                         <p>Recived(USD): </p>
-                        <p>$0.00</p>
+                        {{-- {{ dd($customerOrderFood) }} --}}
+                        {{-- {{ dd($restaurant->customerOrder->payment_usd) }} --}}
+
+                        <p>{{ $restaurant->customerOrder->payment_usd }}</p>
                     </div>
                     <div class="total">
                         <p>ប្រាក់អាប់:</p>

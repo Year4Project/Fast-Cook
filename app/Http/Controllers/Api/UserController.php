@@ -61,6 +61,35 @@ class UserController extends Controller
         }
     }
 
+    public function temporaryAccount(Request $request)
+    {
+        try {
+            // Generate random values or use defaults
+            $faker = \Faker\Factory::create();
+
+            // Create user with generated or default values
+            $user = User::create([
+                'first_name' => $request->filled('first_name') ? $request->first_name : $faker->firstName,
+                'last_name' => $request->filled('last_name') ? $request->last_name : $faker->lastName,
+                'phone' => $request->filled('phone') ? $request->phone : $faker->unique()->phoneNumber,
+                'password' => $request->filled('password') ? Hash::make($request->password) : Hash::make($faker->password),
+                'user_type' == 4, // Assuming user type 3 for temporary accounts
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'User Created Successfully',
+                'data' => ['token' => $user->createToken("API_TOKEN")->accessToken, "user" => $user],
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+
     /**
      * Login The User
      * @param Request $request
@@ -73,7 +102,7 @@ class UserController extends Controller
             "phone" => "required",
             "password" => "required"
         ]);
-
+    
         // Attempt to authenticate the user
         if ($token = JWTAuth::attempt([
             "phone" => $request->phone,
@@ -81,19 +110,19 @@ class UserController extends Controller
         ])) {
             // Retrieve the authenticated user
             $user = Auth::user();
-
+    
             // Generate a remember token
             $rememberToken = Str::random(60); // Generating a random token, adjust length as needed
-
+    
             // Update the user's remember_token in the database
             $user->update(['remember_token' => $rememberToken]);
-
+    
             // Extend the expiration time of the JWT token to a distant future
             JWTAuth::factory()->setTTL(1); // 1 year in minutes
-
+    
             // Get the expiration time of the token
-            $expirationTime = JWTAuth::factory()->getTTL(); // Convert minutes to seconds
-
+            $expirationTime = time() + (JWTAuth::factory()->getTTL() * 60); // Convert minutes to seconds
+    
             return response()->json([
                 "status" => true,
                 "message" => "User logged in successfully",
@@ -101,7 +130,7 @@ class UserController extends Controller
                     "token" => $token,
                     "user" => $user,
                     "remember_token" => $rememberToken, // Sending remember token in the response
-                    "token_expires_in" => $expirationTime // Adding token expiration time to the response
+                    "token_expires_at" => $expirationTime // Adding token expiration time to the response
                 ],
             ], 200);
         } else {
@@ -111,6 +140,7 @@ class UserController extends Controller
             ], 400);
         }
     }
+    
 
     // public function profile(Request $request)
     // {
@@ -120,16 +150,16 @@ class UserController extends Controller
     //         return response()->json(['success' => false, 'message' => $e->getMessage()]);
     //     }
     // }
-  
+
     public function profile()
     {
         try {
             // Retrieve the token from the request headers
             $token = JWTAuth::parseToken();
-    
+
             // Attempt to authenticate the user using the token
             $user = $token->authenticate();
-    
+
             if ($user) {
                 return response()->json([
                     'success' => true,
