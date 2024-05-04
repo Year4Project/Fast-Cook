@@ -24,7 +24,6 @@ class FoodOrderController extends Controller
             'items' => 'required|array',
             'items.*.food_id' => 'required|exists:foods,id',
             'items.*.quantity' => 'required|integer|min:1',
-            'table_no' => 'required|integer|min:1',
             'restaurant_id' => 'required|integer|min:1',
             'remark' => 'nullable|string',
         ]);
