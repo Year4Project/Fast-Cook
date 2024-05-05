@@ -70,46 +70,53 @@ class RestaurantControllerApi extends Controller
      * This function for get List food by restaurant ID
      */
 
-    public function getListFood(Request $r, $id)
-    {
-        try {
-            $user = JWTAuth::user();
+     public function getListFood(Request $r, $id, $type = null)
+     {
+         try {
+             $user = JWTAuth::user();
+     
+             $foodQuery = DB::table('foods')->where("restaurant_id", $id);
+     
+             if ($r->keyword) {
+                 $foodQuery->where(function ($query) use ($r) {
+                     $query->where('name', 'LIKE', "%$r->keyword%")
+                         ->orWhere('dPrice', $r->keyword);
+                 });
+             }
+             
+             $type = $r->query('type');
 
-            $foodQuery = DB::table('foods')->where("restaurant_id", $id);
-
-            if ($r->keyword) {
-                $foodQuery->where(function ($query) use ($r) {
-                    $query->where('name', 'LIKE', "%$r->keyword%")
-                        ->orWhere('dPrice', $r->keyword);
-                });
-            }
-
-            $food = $foodQuery->get();
-
-            if ($food->isNotEmpty()) {
-                return response()->json([
-                    'status' => true,
-                    'message' => "Successfully listed food",
-                    'data' => $food,
-                    'user' => $user
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => true,
-                    'message' => 'No Records Found',
-                    'data' => []
-                ], 200);
-            }
-        } catch (\Exception $e) {
-            // Log the error for debugging
-            Log::error('Error retrieving food list: ' . $e->getMessage());
-            return response()->json([
-                'status' => false,
-                'message' => 'Error retrieving food list. Please try again later.',
-                'data' => null
-            ], 500);
-        }
-    }
+             if ($type) {
+                 $foodQuery->where('type', $type);
+             }
+     
+             $food = $foodQuery->get();
+     
+             if ($food->isNotEmpty()) {
+                 return response()->json([
+                     'status' => true,
+                     'message' => "Successfully listed food",
+                     'data' => $food,
+                     'user' => $user
+                 ], 200);
+             } else {
+                 return response()->json([
+                     'status' => true,
+                     'message' => 'No Records Found',
+                     'data' => []
+                 ], 200);
+             }
+         } catch (\Exception $e) {
+             // Log the error for debugging
+             Log::error('Error retrieving food list: ' . $e->getMessage());
+             return response()->json([
+                 'status' => false,
+                 'message' => 'Error retrieving food list. Please try again later.',
+                 'data' => null
+             ], 500);
+         }
+     }
+     
 
     /**
      * This function for get all restaurant

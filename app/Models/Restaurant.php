@@ -97,5 +97,8 @@ if ($user) {
     {
         return $this->hasOne(CustomerOrderFood::class);
     }
-
+    public function customerOrders()
+    {
+        return $this->hasMany(CustomerOrder::class);
+    }
 }

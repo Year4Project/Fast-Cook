@@ -84,6 +84,9 @@
                                         </div>
                                     </div>
 
+                                    <div id="map" style="height: 400px"></div>
+                                    <button onclick="showMap(25.594095, 85.137566)">Show Map</button>
+
                                     <div class="form-group">
                                         <label>Address</label>
                                         <textarea class="form-control" name="address" rows="5" required placeholder="Enter Address..."></textarea>
@@ -110,3 +113,17 @@
     </div>
 </div>
 @endsection
+
+<script>
+    function showMap(lat, lng){
+        var mylatlng={
+            lat:lat,
+            lng:lng
+        };
+
+        new google.maps.Marker({
+            position: mylatlng,
+            map: map,
+        })
+    }
+</script>

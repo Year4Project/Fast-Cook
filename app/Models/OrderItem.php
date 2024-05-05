@@ -18,4 +18,13 @@ class OrderItem extends Model
         'notes'
     ];
 
+    public function customerOrder()
+    {
+        return $this->belongsTo(CustomerOrder::class);
+    }
+
+    public function food()
+    {
+        return $this->belongsTo(Food::class, 'food_id');
+    }
 }

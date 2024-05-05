@@ -38,7 +38,7 @@ class DashboardController extends Controller
             $data['alerts'] = Alert::latest()->get();
             // $data['getTotalSales'] = CustomerOrder::where('restaurant_id', Auth::user()->restaurant->id);
             // $data['getTotalSales'] = CustomerOrder::sum('total');
-            $data['getTotalSales'] = CustomerOrder::where('restaurant_id', Auth::user()->restaurant->id)->sum('total');
+            // $data['getTotalSales'] = CustomerOrder::where('restaurant_id', Auth::user()->restaurant->id)->sum('total');
 
 
             // $data['getOrderUser'] = Order::getOrderUser();

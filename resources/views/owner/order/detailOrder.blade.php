@@ -40,7 +40,7 @@
                                 <th>Food Name</th>
                                 <th>Type of Food</th>
                                 <th>Quantity</th>
-                                <th>Price</th>
+                                <th>Unit Price</th>
                                 <th>SubTotal</th>
                             </tr>
                         </thead>

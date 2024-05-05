@@ -16,14 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('restaurant_id');
             $table->unsignedBigInteger('customer_id');
             $table->bigInteger('ordernumber')->nullable();
-            $table->string('table_number');
-            $table->string('status');
-            $table->string('total_amount');
+            $table->string('table_number')->nullable();
+            $table->string('status')->default('pending');
+            $table->string('total_amount')->nullable();
             $table->timestamps();
 
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
-
         });
     }
 

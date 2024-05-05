@@ -71,8 +71,6 @@ Route::middleware('auth')->group(function () {
         Route::get('cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
         Route::get('owner/cart/customerOrder', [CartController::class, 'customerOrder'])->name('POS-CustomerOrder');
 
-        Route::get('owner/cart/customerOrder-detail/{orderId}', [OrderController::class, 'customerOrderDetail'])->name('POS-CustomerOrder.detail');
-        Route::get('owner/print-recipe', [OrderController::class, 'printRecipe'])->name('pos-printRecipe');
 
 
         // Create foods
@@ -100,6 +98,9 @@ Route::middleware('auth')->group(function () {
 
         Route::post('owner/pos/order', [OrderController::class, 'order_submit'])->name('order.checkout');
 
+        Route::get('owner/cart/customerOrder/{orderId}', [OrderController::class, 'customerOrderDetail'])->name('POS-CustomerOrder.detail');
+
+        Route::get('owner/print-recipe/{orderId}', [OrderController::class, 'printRecipe'])->name('pos-printRecipe');
         // Get all orders
         Route::get('/owner/order/allOrder', [OrderController::class, 'allOrder'])->name('owner.order.allOrder');
 

@@ -47,19 +47,19 @@
                                 @php
                                     $totalSubtotal = 0;
                                 @endphp
-                                @foreach ($customerOrderFood as $food)
+                                @foreach ($getCustomerOrder->orderItems as $item)
                                     @php
-                                        $subTotal = $food->quantity * $food->price;
+                                        $subTotal = $item->quantity * $item->food->price;
                                         $totalSubtotal += $subTotal;
                                     @endphp
                                     <tr class="text-center">
                                         <td class="align-middle">{{ $loop->iteration }}</td>
                                         <td class="align-middle"><img class="rounded-circle" height="75" width="75"
-                                                src="{{ $food->image }}" alt=""></td>
-                                        <td class="align-middle">{{ $food->name }}</td>
-                                        <td class="align-middle">{{ $food->quantity }}</td>
-                                        <td class="align-middle">{{ $food->payment_method }}</td>
-                                        <td class="align-middle">${{ number_format($food->price, 2) }}</td>
+                                                src="{{ $item->food->image_url }}" alt=""></td>
+                                        <td class="align-middle">{{ $item->food->name }}</td>
+                                        <td class="align-middle">{{ $item->quantity }}</td>
+                                        <td class="align-middle"></td>
+                                        <td class="align-middle">${{ number_format($item->food->price, 2) }}</td>
                                         <td class="align-middle">${{ number_format($subTotal, 2) }}</td>
                                     </tr>
                                 @endforeach
@@ -109,24 +109,14 @@
                                 <div class="col-6">
                                     <p>${{ number_format($totalSubtotal, 2) }}</p>
                                     <p>
-                                        @if ($customerOrderFood->isNotEmpty())
-                                            <div>
-                                                {{-- Check if payment_usd is available --}}
-                                                @if (isset($customerOrderFood->first()->payment_usd))
-                                                    <p>$: {{ $customerOrderFood->first()->payment_usd }}</p>
-                                                @else
-                                                    {{-- If payment_usd is not available, display payment_khr --}}
-                                                    <p>៛: {{ $customerOrderFood->first()->payment_khr }}</p>
-                                                @endif
-                                            </div>
-                                        @else
-                                            <p>No payment information available</p>
-                                        @endif
+                                       ${{ $getCustomerOrder->payment->amount }}
                                     </p>
-                                    <a class="btn btn-md btn-outline-success" href="{{ route('pos-printRecipe') }}">
+                                    <a class="btn btn-md btn-outline-success" href="{{ route('pos-printRecipe', ['orderId' => $getCustomerOrder->id]) }}">
                                         <i class="fas fa-print"></i>
                                     </a>
+
                                 </div>
+
                             </div>
                         </div>
                     </div>

@@ -145,6 +145,17 @@
 
                     <form method="post" action="{{ route('order.checkout') }}">
                         @csrf
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <div class="d-grid gap-2">
                             <!-- Total KHR -->
                             <div class="row">
@@ -159,8 +170,13 @@
                                     <label for="">Total USD:</label>
                                 </div>
                                 <div class="col-3">
+                                    
+                                    
                                     <label class="text-danger font-weight-bold" for="" name="total"
                                         id="total-usd">${{ $totalPrice }}</label>
+
+                                        <input type="hidden" name="total" value="{{ $totalPrice }}">
+
                                 </div>
                             </div>
                             <!-- Total USD -->
@@ -193,7 +209,7 @@
                                 </div>
                                 <div class="col-9">
                                     <div class="input-group">
-                                        <input type="text" name="payment" id="payment" class="form-control"
+                                        <input type="text" name="payment_amount" id="payment" class="form-control"
                                             oninput="calculateChange()">
                                         <select id="currency-selector" name="currency" onchange="calculateChange()" class="text-center" style="width: 30%">
                                             <option value="KHR">KHR</option>
@@ -219,11 +235,11 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label for="">Customer Name</label>
-                                    <input class="form-control" type="text" name="customername" id="">
+                                    <input class="form-control" type="text" name="name" id="">
                                 </div>
                                 <div class="col-6">
                                     <label for="">Customer Phone</label>
-                                    <input class="form-control" type="text" name="customerphone" id="">
+                                    <input class="form-control" type="text" name="phone" id="">
                                 </div>
                             </div>
                             <!-- Buttons -->

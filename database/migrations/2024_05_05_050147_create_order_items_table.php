@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('restaurant_id')->nullable();
-            $table->bigInteger('order_id')->nullable();
-            $table->bigInteger('food_id')->nullable();
-            $table->String('quantity');
-            $table->String('notes');
+            $table->unsignedBigInteger('restaurant_id');
+            $table->unsignedBigInteger('customer_order_id');
+            $table->unsignedBigInteger('food_id');
+            $table->integer('quantity');
+            $table->string('notes')->nullable();
             $table->timestamps();
-            
+
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
+            $table->foreign('customer_order_id')->references('id')->on('customers_order')->onDelete('cascade');
+            $table->foreign('food_id')->references('id')->on('foods')->onDelete('cascade'); 
         });
     }
 
