@@ -11,7 +11,7 @@
                         <!-- left column -->
                         <div class="col-md-8">
                             <div class="card-header">
-                            <h3>Update Restaurant</h3>
+                                <h3>Update Restaurant</h3>
                             </div>
                             <!-- general form elements -->
                             <div class="card card-primary">
@@ -46,8 +46,7 @@
                                                 <div class="form-group">
                                                     <label>Email</label>
                                                     <input type="email" class="form-control" name="email"
-                                                        value="{{ old('email', $user->email) }}"
-                                                        placeholder="Email">
+                                                        value="{{ old('email', $user->email) }}" placeholder="Email">
                                                     <div style="color: red">{{ $errors->first('email') }}</div>
                                                 </div>
                                             </div>
@@ -64,12 +63,12 @@
                                         <h4 class="text-primary">Information Restaurant</h4>
 
 
-                                    {{-- <div class="card-body"> --}}
+                                        {{-- <div class="card-body"> --}}
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label>Restaurant Name</label>
-                                                    <input type="text" class="form-control" name="name" 
+                                                    <input type="text" class="form-control" name="name"
                                                         value="{{ old('name', $restaurant->name) }}"
                                                         placeholder="Enter name">
                                                 </div>
@@ -77,11 +76,27 @@
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label>Phone Number</label>
-                                                    <input type="number" class="form-control" 
-                                                        name="phone" value="{{ old('phone', $restaurant->phone) }}">
+                                                    <input type="number" class="form-control" name="phone"
+                                                        value="{{ old('phone', $restaurant->phone) }}">
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="mapform">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <input type="text" class="form-control" placeholder="lat"
+                                                        name="lat" id="lat">
+                                                </div>
+                                                <div class="col-5">
+                                                    <input type="text" class="form-control" placeholder="lng"
+                                                        name="lng" id="lng">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{-- <div id="map" style="height: 400px; width: 800px;" class="my-3"></div> --}}
+                                        <div id="map" style="height: 400px; width: 800px;" class="my-3"></div>
+
 
                                         <div class="form-group">
                                             <label>Address</label>
@@ -110,3 +125,22 @@
         </div>
     </div>
 @endsection
+
+<script>
+    let map;
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: {
+                lat: -34.397,
+                lng: 150.644
+            },
+            zoom: 8,
+            scrollwheel: true
+        });
+    }
+</script>
+
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABHeEAH3j-ethqsdzeULdSGk80xVm7Two&callback=initMap"
+    type="text/javascript"></script>

@@ -22,7 +22,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label>First Name</label>
-                        <input type="text" class="form-control" value="{{ old('first_name', $getRecord->first_name)}}" name="first_name" required placeholder="First Name">
+                        <input type="text" class="form-control"  required placeholder="First Name">
                     </div>
                     <div class="form-group">
                         <label>Last Name</label>

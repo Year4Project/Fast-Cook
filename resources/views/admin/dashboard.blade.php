@@ -44,7 +44,7 @@
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
                                         Restaurant</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalRestaurant }}</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_restaurant }}</div>
                                 </div>
                                 <div class="col-auto me-4">
                                     <i class="fas fa-utensils fa-2x text-black-300"></i>
@@ -61,8 +61,8 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-success text-uppercase mb-1">
-                                        PRODUCTS</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                        Users</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_user }}</div>
                                 </div>
                                 <div class="col-auto me-4">
 

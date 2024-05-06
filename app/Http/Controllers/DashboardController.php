@@ -24,9 +24,9 @@ class DashboardController extends Controller
         $data['header_title'] = 'Dashboard';
 
         if (Auth::user()->user_type == 1) {
-            $totalUser = User::count();
-            $totalRestaurant = Restaurant::count();
-            return view('admin.dashboard', $data, compact('totalUser', 'totalRestaurant'));
+            $data['total_user'] = User::count();
+            $data['total_restaurant'] = Restaurant::count();
+            return view('admin.dashboard', $data);
 
         } else if (Auth::user()->user_type == 2) {
             $data['header_title'] = 'User Order Food';
