@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
         Route::get('admin/admin/add', [AdminController::class, 'add']);
         Route::post('admin/admin/add', [AdminController::class, 'insert']);
         Route::get('admin/admin/edit/{id}', [AdminController::class, 'edit']);
-        Route::post('admin/admin/edit/{id}', [AdminController::class, 'update']);
+        Route::put('admin/admin/update/{id}', [AdminController::class, 'update'])->name(('admin.update'));
         Route::get('admin/admin/delete/{id}', [AdminController::class, 'delete']);
         Route::get('admin/admin/updateStatus/{id}', [AdminController::class, 'updateStatus'])->name('updateStatus');
 
@@ -51,8 +51,8 @@ Route::middleware('auth')->group(function () {
         Route::get('admin/restaurant/showRestaurant', [RestaurantController::class, 'showRestaurant']);
         Route::get('admin/restaurant/create', [RestaurantController::class, 'create']);
         Route::post('admin/restaurant/store', [RestaurantController::class, 'createUserAndRestaurant']);
-        Route::put('/admin/edit/user/{userId}/restaurant/{restaurantId}', [RestaurantController::class, 'edit']);
-        Route::post('admin/restaurant/edit/{id}', [RestaurantController::class, 'updateRestaurant']);
+        Route::get('/admin/restaurant/edit/{id}', [RestaurantController::class, 'edit'])->name('restaurant.edit');
+        Route::post('/admin/restaurant/update/{id}', [RestaurantController::class,'updateUserAndRestaurant'])->name('restaurant.update');
         Route::get('admin/restaurant/delete/{id}', [RestaurantController::class, 'delete']);
     });
 
@@ -78,7 +78,7 @@ Route::middleware('auth')->group(function () {
         Route::get('owner/food/createFood', [FoodController::class, 'createFood']);
         Route::post('owner/food/store', [FoodController::class, 'storeFood']);
         Route::get('owner/food/edit/{id}', [FoodController::class, 'edit'])->name('edit');
-        Route::get('owner/food/updateStatus/{id}', [FoodController::class, 'updateStatus'])->name('updateStatus');
+        Route::get('owner/food/updateStatus/{id}', [FoodController::class, 'updateStatus'])->name('update.Status');
         Route::post('owner/food/edit/{id}', [FoodController::class, 'update'])->name('UpdateFood');
         Route::get('owner/food/delete/{id}', [FoodController::class, 'destroy'])->name('DeleteFood');
 
@@ -117,10 +117,10 @@ Route::middleware('auth')->group(function () {
         Route::get('owner/staff/delete/{id}', [staffController::class, 'destroy']);
 
         // Generate QR Code
-        Route::get('owner/qr/generateQRCode', [GeneratorQRController::class, 'qrCode'])->name('Generate QR Code');
-        Route::get('owner/qr/create', [GeneratorQRController::class, 'create'])->name('Generate QR Code');
-        Route::get('owner/qr/createQRCode', [GeneratorQRController::class, 'qrCode'])->name('Generate QR Code');
-        Route::post('owner/qr/store', [GeneratorQRController::class, 'store'])->name('Generate QR Code');
+        Route::get('owner/qr/generateQRCode', [GeneratorQRController::class, 'qrCode']);
+        Route::get('owner/qr/create', [GeneratorQRController::class, 'create']);
+        Route::get('owner/qr/createQRCode', [GeneratorQRController::class, 'qrCode']);
+        Route::post('owner/qr/store', [GeneratorQRController::class, 'store']);
         Route::get('owner/qr/download-qrcode/{scen}', [GeneratorQRController::class, 'downloadQrCode'])->name('owner.qr.download');
         Route::get('owner/qr/delete-qrcode/{scen}', [GeneratorQRController::class, 'deleteQrCode'])->name('owner.qr.delete');
 
