@@ -92,20 +92,19 @@
                 <p>${{ number_format($total, 2) }}</p>
             </div>
             
-            <?php
+            @php
                 $amount = $customerOrder->payment->amount;
                 $currency = $customerOrder->payment->currency;
                 $usd = 0;
                 $khr = 0;
-                
+
                 if($currency === 'USD') {
-                    $usd = $amound;
+                    $usd = $amount;
                 } elseif($currency === 'KHR') {
-                    $khr = $amound;
-                } else {
-                    
+                    $khr = $amount;
                 }
-                ?>
+            @endphp
+
             <div class="rec1">
                 <p>ប្រាក់ទទួល</p>
                 <p>Recived(Riel): </p>
@@ -116,11 +115,8 @@
                 <p>Recived(USD): </p>
                 {{-- {{ dd($customerOrderFood) }} --}}
                 {{-- {{ dd($customerOrder->payment_usd) }} --}}
-
                 <p>{{ $khr }}៛</p>
             </div>
-
-            
 
             <div class="total">
                 <p>ប្រាក់អាប់:</p>
