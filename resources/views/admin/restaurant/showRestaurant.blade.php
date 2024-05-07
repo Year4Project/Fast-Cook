@@ -29,7 +29,7 @@
                         @foreach ($getRestaurant as $item)
                             <tr class="text-center">
                                 <td class="align-middle">{{ $item->restaurant_id }}</td>
-                                <td><img height="75" width="75" src="{{$item->image}}" alt=""></td>
+                                <td class="align-middle"><img height="75" width="75" src="{{$item->image}}" alt=""></td>
                                 <td class="align-middle">{{ $item->first_name }}{{ $item->last_name }}</td>
                                 <td class="align-middle">{{ $item->restaurant_name }}</td>
                                 <td class="align-middle">{{ $item->email }}</td>
@@ -41,11 +41,15 @@
                                         <i class="fas fa-fw fa-edit"></i>
                                     </a>                                    
                                     {{-- delete --}}
-                                    <a class="btn btn-md btn-circle btn-outline-danger ms-2"
-                                        href="{{ url('admin/restaurant/delete/'.$item->restaurant_id) }}"
-                                        onclick="return confirm('Are you Sure?')">
-                                        <i class="fas fa-fw fa-trash-alt"></i>
-                                    </a>
+                                    <form action="{{ route('users.delete', ['userId' => $item->id]) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+
+                                        <a type="submit" class="btn btn-md btn-circle btn-outline-danger mt-2" onclick="return confirm('Are you sure you want to delete this user and associated restaurant?')">
+                                            <i class="fas fa-fw fa-trash-alt"></i>
+                                        </a>
+                                    </form>
+                                    
                                 </td>
                             </tr>
                         @endforeach

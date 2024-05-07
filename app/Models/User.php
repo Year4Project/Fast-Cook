@@ -87,6 +87,13 @@ class User extends Authenticatable implements JWTSubject
                 $user->user_id = 'KHF_' . sprintf("%03s", $nextID);
             }
         });
+
+        // static::deleting(function ($user) {
+        //     // If user has associated restaurant, delete it
+        //     if ($user->restaurant) {
+        //         $user->restaurant->delete();
+        //     }
+        // });
     }
 
     // Relationship User has many restaurant
@@ -99,7 +106,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Restaurant::class);
     }
-
     public function restaurants()
     {
         return $this->belongsTo(Restaurant::class, 'restaurant_id');
@@ -126,19 +132,6 @@ class User extends Authenticatable implements JWTSubject
     {
         $return = self::select('users.*')
                 ->where('user_type', '=', 1);
-        //     // ->where('is_delete', '=', 0);
-
-        // if(!empty(Request::get('name'))) {
-        //     $return = $return->where('name', 'like', '%'.Request::get('name'). '%');
-        // }
-
-        // if(!empty(Request::get('email'))) {
-        //     $return = $return->where('email', 'like', '%'.Request::get('email'));
-        // }
-
-        // if(!empty(Request::get('date'))) {
-        //     $return = $return->whereDate('created_at', 'like', '%'.Request::get('date'));
-        // }
 
         $return = $return->orderBy('id', 'desc')
                             ->paginate(5);

@@ -45,12 +45,25 @@ class AdminController extends Controller
             'user_type' => 1 // Assuming 1 represents an admin user
         ]);
     
-        // Handle image upload if provided
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $filename = date('Ymdhis') . Str::random(20) . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('upload/user/'), $filename);
-            $user->image_url = url('upload/user/' . $filename);
+        // // Handle image upload if provided
+        // if ($request->hasFile('image')) {
+        //     $image = $request->file('image');
+        //     $filename = date('Ymdhis') . Str::random(20) . '.' . $image->getClientOriginalExtension();
+        //     $image->move(public_path('upload/user/'), $filename);
+        //     $user->image_url = url('upload/user/' . $filename);
+        // }
+        if (!empty($request->file('image'))) {
+            $ext = $request->file('image')->getClientOriginalExtension();
+            $file = $request->file('image');
+            $randomStr = date('Ymdhis') . Str::random(20);
+            $filename =     strtolower($randomStr) . '.' . $ext;
+
+            // Move the uploaded image to the specified directory
+            $file->move(public_path('upload/user/'), $filename);
+
+            // Generate the image URL
+            $imageUrl = url('upload/user/' . $filename);
+            $user->image_url = $imageUrl;
         }
     
         // Save the user
