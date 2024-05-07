@@ -99,22 +99,23 @@
                                                     <div class="form-group">
                                                         <label>Latitude <span style="color: red">*</span></label>
                                                         <input type="text" class="form-control" name="latitude"
-                                                        id="lat">
+                                                            id="lat">
                                                     </div>
-                                                   
+
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="form-group">
                                                         <label>Longitude <span style="color: red">*</span></label>
                                                         <input type="text" class="form-control" name="longitude"
-                                                        id="lng">
+                                                            id="lng">
                                                     </div>
-                                                   
+
                                                 </div>
                                             </div>
                                         </div>
 
-                                <div class="form-group" id="map" style="height: 400px; width: 800px;" class="my-3"></div>
+                                        <div class="form-group" id="map" style="height: 400px; width: 800px;"
+                                            class="my-3"></div>
 
 
                                         {{-- <div id="map" style="height: 400px"></div>
@@ -177,5 +178,5 @@
 </script>
 
 <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABHeEAH3j-ethqsdzeULdSGk80xVm7Two&callback=initMap"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuCmRMEU6Eec0DKt26_J0Cby5MPcC9Yb8&callback=initMap"
     type="text/javascript"></script>

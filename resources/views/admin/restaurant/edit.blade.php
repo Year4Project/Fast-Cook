@@ -13,7 +13,8 @@
                     <div class="card card-primary">
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form action="{{ route('admin.user.update', ['userId' => $user->id]) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.user.update', ['userId' => $user->id]) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <!-- Error Alert -->
@@ -89,24 +90,23 @@
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Latitude</label>
-                                                <input type="text" class="form-control" name="latitude"
-                                                id="lat">
+                                                <input type="text" class="form-control" name="latitude" id="lat">
                                             </div>
-                                           
+
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Longitude</label>
-                                                <input type="text" class="form-control" name="longitude"
-                                                id="lng">
+                                                <input type="text" class="form-control" name="longitude" id="lng">
                                             </div>
-                                           
+
                                         </div>
                                     </div>
                                 </div>
                                 {{-- <div id="map" style="height: 400px; width: 800px;" class="my-3"></div> --}}
 
-                                <div class="form-group" id="map" style="height: 400px; width: 800px;" class="my-3"></div>
+                                <div class="form-group" id="map" style="height: 400px; width: 800px;" class="my-3">
+                                </div>
 
 
                                 <div class="form-group">
@@ -116,8 +116,7 @@
                                 <div class="form-group">
                                     <label>Old Image Food</label>
                                     <div class="container ms-2 mt-2 ">
-                                        <img height="150" width="150" src="{{ $restaurant->image }}"
-                                            alt="Old Image">
+                                        <img height="150" width="150" src="{{ $restaurant->image }}" alt="Old Image">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -156,5 +155,5 @@
 </script>
 
 <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABHeEAH3j-ethqsdzeULdSGk80xVm7Two&callback=initMap"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuCmRMEU6Eec0DKt26_J0Cby5MPcC9Yb8&callback=initMap"
     type="text/javascript"></script>
