@@ -12,7 +12,7 @@ class Restaurant extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = ['name', 'address', 'image', 'email', 'status', 'phone'];
+    protected $fillable = ['name', 'address', 'image', 'email', 'status', 'phone','latitude', 'longitude'];
 
     static public function getSingle($id)
     {

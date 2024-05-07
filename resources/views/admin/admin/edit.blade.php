@@ -13,53 +13,97 @@
                     <div class="card card-primary">
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form method="post" action="{{ route('admin.update', $getRecord->id) }}" enctype="multipart/form-data">
+                        <form method="post" action="{{ route('admin.update', $getRecord->id) }}"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="card-body">
-                                 <!-- Error Alert -->
-                            @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            @endif
-                            
-                                <div class="form-group">
-                                    <label>First Name</label>
-                                    <input type="text" class="form-control" name="first_name"
-                                        value="{{ old('first_name', $getRecord->first_name) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label>Last Name</label>
-                                    <input type="text" class="form-control"
-                                        value="{{ old('last_name', $getRecord->last_name) }}" name="last_name"
-                                        >
-                                </div>
-                                <div class="form-group">
-                                    <label>Old Image Food</label>
-                                    <div class="container ms-2 mt-2 ">
-                                        <img height="150" width="150" src="{{ $getRecord->image_url }}"
-                                            alt="Old Image">
+                                <!-- Error Alert -->
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label>First Name</label>
+                                            <input type="text" class="form-control" name="first_name"
+                                                value="{{ old('first_name', $getRecord->first_name) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <input type="text" class="form-control"
+                                                value="{{ old('last_name', $getRecord->last_name) }}" name="last_name">
+                                        </div>
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label>Old Image Admin</label>
+                                            <div class="container ms-2 mt-2 ">
+                                                <img height="150" width="150" src="{{ $getRecord->image_url }}"
+                                                    alt="Old Image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label>Image Preview</label>
+                                        <div id="imagePreview"></div>
+                                    </div>
+                                </div>
+                                <script>
+                                    function previewImage(event) {
+                                        // Create a new instance of FileReader
+                                        var reader = new FileReader();
+
+                                        // Define an onload event handler for the reader
+                                        reader.onload = function() {
+                                            // Get the element with the id 'imagePreview'
+                                            var output = document.getElementById('imagePreview');
+
+                                            // Set the innerHTML of the 'imagePreview' element
+                                            // to an <img> tag with the src attribute set to the data URL
+                                            // generated by the FileReader
+                                            output.innerHTML = '<img src="' + reader.result + '" style="max-width:100%;max-height:100%;">';
+                                        }
+
+                                        // Read the selected file as a data URL
+                                        reader.readAsDataURL(event.target.files[0]);
+                                    }
+                                </script>
+
                                 <div class="form-group">
-                                    <label>Image Food</label>
+                                    <label>Choose New Image Admin</label>
                                     <input type="file" class="form-control" name="image">
                                 </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" class="form-control" name="email"
-                                        value="{{ old('email', $getRecord->email) }}">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="email" class="form-control" name="email"
+                                                value="{{ old('email', $getRecord->email) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label>Phone Number</label>
+                                            <input type="number" class="form-control" value="{{ old('phone', $getRecord->phone) }}"
+                                                name="phone">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Phone Number</label>
-                                    <input type="number" class="form-control" value="{{ old('phone', $getRecord->phone) }}"
-                                        name="phone">
-                                </div>
+                                
+                                
                                 <div class="form-group">
                                     <label>Password</label>
                                     <input type="password" class="form-control" name="password">

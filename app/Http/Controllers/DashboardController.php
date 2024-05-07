@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\CustomerOrder;
 use App\Models\Food;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Restaurant;
 use App\Models\Scen;
 use App\Models\Staff;
@@ -36,6 +37,7 @@ class DashboardController extends Controller
             $data['getTables'] = Scen::where('restaurant_id', Auth::user()->restaurant->id)->count();
             $data['getCategory'] = Category::where('restaurant_id', Auth::user()->restaurant->id)->count();
             $data['alerts'] = Alert::latest()->get();
+            $data['payment'] = Payment::countPaymentsByCurrency();
             // $data['getTotalSales'] = CustomerOrder::where('restaurant_id', Auth::user()->restaurant->id);
             // $data['getTotalSales'] = CustomerOrder::sum('total');
             // $data['getTotalSales'] = CustomerOrder::where('restaurant_id', Auth::user()->restaurant->id)->sum('total');

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- bg-dashboard --}}
+    {{-- bg-dashboard --}}
     <div class="big-banner">
         <div class="container-fluid">
 
@@ -9,7 +9,7 @@
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <div class="ms-4">
                     <h2 class="m-0 font-weight-bold text-secondary">Good Morning!</h2>
-                {{-- <h4 class="mb-0 text-primary text-300 ms-4">{{ Auth::user()->restaurant->name }}</h4> --}}
+                    {{-- <h4 class="mb-0 text-primary text-300 ms-4">{{ Auth::user()->restaurant->name }}</h4> --}}
 
                 </div>
                 <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
@@ -19,26 +19,25 @@
             <!-- Content Row -->
             <div class="row justify-content-center">
                 <!-- Earnings (Monthly) Card Example -->
+
+                <!-- Earnings (Monthly) Card Example -->
                 <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card border-left-secondary shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
-                                <div class="col ms-4">
-                                    <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
-                                        Staff</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getStaff }}</div>
+                                <div class="col ml-4">
+                                    <div class="text-xl font-weight-bold text-secondary text-uppercase mb-1">
+                                        Category</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getCategory }}</div>
                                 </div>
                                 <div class="col-auto me-4">
-                                    <i class="fas fa-user fa-2x text-blue-300"></i>
+                                    <i class="fas fa-border-all fa-2x text-black-300"></i>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
-                <!-- Earnings (Monthly) Card Example -->
                 <div class="col-xl-3 col-md-6 mb-4">
                     <div class="card border-left-success shadow h-100 py-2">
                         <div class="card-body">
@@ -57,16 +56,30 @@
                     </div>
                 </div>
 
-
-
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col ms-4">
+                                    <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
+                                        Staff</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getStaff }}</div>
+                                </div>
+                                <div class="col-auto me-4">
+                                    <i class="fas fa-user fa-2x text-blue-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-xl-3 col-md-6 mb-4">
                     <div class="card border-left-secondary shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col ml-4">
                                     <div class="text-xl font-weight-bold text-secondary text-uppercase mb-1">
-                                        Category</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getCategory }}</div>
+                                        Tables</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getTables }}</div>
                                 </div>
                                 <div class="col-auto me-4">
                                     <i class="fas fa-border-all fa-2x text-black-300"></i>
@@ -112,8 +125,8 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
-                                        SALES</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                        Payment USD</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $payment['USD'] }}</div>
                                 </div>
                                 <div class="col-auto me-4">
                                     <i class="fas fa-dollar-sign fa-2x text-black-300"></i>
@@ -123,22 +136,40 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-secondary shadow h-100 py-2">
+                    <div class="card border-left-warning shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
-                                <div class="col ml-4">
-                                    <div class="text-xl font-weight-bold text-secondary text-uppercase mb-1">
-                                        Tables</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getTables }}</div>
+                                <div class="col ms-4">
+                                    <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
+                                        Payment KHR</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $payment['KHR'] }}</div>
                                 </div>
                                 <div class="col-auto me-4">
-                                    <i class="fas fa-border-all fa-2x text-black-300"></i>
-
+                                    <i class="fas fa-khr-sign fa-2x text-black-300"></i>
+                                    <h1 class="text-black-300 font-size, font-weight">៛</h1>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col ms-4">
+                                    <div class="text-xl font-weight-bold text-success text-uppercase mb-1">
+                                        Total Sale</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $payment['TOTAL'] }}</div>
+                                </div>
+                                <div class="col-auto me-4">
+                                    <i class="fas fa-khr-sign fa-2x text-black-300"></i>
+                                    <h1 class="text-black-300 font-size, font-weight">៛</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {{-- <div class="col-xl-2 col-md-6 mb-4">
                     <div class="card border-left-primary shadow h-100 py-2">
                         <div class="card-body">
@@ -203,7 +234,8 @@
                                                             <i class="fas fa-list"></i>
                                                         </a>
 
-                                                        <a class="btn btn-md btn-circle btn-outline-success" href="{{ url('owner/order/print/') }}">
+                                                        <a class="btn btn-md btn-circle btn-outline-success"
+                                                            href="{{ url('owner/order/print/') }}">
                                                             <i class="fas fa-print"></i>
                                                         </a>
                                                     </td>

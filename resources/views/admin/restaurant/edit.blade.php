@@ -89,7 +89,7 @@
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Latitude</label>
-                                                <input type="text" class="form-control" name="lat"
+                                                <input type="text" class="form-control" name="latitude"
                                                 id="lat">
                                             </div>
                                            
@@ -97,7 +97,7 @@
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Longitude</label>
-                                                <input type="text" class="form-control" name="lng"
+                                                <input type="text" class="form-control" name="longitude"
                                                 id="lng">
                                             </div>
                                            
@@ -111,7 +111,7 @@
 
                                 <div class="form-group">
                                     <label>Address</label>
-                                    <textarea class="form-control" name="address" rows="5">{{ old('address', $restaurant->address) }}</textarea>
+                                    <textarea class="form-control" name="address" rows="3">{{ old('address', $restaurant->address) }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Old Image Food</label>

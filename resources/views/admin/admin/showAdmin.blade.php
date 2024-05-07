@@ -30,16 +30,16 @@
                             <tbody>
                                 @foreach ($getRecord as $adm)
                                     <tr>
-                                        <td>{{ $adm->user_id }}</td>
-                                        <td><img class="rounded-circle" height="75" width="75"
+                                        <td class="align-middle">{{ $adm->user_id }}</td>
+                                        <td class="align-middle"><img class="rounded-circle" height="75" width="75"
                                                 src="{{ $adm->image_url }}" alt=""></td>
-                                        <td>{{ $adm->first_name }}</td>
-                                        <td>{{ $adm->last_name }}</td>
-                                        <td>{{ $adm->email }}</td>
-                                        <td>{{ $adm->phone }}</td>
-                                        <td>{{ $adm->user_type }}</td>
+                                        <td class="align-middle">{{ $adm->first_name }}</td>
+                                        <td class="align-middle">{{ $adm->last_name }}</td>
+                                        <td class="align-middle">{{ $adm->email }}</td>
+                                        <td class="align-middle">{{ $adm->phone }}</td>
+                                        <td class="align-middle text-center">{{ $adm->user_type }}</td>
 
-                                        <td>
+                                        <td class="align-middle">
                                             @if ($adm->status == 1)
                                                 <a href="{{ url('admin/admin/updateStatus/' . $adm->user_id) }}"
                                                     onclick="return confirm('Are you Sure?')"
@@ -51,15 +51,18 @@
                                             @endif
                                         </td>
 
-                                        <td>{{ date('d-m-Y H:i A', strtotime($adm->created_at)) }}</td>
-                                        <td>
+                                        <td class="align-middle">{{ date('d-m-Y H:i A', strtotime($adm->created_at)) }}</td>
+                                        <td class="align-middle">
 
-                                            <a class="nav-link" href="{{ url('admin/admin/edit/' . $adm->id) }}">
+                                            <a class="btn btn-md btn-circle btn-outline-info" href="{{ url('admin/admin/edit/' . $adm->id) }}">
                                                 <i class="fas fa-fw fa-edit"></i>
                                             </a>
-                                            <a class="nav-link" href="{{ url('admin/admin/delete/' . $adm->id) }}">
+                                            <form action="">
+                                                <a class="btn btn-md btn-circle btn-outline-danger mt-2" href="{{ url('admin/admin/delete/' . $adm->id) }}">
                                                 <i class="fas fa-fw fa-trash-alt icon-trash-red"></i>
                                             </a>
+                                            </form>
+                                            
 
                                         </td>
                                     </tr>

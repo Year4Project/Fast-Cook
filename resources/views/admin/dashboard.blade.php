@@ -91,98 +91,10 @@
                     </div>
                 </div>
 
-                <!-- Earnings (Monthly) Card Example -->
-                {{-- <div class="col-xl-2 col-md-6 mb-4">
-                    <div class="card border-left-info shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col ms-4">
-                                    <div class="text-xl font-weight-bold text-info text-uppercase mb-1">
-                                        ORDERS
-                                    </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
-                                    <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                </div>
-                                <div class="col">
-                                    <div class="progress progress-sm mr-2">
-                                        <div class="progress-bar bg-info" role="progressbar"
-                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                            aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                                </div>
-                                <div class="col-auto me-4">
-                                    <i class="fas fa-clipboard-list fa-2x text-black-300"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-
-                {{-- <!-- Pending Requests Card Example -->
-                <div class="col-xl-2 col-md-6 mb-4">
-                    <div class="card border-left-warning shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col ms-4">
-                                    <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
-                                        SALES</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
-                                </div>
-                                <div class="col-auto me-4">
-                                    <i class="fas fa-dollar-sign fa-2x text-black-300"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
 
-            {{-- <div class="row mt-4 justify-content-center">
-                <div class="col-11">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Of User Order</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>User Name</th>
-                                            <th>Table No</th>
-                                            <th>Remark</th>
-                                            <th>Quantity</th>
-                                            <th>Payment</th>
-                                            <th>Created At</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
+           
         </div>
     </div>
-
-    <!-- Include Laravel Echo and Pusher -->
-{{-- <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.1/dist/echo.iife.js"></script>
-<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-
-<script>
-    Echo.channel('new-order')
-        .listen('NewOrderPlaced', (event) => {
-            // Handle the new order event and update the dashboard
-            console.log('New Order Placed:', event);
-            // Add your logic to update the dashboard here
-        });
-</script> --}}
-{{-- <script src="{{ mix('js/app.js') }}"></script> --}}
 
 @endsection

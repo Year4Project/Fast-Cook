@@ -40,7 +40,7 @@
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
-            <a class="nav-link" href="tables.html">
+            <a class="nav-link" href="#">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Tables</span></a>
         </li>
@@ -145,7 +145,7 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Employee  Components:</h6>
                     <a class="collapse-item" href="{{ url('owner/staff/listStaff') }}">List Employee</a>
-                    <a class="collapse-item" href="cards.html">Employee End</a>
+                    <a class="collapse-item" href="#">Employee End</a>
                 </div>
             </div>
         </li>
