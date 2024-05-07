@@ -84,12 +84,12 @@
             <div class="sub">
                 <p>សរុបចុងក្រោយ</p>
                 <p>Grand Total(Riel): </p>
-                <p>${{ number_format($total * 4100, 2) }}</p>
+                <p>{{ number_format($total * 4100, 2) }} ៛</p>
             </div>
             <div class="tax">
                 <p>សរុបចុងក្រោយ</p>
                 <p>Grand Total(USD): </p>
-                <p>${{ number_format($total, 2) }}</p>
+                <p>$ {{ number_format($total, 2) }}</p>
             </div>
             
             @php
@@ -97,6 +97,9 @@
                 $currency = $customerOrder->payment->currency;
                 $usd = 0;
                 $khr = 0;
+
+                $changeKHR = $amount - $total;
+
 
                 if($currency === 'USD') {
                     $usd = $amount;
@@ -108,20 +111,25 @@
             <div class="rec1">
                 <p>ប្រាក់ទទួល</p>
                 <p>Recived(Riel): </p>
-                <p>${{ $usd }}</p>
+                <p>$ {{ $usd }}</p>
             </div>
             <div class="rec">
                 <p>ប្រាក់ទទួល</p>
                 <p>Recived(USD): </p>
                 {{-- {{ dd($customerOrderFood) }} --}}
                 {{-- {{ dd($customerOrder->payment_usd) }} --}}
-                <p>{{ $khr }}៛</p>
+                <p>{{ $khr }} ៛</p>
             </div>
 
             <div class="total">
                 <p>ប្រាក់អាប់:</p>
                 <p>Change(Riel): </p>
-                <p>$0.00</p>
+                <p>{{ number_format($changeKHR * 4100, 2) }} ៛</p>
+            </div>
+            <div class="total">
+                <p>ប្រាក់អាប់:</p>
+                <p>Change(USD): </p>
+                <p>$ {{ number_format($changeKHR , 2) }}</p>
             </div>
         </div>
 

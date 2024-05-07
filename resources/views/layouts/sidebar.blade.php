@@ -134,8 +134,13 @@
                 <i class="fas fa-users"></i>
                 <span>Customers</span></a>
         </li>
-
         <li class="nav-item">
+            <a class="nav-link" href="{{ url('owner/staff/listStaff') }}">
+                <i class="fas fa-users"></i>
+                <span>Employee</span>
+        </li>
+
+        {{-- <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                 aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-users"></i>
@@ -148,7 +153,7 @@
                     <a class="collapse-item" href="#">Employee End</a>
                 </div>
             </div>
-        </li>
+        </li> --}}
 
         <!-- Divider -->
         <hr class="sidebar-divider">

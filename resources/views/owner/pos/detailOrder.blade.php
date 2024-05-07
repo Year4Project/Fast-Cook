@@ -58,7 +58,7 @@
                                                 src="{{ $item->food->image_url }}" alt=""></td>
                                         <td class="align-middle">{{ $item->food->name }}</td>
                                         <td class="align-middle">{{ $item->quantity }}</td>
-                                        <td class="align-middle"></td>
+                                        <td class="align-middle">{{ $getCustomerOrder->payment->payment_method }}</td>
                                         <td class="align-middle">${{ number_format($item->food->price, 2) }}</td>
                                         <td class="align-middle">${{ number_format($subTotal, 2) }}</td>
                                     </tr>
@@ -106,12 +106,26 @@
                                     dd($customerOrderFood);
                                 @endphp --}}
 
+                                @php
+                                    $amount = $getCustomerOrder->payment->amount;
+                                    $currency = $getCustomerOrder->payment->currency;
+                                    $usd = 0;
+                                    $khr = 0;
+
+                                    if ($currency === 'USD') {
+                                        $usd = $amount;
+                                    } elseif ($currency === 'KHR') {
+                                        $khr = $amount;
+                                    }
+                                @endphp
+
                                 <div class="col-6">
-                                    <p>${{ number_format($totalSubtotal, 2) }}</p>
+                                    <p>$ {{ number_format($totalSubtotal, 2) }}</p>
                                     <p>
-                                       ${{ $getCustomerOrder->payment->amount }}
+                                        {{ $amount }}{{ $currency === 'USD' ? '$ ' : ' ៛' }}
                                     </p>
-                                    <a class="btn btn-md btn-outline-success" href="{{ route('pos-printRecipe', ['orderId' => $getCustomerOrder->id]) }}">
+                                    <a class="btn btn-md btn-outline-success"
+                                        href="{{ route('pos-printRecipe', ['orderId' => $getCustomerOrder->id]) }}">
                                         <i class="fas fa-print"></i>
                                     </a>
 
