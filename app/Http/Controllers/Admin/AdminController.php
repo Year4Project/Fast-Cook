@@ -83,41 +83,53 @@ class AdminController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    // Validate the request data
-    $validatedData = $request->validate([
-        'first_name' => 'required',
-        'last_name' => 'required',
-        'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        'email' => 'required|email|unique:users,email,'.$id,
-        'password' => 'nullable',
-    ]);
+    {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'password' => 'nullable',
+        ]);
+    
+        // Find the user by ID
+        $user = User::findOrFail($id);
+    
+        // Update the user attributes
+        $user->fill([
+            'first_name' => $validatedData['first_name'],
+            'last_name' => $validatedData['last_name'],
+            'email' => $validatedData['email'],
+        ]);
+    
+        // Update phone if present
+        if ($request->filled('phone')) {
+            $user->phone = $request->input('phone');
+        }
+    
+        // Update password if present
+        if ($request->filled('password')) {
+            $user->password = Hash::make($validatedData['password']);
+        }
+    
+        // Handle image update if provided
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = date('Ymdhis') . Str::random(20) . '.' . $image->getClientOriginalExtension();
+            // Move the uploaded file to the desired location
+            $image->move(public_path('upload/user/'), $filename);
+            // Update the user's image URL
+            $user->image_url = url('upload/user/' . $filename);
+        }
 
-    // Find the user by ID
-    $user = User::findOrFail($id);
-
-    // Update the user attributes
-    $user->fill([
-        'first_name' => $validatedData['first_name'],
-        'last_name' => $validatedData['last_name'],
-        'phone' => $request->input('phone'), // If phone is optional
-        'email' => $validatedData['email'],
-        'password' => Hash::make($validatedData['password'])
-    ]);
-
-    // Handle image update if provided
-    if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $filename = date('Ymdhis') . Str::random(20) . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('upload/user/'), $filename);
-        $user->image_url = url('upload/user/' . $filename);
+    
+        // Save the updated user
+        $user->save();
+    
+        return redirect('admin/admin/showAdmin')->with('success', "Admin successfully updated.");
     }
-
-    // Save the updated user
-    $user->save();
-
-    return redirect('admin/admin/showAdmin')->with('success', "Admin successfully updated.");
-}
+    
 
 
     public function delete($id) // Function to delete a user from the admin
