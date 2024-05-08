@@ -178,5 +178,5 @@
 </script>
 
 <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuCmRMEU6Eec0DKt26_J0Cby5MPcC9Yb8&callback=initMap"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCI2yt_pKuWRQfJwgG0aUOFjsLcwmDV7ZM&callback=initMap"
     type="text/javascript"></script>

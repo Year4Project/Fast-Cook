@@ -91,7 +91,7 @@
                 <p>Grand Total(USD): </p>
                 <p>$ {{ number_format($total, 2) }}</p>
             </div>
-            
+
             @php
                 $amount = $customerOrder->payment->amount;
                 $currency = $customerOrder->payment->currency;
@@ -100,13 +100,18 @@
 
                 $changeKHR = $amount - $total;
 
-
-                if($currency === 'USD') {
+                if ($currency === 'USD') {
                     $usd = $amount;
-                } elseif($currency === 'KHR') {
+                } elseif ($currency === 'KHR') {
                     $khr = $amount;
                 }
             @endphp
+
+            @php
+                $changeKHR = $amount - $total * 4100; // Change in Riel
+                $changeUSD = $amount - $total; // Change in USD
+            @endphp
+
 
             <div class="rec1">
                 <p>ប្រាក់ទទួល</p>
@@ -116,21 +121,20 @@
             <div class="rec">
                 <p>ប្រាក់ទទួល</p>
                 <p>Recived(USD): </p>
-                {{-- {{ dd($customerOrderFood) }} --}}
-                {{-- {{ dd($customerOrder->payment_usd) }} --}}
-                <p>{{ $khr }} ៛</p>
+                <p>{{ number_format($khr) }} ៛</p>
             </div>
 
             <div class="total">
                 <p>ប្រាក់អាប់:</p>
                 <p>Change(Riel): </p>
-                <p>{{ number_format($changeKHR * 4100, 2) }} ៛</p>
+                <p>{{ number_format($changeKHR, 2) }} ៛</p>
             </div>
             <div class="total">
                 <p>ប្រាក់អាប់:</p>
                 <p>Change(USD): </p>
-                <p>$ {{ number_format($changeKHR , 2) }}</p>
+                <p>$ {{ number_format($changeKHR / 4100, 2) }}</p>
             </div>
+
         </div>
 
         <div class="message">
