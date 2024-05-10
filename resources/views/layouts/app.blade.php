@@ -24,6 +24,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.css" />
     <!-- Include toastr CSS -->
 
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -40,6 +45,56 @@
     <script>
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
+    
+        // Initialize Pusher with your app key and cluster
+        var pusher = new Pusher('234577bd0d1513d54647', {
+            cluster: 'ap2'
+        });
+    
+        // Subscribe to the 'restaurant-channel' channel
+        var channel = pusher.subscribe('restaurant-channel');
+    
+        // Bind to the 'order-event' event
+        channel.bind('order-event', function(data) {
+            // Generate the URL for the sound file
+            var soundPath = "{{ asset('sounds/sweet_girl.mp3') }}";
+    
+            // Display a success toast with the order name and play a sound
+            toastr.success(data.name + ' has ordered', '', {sound: soundPath});
+            console.log(data);
+    
+            // Reload the page after 3 seconds
+            setTimeout(function() {
+                window.location.reload();
+            }, 3000); // Adjust the delay as needed
+        });
+    
+        // Bind to the 'App\\Events\\OrderPlacedEvent' event
+        channel.bind('App\\Events\\OrderPlacedEvent', function(data) {
+            // Generate the URL for the sound file
+            var soundPath = "{{ asset('sounds/sweet_girl.mp3') }}";
+    
+            // Extract order information from the event data
+            var orderId = data.order.id;
+            var userName = data.user.first_name + ' ' + data.user.last_name;
+            var tableNo = data.order.table_no;
+    
+            // Display a success toast with the order details and play a sound
+            toastr.success('New order received - Order ID: ' + orderId + ', User: ' + userName + ', Table No: ' + tableNo, '', {sound: soundPath});
+    
+            // Reload the page after 3 seconds
+            setTimeout(function() {
+                window.location.reload();
+            }, 3000); // Adjust the delay as needed
+        });
+    </script>
+    
+    
+
+
+    {{-- <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
 
         // Initialize Pusher with your app key and cluster
         var pusher = new Pusher('234577bd0d1513d54647', {
@@ -49,23 +104,25 @@
 
         // Subscribe to the 'restaurant-channel' channel
         var channel = pusher.subscribe('restaurant-channel');
-    channel.bind('order-event', function(data) {
-       // Display a success toast, with a title
-       toastr.success(JSON.stringify(data.name) + ' has order');
-       console.log(data);
-    });
+        channel.bind('order-event', function(data) {
+            // Display a success toast, with a title
+            toastr.success(JSON.stringify(data.name) + ' has order');
+            console.log(data);
+        });
 
-    var channel = pusher.subscribe('restaurant-channel');
-    channel.bind('App\\Events\\OrderPlacedEvent', function(data) {
-       // Extract order information from the event data
-       var orderId = data.order.id;
-       var userName = data.user.first_name + ' ' + data.user.last_name;
-       var tableNo = data.order.table_no;
+        var channel = pusher.subscribe('restaurant-channel');
+        channel.bind('App\\Events\\OrderPlacedEvent', function(data) {
+            // Extract order information from the event data
+            var orderId = data.order.id;
+            var userName = data.user.first_name + ' ' + data.user.last_name;
+            var tableNo = data.order.table_no;
 
-       // Display a success toast with the order details
-       toastr.success('New order received - Order ID: ' + orderId + ', User: ' + userName + ', Table No: ' + tableNo);
-    });
-    </script>
+            // Display a success toast with the order details
+            toastr.success('New order received - Order ID: ' + orderId + ', User: ' + userName + ', Table No: ' +
+                tableNo);
+        });
+    </script> --}}
+
 </head>
 
 <body id="page-top">
