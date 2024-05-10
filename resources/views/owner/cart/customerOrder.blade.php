@@ -32,7 +32,7 @@
                         </div>
                         {{-- table display food order --}}
                         <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
-                            <thead class="table-dark">
+                            <thead>
                                 <tr class="text-center">
                                     <th>#</th>
                                     <th>Order Number</th>

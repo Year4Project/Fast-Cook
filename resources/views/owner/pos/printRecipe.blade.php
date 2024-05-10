@@ -99,7 +99,7 @@
                 $usd = 0;
                 $khr = 0;
 
-                $changeKHR = $amount - $total;
+                // $changeKHR = $amount - $total;
 
                 if ($currency === 'USD') {
                     $usd = $amount;
@@ -128,12 +128,12 @@
             <div class="total">
                 <p>ប្រាក់អាប់:</p>
                 <p>Change(Riel): </p>
-                <p>{{ number_format($changeKHR, 2) }} ៛</p>
+                <p>{{ ($usd - $total) * 4100 }} ៛</p>
             </div>
             <div class="total">
                 <p>ប្រាក់អាប់:</p>
                 <p>Change(USD): </p>
-                <p>$ {{ number_format($changeKHR / 4100, 2) }}</p>
+                <p>$ {{ $usd - $total }}</p>
             </div>
 
         </div>

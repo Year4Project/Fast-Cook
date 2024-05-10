@@ -43,35 +43,39 @@
                     <div class="row">
                         @foreach ($restaurant as $item)
                             <div class="col-md-3 mb-4">
-                                <div class="card h-100">
-                                    <img src="{{ $item->image_url }}" style="height: 100px; object-fit: cover;"
-                                        class="card-img-top" alt="{{ $item->name }}">
-                                    <div class="card-body">
-                                        <div class="div" style="height:40px">
-                                            <h6 class="card-title text-center">{{ $item->name }}</h6>
-                                        </div>
-                                        <p class="card-text text-center">${{ $item->price }}</p>
-                                        <form method="post" action="{{ route('cart.add') }}">
-                                            @csrf
-                                            <input type="hidden" name="name" value="{{ $item->name }}">
-                                            <input type="hidden" name="price" value="{{ $item->price }}">
-                                            <input type="hidden" name="food_id" value="{{ $item->id }}">
-                                            <input type="hidden" name="image_url" value="{{ $item->image_url }}">
-                                            <input type="hidden" name="description" value="{{ $item->description }}">
-
-                                            <div class="d-grid gap-2">
-                                                <input type="number" name="quantity" value="1" min="1"
-                                                    class="form-control text-center">
-                                                <button type="submit" name="add_to_cart"
-                                                    class="btn btn-warning btn-block">Add</button>
+                                <div class="card h-100 shadow">
+                                    <form method="post" action="{{ route('cart.add') }}" class="card-form">
+                                        @csrf
+                                        <input type="hidden" name="name" value="{{ $item->name }}">
+                                        <input type="hidden" name="price" value="{{ $item->price }}">
+                                        <input type="hidden" name="food_id" value="{{ $item->id }}">
+                                        <input type="hidden" name="image_url" value="{{ $item->image_url }}">
+                                        <input type="hidden" name="description" value="{{ $item->description }}">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <button type="submit" name="add_to_cart" class="invisible-btn"></button>
+                                    </form>
+                                    <div class="card-clickable"
+                                        onclick="this.closest('.card').querySelector('.card-form button').click()"
+                                        data-toggle="tooltip" data-placement="top" title="Click to add to cart">
+                                        <img src="{{ $item->image_url }}" style="height: 200px; object-fit: cover;"
+                                            class="card-img-top" alt="{{ $item->name }}">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h5 class="card-title mb-0">{{ $item->name }}</h5>
+                                                <span class="badge bg-secondary">${{ $item->price }}</span>
                                             </div>
-                                        </form>
+                                            <p class="card-text">{{ $item->description }}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
                 </div>
+
+
+
+
             </div>
         </div>
 
@@ -79,68 +83,71 @@
         <div class="col-lg-5">
             <div class="card shadow">
                 <div class="card-header">
-                    <h3 class="text-center text-primary m-0">Items Selected</h3>
+                    <h3 class="text-center text-primary m-0">Cart Items</h3>
                 </div>
                 <div class="card-body">
 
-                    <table class="table table-bordered table-striped">
-                        <thead class="table-dark">
-                            <tr class="text-center">
-                                {{-- <th>ID</th> --}}
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Qty</th>
-                                <th>Total</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php $totalPrice = 0; @endphp
-                            @foreach ($addToCart as $addToCartItem)
-                                <tr>
-                                    {{-- <td>{{ $addToCartItem->food_id }}</td> --}}
-                                    <td>{{ $addToCartItem->name }}</td>
-                                    <td class="text-center">${{ $addToCartItem->price }}</td>
-                                    <td class="text-center">
-                                        <div class="input-group">
-                                            <form action="{{ route('cart.update') }}" method="post"
-                                                id="updateQuantityForm{{ $addToCartItem->id }}"
-                                                class="d-flex align-items-center">
-                                                @csrf
-                                                <input type="hidden" name="cart_item_id" value="{{ $addToCartItem->id }}">
-
-                                                <!-- Decrease quantity button -->
-                                                <button class="btn btn-sm btn-secondary" type="button"
-                                                    onclick="updateQuantity({{ $addToCartItem->id }}, -1)">-</button>
-
-                                                <!-- Quantity input field -->
-                                                <input type="text" name="quantity"
-                                                    value="{{ $addToCartItem->quantity }}" min="1"
-                                                    class="form-control text-center" style="width: 50px;">
-
-                                                <!-- Increase quantity button -->
-                                                <button class="btn btn-sm btn-secondary" type="button"
-                                                    onclick="updateQuantity({{ $addToCartItem->id }}, 1)">+</button>
-                                            </form>
-
-                                        </div>
-                                    </td>
-                                    <td class="text-center">${{ $addToCartItem->price * $addToCartItem->quantity }}</td>
-                                    <td>
-                                        <a class="btn btn-danger btn-sm"
-                                            href="{{ route('cart.delete', $addToCartItem->id) }}"
-                                            onclick="return confirm('Are you sure you want to delete this item?')"><i
-                                                class="fas fa-trash-alt"></i></a>
-                                    </td>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr class="text-center">
+                                    {{-- <th>ID</th> --}}
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Qty</th>
+                                    <th>Total</th>
+                                    <th></th>
                                 </tr>
-                                @php $totalPrice += $addToCartItem->price * $addToCartItem->quantity; @endphp
-                            @endforeach
+                            </thead>
+                            <tbody>
+                                @php $totalPrice = 0; @endphp
+                                @foreach ($addToCart as $addToCartItem)
+                                    <tr>
+                                        {{-- <td>{{ $addToCartItem->food_id }}</td> --}}
+                                        <td>{{ $addToCartItem->name }}</td>
+                                        <td class="text-center">${{ $addToCartItem->price }}</td>
+                                        <td class="text-center">
+                                            <div class="input-group">
+                                                <form action="{{ route('cart.update') }}" method="post"
+                                                    id="updateQuantityForm{{ $addToCartItem->id }}"
+                                                    class="d-flex align-items-center">
+                                                    @csrf
+                                                    <input type="hidden" name="cart_item_id"
+                                                        value="{{ $addToCartItem->id }}">
+
+                                                    <!-- Decrease quantity button -->
+                                                    <button class="btn btn-sm btn-secondary" type="button"
+                                                        onclick="updateQuantity({{ $addToCartItem->id }}, -1)">-</button>
+
+                                                    <!-- Quantity input field -->
+                                                    <input type="text" name="quantity"
+                                                        value="{{ $addToCartItem->quantity }}" min="1"
+                                                        class="form-control text-center" style="width: 50px;">
+
+                                                    <!-- Increase quantity button -->
+                                                    <button class="btn btn-sm btn-secondary" type="button"
+                                                        onclick="updateQuantity({{ $addToCartItem->id }}, 1)">+</button>
+                                                </form>
+
+                                            </div>
+                                        </td>
+                                        <td class="text-center">${{ $addToCartItem->price * $addToCartItem->quantity }}
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-danger btn-sm"
+                                                href="{{ route('cart.delete', $addToCartItem->id) }}"
+                                                onclick="return confirm('Are you sure you want to delete this item?')"><i
+                                                    class="fas fa-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                    @php $totalPrice += $addToCartItem->price * $addToCartItem->quantity; @endphp
+                                @endforeach
 
 
 
-                        </tbody>
-                    </table>
-
+                            </tbody>
+                        </table>
+                    </div>
                     <hr>
 
                     <form method="post" action="{{ route('order.checkout') }}">
@@ -164,43 +171,46 @@
                                 </div>
                                 <div class="col-3">
                                     <label class="text-danger font-weight-bold" for="" name="total"
-                                        id="total-khr">{{ $totalPrice * 4100 }}៛</label>
+                                        id="total-khr">{{ number_format($totalPrice * 4100) }} ៛</label>
                                 </div>
                                 <div class="col-3">
                                     <label for="">Total USD:</label>
                                 </div>
                                 <div class="col-3">
-                                    
-                                    
-                                    <label class="text-danger font-weight-bold" for="" name="total"
-                                        id="total-usd">${{ $totalPrice }}</label>
 
-                                        <input type="hidden" name="total" value="{{ $totalPrice }}">
+
+                                    <label class="text-danger font-weight-bold" for="" name="total"
+                                        id="total-usd">$ {{ $totalPrice }}</label>
+
+                                    <input type="hidden" name="total" value="{{ $totalPrice }}">
 
                                 </div>
                             </div>
                             <!-- Total USD -->
                             <div class="row">
                                 <div class="col-4">
-                                    <input type="checkbox" id="payment_method_credit_card" name="payment_method[]" value="credit_card">
-                                <label for="payment_method_credit_card">Credit Card</label>
-                                
+                                    <input type="checkbox" id="payment_method_credit_card" name="payment_method[]"
+                                        value="credit_card">
+                                    <label for="payment_method_credit_card">Credit Card</label>
+
                                 </div>
                                 <div class="col-4">
-                                    <input type="checkbox" id="payment_method_debit_card" name="payment_method[]" value="debit_card">
-                                <label for="payment_method_debit_card">Debit Card</label>
-                                
+                                    <input type="checkbox" id="payment_method_debit_card" name="payment_method[]"
+                                        value="debit_card">
+                                    <label for="payment_method_debit_card">Debit Card</label>
+
                                 </div>
                                 <div class="col-4">
-                                    <input type="checkbox" id="payment_method_cash" name="payment_method[]" value="cash">
+                                    <input type="checkbox" id="payment_method_cash" name="payment_method[]"
+                                        value="cash">
                                     <label for="payment_method_cash">Cash</label>
-                                    
+
                                 </div>
-                                
-                                
-                              
+
+
+
                                 </select>
-                                
+
                             </div>
                             <!-- Payment -->
                             <div class="row">
@@ -211,7 +221,8 @@
                                     <div class="input-group">
                                         <input type="text" name="payment_amount" id="payment" class="form-control"
                                             oninput="calculateChange()">
-                                        <select id="currency-selector" name="currency" onchange="calculateChange()" class="text-center" style="width: 30%">
+                                        <select id="currency-selector" name="currency" onchange="calculateChange()"
+                                            class="text-center" style="width: 30%">
                                             <option value="KHR">KHR</option>
                                             <option value="USD">USD</option>
                                         </select>
@@ -287,14 +298,13 @@
                 let remainingTotalKHR = parseFloat(document.getElementById('total-khr').innerText.slice(1));
                 let remainingTotalUSD = parseFloat(document.getElementById('total-usd').innerText.slice(1));
 
-                let changeKHR = currency === 'USD' ? remainingTotalKHR - payment * 4100 : remainingTotalKHR - payment;
-                let changeUSD = currency === 'KHR' ? remainingTotalUSD - payment / 4100 : remainingTotalUSD - payment;
+                let changeKHR = currency === 'USD' ? payment - remainingTotalKHR * 4100 : payment - remainingTotalKHR;
+                let changeUSD = currency === 'KHR' ? payment - remainingTotalUSD / 4100 : payment - remainingTotalUSD;
 
                 // Update change labels
-                document.getElementById('change-khr').innerText = 'KHR: ' + changeKHR.toFixed(2);
+                document.getElementById('change-khr').innerText = 'KHR: ' + (changeKHR / 4100).toFixed(2);
                 document.getElementById('change-usd').innerText = 'USD: ' + changeUSD.toFixed(2);
             }
         </script>
-
     </div>
 @endsection

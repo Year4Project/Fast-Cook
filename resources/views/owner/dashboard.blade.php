@@ -196,12 +196,11 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
-                                    <thead class="table-dark">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
                                         <tr class="text-center">
-                                            <th>ID</th>
+                                            <th>Order Number</th>
                                             <th>User Name</th>
-                                            <td>Order Number	</td>
                                             <th>Table No</th>
                                             <th>Remark</th>
                                             <th>Quantity</th>
@@ -220,9 +219,8 @@
                                         @else
                                             @foreach ($getOrderUser as $foodOrder)
                                                 <tr class="text-center">
-                                                    <td class="align-middle">{{ $loop->iteration }}</td>
-                                                    <td class="align-middle">{{ $foodOrder->user->first_name }} {{ $foodOrder->user->last_name }}</td>
                                                     <td class="align-middle">{{ $foodOrder->ordernumber }}</td>
+                                                    <td class="align-middle">{{ $foodOrder->user->first_name }} {{ $foodOrder->user->last_name }}</td>
                                                     <td class="align-middle">{{ $foodOrder->table_no }}</td>
                                                     <td class="align-middle">{{ $foodOrder->remark }}</td>
                                                     <td class="align-middle">{{ $foodOrder->total_quantity }}</td>
