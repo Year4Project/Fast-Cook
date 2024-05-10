@@ -18,6 +18,7 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens, HasFactory, Notifiable;
 
     use Notifiable;
+    
 
 
 

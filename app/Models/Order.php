@@ -11,7 +11,7 @@ class Order extends Model
 {
     use HasFactory;
     protected $table = 'orders';
-    protected $fillable = ['user_id', 'restaurant_id', 'items', 'table_no', 'remark', 'total_quantity'];
+    protected $fillable = ['user_id', 'restaurant_id', 'items', 'table_no', 'remark', 'total_quantity','ordernumber'];
 
     protected $casts = [
         'items' => 'json',
@@ -43,6 +43,7 @@ class Order extends Model
         return $this->belongsTo(Restaurant::class, 'restaurant_id');
     }
 
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -66,10 +67,10 @@ class Order extends Model
         return $orders;
     }
 
-        public static function getOrderDetails($orderId)
+    public static function getOrderDetails($orderId)
     {
         // $user = Auth::user()->restaurant->id;
-        $order = Order::with(['user', 'foods'])->find($orderId);
+        $order = Order::with(['user', 'foods','restaurant'])->find($orderId);
 
         if (!$order) {
             // Handle case when order is not found

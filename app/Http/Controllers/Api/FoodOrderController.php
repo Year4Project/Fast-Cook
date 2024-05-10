@@ -33,7 +33,7 @@ class FoodOrderController extends Controller
         // Retrieve the authenticated user using JWTAuth
         $user = JWTAuth::parseToken()->authenticate();
 
-        
+
 
         // Calculate total quantity
         $totalQuantity = 0;
@@ -50,16 +50,23 @@ class FoodOrderController extends Controller
 
         $restaurant = Restaurant::findOrFail($request->input('restaurant_id'));
 
-        
-        // Create an order associated with the user
+
+        // Assuming $user and $restaurant are defined elsewhere
+
+        // Generate a random order number
+        $ordernumber = random_int(10000000000, 99999999999);
+
+        // Create an order associated with the user and restaurant
         $order = Order::create([
             'user_id' => $user->id,
+            'ordernumber' => $ordernumber, // corrected assignment
             'restaurant_id' => $restaurant->id,
             'items' => $request->input('items'),
             'table_no' => $request->input('table_no'),
             'remark' => $request->input('remark'),
             'total_quantity' => $totalQuantity,
         ]);
+
 
         // dd($order);
         // Attach food items to the order
@@ -68,21 +75,17 @@ class FoodOrderController extends Controller
         // Transform the order data for response
         $responseData = [
             'user_id' => $user->id,
+            'ordernumber' => $order->ordernumber,
             'items' => $order->items,
             'table_no' => $order->table_no,
-            'restaurant_id' => $order->restaurant_id, 
+            'restaurant_id' => $order->restaurant_id,
             'restaurant_name' => $restaurant->name,
             'remark' => $order->remark,
             'total_quantity' => $totalQuantity,
         ];
+        // Dispatch the event
+        event(new OrderPlacedEvent($order));
 
-        // Dispatch the notification
-    // Notification::send($user, new NewOrderNotification($order));
-
-    //     // Dispatch the event
-    // event(new OrderPlacedEvent($order));
-
-    // event(new NewOrderPlaced($order));
 
         // Return a JSON response
         return response()->json([

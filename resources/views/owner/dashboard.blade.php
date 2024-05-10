@@ -234,10 +234,10 @@
                                                             <i class="fas fa-list"></i>
                                                         </a>
 
-                                                        <a class="btn btn-md btn-circle btn-outline-success"
-                                                            href="{{ url('owner/order/print/') }}">
-                                                            <i class="fas fa-print"></i>
-                                                        </a>
+                                                        <a class="btn btn-md btn-outline-success"
+                                                        href="{{ route('pos-printRecipe', ['orderId' => $foodOrder->id]) }}">
+                                                        <i class="fas fa-print"></i>
+                                                    </a>
                                                     </td>
                                                     {{-- <td class="align-middle">{{ $foodOrder->total_price }}</td> --}}
                                                 </tr>

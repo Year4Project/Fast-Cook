@@ -96,6 +96,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/owner/order/details/{orderId}', [OrderController::class, 'orderDetails'])->name('owner.order.details');
         // Route::get('/owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
         Route::post('/owner/order/food', [OrderController::class, 'orderFood'])->name('owner.order.food');
+        
 
         Route::post('owner/pos/order', [OrderController::class, 'order_submit'])->name('order.checkout');
 
@@ -107,6 +108,9 @@ Route::middleware('auth')->group(function () {
 
         // Invoice
         Route::get('/generate-invoice/{orderId}', [InvoiceController::class, 'generateInvoice'])->name('generate.invoice');
+
+        Route::get('owner/order/print-recipe/{orderId}', [OrderController::class, 'printRecipeAPI'])->name('api-printRecipe');
+        
 
 
         // Staff

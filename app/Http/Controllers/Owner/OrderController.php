@@ -23,11 +23,14 @@ use App\Http\Requests\OrderSubmitRequest;
 
 class OrderController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *in this function for pos request customer order in restaruant 
+     * @return \Illuminate\Http\Response
+     */
     public function order_submit(OrderSubmitRequest $request)
     {
-        
-    
-      
         // If validation passes, continue with the order submission process
     
         $user = Auth::user();
@@ -116,37 +119,6 @@ class OrderController extends Controller
      
         return view('owner.pos.detailOrder', $data);
     }
-
-    // public function printRecipe()
-    // {
-    //     // Retrieve the currently authenticated user
-    //     $user = Auth::user();
-    
-    //     // Check if the user is authenticated and has a restaurant associated with them
-    //     if ($user && $user->restaurant) {
-    //         // Retrieve the restaurant
-    //         $restaurant = $user->restaurant;
-    
-    //         // Retrieve the data from the session
-    //         $data['customerOrderFood'] = Session::get('customer_order_food');
-    
-    //         // Check if $customerOrderFood is null
-    //         if ($data['customerOrderFood'] !== null) {
-    //             // Add the restaurant to the data array
-    //             $data['restaurant'] = $restaurant;
-    
-    //             // You can now use $customerOrderFood and $restaurant to print recipes or do any other processing
-    //             return view('owner.pos.printRecipe', $data);
-    //         } else {
-    //             // Handle the case where $customerOrderFood is null
-    //             return "No data available for printing recipe.";
-    //         }
-    //     } else {
-    //         // Handle the case where the user is not authenticated or has no associated restaurant
-    //         return "User is not authenticated or has no associated restaurant.";
-    //     }
-    // }
-
     public function printRecipe($orderId)
 {
     // Retrieve the customer order details using getCustomerOrders function
@@ -162,6 +134,23 @@ class OrderController extends Controller
         // Handle the case where the customer order is null
         return "Customer order not found.";
     }
+}
+
+public function printRecipeAPI($orderId)
+{
+    $data['getOrderDetails'] = Order::getOrderDetails($orderId);
+   
+
+    // dd($data);
+
+    // Check if the retrieved customer order is not null
+    // if ($data !== null) {
+        // Pass the retrieved customer order to the view for rendering
+        return view('owner.pos.printRecipe',  $data);
+    // } else {
+        // Handle the case where the customer order is null
+        // return "Customer order not found.";
+    // }
 }
 
     

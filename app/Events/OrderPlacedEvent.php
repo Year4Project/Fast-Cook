@@ -28,6 +28,7 @@ class OrderPlacedEvent implements ShouldBroadcast
     {
         return new Channel('restaurant-channel');
     }
+    
 
     public function broadcastWith()
     {
@@ -39,5 +40,6 @@ class OrderPlacedEvent implements ShouldBroadcast
             'order' => $this->order,
             'user' => $user,
         ];
+        // return 'my-event';
     }
 }
