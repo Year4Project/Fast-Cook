@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" type="x-icon" href="{{ asset('admin/img/logo.png') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Receipt</title>
@@ -20,23 +21,23 @@
             <div class="c5"></div>
         </div>
         <div class="invoice-header">
-            <div class="logo">Restaurant <span>{{ $getOrderDetails->restaurant->name }}</span></div>
+            <div class="logo">Restaurant <span>{{ $customerOrder->restaurant->name }}</span></div>
             <div class="title">Receipt</div>
             <div class="inv-number">
                 <h3>Invoice#</h3>
-                <h4>{{ $getOrderDetails->ordernumber }}</h4>
+                <h4>{{ $customerOrder->ordernumber }}</h4>
             </div>
             <div class="inv-date">
                 <h3>Date</h3>
-                <h4>{{ date('d/m/Y', strtotime($getOrderDetails->created_at)) }}</h4>
+                <h4>{{ date('d/m/Y', strtotime($customerOrder->created_at)) }}</h4>
             </div>
 
             <div class="billing-detail">
                 <p>Billing to</p>
-                <p>{{ $getOrderDetails->restaurant->name }}</p>
-                <p><span>Contact: </span>{{ $getOrderDetails->restaurant->user->phone }}</p>
-                <p><span>Email: </span>{{ $getOrderDetails->restaurant->user->email }}</p>
-                <p><span>Address: </span>{{ $getOrderDetails->restaurant->address }}</p>
+                <p>{{ $customerOrder->restaurant->name }}</p>
+                <p><span>Contact: </span>{{ $customerOrder->restaurant->user->phone }}</p>
+                <p><span>Email: </span>{{ $customerOrder->restaurant->user->email }}</p>
+                <p><span>Address: </span>{{ $customerOrder->restaurant->address }}</p>
             </div>
         </div>
 
@@ -56,18 +57,18 @@
                     $totalQuantity = 0;
                 @endphp
                 {{-- @foreach ($customerOrder->orderItems as $item) --}}
-                @foreach ($getOrderDetails->foods as $item)
+                @foreach ($customerOrder->orderItems as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->food->name }}</td>
                         <td>{{ $item->quantity }}</td>
-                        <td>${{ number_format($item->price, 2) }}</td>
-                        {{-- @php
+                        <td>${{ number_format($item->food->price, 2) }}</td>
+                        @php
                             $subtotal = $item->quantity * $item->food->price;
                             $total += $subtotal;
                             $totalQuantity += $item->quantity;
-                        @endphp --}}
-                        <td></td>
+                        @endphp
+                        <td>${{ number_format($subtotal, 2) }}</td>
                     </tr>
                 @endforeach
                 <tr>
@@ -92,7 +93,7 @@
                 <p>$ {{ number_format($total, 2) }}</p>
             </div>
 
-            {{-- @php
+            @php
                 $amount = $customerOrder->payment->amount;
                 $currency = $customerOrder->payment->currency;
                 $usd = 0;
@@ -110,16 +111,15 @@
             @php
                 $changeKHR = $amount - $total * 4100; // Change in Riel
                 $changeUSD = $amount - $total; // Change in USD
-            @endphp --}}
+            @endphp
 
 
-            {{-- <div class="rec1">
+            <div class="rec1">
                 <p>ប្រាក់ទទួល</p>
                 <p>Recived(Riel): </p>
                 <p>$ {{ $usd }}</p>
-            </div> --}}
-
-            {{-- <div class="rec">
+            </div>
+            <div class="rec">
                 <p>ប្រាក់ទទួល</p>
                 <p>Recived(USD): </p>
                 <p>{{ number_format($khr) }} ៛</p>
@@ -134,7 +134,7 @@
                 <p>ប្រាក់អាប់:</p>
                 <p>Change(USD): </p>
                 <p>$ {{ number_format($changeKHR / 4100, 2) }}</p>
-            </div> --}}
+            </div>
 
         </div>
 

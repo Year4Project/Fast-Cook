@@ -95,6 +95,8 @@ class OrderController extends Controller
     {
 
         $data['getOrderDetails'] = Order::getOrderDetails($orderId);
+
+        // dd($data);
         
         return view('owner.order.detailOrder', $data);
     }
@@ -116,6 +118,7 @@ class OrderController extends Controller
     public function customerOrderDetail($orderId)
     {
         $data['getCustomerOrder'] = Customer::getCustomerOrders($orderId);
+        // dd($data);
      
         return view('owner.pos.detailOrder', $data);
     }
@@ -146,7 +149,7 @@ public function printRecipeAPI($orderId)
     // Check if the retrieved customer order is not null
     // if ($data !== null) {
         // Pass the retrieved customer order to the view for rendering
-        return view('owner.pos.printRecipe',  $data);
+        return view('owner.order.printRecipe',  $data);
     // } else {
         // Handle the case where the customer order is null
         // return "Customer order not found.";

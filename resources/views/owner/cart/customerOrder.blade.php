@@ -38,6 +38,7 @@
                                     <th>Order Number</th>
                                     <th>Order Name</th>
                                     <th>Customer Phone</th>
+                                    <th>Order Date</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -49,17 +50,17 @@
                                         <th class="align-middle">{{ $orderItem->ordernumber }}</th>
                                         <th class="align-middle">{{ $orderItem->customername }}</th>
                                         <th class="align-middle">{{ $orderItem->customerphone }}</th>
+                                        <th class="align-middle">{{ $orderItem->created_at }}</th>
                                         <th class="align-middle">
                                             <a href="{{ route('POS-CustomerOrder.detail', ['orderId' => $orderItem->id]) }}"
                                                 class="btn btn-md btn-circle btn-outline-primary">
                                                 <i class="fas fa-list"></i>
                                             </a>
 
-                                            <a class="btn btn-md btn-circle btn-outline-success"
-                                                href="{{ route('generate.invoice', ['orderId' => $orderItem->id]) }}"
-                                                target="_blank">
-                                                <i class="fas fa-print"></i>
-                                            </a>
+                                            <a class="btn btn-md btn-outline-success"
+                                        href="{{ route('pos-printRecipe', ['orderId' => $orderItem->id]) }}">
+                                        <i class="fas fa-print"></i>
+                                    </a>
                                             {{-- <a href="{{ route('generate.invoice', ['orderId' => $order->id]) }}" target="_blank">Generate Invoice</a> --}}
 
                                         </th>

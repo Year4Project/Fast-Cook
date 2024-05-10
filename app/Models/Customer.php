@@ -50,7 +50,7 @@ public static function getCustomerOrders($orderId)
         $restaurant = $user->restaurant;
 
         // Retrieve the customer order with its associated order items, payment, and their associated foods
-        $customerOrder = CustomerOrder::with(['orderItems.food', 'payment'])
+        $customerOrder = CustomerOrder::with(['orderItems.food','customer', 'payment'])
             ->where('restaurant_id', $restaurant->id)
             ->where('id', $orderId)
             ->first();

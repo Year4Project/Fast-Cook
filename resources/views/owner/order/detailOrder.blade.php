@@ -19,67 +19,72 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         {{-- display top --}}
-                        <div class="row">
-                            <div class="col-md-2">
+                        <div class="row mb-4">
+                            <div class="col-4">
                                 <p><strong>User:</strong> {{ $getOrderDetails->user->first_name }}
                                     {{ $getOrderDetails->user->last_name }}</p>
                                 <p><strong>Table No:</strong> {{ $getOrderDetails->table_no }}</p>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-4">
                                 <p><strong>Remark:</strong> {{ $getOrderDetails->remark }}</p>
                                 <p><strong>Total Quantity:</strong> {{ $getOrderDetails->total_quantity }}</p>
                             </div>
+                            <div class="col-4">
+                                <p><strong>Order Date:</strong> {{ $getOrderDetails->created_at }}</p>
+                                <p><strong>Order Number:</strong> {{ $getOrderDetails->ordernumber }}</p>
+                            </div>
                         </div>
-                        {{-- table display food order --}}
-                        <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
-                            <thead class="table-dark">
-                                <tr class="text-center">
-                                    <th>#</th>
-                                    <th>Image</th>
-                                    <th>Food ID</th>
-                                    <th>Food Name</th>
-                                    <th>Type of Food</th>
-                                    <th>Quantity</th>
-                                    <th>Unit Price</th>
-                                    <th>SubTotal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($getOrderDetails->foods as $food)
-                                    <tr class="text-center">
-                                        <td class="align-middle">{{ $loop->iteration }}</td>
-                                        <td class="align-middle"><img class="rounded-circle" height="75" width="75"
-                                                src="{{ $food->image_url }}" alt=""></td>
-                                        <th class="align-middle">{{ $food->code }}</th>
-                                        <th class="align-middle">{{ $food->name }}</th>
-                                        <th class="align-middle">{{ $food->type }}</th>
-                                        <th class="align-middle">{{ $food->pivot->quantity }}</th>
-                                        <th class="align-middle">${{ number_format($food->price, 2) }}</th>
-                                        <th class="align-middle">
-                                            ${{ number_format($food->pivot->quantity * $food->price, 2) }}</th>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{-- End Table --}}
-                    </div>
-                    <div class="row">
-                        <div class="col-4"></div>
-                        <div class="col-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th>#</th>
+                                            <th>Image</th>
+                                            <th>Food ID</th>
+                                            <th>Food Name</th>
+                                            <th>Type of Food</th>
+                                            <th>Quantity</th>
+                                            <th>Unit Price</th>
+                                            <th>SubTotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($getOrderDetails->foods as $food)
+                                            <tr class="text-center">
+                                                <td class="align-middle">{{ $loop->iteration }}</td>
+                                                <td class="align-middle"><img class="rounded-circle" height="75"
+                                                        width="75" src="{{ $food->image_url }}" alt=""></td>
+                                                <td class="align-middle">{{ $food->code }}</td>
+                                                <td class="align-middle">{{ $food->name }}</td>
+                                                <td class="align-middle">{{ $food->type }}</td>
+                                                <td class="align-middle">{{ $food->pivot->quantity }}</td>
+                                                <td class="align-middle">${{ number_format($food->price, 2) }}</td>
+                                                <td class="align-middle">
+                                                    ${{ number_format($food->pivot->quantity * $food->price, 2) }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                {{-- End Table --}}
+                            </div>
                         </div>
-                        <div class="col-4 ps-8">
                             <div class="row">
-                                <div class="col-6 text-end">
-                                    <p>Total:</p>
-                                    <p>Payment:</p>
-                                    <p>Print:</p>
+                                <div class="col-4"></div>
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <div class="row">
+                                        <div class="col-6 text-end">
+                                            <h4>Total:</h4>
+                                            <h4>Payment:</h4>
+                                            <h4>Print:</h4>
 
-                                </div>
-                                {{-- @php
+                                        </div>
+                                        {{-- @php
                                 dd($customerOrderFood);
                             @endphp --}}
 
-                                {{-- @php
+                                        {{-- @php
                                 $amount = $getCustomerOrder->payment->amount;
                                 $currency = $getCustomerOrder->payment->currency;
                                 $usd = 0;
@@ -92,31 +97,31 @@
                                 }
                             @endphp --}}
 
-                                <div class="col-6">
-                                    <p>
-                                        ${{ number_format(
-                                            $getOrderDetails->foods->sum(function ($food) {
-                                                return $food->pivot->quantity * $food->price;
-                                            }),
-                                            2,
-                                        ) }}
-                                    </p>
-                                    <p>
-                                        online
-                                        {{-- {{ $amount }}{{ $currency === 'USD' ? '$ ' : ' ៛' }} --}}
-                                    </p>
-                                    <a class="btn btn-md btn-outline-success"
-                                        href="{{ route('api-printRecipe', ['orderId' => $getOrderDetails->id]) }}">
-                                        <i class="fas fa-print"></i>
-                                    </a>
+                                        <div class="col-6">
+                                            <h4>
+                                                ${{ number_format(
+                                                    $getOrderDetails->foods->sum(function ($food) {
+                                                        return $food->pivot->quantity * $food->price;
+                                                    }),
+                                                    2,
+                                                ) }}
+                                            </h4>
+                                            <h4>
+                                                online
+                                                {{-- {{ $amount }}{{ $currency === 'USD' ? '$ ' : ' ៛' }} --}}
+                                            </h4>
+                                            <a class="btn btn-outline-success"
+                                                href="{{ route('api-printRecipe', ['orderId' => $getOrderDetails->id]) }}">
+                                                <i class="fas fa-print"></i>
+                                            </a>
 
+                                        </div>
+
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-@endsection
+        @endsection

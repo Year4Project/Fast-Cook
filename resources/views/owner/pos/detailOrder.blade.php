@@ -19,26 +19,29 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         {{-- display top --}}
-                        {{-- <div class="row">
-                            <div class="col-md-2">
-                            <p><strong>User:</strong> {{ $customerOrderFood->customerOrder->cus }}
-                                {{ $getOrderDetails->user->last_name }}</p>
-                            <p><strong>Table No:</strong> {{ $getOrderDetails->table_no }}</p>
+                        <div class="row mb-4">
+                            <div class="col-4">
+                                <p><strong>User: </strong> {{ $getCustomerOrder->customer->name }}</p>
+                                <p><strong>Phone: </strong> {{ $getCustomerOrder->phone }}</p>
+                            </div>
+                            <div class="col-4">
+                                <p><strong>Payment Method:</strong> {{ $getCustomerOrder->payment->payment_method }}</p>
+                                <p><strong>Total Quantity:</strong> {{ $getCustomerOrder->orderItems->sum('quantity') }}</p>
+                            </div>
+                            <div class="col-4">
+                                <p><strong>Order Date:</strong> {{ $getCustomerOrder->created_at }}</p>
+                                <p><strong>Order Number:</strong> {{ $getCustomerOrder->ordernumber }}</p>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <p><strong>Remark:</strong> {{ $getOrderDetails->remark }}</p>
-                            <p><strong>Total Quantity:</strong> {{ $getOrderDetails->total_quantity }}</p>
-                        </div>
-                        </div> --}}
                         {{-- table display food order --}}
-                        <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
-                            <thead class="table-dark">
+                        <table class="table" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
                                 <tr class="text-center">
                                     <th>#</th>
                                     <th>Image</th>
                                     <th>Food Name</th>
+                                    <th>Type</th>
                                     <th>Quantity</th>
-                                    <th>Payment Method</th>
                                     <th>Price</th>
                                     <th>SubTotal</th>
                                 </tr>
@@ -57,8 +60,8 @@
                                         <td class="align-middle"><img class="rounded-circle" height="75" width="75"
                                                 src="{{ $item->food->image_url }}" alt=""></td>
                                         <td class="align-middle">{{ $item->food->name }}</td>
+                                        <td class="align-middle">{{ $item->food->type }}</td>
                                         <td class="align-middle">{{ $item->quantity }}</td>
-                                        <td class="align-middle">{{ $getCustomerOrder->payment->payment_method }}</td>
                                         <td class="align-middle">${{ number_format($item->food->price, 2) }}</td>
                                         <td class="align-middle">${{ number_format($subTotal, 2) }}</td>
                                     </tr>
@@ -94,12 +97,12 @@
                         <div class="col-4"></div>
                         <div class="col-4">
                         </div>
-                        <div class="col-4 ps-8">
+                        <div class="col-4">
                             <div class="row">
                                 <div class="col-6 text-end">
-                                    <p>Total:</p>
-                                    <p>Payment:</p>
-                                    <p>Print:</p>
+                                    <h4>Total:</h4>
+                                    <h4>Payment:</h4>
+                                    <h4>Print:</h4>
 
                                 </div>
                                 {{-- @php
@@ -120,10 +123,10 @@
                                 @endphp
 
                                 <div class="col-6">
-                                    <p>$ {{ number_format($totalSubtotal, 2) }}</p>
-                                    <p>
+                                    <h4>$ {{ number_format($totalSubtotal, 2) }}</h4>
+                                    <h4>
                                         {{ $amount }}{{ $currency === 'USD' ? '$ ' : ' ៛' }}
-                                    </p>
+                                    </h4>
                                     <a class="btn btn-md btn-outline-success"
                                         href="{{ route('pos-printRecipe', ['orderId' => $getCustomerOrder->id]) }}">
                                         <i class="fas fa-print"></i>

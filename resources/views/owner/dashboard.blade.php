@@ -196,11 +196,12 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
                                     <thead class="table-dark">
                                         <tr class="text-center">
                                             <th>ID</th>
                                             <th>User Name</th>
+                                            <td>Order Number	</td>
                                             <th>Table No</th>
                                             <th>Remark</th>
                                             <th>Quantity</th>
@@ -213,16 +214,15 @@
                                         @if ($getOrderUser->isEmpty())
                                             <tr>
                                                 <td colspan="11">
-                                                    <div style="margin-top: 50px; text-align: center;">No records found.
-                                                    </div>
+                                                    <div style="margin-top: 50px; text-align: center;">No records found.</div>
                                                 </td>
                                             </tr>
                                         @else
                                             @foreach ($getOrderUser as $foodOrder)
                                                 <tr class="text-center">
                                                     <td class="align-middle">{{ $loop->iteration }}</td>
-                                                    <td class="align-middle">{{ $foodOrder->user->first_name }}
-                                                        {{ $foodOrder->user->last_name }}</td>
+                                                    <td class="align-middle">{{ $foodOrder->user->first_name }} {{ $foodOrder->user->last_name }}</td>
+                                                    <td class="align-middle">{{ $foodOrder->ordernumber }}</td>
                                                     <td class="align-middle">{{ $foodOrder->table_no }}</td>
                                                     <td class="align-middle">{{ $foodOrder->remark }}</td>
                                                     <td class="align-middle">{{ $foodOrder->total_quantity }}</td>
@@ -233,11 +233,11 @@
                                                             class="btn btn-md btn-circle btn-outline-primary">
                                                             <i class="fas fa-list"></i>
                                                         </a>
-
-                                                        <a class="btn btn-md btn-outline-success"
-                                                        href="{{ route('pos-printRecipe', ['orderId' => $foodOrder->id]) }}">
-                                                        <i class="fas fa-print"></i>
-                                                    </a>
+            
+                                                        <a class="btn btn-outline-success"
+                                                            href="{{ route('api-printRecipe', ['orderId' => $foodOrder->id]) }}">
+                                                            <i class="fas fa-print"></i>
+                                                        </a>
                                                     </td>
                                                     {{-- <td class="align-middle">{{ $foodOrder->total_price }}</td> --}}
                                                 </tr>
@@ -245,6 +245,9 @@
                                         @endif
                                     </tbody>
                                 </table>
+                                <div class="row custom-center">
+                                    {{ $getOrderUser->onEachSide(1)->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>
