@@ -23,7 +23,7 @@
 
                             <div class="text-center mb-4">
                                 <label for="imageInput">
-                                    <img src="{{ Auth::user()->restaurant->image }}" class="img-fluid rounded-circle" alt="User Image"
+                                    <img id="imagePreview" src="{{ Auth::user()->image_url }}" class="img-fluid rounded" alt="User Image"
                                         style="width: 150px; height: 150px; cursor: pointer;">
                                 </label>
                                 <input type="file" id="imageInput" class="form-control-file" name="image" accept="image/*"
@@ -68,11 +68,13 @@
         </div>
     </div>
 </div>
-    <script>
-        // JavaScript to handle image click
-        document.getElementById('imageInput').addEventListener('change', function () {
-            // You can add logic here to trigger form submission or handle the file change
-            // For example, this.form.submit();
-        });
-    </script>
+
+<script>
+    // JavaScript to handle image click and preview
+    document.getElementById('imageInput').addEventListener('change', function (event) {
+        var image = document.getElementById('imagePreview');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    });
+</script>
+
 @endsection

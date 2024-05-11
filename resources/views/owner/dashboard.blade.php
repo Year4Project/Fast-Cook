@@ -8,10 +8,8 @@
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <div class="ms-4">
-                    <h2 class="m-0 font-weight-bold text-secondary">Good Morning!</h2>
-                    {{-- <h4 class="mb-0 text-primary text-300 ms-4">{{ Auth::user()->restaurant->name }}</h4> --}}
-
-                </div>
+                    <h2 id="greeting" class="m-0 font-weight-bold text-secondary"></h2>
+                </div>                
                 <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                         class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
             </div>
@@ -27,7 +25,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col ml-4">
                                     <div class="text-xl font-weight-bold text-secondary text-uppercase mb-1">
-                                        Category</div>
+                                       Foods Category</div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getCategory }}</div>
                                 </div>
                                 <div class="col-auto me-4">
@@ -44,7 +42,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-success text-uppercase mb-1">
-                                        PRODUCTS</div>
+                                       Food PRODUCTS</div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getFood }}</div>
                                 </div>
                                 <div class="col-auto me-4">
@@ -78,7 +76,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col ml-4">
                                     <div class="text-xl font-weight-bold text-secondary text-uppercase mb-1">
-                                        Tables</div>
+                                        Available Tables</div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getTables }}</div>
                                 </div>
                                 <div class="col-auto me-4">
@@ -107,7 +105,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-info text-uppercase mb-1">
-                                        ORDERS
+                                       Total ORDERS
                                     </div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getOrder }}</div>
 
@@ -158,7 +156,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-success text-uppercase mb-1">
-                                        Total Sale</div>
+                                        Total Earnings</div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $payment['TOTAL'] }}</div>
                                 </div>
                                 <div class="col-auto me-4">

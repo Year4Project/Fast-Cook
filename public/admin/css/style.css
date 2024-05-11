@@ -129,3 +129,8 @@ header .shopping span{
 .listCard .count{
     margin: 0 10px;
 }
+
+.sidebar-logo {
+    max-width: 1px; /* Adjust the maximum width as needed */
+    height: auto;
+}

@@ -47,8 +47,11 @@
     @elseif(Auth::user()->user_type == 2)
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('owner/dashboard') }}">
+            <img src="{{ asset('admin/img/logo.png') }}" alt="Logo" class="img-fluid sidebar-logo" style="width: 50px"> <!-- Adjust path and class as needed -->
             <div class="sidebar-brand-text mx-3">{{ Auth::user()->restaurant->name }}</div>
         </a>
+        
+        
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">

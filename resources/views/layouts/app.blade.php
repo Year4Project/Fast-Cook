@@ -89,40 +89,6 @@
         });
     </script>
     
-    
-
-
-    {{-- <script>
-        // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
-
-        // Initialize Pusher with your app key and cluster
-        var pusher = new Pusher('234577bd0d1513d54647', {
-            cluster: 'ap2'
-        });
-
-
-        // Subscribe to the 'restaurant-channel' channel
-        var channel = pusher.subscribe('restaurant-channel');
-        channel.bind('order-event', function(data) {
-            // Display a success toast, with a title
-            toastr.success(JSON.stringify(data.name) + ' has order');
-            console.log(data);
-        });
-
-        var channel = pusher.subscribe('restaurant-channel');
-        channel.bind('App\\Events\\OrderPlacedEvent', function(data) {
-            // Extract order information from the event data
-            var orderId = data.order.id;
-            var userName = data.user.first_name + ' ' + data.user.last_name;
-            var tableNo = data.order.table_no;
-
-            // Display a success toast with the order details
-            toastr.success('New order received - Order ID: ' + orderId + ', User: ' + userName + ', Table No: ' +
-                tableNo);
-        });
-    </script> --}}
-
 </head>
 
 <body id="page-top">

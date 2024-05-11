@@ -122,20 +122,20 @@
             <div class="rec">
                 <p>ប្រាក់ទទួល</p>
                 <p>Recived(USD): </p>
-                <p></p>
+                <p>$0.00</p>
                 {{-- <p>{{ number_format($khr) }} ៛</p> --}}
             </div>
 
             <div class="total">
                 <p>ប្រាក់អាប់:</p>
                 <p>Change(Riel): </p>
-                <p></p>
+                <p>0.00៛</p>
                 {{-- <p>{{ number_format($changeKHR, 2) }} ៛</p> --}}
             </div>
             <div class="total">
                 <p>ប្រាក់អាប់:</p>
                 <p>Change(USD): </p>
-                <p></p>
+                <p>$0.00</p>
                 {{-- <p>$ {{ number_format($changeKHR / 4100, 2) }}</p> --}}
             </div>
 

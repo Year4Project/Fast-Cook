@@ -56,8 +56,6 @@ class Restaurant extends Authenticatable
     ->get();
 
     // dd($usersWithRestaurants);
-
-
         return $usersWithRestaurants;
     }
 

@@ -84,8 +84,7 @@ class FoodOrderController extends Controller
             'total_quantity' => $totalQuantity,
         ];
         // Dispatch the event
-        event(new OrderPlacedEvent($order));
-
+        event(new OrderPlacedEvent($order, $restaurant->id));
 
         // Return a JSON response
         return response()->json([

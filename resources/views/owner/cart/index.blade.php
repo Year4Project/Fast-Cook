@@ -64,7 +64,10 @@
                                                 <h5 class="card-title mb-0">{{ $item->name }}</h5>
                                                 <span class="badge bg-secondary">${{ $item->price }}</span>
                                             </div>
-                                            <p class="card-text">{{ $item->description }}</p>
+                                            <p class="card-text description">{{ $item->description }}</p>
+                                            @if (strlen($item->description) > 100)
+                                                <p class="read-more"><a href="#" onclick="toggleDescription(this)">Read more</a></p>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -106,31 +109,31 @@
                                         {{-- <td>{{ $addToCartItem->food_id }}</td> --}}
                                         <td>{{ $addToCartItem->name }}</td>
                                         <td class="text-center">${{ $addToCartItem->price }}</td>
+
                                         <td class="text-center">
-                                            <div class="input-group">
-                                                <form action="{{ route('cart.update') }}" method="post"
-                                                    id="updateQuantityForm{{ $addToCartItem->id }}"
-                                                    class="d-flex align-items-center">
+                                            <div class="input-group align-center justify-content-center">
+                                                <form action="{{ route('cart.update') }}" method="post" id="updateQuantityForm{{ $addToCartItem->id }}" class="d-flex align-items-center">
                                                     @csrf
-                                                    <input type="hidden" name="cart_item_id"
-                                                        value="{{ $addToCartItem->id }}">
-
+                                                    <input type="hidden" name="cart_item_id" value="{{ $addToCartItem->id }}">
+                                        
                                                     <!-- Decrease quantity button -->
-                                                    <button class="btn btn-sm btn-secondary" type="button"
-                                                        onclick="updateQuantity({{ $addToCartItem->id }}, -1)">-</button>
-
+                                                    <button class="btn btn-sm btn-secondary quantity-btn" type="button" onclick="updateQuantity({{ $addToCartItem->id }}, -1)">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                        
                                                     <!-- Quantity input field -->
-                                                    <input type="text" name="quantity"
-                                                        value="{{ $addToCartItem->quantity }}" min="1"
-                                                        class="form-control text-center" style="width: 50px;">
-
+                                                    <input type="text" name="quantity" value="{{ $addToCartItem->quantity }}" min="1" class="form-control text-center quantity-input" style="width: 50px;">
+                                        
                                                     <!-- Increase quantity button -->
-                                                    <button class="btn btn-sm btn-secondary" type="button"
-                                                        onclick="updateQuantity({{ $addToCartItem->id }}, 1)">+</button>
+                                                    <button class="btn btn-sm btn-secondary quantity-btn" type="button" onclick="updateQuantity({{ $addToCartItem->id }}, 1)">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
                                                 </form>
-
                                             </div>
                                         </td>
+                                        
+
+
                                         <td class="text-center">${{ $addToCartItem->price * $addToCartItem->quantity }}
                                         </td>
                                         <td>

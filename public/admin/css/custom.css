@@ -39,6 +39,41 @@
     /* Add other styles as needed */
 }
 
+.card:hover .card-clickable {
+    background-color: transparent;
+}
+
+.card:hover .card-clickable:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.card-body {
+    overflow: hidden;
+}
+
+.card-body p {
+    margin-bottom: 0; /* Remove default margin */
+}
+
+.read-more {
+    display: none;
+    cursor: pointer; /* Set cursor to pointer */
+}
+.card-body {
+    overflow: hidden;
+}
+
+.card-body p {
+    margin-bottom: 0; /* Remove default margin */
+}
+
+.card-clickable {
+    cursor: pointer; /* Set cursor to pointer for entire card */
+}
+
+.read-more {
+    display: none;
+}
+
 
 .invisible-btn {
     display: none;
@@ -50,4 +85,17 @@
 
 .img-clickable:hover {
     opacity: 0.8;
+}
+
+/* Define colors for different times of day */
+.morning {
+    color: #ffcc00; /* Yellow for morning */
+}
+
+.afternoon {
+    color: #00cc66; /* Green for afternoon */
+}
+
+.night {
+    color: #3366cc; /* Blue for night */
 }
