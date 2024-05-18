@@ -20,7 +20,8 @@ class RestaurantController extends Controller
     public function showRestaurant()
     {
         $data['getRestaurant'] = Restaurant::getRestaurant();
-        $data['header_title'] = 'Add Restaurant';
+        // dd($data['getRestaurant']);
+        $data['header_title'] = 'List Restaurant';
         // $restaurant = Restaurant::all();
 
         return view('admin.restaurant.showRestaurant', $data);
@@ -208,4 +209,22 @@ class RestaurantController extends Controller
         // If deletion fails, return with an error message
         return redirect()->back()->with('error', 'Failed to delete user and associated restaurant.');
     }
+
+    public function updateStatus($id)
+    {
+        $getStatus = Restaurant::select('status')->where('id', $id)->first();
+        // dd($getStatus);
+        if ($getStatus->status == 1) {
+            $status = 0;
+        } else {
+            $status = 1;
+        }
+        Restaurant::where('id', $id)->update(['status' => $status]);
+
+        return redirect('admin/restaurant/showRestaurant')->with('success', "status successfully update.");
+    }
+    
+
 }
+
+  

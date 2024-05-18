@@ -21,6 +21,7 @@
                             <th>Restaurant Name</th>
                             <th>Email</th>
                             <th>Mobile</th>
+                            <th>Status</th>
                             <th>Address</th>
                             <th>Action</th>
                         </tr>
@@ -34,6 +35,19 @@
                                 <td class="align-middle">{{ $item->restaurant_name }}</td>
                                 <td class="align-middle">{{ $item->email }}</td>
                                 <td class="align-middle">{{ $item->phone }}</td>
+
+                                <td class="align-middle text-center">
+                                    @if ($item->restaurant_status == 1)
+                                        <a href="{{ url('admin/restaurant/updateStatus/' . $item->restaurant_id) }}"
+                                           onclick="return confirm('Are you sure you want to pending this restaurant?')"
+                                           class="btn btn-sm btn-success">Available</a>
+                                    @else
+                                        <a href="{{ url('admin/restaurant/updateStatus/' . $item->restaurant_id) }}"
+                                           onclick="return confirm('Are you sure you want to available this restaurant?')"
+                                           class="btn btn-sm btn-warning ">Pending</a>
+                                    @endif
+                                </td>
+
                                 <td class="align-middle">{{ $item->restaurant_address }}</td>
                                 <td class="align-middle text-center">
                                     {{-- edit --}}

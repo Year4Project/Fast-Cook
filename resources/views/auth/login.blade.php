@@ -48,7 +48,7 @@
                                     <form class="user" action="{{ url('login') }}" method="post">
                                         {{ csrf_field() }}
                                         <div class="form-group">
-                                            <input type="email" required name="email" value="{{ old('email') }}" class="form-control form-control-user" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                                            <input type="email" required name="email" value="" class="form-control form-control-user" aria-describedby="emailHelp" placeholder="Enter Email Address...">
                                             @error('email')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror

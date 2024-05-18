@@ -25,8 +25,11 @@ class DashboardController extends Controller
         $data['header_title'] = 'Dashboard';
 
         if (Auth::user()->user_type == 1) {
-            $data['total_user'] = User::count();
-            $data['total_restaurant'] = Restaurant::count();
+            $data['total_admin'] = User::where('user_type', 1)->count();
+            $data['total_user'] = User::where('user_type', 3)->count();
+            $data['restauran_available'] = Restaurant::where('status', 1)->count();
+            $data['restauran_pending'] = Restaurant::where('status', 0)->count();
+
             return view('admin.dashboard', $data);
 
         } else if (Auth::user()->user_type == 2) {

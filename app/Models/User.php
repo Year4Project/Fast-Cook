@@ -18,7 +18,7 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens, HasFactory, Notifiable;
 
     use Notifiable;
-    
+
 
 
 
@@ -72,18 +72,19 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     // Generate automatic number or id
-    protected static function boot(){
+    protected static function boot()
+    {
         parent::boot();
-        self::creating(function ($user){
-            $getUser = self::orderBy('user_id','desc')->first();
-            if ($getUser){
-                $lastestID = intval(substr($getUser->user_id,3));
+        self::creating(function ($user) {
+            $getUser = self::orderBy('user_id', 'desc')->first();
+            if ($getUser) {
+                $lastestID = intval(substr($getUser->user_id, 3));
                 $nextID = $lastestID + 1;
             } else {
                 $nextID = 1;
             }
-            $user->user_id = 'KHF_'.sprintf("%03s",$nextID);
-            while(self::where('user_id',$user->user_id)->exists()) {
+            $user->user_id = 'KHF_' . sprintf("%03s", $nextID);
+            while (self::where('user_id', $user->user_id)->exists()) {
                 $nextID++;
                 $user->user_id = 'KHF_' . sprintf("%03s", $nextID);
             }
@@ -103,6 +104,7 @@ class User extends Authenticatable implements JWTSubject
     //     return $this->hasOne(Restaurant::class);
     // }
 
+
     public function restaurant()
     {
         return $this->hasOne(Restaurant::class);
@@ -111,7 +113,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Restaurant::class, 'restaurant_id');
     }
-    public function foods() {
+    public function foods()
+    {
         return $this->hasManyThrough(Food::class, Restaurant::class);
     }
 
@@ -120,10 +123,10 @@ class User extends Authenticatable implements JWTSubject
     public static function getOwner()
     {
         $return = self::select('users.*')
-                ->where('user_type', '=', 2);
+            ->where('user_type', '=', 2);
 
         $return = $return->orderBy('id', 'desc')
-                            ->paginate(5);
+            ->paginate(5);
 
         return $return;
     }
@@ -132,10 +135,10 @@ class User extends Authenticatable implements JWTSubject
     public static function getAdmin()
     {
         $return = self::select('users.*')
-                ->where('user_type', '=', 1);
+            ->where('user_type', '=', 1);
 
         $return = $return->orderBy('id', 'desc')
-                            ->paginate(5);
+            ->paginate(5);
 
         return $return;
     }

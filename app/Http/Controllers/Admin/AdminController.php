@@ -13,7 +13,7 @@ class AdminController extends Controller
     public function showAdmin()
     {
         $data['getRecord'] = User::getAdmin();
-        $data['header_title'] = 'Owner Restaurant List';
+        $data['header_title'] = 'Administrator';
         return view('admin.admin.showAdmin', $data);
     }
 

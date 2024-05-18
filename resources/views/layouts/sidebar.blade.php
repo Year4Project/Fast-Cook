@@ -4,7 +4,8 @@
     @if (Auth::user()->user_type == 1)
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('admin/dashboard') }}">
-            <div class="sidebar-brand-text mx-3">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
+            <img src="{{ asset('admin/img/logo.png') }}" alt="Logo" class="img-fluid sidebar-logo" style="width: 50px"> <!-- Adjust path and class as needed -->
+            <div class="sidebar-brand-text mx-2">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
         </a>
 
         <!-- Divider -->
@@ -107,7 +108,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ url('owner/category/typeFood') }}">
                 <i class="fas fa-layer-group"></i>
-                <span>Create Category</span></a>
+                <span>Category</span></a>
         </li>
 
         <li class="nav-item">

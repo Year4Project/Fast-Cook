@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function () {
         Route::post('admin/restaurant/store', [RestaurantController::class, 'createUserAndRestaurant']);
         Route::get('/admin/restaurant/edit/{id}', [RestaurantController::class, 'edit'])->name('restaurant.edit');
         Route::post('/admin/user/{userId}/update', [RestaurantController::class, 'updateUserAndRestaurant'])->name('admin.user.update');
+        // Route::get('admin/restaurant/updateStatus/{id}', [RestaurantController::class, 'updateStatus'])->name('updateStatus');
+        Route::get('admin/restaurant/updateStatus/{id}', [RestaurantController::class, 'updateStatus'])->name('restaurant.updateStatus');
         // Route::delete('/admin/user/{userId}/delete', [RestaurantController::class, 'deleteUserAndRestaurant'])->name('admin.user.delete');
         Route::delete('/admin/user/{userId}/delete', [RestaurantController::class, 'deleteUserAndRestaurant'])->name('users.delete');
     });

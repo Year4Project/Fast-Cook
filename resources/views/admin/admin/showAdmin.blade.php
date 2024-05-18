@@ -39,7 +39,7 @@
                                         <td class="align-middle">{{ $adm->phone }}</td>
                                         <td class="align-middle text-center">{{ $adm->user_type }}</td>
 
-                                        <td class="align-middle">
+                                        <td class="align-middle text-center">
                                             @if ($adm->status == 1)
                                                 <a href="{{ url('admin/admin/updateStatus/' . $adm->user_id) }}"
                                                     onclick="return confirm('Are you Sure?')"

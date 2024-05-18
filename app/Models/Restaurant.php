@@ -52,7 +52,7 @@ class Restaurant extends Authenticatable
     {
         $usersWithRestaurants = DB::table('users')
     ->join('restaurants', 'users.id', '=', 'restaurants.user_id')
-    ->select('users.*', 'restaurants.name as restaurant_name', 'restaurants.address as restaurant_address', 'restaurants.image','restaurants.id as restaurant_id')
+    ->select('users.*', 'restaurants.name as restaurant_name', 'restaurants.address as restaurant_address', 'restaurants.image','restaurants.id as restaurant_id','restaurants.status as restaurant_status')
     ->get();
 
     // dd($usersWithRestaurants);
