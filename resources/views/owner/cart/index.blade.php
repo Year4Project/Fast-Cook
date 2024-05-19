@@ -66,7 +66,8 @@
                                             </div>
                                             <p class="card-text description">{{ $item->description }}</p>
                                             @if (strlen($item->description) > 100)
-                                                <p class="read-more"><a href="#" onclick="toggleDescription(this)">Read more</a></p>
+                                                <p class="read-more"><a href="#"
+                                                        onclick="toggleDescription(this)">Read more</a></p>
                                             @endif
                                         </div>
                                     </div>
@@ -112,35 +113,40 @@
 
                                         <td class="text-center">
                                             <div class="input-group align-center justify-content-center">
-                                                <form action="{{ route('cart.update') }}" method="post" id="updateQuantityForm{{ $addToCartItem->id }}" class="d-flex align-items-center">
+                                                <form action="{{ route('cart.update') }}" method="post"
+                                                    id="updateQuantityForm{{ $addToCartItem->id }}"
+                                                    class="d-flex align-items-center">
                                                     @csrf
-                                                    <input type="hidden" name="cart_item_id" value="{{ $addToCartItem->id }}">
-                                        
+                                                    <input type="hidden" name="cart_item_id"
+                                                        value="{{ $addToCartItem->id }}">
+
                                                     <!-- Decrease quantity button -->
-                                                    <button class="btn btn-sm btn-secondary quantity-btn" type="button" onclick="updateQuantity({{ $addToCartItem->id }}, -1)">
+                                                    <button class="btn btn-sm btn-secondary quantity-btn" type="button"
+                                                        onclick="updateQuantity({{ $addToCartItem->id }}, -1)">
                                                         <i class="fas fa-minus"></i>
                                                     </button>
-                                        
+
                                                     <!-- Quantity input field -->
-                                                    <input type="text" name="quantity" value="{{ $addToCartItem->quantity }}" min="1" class="form-control text-center quantity-input" style="width: 50px;">
-                                        
+                                                    <input type="text" name="quantity"
+                                                        value="{{ $addToCartItem->quantity }}" min="1"
+                                                        class="form-control text-center quantity-input"
+                                                        style="width: 50px;">
+
                                                     <!-- Increase quantity button -->
-                                                    <button class="btn btn-sm btn-secondary quantity-btn" type="button" onclick="updateQuantity({{ $addToCartItem->id }}, 1)">
+                                                    <button class="btn btn-sm btn-secondary quantity-btn" type="button"
+                                                        onclick="updateQuantity({{ $addToCartItem->id }}, 1)">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 </form>
                                             </div>
                                         </td>
-                                        
+
 
 
                                         <td class="text-center">${{ $addToCartItem->price * $addToCartItem->quantity }}
                                         </td>
                                         <td>
-                                            <a class="btn btn-danger btn-sm"
-                                                href="{{ route('cart.delete', $addToCartItem->id) }}"
-                                                onclick="return confirm('Are you sure you want to delete this item?')"><i
-                                                    class="fas fa-trash-alt"></i></a>
+                                            <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="deleteConfirmation('{{ route('cart.delete', $addToCartItem->id) }}')"><i class="fas fa-trash-alt"></i></a>
                                         </td>
                                     </tr>
                                     @php $totalPrice += $addToCartItem->price * $addToCartItem->quantity; @endphp
@@ -308,6 +314,40 @@
                 document.getElementById('change-khr').innerText = 'KHR: ' + (changeKHR / 4100).toFixed(2);
                 document.getElementById('change-usd').innerText = 'USD: ' + changeUSD.toFixed(2);
             }
+
+            window.addEventListener('show-delete-confirmation', event => {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Livewire.emit('delteConfirmation')
+                    }
+                });
+            })
+
+            // Swal.fire({
+            //     title: "Are you sure?",
+            //     text: "You won't be able to revert this!",
+            //     icon: "warning",
+            //     showCancelButton: true,
+            //     confirmButtonColor: "#3085d6",
+            //     cancelButtonColor: "#d33",
+            //     confirmButtonText: "Yes, delete it!"
+            // }).then((result) => {
+            //     if (result.isConfirmed) {
+            //         Swal.fire({
+            //             title: "Deleted!",
+            //             text: "Your file has been deleted.",
+            //             icon: "success"
+            //         });
+            //     }
+            // });
         </script>
     </div>
 @endsection

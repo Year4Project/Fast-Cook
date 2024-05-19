@@ -6,7 +6,7 @@
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between mb-4">
-                    <h3 class="m-0 font-weight-bold text-primary">List Admin</h3>
+                    <h3 class="m-0 font-weight-bold text-primary">Administrator</h3>
                     <a href="{{ url('admin/admin/add') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Add
                         Manager</a>
                 </div>
@@ -58,8 +58,8 @@
                                                 <i class="fas fa-fw fa-edit"></i>
                                             </a>
                                             <form action="">
-                                                <a class="btn btn-md btn-circle btn-outline-danger mt-2" href="{{ url('admin/admin/delete/' . $adm->id) }}">
-                                                <i class="fas fa-fw fa-trash-alt icon-trash-red"></i>
+                                                <a class="btn btn-md btn-circle btn-outline-danger mt-2" href="{{ url('admin/admin/delete/' . $adm->id) }} " onclick="confirmation(event)">
+                                                <i class="fas fa-fw fa-trash-alt"></i>
                                             </a>
                                             </form>
                                             
@@ -72,7 +72,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>

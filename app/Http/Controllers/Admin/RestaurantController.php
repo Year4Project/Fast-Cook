@@ -184,31 +184,38 @@ class RestaurantController extends Controller
 
 
 
-    public function deleteUserAndRestaurant(Request $request, $userId)
+    public function deleteUserAndRestaurant($userId)
     {
-        // Find the user
-        $user = User::findOrFail($userId);
-
-        // Find the associated restaurant
-        $restaurant = $user->restaurant;
-
-        // Delete the user and associated restaurant
-        if ($user->delete()) {
-            // Delete restaurant image if it exists
-            if ($restaurant && $restaurant->image) {
-                Storage::delete('upload/restaurant/' . basename($restaurant->image));
-            }
-
-            if ($restaurant) {
-                $restaurant->delete();
-            }
-
-            return redirect()->back()->with('success', 'User and associated restaurant deleted successfully.');
+        // Find the user by ID
+        $user = User::find($userId);
+    
+        // If user not found, return with an error message
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found.');
         }
-
-        // If deletion fails, return with an error message
-        return redirect()->back()->with('error', 'Failed to delete user and associated restaurant.');
+    
+        // Attempt to delete the associated restaurant if it exists
+        $restaurant = $user->restaurant;
+        if ($restaurant) {
+            // Delete the restaurant image file if it exists
+            $imagePath = public_path('upload/restaurant/') . basename($restaurant->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+    
+            // Delete the restaurant
+            $restaurant->delete();
+        }
+    
+        // Delete the user
+        $user->delete();
+    
+        // Redirect to a success page or return a success response
+        return redirect('admin/restaurant/showRestaurant')->with('success', "User and associated restaurant successfully deleted.");
     }
+    
+
+
 
     public function updateStatus($id)
     {

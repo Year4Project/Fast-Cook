@@ -5,19 +5,13 @@
     <div class="container-fluid">
 
 
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">List Staff</h1>
-            {{-- <a href="{{ url('owner/staff/createStaff') }}"
-        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Add Staff</a> --}}
-
         </div>
 
         @include('_massage')
 
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">DataTables Of List Staff</h6>
+                <h3 class="m-0 font-weight-bold text-primary">DataTables Of List Staff</h3>
                 <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addnew">
                     <i class="bi bi-clipboard2-plus-fill"></i> Add New Employee
                 </button>

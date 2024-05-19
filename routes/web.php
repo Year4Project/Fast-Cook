@@ -56,7 +56,9 @@ Route::middleware('auth')->group(function () {
         // Route::get('admin/restaurant/updateStatus/{id}', [RestaurantController::class, 'updateStatus'])->name('updateStatus');
         Route::get('admin/restaurant/updateStatus/{id}', [RestaurantController::class, 'updateStatus'])->name('restaurant.updateStatus');
         // Route::delete('/admin/user/{userId}/delete', [RestaurantController::class, 'deleteUserAndRestaurant'])->name('admin.user.delete');
-        Route::delete('/admin/user/{userId}/delete', [RestaurantController::class, 'deleteUserAndRestaurant'])->name('users.delete');
+        // Route::delete('/admin/user/{userId}/delete', [RestaurantController::class, 'deleteUserAndRestaurant'])->name('users.delete');
+        Route::delete('/user-restaurant/{id}', [RestaurantController::class, 'deleteUserAndRestaurant'])->name('user-restaurant.delete');
+
     });
 
 
