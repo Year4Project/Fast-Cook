@@ -58,7 +58,7 @@
                                                 {{-- delete --}}
                                                 <a class="btn btn-md btn-circle btn-outline-danger ms-2"
                                                     href="{{ url('owner/qr/delete-qrcode/' . $item->id) }}"
-                                                    onclick="return confirm('Are you Sure?')">
+                                                    onclick="confirmation(event)">
                                                     <i class="fas fa-fw fa-trash-alt"></i>
                                                 </a>
                                             </td>

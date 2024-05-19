@@ -28,7 +28,7 @@ class GeneratorQRController extends Controller
     public function qrCode()
     {
 
-        $getQrcode = Scen::where('restaurant_id', Auth::user()->restaurant->id)->paginate(10);
+        $getQrcode = Scen::where('restaurant_id', Auth::user()->restaurant->id)->paginate(100);
 
         $data['header_title'] = 'QR Code';
 

@@ -60,4 +60,16 @@ class CategoryController extends Controller
         $category->delete();
         return redirect('owner/category/typeFood')->with('success','Category successfully Updated');
     }
+
+    public function updateStatus($id)
+    {
+        $getStatus = Category::select('status')->where('id', $id)->first();
+        if ($getStatus->status == 1) {
+            $status = 0;
+        } else {
+            $status = 1;
+        }
+        Category::where('id', $id)->update(['status' => $status]);
+        return redirect('owner/category/typeFood')->with('success', "status successfully update.");
+    }
 }

@@ -23,6 +23,7 @@
                             <tr class="text-center">
                                 <th>ID</th>
                                 <th>Name</th>
+                                <th>Status</th>
                                 <th>Create At</th>
                                 <th>Action</th>
                             </tr>
@@ -39,6 +40,17 @@
                                 <tr class="text-center">
                                     <td class="align-middle">{{ $loop->iteration }}</td>
                                     <td class="align-middle">{{ $item->name }}</td>
+
+                                    <td class="align-middle text-center">
+                                        @if ($item->status == 1)
+                                            <a href="{{ url('owner/category/updateStatus/' . $item->id) }}"
+                                                class="btn btn-sm btn-success">Available</a>
+                                        @else
+                                            <a href="{{ url('owner/category/updateStatus/' . $item->id) }}"
+                                                class="btn btn-sm btn-danger ">Unavailable</a>
+                                        @endif
+                                    </td>
+
                                     <td class="align-middle">{{ date('D d M Y | h:i A', strtotime($item->created_at)) }}</td>
                                     <td class="align-middle text-center">
                                         {{-- edit --}}

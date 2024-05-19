@@ -10,7 +10,12 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $table = 'categories';
+    protected $fillable = [
+        'name',
+        'restaurant_id',
+        'status',
+    ];
 
     public function foods()
 {

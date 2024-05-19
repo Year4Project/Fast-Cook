@@ -61,13 +61,11 @@
                                         </td>
                                         <td class="align-middle">
                                             @if ($item->status == 1)
-                                                <a href="{{ route('updateStatus', ['id' => $item->id]) }}"
-                                                    onclick="return confirm('Are you Sure?')"
-                                                    class="btn btn-sm btn-success">Active</a>
+                                                <a href="{{ route('update.Status', ['id' => $item->id]) }}"
+                                                    class="btn btn-sm btn-success">Available</a>
                                             @else
-                                                <a href="{{ route('updateStatus', ['id' => $item->id]) }}"
-                                                    onclick="return confirm('Are you Sure?')"
-                                                    class="btn btn-sm btn-danger">InActive</a>
+                                                <a href="{{ route('update.Status', ['id' => $item->id]) }}"
+                                                    class="btn btn-sm btn-danger">Unavailable</a>
                                             @endif
                                         </td>
                                         <td class="align-middle">{{ date('D d M Y | h:i A', strtotime($item->created_at)) }}</td>
