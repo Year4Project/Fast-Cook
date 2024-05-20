@@ -92,51 +92,55 @@
                 <p>Grand Total(USD): </p>
                 <p>$ {{ number_format($total, 2) }}</p>
             </div>
-
+        
             @php
                 $amount = $customerOrder->payment->amount;
                 $currency = $customerOrder->payment->currency;
                 $usd = 0;
                 $khr = 0;
-
-                // $changeKHR = $amount - $total;
-
+        
                 if ($currency === 'USD') {
                     $usd = $amount;
                 } elseif ($currency === 'KHR') {
                     $khr = $amount;
                 }
             @endphp
-
+        
             @php
-                $changeKHR = $amount - $total * 4100; // Change in Riel
-                $changeUSD = $amount - $total; // Change in USD
+                // Change calculation based on payment currency
+                if ($currency === 'USD') {
+                    $changeUSD = $amount - $total;
+                    $changeKHR = $changeUSD * 4100; // Convert USD change to KHR
+                } elseif ($currency === 'KHR') {
+                    $changeKHR = $amount - $total * 4100;
+                    $changeUSD = $changeKHR / 4100; // Convert KHR change to USD
+                }
             @endphp
-
-
+        
             <div class="rec1">
                 <p>ប្រាក់ទទួល</p>
-                <p>Recived(Riel): </p>
-                <p>$ {{ $usd }}</p>
+                <p>Received(Riel): </p>
+                <p>{{ number_format($khr) }} ៛</p>
             </div>
             <div class="rec">
                 <p>ប្រាក់ទទួល</p>
-                <p>Recived(USD): </p>
-                <p>{{ number_format($khr) }} ៛</p>
+                <p>Received(USD): </p>
+                <p>$ {{ $usd }}</p>
             </div>
-
+        
             <div class="total">
                 <p>ប្រាក់អាប់:</p>
                 <p>Change(Riel): </p>
-                <p>{{ ($usd - $total) * 4100 }} ៛</p>
+                <p>{{ number_format($changeKHR) }}</p>
             </div>
             <div class="total">
                 <p>ប្រាក់អាប់:</p>
                 <p>Change(USD): </p>
-                <p>$ {{ $usd - $total }}</p>
+                <p>$ {{ number_format($changeUSD, 2) }}</p>
             </div>
-
         </div>
+        
+        
 
         <div class="message">
             <p>Thank You For Supporting Local Business!</p>
