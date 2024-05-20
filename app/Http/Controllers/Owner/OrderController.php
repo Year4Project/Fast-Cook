@@ -60,7 +60,10 @@ class OrderController extends Controller
         $payment->payment_method = implode(',', $request->input('payment_method')); // Combine selected payment methods into a string
         $payment->save();
     
-        $cartItems = Cart::all();
+        $cartItems = Cart::where('restaurant_id', $restaurant->id)->get();
+
+
+        // dd($cartItems);
     
         foreach ($cartItems as $cartItem) {
             $orderFood = new OrderItem();
@@ -71,7 +74,7 @@ class OrderController extends Controller
             $orderFood->save();
         }
     
-        Cart::truncate();
+        Cart::where('restaurant_id', $restaurant->id)->delete();
     
         return redirect()->route('POS-CustomerOrder.detail', ['orderId' => $customerOrder->id]);
     }

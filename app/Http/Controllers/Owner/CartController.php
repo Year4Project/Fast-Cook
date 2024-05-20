@@ -33,7 +33,9 @@ class CartController extends Controller
         }
 
         $data['restaurant'] = $foods->get();
-        $data['addToCart'] = $user->restaurant->cart()->get();
+
+        $data['addToCart'] = Cart::getItem();
+
         $data['categories'] = $user->restaurant->category()->get();
         $data['header_title'] = 'List Food';
 
@@ -48,25 +50,19 @@ class CartController extends Controller
 
         // Check if the item already exists in the cart
         $existingItem = Cart::where('restaurant_id', $restaurant)
-            ->where('name', $request->name)
+            ->where('food_id', $request->food_id)
             ->first();
 
         if ($existingItem) {
             // If item exists, update its quantity
             $existingItem->quantity += $request->quantity;
-            $existingItem->total = $existingItem->price * $existingItem->quantity;
             $existingItem->save();
         } else {
             // If item doesn't exist, create a new cart item
             $addItem = new Cart();
             $addItem->restaurant_id = $restaurant;
-            $addItem->name = $request->name;
-            $addItem->price = $request->price;
-            $addItem->image_url = $request->image_url;
             $addItem->food_id = $request->food_id;
             $addItem->quantity = $request->quantity;
-            $addItem->description = $request->description;
-            $addItem->total = $request->price * $request->quantity;
             $addItem->save();
         }
 
@@ -93,7 +89,6 @@ class CartController extends Controller
             }
 
             $cartItem->quantity = $newQuantity;
-            $cartItem->total = $cartItem->price * $newQuantity;
             $cartItem->save();
 
             return back()->with('success', 'Cart item quantity updated successfully.');

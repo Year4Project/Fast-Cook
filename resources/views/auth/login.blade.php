@@ -53,12 +53,16 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        <div class="form-group">
-                                            <input type="password" required name="password" class="form-control form-control-user" placeholder="Password">
+                                        <div class="form-group position-relative">
+                                            <input type="password" required name="password" class="form-control form-control-user" placeholder="Password" id="password">
+                                            <span class="toggle-password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"><i class="fa fa-eye"></i></span>
                                             @error('password')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
+                                        
+                                        
+                                        
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" id="customCheck" name="remember" {{ old('remember') ? 'checked' : '' }}>
@@ -113,6 +117,20 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('admin/js/demo/chart-pie-demo.js') }}"></script>
+
+    <script>
+        $(".toggle-password").click(function() {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var passwordField = $("#password");
+            var passwordFieldType = passwordField.attr("type");
+            if (passwordFieldType === "password") {
+                passwordField.attr("type", "text");
+            } else {
+                passwordField.attr("type", "password");
+            }
+        });
+    </script>
+    
 
 </body>
 </html>

@@ -108,8 +108,8 @@
                                 @foreach ($addToCart as $addToCartItem)
                                     <tr>
                                         {{-- <td>{{ $addToCartItem->food_id }}</td> --}}
-                                        <td>{{ $addToCartItem->name }}</td>
-                                        <td class="text-center">${{ $addToCartItem->price }}</td>
+                                        <td>{{ $addToCartItem->food->name }}</td>
+                                        <td class="text-center">${{ $addToCartItem->food->price }}</td>
 
                                         <td class="text-center">
                                             <div class="input-group align-center justify-content-center">
@@ -143,13 +143,16 @@
 
 
 
-                                        <td class="text-center">${{ $addToCartItem->price * $addToCartItem->quantity }}
+                                        <td class="text-center">
+                                            ${{ $addToCartItem->food->price * $addToCartItem->quantity }}
                                         </td>
                                         <td>
-                                            <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="deleteConfirmation('{{ route('cart.delete', $addToCartItem->id) }}')"><i class="fas fa-trash-alt"></i></a>
+                                            <a class="btn btn-danger btn-sm"
+                                                href="{{ route('cart.delete', $addToCartItem->id) }}"><i
+                                                    class="fas fa-trash-alt"></i></a>
                                         </td>
                                     </tr>
-                                    @php $totalPrice += $addToCartItem->price * $addToCartItem->quantity; @endphp
+                                    @php $totalPrice += $addToCartItem->food->price * $addToCartItem->quantity; @endphp
                                 @endforeach
 
 
@@ -294,60 +297,46 @@
             }
 
             function calculateChange() {
-                // Get payment value
-                let payment = parseFloat(document.getElementById('payment').value);
+        // Get total amount in KHR
+        var totalAmountKHR = parseFloat(document.getElementById("total-khr").textContent.replace(/[^0-9.-]+/g,""));
 
-                // Get currency selection
-                let currency = document.getElementById('currency-selector').value;
+        // Get total amount in USD
+        var totalAmountUSD = parseFloat(document.getElementById("total-usd").textContent.replace(/[^0-9.-]+/g,""));
 
-                // Get total price in USD
-                let totalPriceUSD = parseFloat('{{ $totalPrice }}');
+        // Get payment amount
+        var paymentAmount = parseFloat(document.getElementById("payment").value);
 
-                // Calculate change in KHR and USD
-                let remainingTotalKHR = parseFloat(document.getElementById('total-khr').innerText.slice(1));
-                let remainingTotalUSD = parseFloat(document.getElementById('total-usd').innerText.slice(1));
+        // Get selected currency
+        var currency = document.getElementById("currency-selector").value;
 
-                let changeKHR = currency === 'USD' ? payment - remainingTotalKHR * 4100 : payment - remainingTotalKHR;
-                let changeUSD = currency === 'KHR' ? payment - remainingTotalUSD / 4100 : payment - remainingTotalUSD;
+        // Define exchange rates (1 USD = 4100 KHR)
+        var exchangeRateKHR = 4100;
 
-                // Update change labels
-                document.getElementById('change-khr').innerText = 'KHR: ' + (changeKHR / 4100).toFixed(2);
-                document.getElementById('change-usd').innerText = 'USD: ' + changeUSD.toFixed(2);
-            }
+        // Calculate total amount based on selected currency
+        var totalAmount = (currency === "KHR") ? totalAmountKHR : totalAmountUSD;
 
-            window.addEventListener('show-delete-confirmation', event => {
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Livewire.emit('delteConfirmation')
-                    }
-                });
-            })
+        // Calculate remaining amount
+        var remainingAmount = totalAmount - paymentAmount;
 
-            // Swal.fire({
-            //     title: "Are you sure?",
-            //     text: "You won't be able to revert this!",
-            //     icon: "warning",
-            //     showCancelButton: true,
-            //     confirmButtonColor: "#3085d6",
-            //     cancelButtonColor: "#d33",
-            //     confirmButtonText: "Yes, delete it!"
-            // }).then((result) => {
-            //     if (result.isConfirmed) {
-            //         Swal.fire({
-            //             title: "Deleted!",
-            //             text: "Your file has been deleted.",
-            //             icon: "success"
-            //         });
-            //     }
-            // });
+        // Calculate change
+        var changeKHR = 0;
+        var changeUSD = 0;
+
+        if (currency === "KHR") {
+            // Calculate change in KHR
+            changeKHR = remainingAmount;
+            changeUSD = remainingAmount / exchangeRateKHR;
+        } else if (currency === "USD") {
+            // Calculate change in USD
+            changeUSD = remainingAmount;
+            changeKHR = remainingAmount * exchangeRateKHR;
+        }
+
+        // Display change
+        document.getElementById("change-khr").textContent = "KHR: " + changeKHR.toFixed(2);
+        document.getElementById("change-usd").textContent = "USD: " + changeUSD.toFixed(2);
+    }
+            
         </script>
     </div>
 @endsection
