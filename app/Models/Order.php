@@ -11,11 +11,18 @@ class Order extends Model
 {
     use HasFactory;
     protected $table = 'orders';
-    protected $fillable = ['user_id', 'restaurant_id', 'items', 'table_no', 'remark', 'total_quantity','ordernumber'];
+    protected $fillable = [
+        'user_id', 'ordernumber', 'restaurant_id', 'items', 'table_no', 'remark', 'total_quantity', 'payment_method_id'
+    ];
 
     protected $casts = [
         'items' => 'json',
     ];
+
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
 
 
     // Relationship order has many menu
