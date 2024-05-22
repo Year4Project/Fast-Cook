@@ -51,7 +51,7 @@
                                     <tr class="text-center">
                                         <td class="align-middle">{{ $item->id }}</td>
                                         <td class="align-middle">{{ $item->code }}</td>
-                                        <td><img class="rounded-circle" height="75" width="75"
+                                        <td><img class="rounded-circle align-middle" height="75" width="75"
                                                 src="{{ $item->image_url }}" alt=""></td>
                                         <td class="align-middle">{{ $item->name }}</td>
                                         <td class="align-middle">${{ $item->price }}</td>
@@ -76,7 +76,7 @@
                                                 <i class="fas fa-fw fa-edit"></i>
                                             </a>
                                             {{-- delete --}}
-                                            <a class="btn btn-md btn-circle btn-outline-danger ms-2"
+                                            <a class="btn btn-md btn-circle btn-outline-danger mt-2"
                                                 href="{{ url('owner/food/delete/' . $item->id) }}"
                                                 onclick="return confirm('Are you Sure?')">
                                                 <i class="fas fa-fw fa-trash-alt"></i>
