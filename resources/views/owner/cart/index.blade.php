@@ -3,12 +3,13 @@
 @section('title', __('order.title'))
 
 @section('content')
-    
+
     <div class="big-banner">
         <div class="container-fluid">
             <div class="row">
+
                 {{-- Ordering Items --}}
-                <div class="col-lg-8 mb-4">
+                <div class="col-lg-8 mb-2">
                     <div class="card shadow">
                         <div class="card-header">
                             <form id="searchForm" method="get" action="">
@@ -58,7 +59,8 @@
                                                 data-toggle="tooltip" data-placement="top" title="Click to add to cart">
                                                 <img src="{{ $item->image_url }}" style="height: 200px; object-fit: cover;"
                                                     class="card-img-top" alt="{{ $item->name }}">
-                                                <div class="price-overlay position-absolute top-0 start-0 bg-warning text-black p-2">
+                                                <div
+                                                    class="price-overlay position-absolute top-0 start-0 bg-warning text-black p-2">
                                                     ${{ $item->price }}
                                                 </div>
                                                 <div class="card-body">
@@ -96,14 +98,16 @@
                                         @foreach ($addToCart as $addToCartItem)
                                             <tr>
                                                 <td>{{ $addToCartItem->food->name }}</td>
-                                                <td class="text-center align-middle">${{ $addToCartItem->food->price }}</td>
+                                                <td class="text-center align-middle">${{ $addToCartItem->food->price }}
+                                                </td>
                                                 <td class="text-center align-middle">
-                                                    <div class="input-group align-center justify-content-center">
+                                                    <div class="input-group justify-content-center">
                                                         <form action="{{ route('cart.update') }}" method="post"
                                                             id="updateQuantityForm{{ $addToCartItem->id }}"
                                                             class="d-flex align-items-center">
                                                             @csrf
-                                                            <input type="hidden" name="cart_item_id" value="{{ $addToCartItem->id }}">
+                                                            <input type="hidden" name="cart_item_id"
+                                                                value="{{ $addToCartItem->id }}">
                                                             <button class="btn btn-sm btn-secondary quantity-btn"
                                                                 type="button"
                                                                 onclick="updateQuantity({{ $addToCartItem->id }}, -1)">
@@ -137,7 +141,7 @@
                                 </table>
                             </div>
                             <hr>
-                            <form method="post" action="{{ route('order.checkout') }}">
+                            <form method="post" action="{{ route('order.checkout') }}" onsubmit="refreshPage()">
                                 @csrf
 
                                 @if ($errors->any())
@@ -154,42 +158,62 @@
                                     <!-- Total KHR and USD -->
                                     <div class="row">
                                         <div class="col-6">
-                                            <label for="">Total KHR:</label>
-                                            <label class="text-danger font-weight-bold" for="" name="total"
-                                                id="total-khr">{{ number_format($totalPrice * 4100) }} ៛</label>
+                                            <label>Total KHR:</label>
+                                            <span class="text-danger font-weight-bold" id="total-khr"
+                                                style="font-size: 22px">
+                                                {{ number_format($totalPrice * 4100) }} ៛
+                                            </span>
                                         </div>
                                         <div class="col-6">
-                                            <label for="">Total USD:</label>
-                                            <label class="text-danger font-weight-bold" for="" name="total"
-                                                id="total-usd">$ {{ $totalPrice }}</label>
+                                            <label>Total USD:</label>
+                                            <span class="text-danger font-weight-bold" id="total-usd"
+                                                style="font-size: 22px">
+                                                ${{ $totalPrice }}
+                                            </span>
                                             <input type="hidden" name="total" value="{{ $totalPrice }}">
                                         </div>
                                     </div>
 
                                     <!-- Payment Method -->
-                                    <div class="row my-3">
+                                    <div class="row">
                                         <div class="col-6 text-center">
-                                            <input type="checkbox" id="payment_method_credit_card" name="payment_method[]" value="credit_card">
+                                            <input type="checkbox" id="payment_method_credit_card"
+                                                name="payment_method[]" value="credit_card"
+                                                style="width: 15px;
+                                            height: 15px;
+                                            transform: scale(1.5);
+                                            margin: 10px;">
                                             <label for="payment_method_credit_card">Credit Card</label>
-                                            <img src="{{ asset('admin/img/credit-card.png') }}" alt="" style="width: 50px; height: 50px;" onclick="toggleCheckbox('payment_method_credit_card', 'payment_method_cash')">
+                                            <img src="{{ asset('admin/img/credit-card.png') }}" alt="Credit Card"
+                                                style="width: 40px; height: 40px;"
+                                                onclick="toggleCheckbox('payment_method_credit_card', 'payment_method_cash')">
                                         </div>
                                         <div class="col-6 text-center">
-                                            <input type="checkbox" id="payment_method_cash" name="payment_method[]" value="cash">
+                                            <input type="checkbox" id="payment_method_cash" name="payment_method[]"
+                                                value="cash"
+                                                style="width: 15px;
+                                                height: 15px;
+                                                transform: scale(1.5);
+                                                margin: 10px;">
                                             <label for="payment_method_cash">Cash</label>
-                                            <img src="{{ asset('admin/img/money.png') }}" alt="" style="width: 50px; height: 50px;" onclick="toggleCheckbox('payment_method_cash', 'payment_method_credit_card')">
+                                            <img src="{{ asset('admin/img/money.png') }}" alt="Cash"
+                                                style="width: 50px; height: 50px;"
+                                                onclick="toggleCheckbox('payment_method_cash', 'payment_method_credit_card')">
                                         </div>
                                     </div>
 
                                     <!-- Payment -->
                                     <div class="row mb-3">
-                                        <div class="col-4">
-                                            <label for="">Payment:</label>
+                                        <div class="col-3">
+                                            <label for="payment">Payment:</label>
+                                        </div>
+                                        <div class="col-5">
+                                            <input class="form-control" type="text" name="payment_amount"
+                                                id="payment" oninput="calculateChange()">
                                         </div>
                                         <div class="col-4">
-                                            <input class="form-control" type="number" name="payment_amount" id="payment" oninput="calculateChange()">
-                                        </div>
-                                        <div class="col-4">
-                                            <select class="form-control" name="currency" id="currency-selector" onchange="calculateChange()">
+                                            <select class="form-control text-center" name="currency"
+                                                id="currency-selector" onchange="calculateChange()">
                                                 <option value="KHR">KHR</option>
                                                 <option value="USD">USD</option>
                                             </select>
@@ -199,24 +223,26 @@
                                     <!-- Change -->
                                     <div class="row mb-3">
                                         <div class="col-6">
-                                            <label for="">Change KHR:</label>
-                                            <label id="change-khr"></label>
+                                            <label for="change-khr">Change KHR:</label>
+                                            <span class="font-weight-bold" id="change-khr"
+                                                style="font-size: 20px"></span>
                                         </div>
                                         <div class="col-6">
-                                            <label for="">Change USD:</label>
-                                            <label id="change-usd"></label>
+                                            <label for="change-usd">Change USD:</label>
+                                            <span class="font-weight-bold" id="change-usd"
+                                                style="font-size: 20px"></span>
                                         </div>
                                     </div>
 
                                     <!-- Customer Information -->
                                     <div class="row mb-3">
                                         <div class="col-6">
-                                            <label for="">Customer Name</label>
-                                            <input class="form-control" type="text" name="name" id="">
+                                            <label for="name">Customer Name</label>
+                                            <input class="form-control" type="text" name="name" id="name">
                                         </div>
                                         <div class="col-6">
-                                            <label for="">Customer Phone</label>
-                                            <input class="form-control" type="text" name="phone" id="">
+                                            <label for="phone">Customer Phone</label>
+                                            <input class="form-control" type="text" name="phone" id="phone">
                                         </div>
                                     </div>
 
@@ -226,13 +252,15 @@
                                             <button type="submit" class="btn btn-success btn-block">Place Order</button>
                                         </div>
                                         <div class="col-6">
-                                            <a class="btn btn-danger btn-block" href="{{ route('cart.clear') }}">Reset</a>
+                                            <a class="btn btn-danger btn-block"
+                                                href="{{ route('cart.clear') }}">Reset</a>
                                         </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
+
                 </div>
 
                 <script>
@@ -257,7 +285,7 @@
                         var currency = document.getElementById("currency-selector").value;
                         var exchangeRateKHR = 4100;
                         var totalAmount = (currency === "KHR") ? totalAmountKHR : totalAmountUSD;
-                        var remainingAmount = totalAmount - paymentAmount;
+                        var remainingAmount = paymentAmount - totalAmount;
                         var changeKHR = 0;
                         var changeUSD = 0;
 
@@ -269,8 +297,20 @@
                             changeKHR = remainingAmount * exchangeRateKHR;
                         }
 
-                        document.getElementById("change-khr").textContent = "KHR: " + changeKHR.toFixed(2);
-                        document.getElementById("change-usd").textContent = "USD: " + changeUSD.toFixed(2);
+                        var changeKHRDisplay = document.getElementById("change-khr");
+                        var changeUSDDisplay = document.getElementById("change-usd");
+
+                        changeKHRDisplay.textContent = changeKHR.toFixed(2);
+                        changeUSDDisplay.textContent = changeUSD.toFixed(2);
+
+                        // Check if payment amount is less than total amount
+                        if (paymentAmount < totalAmount) {
+                            changeKHRDisplay.style.color = "orange";
+                            changeUSDDisplay.style.color = "orange";
+                        } else {
+                            changeKHRDisplay.style.color = "black";
+                            changeUSDDisplay.style.color = "black";
+                        }
                     }
 
                     function toggleCheckbox(checkboxId, otherCheckboxId) {
@@ -279,6 +319,11 @@
 
                         checkbox.checked = !checkbox.checked;
                         otherCheckbox.checked = false;
+                    }
+
+                    function refreshPage() {
+                        // This function will refresh the page
+                        location.reload();
                     }
                 </script>
             </div>
