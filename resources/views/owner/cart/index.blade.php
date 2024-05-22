@@ -186,7 +186,7 @@
                                             <label for="">Payment:</label>
                                         </div>
                                         <div class="col-4">
-                                            <input class="form-control" type="number" name="payment" id="payment" oninput="calculateChange()">
+                                            <input class="form-control" type="number" name="payment_amount" id="payment" oninput="calculateChange()">
                                         </div>
                                         <div class="col-4">
                                             <select class="form-control" name="currency" id="currency-selector" onchange="calculateChange()">
