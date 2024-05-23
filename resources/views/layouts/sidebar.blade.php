@@ -1,5 +1,5 @@
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
+{{-- <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar"> --}}
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion @if (Request::is('owner/cart/index')) toggled @endif" id="accordionSidebar">
 
     @if (Auth::user()->user_type == 1)
         <!-- Sidebar - Brand -->
@@ -180,3 +180,14 @@
     </button>
 
 </ul>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var currentUrl = window.location.pathname;
+        var sidebar = document.getElementById('accordionSidebar');
+
+        if (currentUrl.includes('owner/cart/index')) { // Adjust the URL path as needed
+            sidebar.classList.add('toggled');
+        }
+    });
+</script>
