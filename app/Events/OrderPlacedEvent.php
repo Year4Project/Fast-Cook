@@ -15,10 +15,10 @@ class OrderPlacedEvent implements ShouldBroadcast
     public $order;
     public $restaurantId;
 
-    public function __construct(Order $order, $restaurantId)
+    public function __construct(Order $order)
     {
         $this->order = $order;
-        $this->restaurantId = $restaurantId;
+        $this->restaurantId = $order->restaurant_id;
 
         // Load the 'user' relationship if not already loaded
         if (!$this->order->relationLoaded('user')) {
@@ -28,24 +28,18 @@ class OrderPlacedEvent implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('restaurant-channel');
+        return new Channel('restaurant.' . $this->restaurantId);
     }
 
     public function broadcastWith()
     {
-        // Check if the order belongs to the specified restaurant
-        if ($this->order->restaurant_id == $this->restaurantId) {
-            // Get the user information
-            $user = $this->order->user;
-            
-            // Broadcasting data
-            return [
-                'order' => $this->order,
-                'user' => $user,
-            ];
-        } else {
-            // If the order doesn't belong to the specified restaurant, return an empty array to prevent broadcasting
-            return [];
-        }
+        // Get the user information
+        $user = $this->order->user;
+
+        // Broadcasting data
+        return [
+            'order' => $this->order,
+            'user' => $user,
+        ];
     }
 }

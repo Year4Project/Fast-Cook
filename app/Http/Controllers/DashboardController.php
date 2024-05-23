@@ -14,14 +14,15 @@ use App\Models\Staff;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
 
-    
+
     public function dashboard()
     {
-        
+
         $data['header_title'] = 'Dashboard';
 
         if (Auth::user()->user_type == 1) {
@@ -32,14 +33,30 @@ class DashboardController extends Controller
 
             return view('admin.dashboard', $data);
 
+            // else if go to user type 2 for restaurants owner
         } else if (Auth::user()->user_type == 2) {
-            $data['header_title'] = 'User Order Food';
+            $data['header_title'] = 'Dashboard';
             $data['getOrder'] = Order::where('restaurant_id', Auth::user()->restaurant->id)->count();
             $data['getFood'] = Food::where('restaurant_id', Auth::user()->restaurant->id)->count();
+
+            $data['acceptedOrderCount'] = Order::where('restaurant_id', Auth::user()->restaurant->id)
+                ->where('status', 'accepted')
+                ->count();
+
+            $data['pendingOrderCount'] = Order::where('restaurant_id', Auth::user()->restaurant->id)
+                ->where('status', 'pending')
+                ->count();
+            $data['rejectedOrderCount'] = Order::where('restaurant_id', Auth::user()->restaurant->id)
+                ->where('status', 'rejected')
+                ->count();
+
+
+
             $data['getStaff'] = Staff::getStaff()->count();
             $data['getTables'] = Scen::where('restaurant_id', Auth::user()->restaurant->id)->count();
             $data['getCategory'] = Category::where('restaurant_id', Auth::user()->restaurant->id)->count();
             $data['alerts'] = Alert::latest()->get();
+            
             $data['payment'] = Payment::countPaymentsByCurrency();
             // $data['getTotalSales'] = CustomerOrder::where('restaurant_id', Auth::user()->restaurant->id);
             // $data['getTotalSales'] = CustomerOrder::sum('total');

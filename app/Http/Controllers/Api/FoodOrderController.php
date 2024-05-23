@@ -240,5 +240,33 @@ class FoodOrderController extends Controller
             'data' => $responseData,
         ], 201);
     }
-    
+
+    public function updateStatus(Request $request, $orderId)
+    {
+        $order = Order::find($orderId);
+
+        if (!$order) {
+            return response()->json(['success' => false, 'message' => 'Order not found.'], 404);
+        }
+
+        $status = $request->input('status');
+
+        if (!in_array($status, ['accepted', 'rejected'])) {
+            return response()->json(['success' => false, 'message' => 'Invalid status.'], 400);
+        }
+
+        $order->status = $status;
+        $order->save();
+
+        return response()->json(['success' => true, 'message' => 'Order status updated.']);
+    }
+
+    public function updateOrderStatus($orderId, $status)
+    {
+        $order = Order::findOrFail($orderId);
+        $order->status = $status;
+        $order->save();
+
+        return response()->json(['success' => true, 'message' => 'Order status updated successfully.']);
+    }
 }

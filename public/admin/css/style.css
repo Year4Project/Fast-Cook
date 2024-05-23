@@ -135,6 +135,22 @@ header .shopping span{
     height: auto;
 }
 
-.custom-checkbox {
-    
+/* Add these styles in your CSS file */
+.btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
 }
+
+.btn-warning {
+    color: #212529;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+

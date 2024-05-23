@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.css" />
 
-  
+
     <!-- Include toastr CSS -->
 
     <link rel="stylesheet" type="text/css"
@@ -47,49 +47,154 @@
     <script>
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
-    
+
         // Initialize Pusher with your app key and cluster
         var pusher = new Pusher('234577bd0d1513d54647', {
-            cluster: 'ap2'
+            cluster: 'ap2',
+            authEndpoint: '/broadcasting/auth', // Ensure this endpoint is set up in your Laravel app
+            auth: {
+                headers: {
+                    'X-CSRF-Token': '{{ csrf_token() }}'
+                }
+            }
         });
-    
-        // Subscribe to the 'restaurant-channel' channel
-        var channel = pusher.subscribe('restaurant-channel');
-    
+
+        // Assuming you have a way to get the restaurant ID for the current restaurant
+        var restaurantId = {{ Auth::user()->restaurant->id }};
+
+        // Subscribe to the specific restaurant's channel
+        var channel = pusher.subscribe('restaurant.' + restaurantId);
+
         // Bind to the 'App\\Events\\OrderPlacedEvent' event
         channel.bind('App\\Events\\OrderPlacedEvent', function(data) {
             // Generate the URL for the sound file
             var soundPath = "{{ asset('sounds/sweet_girl.mp3') }}";
-    
+
             // Extract order information from the event data
             var orderId = data.order.id;
             var userName = data.user.first_name + ' ' + data.user.last_name;
             var tableNo = data.order.table_no;
-    
+
+            // Create toast content with Accept and Not Accept buttons
+            var toastContent = `
+                <div>
+                    New order received - Order ID: ${orderId}, User: ${userName}, Table No: ${tableNo}
+                    <br>
+                    <button id="acceptButton" class="btn btn-success btn-sm" style="margin-top: 10px;">Accept</button>
+                    <button id="notAcceptButton" class="btn btn-danger btn-sm" style="margin-top: 10px;">Not Accept</button>
+                </div>
+            `;
+
             // Display a success toast with the order details and play a sound
             toastr.success(
-                'New order received - Order ID: ' + orderId + ', User: ' + userName + ', Table No: ' + tableNo, 
-                '',
-                {
-                    timeOut: 5000, // Duration before toast disappears
+                toastContent,
+                '', {
+                    timeOut: 0, // Disable auto-dismiss
                     extendedTimeOut: 0, // Time the toast remains after hovering
+                    closeButton: true,
                     onShown: function() {
                         var audio = new Audio(soundPath);
                         audio.play();
+
+                        // Add event listeners to the buttons
+                        document.getElementById('acceptButton').addEventListener('click', function() {
+                            toastr.remove();
+                            handleOrderAction(orderId, true);
+                        });
+                        document.getElementById('notAcceptButton').addEventListener('click', function() {
+                            toastr.remove();
+                            handleOrderAction(orderId, false);
+                        });
                     }
                 }
             );
-    
-            // Reload the page after 3 seconds (if the mouse is not hovering over the toast)
-            setTimeout(function() {
-                if (!$('.toast:hover').length) {
-                    window.location.reload();
-                }
-            }, 5000); // Adjust the delay as needed
         });
+
+        function handleOrderAction(orderId, isAccepted) {
+            // URL of your API endpoint for updating order status
+            var url = '/api/orders/' + orderId + '/status';
+
+            // Data to be sent in the request
+            var data = {
+                status: isAccepted ? 'accepted' : 'rejected'
+            };
+
+            // Send the request to the server
+            fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token if using Laravel
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Order ' + (isAccepted ? 'accepted' : 'not accepted') + '.');
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                    // Reload the page after handling
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 3000); // Adjust the delay as needed
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
     </script>
-    
-    
+
+<script>
+    // function updateStatus(orderId, newStatus) {
+    //     var url = '/api/orders/' + orderId + '/status';
+
+    //     var data = {
+    //         status: newStatus
+    //     };
+
+    //     fetch(url, {
+    //         method: 'PUT',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    //         },
+    //         body: JSON.stringify(data)
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if (data.success) {
+    //             toastr.success('Order status updated successfully.');
+    //             document.querySelector('#statusDropdown').innerText = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
+    //             document.querySelector('#statusDropdown').classList.remove('btn-warning', 'btn-danger', 'btn-success');
+    //             switch (newStatus) {
+    //                 case 'accepted':
+    //                     document.querySelector('#statusDropdown').classList.add('btn-success');
+    //                     break;
+    //                 case 'pending':
+    //                     document.querySelector('#statusDropdown').classList.add('btn-warning');
+    //                     break;
+    //                 case 'rejected':
+    //                     document.querySelector('#statusDropdown').classList.add('btn-danger');
+    //                     break;
+    //             }
+    //             // Reload the page after updating the status
+    //             window.location.reload();
+    //         } else {
+    //             toastr.error('Failed to update order status.');
+    //         }
+    //     })
+    //     .catch((error) => {
+    //         console.error('Error:', error);
+    //         toastr.error('An error occurred while updating order status.');
+    //     });
+    // }
+</script>
+
+
+
 </head>
 
 <body id="page-top">
@@ -137,9 +242,12 @@
     <script src="{{ asset('admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
     <script src="{{ asset('admin/js/image_preview.js') }}"></script>
+    <script src="{{ asset('admin/js/admin.js') }}"></script>
 
-       {{-- sweetalert cdn --}}
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{-- sweetalert cdn --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 
 </html>

@@ -12,14 +12,14 @@ class Order extends Model
     use HasFactory;
     protected $table = 'orders';
     protected $fillable = [
-        'user_id', 'ordernumber', 'restaurant_id', 'items', 'table_no', 'remark', 'total_quantity', 'payment_method_id'
+        'user_id', 'ordernumber', 'restaurant_id', 'items', 'table_no', 'remark', 'total_quantity', 'payment_method_id', 'status'
     ];
 
     protected $casts = [
         'items' => 'json',
     ];
 
-    public function paymentMethod()
+    public function payment_method()
     {
         return $this->belongsTo(PaymentMethod::class);
     }
@@ -64,15 +64,18 @@ class Order extends Model
     {
         // Get the authenticated user
         $user = Auth::user()->restaurant;
-
+    
         // Retrieve all orders related to this restaurant
-        $orders = Order::where('restaurant_id', $user->id)
-            ->with(['user', 'foods'])
-            ->orderBy('id', 'DESC')
-            ->paginate(10); // <-- Add pagination here
-
-        return $orders;
+        $getOrderUser = Order::where('restaurant_id', $user->id)
+        ->with(['user', 'payment_method']) // Eager load the payment_method relationship
+        ->orderBy('id', 'DESC')
+        ->paginate(10);
+    
+    
+            // dd($getOrderUser);
+        return $getOrderUser;
     }
+    
 
     public static function getOrderDetails($orderId)
     {

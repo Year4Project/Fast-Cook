@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\RestaurantController;
 use App\Http\Controllers\AlertController;
+use App\Http\Controllers\Api\FoodOrderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Owner\CartController;
@@ -58,7 +59,6 @@ Route::middleware('auth')->group(function () {
         // Route::delete('/admin/user/{userId}/delete', [RestaurantController::class, 'deleteUserAndRestaurant'])->name('admin.user.delete');
         // Route::delete('/admin/user/{userId}/delete', [RestaurantController::class, 'deleteUserAndRestaurant'])->name('users.delete');
         Route::delete('/user-restaurant/{id}', [RestaurantController::class, 'deleteUserAndRestaurant'])->name('user-restaurant.delete');
-
     });
 
 
@@ -101,21 +101,25 @@ Route::middleware('auth')->group(function () {
         Route::get('/owner/order/details/{orderId}', [OrderController::class, 'orderDetails'])->name('owner.order.details');
         // Route::get('/owner/order/edit/{id}', [OrderController::class, 'edit'])->name('EditOrder');
         Route::post('/owner/order/food', [OrderController::class, 'orderFood'])->name('owner.order.food');
-        
-
         Route::post('owner/pos/order', [OrderController::class, 'order_submit'])->name('order.checkout');
-
         Route::get('owner/cart/customerOrder/{orderId}', [OrderController::class, 'customerOrderDetail'])->name('POS-CustomerOrder.detail');
-
         Route::get('owner/print-recipe/{orderId}', [OrderController::class, 'printRecipe'])->name('pos-printRecipe');
         // Get all orders
         Route::get('/owner/order/allOrder', [OrderController::class, 'allOrder'])->name('owner.order.allOrder');
-
         // Invoice
         Route::get('/generate-invoice/{orderId}', [InvoiceController::class, 'generateInvoice'])->name('generate.invoice');
-
         Route::get('owner/order/print-recipe/{orderId}', [OrderController::class, 'printRecipeAPI'])->name('api-printRecipe');
-        
+
+        // update order status form API request
+        // routes/api.php or routes/web.php
+        Route::put('/api/orders/{order}/status', [FoodOrderController::class, 'updateStatus']);
+        // Route::get('admin/order/updateStatus/{orderId}/{status}', [FoodOrderController::class, 'updateOrderStatus'])->name('order.updateOrderStatus');
+        Route::post('admin/order/updateOrderStatus/{orderId}/{status}', [FoodOrderController::class, 'updateOrderStatus'])->name('order.updateStatus');
+
+        // Route::put('/api/orders/{orderId}/status', [FoodOrderController::class, 'updateOrderStatus']);
+
+
+
 
 
         // Staff

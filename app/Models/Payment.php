@@ -25,32 +25,41 @@ class Payment extends Model
         $user = auth()->user();
         $restaurantId = $user->restaurant->id;
 
+        // Define the fixed exchange rate
+        $exchangeRate = 4100;
+
         // Count total payments in USD
         $totalUSD = Payment::where('restaurant_id', $restaurantId)
             ->where('currency', 'USD')
             ->sum('amount');
 
-        // Convert total USD to KHR based on the fixed exchange rate
-        $totalKHRFromUSD = $totalUSD * 4100;
-
         // Count total payments in KHR
         $totalKHR = Payment::where('restaurant_id', $restaurantId)
             ->where('currency', 'KHR')
             ->sum('amount');
-        
-        // sum total USD and KHR
-        $totalAmount = $totalKHRFromUSD + $totalKHR;
+
+        // Convert total USD to KHR based on the fixed exchange rate
+        $totalKHRFromUSD = $totalUSD * $exchangeRate;
+
+        // Convert total KHR to USD based on the fixed exchange rate
+        $totalUSDFromKHR = $totalKHR / $exchangeRate;
+
+        // Sum total amounts in KHR and USD
+        $totalAmountKHR = $totalKHRFromUSD + $totalKHR;
+        $totalAmountUSD = $totalUSD + $totalUSDFromKHR;
 
         // Format amounts
-        $formattedUSD = number_format($totalUSD);
-        $formattedKHR = number_format($totalKHR);
-        $formattedTotal = number_format($totalAmount);
+        $formattedUSD = number_format($totalUSD, 2);
+        $formattedKHR = number_format($totalKHR, 2);
+        $formattedTotalKHR = number_format($totalAmountKHR, 2);
+        $formattedTotalUSD = number_format($totalAmountUSD, 2);
 
         // Return counts in an array
         return [
             'USD' => $formattedUSD,
             'KHR' => $formattedKHR,
-            'TOTAL' => $formattedTotal
+            'TOTAL_KHR' => $formattedTotalKHR,
+            'TOTAL_USD' => $formattedTotalUSD
         ];
     }
 }
