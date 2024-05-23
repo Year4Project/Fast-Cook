@@ -171,8 +171,8 @@ class FoodOrderController extends Controller
             'items.*.quantity' => 'required|integer|min:1',
             'restaurant_id' => 'required|integer|exists:restaurants,id',
             'payment_method.payment_type' => 'required|string',
-            'payment_method.account_number' => 'required|string',
-            'payment_method.type' => 'required|string',
+            'payment_method.account_number' => 'string|nullable',
+            'payment_method.type' => 'string|nullable',
             'table_no' => 'nullable|integer',
             'remark' => 'nullable|string',
         ]);

@@ -56,21 +56,6 @@
         // Subscribe to the 'restaurant-channel' channel
         var channel = pusher.subscribe('restaurant-channel');
     
-        // Bind to the 'order-event' event
-        channel.bind('order-event', function(data) {
-            // Generate the URL for the sound file
-            var soundPath = "{{ asset('sounds/sweet_girl.mp3') }}";
-    
-            // Display a success toast with the order name and play a sound
-            toastr.success(data.name + ' has ordered', '', {sound: soundPath});
-            console.log(data);
-    
-            // Reload the page after 3 seconds
-            setTimeout(function() {
-                window.location.reload();
-            }, 3000); // Adjust the delay as needed
-        });
-    
         // Bind to the 'App\\Events\\OrderPlacedEvent' event
         channel.bind('App\\Events\\OrderPlacedEvent', function(data) {
             // Generate the URL for the sound file
@@ -82,14 +67,28 @@
             var tableNo = data.order.table_no;
     
             // Display a success toast with the order details and play a sound
-            toastr.success('New order received - Order ID: ' + orderId + ', User: ' + userName + ', Table No: ' + tableNo, '', {sound: soundPath});
+            toastr.success(
+                'New order received - Order ID: ' + orderId + ', User: ' + userName + ', Table No: ' + tableNo, 
+                '',
+                {
+                    timeOut: 5000, // Duration before toast disappears
+                    extendedTimeOut: 0, // Time the toast remains after hovering
+                    onShown: function() {
+                        var audio = new Audio(soundPath);
+                        audio.play();
+                    }
+                }
+            );
     
-            // Reload the page after 3 seconds
+            // Reload the page after 3 seconds (if the mouse is not hovering over the toast)
             setTimeout(function() {
-                window.location.reload();
-            }, 3000); // Adjust the delay as needed
+                if (!$('.toast:hover').length) {
+                    window.location.reload();
+                }
+            }, 5000); // Adjust the delay as needed
         });
     </script>
+    
     
 </head>
 
