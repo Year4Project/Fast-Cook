@@ -193,10 +193,14 @@ public function downloadQrCode($scenId)
         // Log the error
         \Log::error('Error downloading QR code: ' . $e->getMessage());
         
+        // Log additional information for debugging
+        \Log::error('Scen ID: ' . $scenId);
+
         // Return a response indicating failure
         return response()->json(['error' => 'Failed to download QR code'], 500);
     }
 }
+
 
 
 
