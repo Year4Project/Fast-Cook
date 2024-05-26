@@ -61,29 +61,39 @@ public function downloadQrCode($scenId)
     try {
         // Retrieve the Scen record
         $scen = Scen::findOrFail($scenId);
-        Log::info("Scen record retrieved: ", ['scen' => $scen]);
+        Log::info("Scen record retrieved successfully.", ['scen' => $scen]);
 
         // Generate QR code
-        $qrData = json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]);
-        $qrCode = QrCode::size(200)
-            ->format('png')
-            ->errorCorrection('H')
-            ->backgroundColor(255, 255, 255) // White background color (RGB)
-            ->color(0, 0, 0) // Black QR code color (RGB)
-            ->margin(2) // Add margin for border
-            ->generate($qrData);
-        Log::info("QR code generated successfully.");
+        try {
+            $qrData = json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]);
+            $qrCode = QrCode::size(200)
+                ->format('png')
+                ->errorCorrection('H')
+                ->backgroundColor(255, 255, 255) // White background color (RGB)
+                ->color(0, 0, 0) // Black QR code color (RGB)
+                ->margin(2) // Add margin for border
+                ->generate($qrData);
+            Log::info("QR code generated successfully.");
+        } catch (\Exception $e) {
+            Log::error("Error generating QR code.", ['exception' => $e]);
+            return response()->json(['error' => 'Error generating QR code.'], 500);
+        }
 
         // Set the image name with table number
         $imageName = 'qrcode_table_' . $scen->table_no . '.png';
 
         // Save QR code to storage
-        Storage::disk('public')->put($imageName, $qrCode);
-        Log::info("QR code saved to storage.", ['imageName' => $imageName]);
+        try {
+            Storage::disk('public')->put($imageName, $qrCode);
+            Log::info("QR code saved to storage.", ['imageName' => $imageName]);
+        } catch (\Exception $e) {
+            Log::error("Error saving QR code to storage.", ['exception' => $e]);
+            return response()->json(['error' => 'Error saving QR code to storage.'], 500);
+        }
 
         // Check if the file exists
         if (!Storage::disk('public')->exists($imageName)) {
-            Log::error("Failed to save QR code image.");
+            Log::error("QR code image does not exist after saving.", ['imageName' => $imageName]);
             return response()->json(['error' => 'Failed to save QR code image.'], 500);
         }
 
