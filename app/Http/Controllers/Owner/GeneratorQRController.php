@@ -65,7 +65,13 @@ public function downloadQrCode($scenId)
 
         // Generate QR code
         try {
-            $qrData = json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]);
+            $qrData = json_encode([
+                'restaurant_id' => $scen->restaurant_id,
+                'table_no' => $scen->table_no
+            ]);
+            Log::info("QR data to be encoded: " . $qrData);
+
+            // Generate QR code
             $qrCode = QrCode::size(200)
                 ->format('png')
                 ->errorCorrection('H')
@@ -73,6 +79,7 @@ public function downloadQrCode($scenId)
                 ->color(0, 0, 0)
                 ->margin(2)
                 ->generate($qrData);
+
             Log::info("QR code generated successfully.");
         } catch (\Exception $e) {
             Log::error("Error generating QR code.", ['exception' => $e]);
@@ -109,7 +116,7 @@ public function downloadQrCode($scenId)
 
         // Set headers for the download
         $headers = [
-            'Content-Type' => 'image/png', // Set the content type to PNG
+            'Content-Type' => 'image/png',
         ];
 
         // Return the file as a download response
@@ -119,6 +126,7 @@ public function downloadQrCode($scenId)
         return response()->json(['error' => 'An error occurred while generating the QR code.'], 500);
     }
 }
+
 
 
 
