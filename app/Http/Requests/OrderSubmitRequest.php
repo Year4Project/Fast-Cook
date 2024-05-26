@@ -17,10 +17,10 @@ class OrderSubmitRequest extends FormRequest
             // 'name' => 'required|string|max:255', 
             // 'phone' => 'required|string|max:20',
             'total' => 'required|numeric|min:0',
-            'payment_amount' => 'required|numeric|min:0',
-            'currency' => 'required|string|in:KHR,USD',
-            'payment_method' => 'required|array',
-            'payment_method.*' => 'required|string|in:credit_card,debit_card,cash',
+            // 'payment_amount' => 'required|numeric|min:0',
+            // 'currency' => 'required|string|in:KHR,USD',
+            // 'payment_method' => 'required|array',
+            // 'payment_method.*' => 'required|string|in:credit_card,debit_card,cash',
         ];
     }
 }

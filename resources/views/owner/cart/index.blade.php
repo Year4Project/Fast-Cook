@@ -154,18 +154,20 @@
                                     </div>
                                 @endif
 
+                                
                                 <div class="d-grid gap-2">
                                     <!-- Total KHR and USD -->
+                                    
                                     <div class="row">
-                                        <div class="col-6">
-                                            <label>Total KHR:</label>
+                                        <div class="col-6 text-center">
+                                            <label class="font-weight-bold">Total KHR:</label>
                                             <span class="text-danger font-weight-bold" id="total-khr"
                                                 style="font-size: 22px">
                                                 {{ number_format($totalPrice * 4100) }} ៛
                                             </span>
                                         </div>
-                                        <div class="col-6">
-                                            <label>Total USD:</label>
+                                        <div class="col-6 text-center">
+                                            <label class="font-weight-bold">Total USD:</label>
                                             <span class="text-danger font-weight-bold" id="total-usd"
                                                 style="font-size: 22px">
                                                 ${{ $totalPrice }}
@@ -175,7 +177,7 @@
                                     </div>
 
                                     <!-- Payment Method -->
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-6 text-center">
                                             <input type="checkbox" id="payment_method_credit_card"
                                                 name="payment_method[]" value="credit_card"
@@ -200,10 +202,10 @@
                                                 style="width: 50px; height: 50px;"
                                                 onclick="toggleCheckbox('payment_method_cash', 'payment_method_credit_card')">
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <!-- Payment -->
-                                    <div class="row mb-3">
+                                    {{-- <div class="row mb-3">
                                         <div class="col-3">
                                             <label for="payment">Payment:</label>
                                         </div>
@@ -218,10 +220,10 @@
                                                 <option value="USD">USD</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <!-- Change -->
-                                    <div class="row mb-3">
+                                    {{-- <div class="row mb-3">
                                         <div class="col-6">
                                             <label for="change-khr">Change KHR:</label>
                                             <span class="font-weight-bold" id="change-khr"
@@ -232,10 +234,10 @@
                                             <span class="font-weight-bold" id="change-usd"
                                                 style="font-size: 20px"></span>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <!-- Customer Information -->
-                                    <div class="row mb-3">
+                                    {{-- <div class="row mb-3">
                                         <div class="col-6">
                                             <label for="name">Customer Name</label>
                                             <input class="form-control" type="text" name="name" id="name">
@@ -244,9 +246,11 @@
                                             <label for="phone">Customer Phone</label>
                                             <input class="form-control" type="text" name="phone" id="phone">
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <!-- Buttons -->
+                            <hr>
+
                                     <div class="row">
                                         <div class="col-6">
                                             <button type="submit" class="btn btn-success btn-block">Place Order</button>

@@ -55,9 +55,9 @@ class OrderController extends Controller
         $payment = new Payment();
         $payment->restaurant_id = $restaurant->id;
         $payment->customer_order_id = $customerOrder->id;
-        $payment->amount = $request->input('payment_amount');
-        $payment->currency = $request->input('currency');
-        $payment->payment_method = implode(',', $request->input('payment_method')); // Combine selected payment methods into a string
+        // $payment->amount = $request->input('payment_amount');
+        // $payment->currency = $request->input('currency');
+        // $payment->payment_method = implode(',', $request->input('payment_method')); // Combine selected payment methods into a string
         $payment->save();
     
         $cartItems = Cart::where('restaurant_id', $restaurant->id)->get();

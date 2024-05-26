@@ -45,86 +45,71 @@
     <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
 
     <script>
-        // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
-
-        // Initialize Pusher with your app key and cluster
-        var pusher = new Pusher('234577bd0d1513d54647', {
-            cluster: 'ap2',
-            authEndpoint: '/broadcasting/auth', // Ensure this endpoint is set up in your Laravel app
-            auth: {
-                headers: {
-                    'X-CSRF-Token': '{{ csrf_token() }}'
-                }
-            }
-        });
-
-        // Assuming you have a way to get the restaurant ID for the current restaurant
-        var restaurantId = {{ Auth::user()->restaurant->id }};
-
-        // Subscribe to the specific restaurant's channel
-        var channel = pusher.subscribe('restaurant.' + restaurantId);
-
-        // Bind to the 'App\\Events\\OrderPlacedEvent' event
-        channel.bind('App\\Events\\OrderPlacedEvent', function(data) {
-            // Generate the URL for the sound file
-            var soundPath = "{{ asset('sounds/sweet_girl.mp3') }}";
-
-            // Extract order information from the event data
-            var orderId = data.order.id;
-            var userName = data.user.first_name + ' ' + data.user.last_name;
-            var tableNo = data.order.table_no;
-
-            // Create toast content with Accept and Not Accept buttons
-            var toastContent = `
-                <div>
-                    New order received - Order ID: ${orderId}, User: ${userName}, Table No: ${tableNo}
-                    <br>
-                    <button id="acceptButton" class="btn btn-success btn-sm" style="margin-top: 10px;">Accept</button>
-                    <button id="notAcceptButton" class="btn btn-danger btn-sm" style="margin-top: 10px;">Not Accept</button>
-                </div>
-            `;
-
-            // Display a success toast with the order details and play a sound
-            toastr.success(
-                toastContent,
-                '', {
-                    timeOut: 0, // Disable auto-dismiss
-                    extendedTimeOut: 0, // Time the toast remains after hovering
-                    closeButton: true,
-                    onShown: function() {
-                        var audio = new Audio(soundPath);
-                        audio.play();
-
-                        // Add event listeners to the buttons
-                        document.getElementById('acceptButton').addEventListener('click', function() {
-                            toastr.remove();
-                            handleOrderAction(orderId, true);
-                        });
-                        document.getElementById('notAcceptButton').addEventListener('click', function() {
-                            toastr.remove();
-                            handleOrderAction(orderId, false);
-                        });
+        @if (Auth::check() && Auth::user()->restaurant)
+            var restaurantId = {{ Auth::user()->restaurant->id }};
+            // Initialize Pusher and subscribe to the restaurant channel
+            var pusher = new Pusher('234577bd0d1513d54647', {
+                cluster: 'ap2',
+                authEndpoint: '/broadcasting/auth',
+                auth: {
+                    headers: {
+                        'X-CSRF-Token': '{{ csrf_token() }}'
                     }
                 }
-            );
-        });
-
-        function handleOrderAction(orderId, isAccepted) {
-            // URL of your API endpoint for updating order status
-            var url = '/api/orders/' + orderId + '/status';
-
-            // Data to be sent in the request
-            var data = {
-                status: isAccepted ? 'accepted' : 'rejected'
-            };
-
-            // Send the request to the server
-            fetch(url, {
+            });
+    
+            var channel = pusher.subscribe('restaurant.' + restaurantId);
+    
+            // Bind to the 'App\\Events\\OrderPlacedEvent' event
+            channel.bind('App\\Events\\OrderPlacedEvent', function(data) {
+                var soundPath = "{{ asset('sounds/sweet_girl.mp3') }}";
+                var orderId = data.order.id;
+                var userName = data.user.first_name + ' ' + data.user.last_name;
+                var tableNo = data.order.table_no;
+    
+                var toastContent = `
+                    <div>
+                        New order received - Order ID: ${orderId}, User: ${userName}, Table No: ${tableNo}
+                        <br>
+                        <button id="acceptButton" class="btn btn-success btn-sm" style="margin-top: 10px;">Accept</button>
+                        <button id="notAcceptButton" class="btn btn-danger btn-sm" style="margin-top: 10px;">Not Accept</button>
+                    </div>
+                `;
+    
+                toastr.success(
+                    toastContent,
+                    '', {
+                        timeOut: 0,
+                        extendedTimeOut: 0,
+                        closeButton: true,
+                        onShown: function() {
+                            var audio = new Audio(soundPath);
+                            audio.play();
+    
+                            document.getElementById('acceptButton').addEventListener('click', function() {
+                                toastr.remove();
+                                handleOrderAction(orderId, true);
+                            });
+                            document.getElementById('notAcceptButton').addEventListener('click', function() {
+                                toastr.remove();
+                                handleOrderAction(orderId, false);
+                            });
+                        }
+                    }
+                );
+            });
+    
+            function handleOrderAction(orderId, isAccepted) {
+                var url = '/api/orders/' + orderId + '/status';
+                var data = {
+                    status: isAccepted ? 'accepted' : 'rejected'
+                };
+    
+                fetch(url, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token if using Laravel
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     body: JSON.stringify(data)
                 })
@@ -135,19 +120,21 @@
                     } else {
                         alert('Error: ' + data.message);
                     }
-                    // Reload the page after handling
                     setTimeout(function() {
                         window.location.reload();
-                    }, 3000); // Adjust the delay as needed
+                    }, 3000);
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                 });
-        }
-
+            }
+        @else
+            console.error('User is not authenticated or has no associated restaurant.');
+        @endif
     </script>
+    
 
-<script>
+{{-- <script>
     // function updateStatus(orderId, newStatus) {
     //     var url = '/api/orders/' + orderId + '/status';
 
@@ -191,7 +178,7 @@
     //         toastr.error('An error occurred while updating order status.');
     //     });
     // }
-</script>
+</script> --}}
 
 
 

@@ -101,7 +101,7 @@
                             <div class="row">
                                 <div class="col-6 text-end">
                                     <h4>Total:</h4>
-                                    <h4>Payment:</h4>
+                                    {{-- <h4>Payment:</h4> --}}
                                     <h4>Print:</h4>
 
                                 </div>
@@ -124,9 +124,9 @@
 
                                 <div class="col-6">
                                     <h4>$ {{ number_format($totalSubtotal, 2) }}</h4>
-                                    <h4>
+                                    {{-- <h4>
                                         {{ $amount }}{{ $currency === 'USD' ? '$ ' : ' ៛' }}
-                                    </h4>
+                                    </h4> --}}
                                     <a class="btn btn-md btn-outline-success"
                                         href="{{ route('pos-printRecipe', ['orderId' => $getCustomerOrder->id]) }}">
                                         <i class="fas fa-print"></i>
