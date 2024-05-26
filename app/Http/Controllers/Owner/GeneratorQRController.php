@@ -77,7 +77,17 @@ public function downloadQrCode($scenId)
     // Save QR code to storage
     Storage::disk('public')->put($imageName, $qrCode);
 
+    // Check if the file exists
+    if (!Storage::disk('public')->exists($imageName)) {
+        return response()->json(['error' => 'Failed to save QR code image.'], 500);
+    }
+
     $path = Storage::disk('public')->path($imageName); // Get the full path to the image
+
+    // Check if the path is correct
+    if (!file_exists($path)) {
+        return response()->json(['error' => 'QR code image not found on the server.'], 500);
+    }
 
     // Set headers for the download
     $headers = [
@@ -85,8 +95,9 @@ public function downloadQrCode($scenId)
     ];
 
     // Return the file as a download response
-    return response()->download($path, $imageName, $headers)->deleteFileAfterSend();
+    return response()->download($path, $imageName, $headers)->deleteFileAfterSend(true);
 }
+
 
 
 

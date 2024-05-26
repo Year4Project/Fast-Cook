@@ -76,11 +76,13 @@
                                                 <i class="fas fa-fw fa-edit"></i>
                                             </a>
                                             {{-- delete --}}
+                                            <form action="">
                                             <a class="btn btn-md btn-circle btn-outline-danger mt-2"
                                                 href="{{ url('owner/food/delete/' . $item->id) }}"
                                                 onclick="return confirm('Are you Sure?')">
                                                 <i class="fas fa-fw fa-trash-alt"></i>
                                             </a>
+                                        </form>
                                         </td>
                                     </tr>
                                 @endforeach
