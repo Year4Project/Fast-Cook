@@ -188,6 +188,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         
         'Image' => Intervention\Image\Facades\Image::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
 
         // 'Example' => App\Facades\Example::class,
         // 'Image' => Intervention\Image\Facades\Image::class,
