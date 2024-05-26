@@ -69,9 +69,9 @@ public function downloadQrCode($scenId)
             $qrCode = QrCode::size(200)
                 ->format('png')
                 ->errorCorrection('H')
-                ->backgroundColor(255, 255, 255) // White background color (RGB)
-                ->color(0, 0, 0) // Black QR code color (RGB)
-                ->margin(2) // Add margin for border
+                ->backgroundColor(255, 255, 255)
+                ->color(0, 0, 0)
+                ->margin(2)
                 ->generate($qrData);
             Log::info("QR code generated successfully.");
         } catch (\Exception $e) {
@@ -97,7 +97,8 @@ public function downloadQrCode($scenId)
             return response()->json(['error' => 'Failed to save QR code image.'], 500);
         }
 
-        $path = Storage::disk('public')->path($imageName); // Get the full path to the image
+        // Get the full path to the image
+        $path = Storage::disk('public')->path($imageName);
         Log::info("Full path to the image obtained.", ['path' => $path]);
 
         // Check if the path is correct
@@ -118,6 +119,7 @@ public function downloadQrCode($scenId)
         return response()->json(['error' => 'An error occurred while generating the QR code.'], 500);
     }
 }
+
 
 
 
