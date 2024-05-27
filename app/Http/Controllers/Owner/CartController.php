@@ -21,6 +21,7 @@ class CartController extends Controller
         $category_id = $request->input('category_id');
 
         $foods = $user->restaurant->foods();
+        $foods->where('status', 1);
 
         // Filter by search query if provided
         if ($query) {
