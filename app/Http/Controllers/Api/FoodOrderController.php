@@ -231,7 +231,7 @@ class FoodOrderController extends Controller
         ];
 
         // Dispatch the event
-        event(new OrderPlacedEvent($order, $restaurant->id));
+        event(new OrderPlacedEvent($order));
 
         // Return a JSON response
         return response()->json([

@@ -18,52 +18,56 @@ class RestaurantControllerApi extends Controller
      * It can searching food name and price
      */
 
-    public function getAllFood(Request $r)
-    {
-        try {
-            $user = JWTAuth::user();
-
-            $food = Food::query();
-
-            // Add join with the restaurant table
-            $food->join('restaurants', 'foods.restaurant_id', '=', 'restaurants.id');
-
-            // Select the columns you want
-            $food->select('foods.*', 'restaurants.name as restaurant_name');
-
-            // for searching
-            if ($r->keyword) {
-                $food->where('foods.name', 'LIKE', "%$r->keyword%")
-                    ->orWhere('foods.price', $r->keyword)
-                    ->orWhere('restaurants.name', 'LIKE', "%$r->keyword%");
-            }
-
-            $food = $food->get();
-
-            if ($food->count() > 0) {
-                return response()->json([
-                    'status' => true,
-                    'message' => "Successfully list food",
-                    'data' => $food,
-                    'user' => $user
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => true,
-                    'message' => 'No Records Found',
-                    'data' => null // returning null instead of an empty array
-                ], 200);
-            }
-        } catch (\Exception $e) {
-            // Log the error for debugging
-            Log::error('Error retrieving food: ' . $e->getMessage());
-            return response()->json([
-                'status' => true,
-                'message' => 'Error retrieving food. Please try again later.',
-                'data' => null
-            ], 200);
-        }
-    }
+     public function getAllFood(Request $r)
+     {
+         try {
+             $user = JWTAuth::user();
+     
+             $food = Food::query();
+     
+             // Add join with the restaurant table
+             $food->join('restaurants', 'foods.restaurant_id', '=', 'restaurants.id');
+     
+             // Select the columns you want
+             $food->select('foods.*', 'restaurants.name as restaurant_name');
+     
+             // Add condition to check food status
+             $food->where('foods.status', 1); // Assuming 'status' column indicates the status of food
+     
+             // for searching
+             if ($r->keyword) {
+                 $food->where('foods.name', 'LIKE', "%$r->keyword%")
+                     ->orWhere('foods.price', $r->keyword)
+                     ->orWhere('restaurants.name', 'LIKE', "%$r->keyword%");
+             }
+     
+             $food = $food->get();
+     
+             if ($food->count() > 0) {
+                 return response()->json([
+                     'status' => true,
+                     'message' => "Successfully list food",
+                     'data' => $food,
+                     'user' => $user
+                 ], 200);
+             } else {
+                 return response()->json([
+                     'status' => true,
+                     'message' => 'No Records Found',
+                     'data' => null // returning null instead of an empty array
+                 ], 200);
+             }
+         } catch (\Exception $e) {
+             // Log the error for debugging
+             Log::error('Error retrieving food: ' . $e->getMessage());
+             return response()->json([
+                 'status' => true,
+                 'message' => 'Error retrieving food. Please try again later.',
+                 'data' => null
+             ], 200);
+         }
+     }
+     
 
 
     /**
@@ -75,23 +79,31 @@ class RestaurantControllerApi extends Controller
          try {
              $user = JWTAuth::user();
      
-             $foodQuery = DB::table('foods')->where("restaurant_id", $id);
+             // Query to retrieve food list
+             $foodQuery = DB::table('foods')
+                 ->join('restaurants', 'foods.restaurant_id', '=', 'restaurants.id')
+                 ->where('foods.restaurant_id', $id)
+                 ->where('restaurants.status', '<>', 0) // Filter restaurants with status not equal to 0
+                 ->where('foods.status', 1); // Filter foods with status 1 (available)
      
+             // Add keyword search
              if ($r->keyword) {
                  $foodQuery->where(function ($query) use ($r) {
-                     $query->where('name', 'LIKE', "%$r->keyword%")
-                         ->orWhere('dPrice', $r->keyword);
+                     $query->where('foods.name', 'LIKE', "%$r->keyword%")
+                         ->orWhere('foods.dPrice', $r->keyword);
                  });
              }
-             
+     
+             // Add type filter
              $type = $r->query('type');
-
              if ($type) {
-                 $foodQuery->where('type', $type);
+                 $foodQuery->where('foods.type', $type);
              }
      
+             // Retrieve food data
              $food = $foodQuery->get();
      
+             // Check if food records exist
              if ($food->isNotEmpty()) {
                  return response()->json([
                      'status' => true,
@@ -118,24 +130,32 @@ class RestaurantControllerApi extends Controller
      }
      
 
-    /**
-     * This function for get all restaurant
-     * For API this fucntion can serching data
-     */
 
+
+
+    /**
+     * This function for get all restaurant that have status 1
+     */
     public function getRestaurant(Request $request)
     {
         try {
             $query = $request->input('keyword');
 
+            // Initialize the query builder for the Restaurant model
             $restaurants = Restaurant::query();
 
+            // Add a condition to filter restaurants by the keyword if it exists
             if ($query) {
                 $restaurants->where('name', 'like', '%' . $query . '%');
             }
 
+            // Add a condition to filter restaurants that are 'available'
+            $restaurants->where('status', 1);
+
+            // Execute the query and get the results
             $restaurants = $restaurants->get();
 
+            // Check if any restaurants were found and return the appropriate response
             if ($restaurants->count() > 0) {
                 return response()->json([
                     'status' => true,
@@ -153,7 +173,7 @@ class RestaurantControllerApi extends Controller
             // Log the error for debugging
             Log::error('Error retrieving restaurants: ' . $e->getMessage());
             return response()->json([
-                'status' => true,
+                'status' => false,
                 'message' => 'Error retrieving restaurants. Please try again later.',
                 'data' => null
             ], 500);
