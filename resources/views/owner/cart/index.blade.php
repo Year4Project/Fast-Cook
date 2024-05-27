@@ -61,7 +61,11 @@
                                                     class="card-img-top" alt="{{ $item->name }}">
                                                 <div
                                                     class="price-overlay position-absolute top-0 start-0 bg-warning text-black p-2">
-                                                    ${{ $item->price }}
+                                                    @if ($item->currency === 'KHR')
+                                                        {{ $item->price }} ៛
+                                                    @else
+                                                        $ {{ $item->price }}
+                                                    @endif
                                                 </div>
                                                 <div class="card-body">
                                                     <h5 class="card-title mb-0">{{ $item->name }}</h5>
@@ -154,10 +158,10 @@
                                     </div>
                                 @endif
 
-                                
+
                                 <div class="d-grid gap-2">
                                     <!-- Total KHR and USD -->
-                                    
+
                                     <div class="row">
                                         <div class="col-6 text-center">
                                             <label class="font-weight-bold">Total KHR:</label>
@@ -249,7 +253,7 @@
                                     </div> --}}
 
                                     <!-- Buttons -->
-                            <hr>
+                                    <hr>
 
                                     <div class="row">
                                         <div class="col-6">
