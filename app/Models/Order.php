@@ -89,6 +89,10 @@ class Order extends Model
         // dd($order);
         return $order;
     }
+    public function foodOrders()
+    {
+        return $this->hasMany(FoodOrder::class);
+    }
 
 
     public function getItemsAttribute($value)
@@ -102,4 +106,6 @@ class Order extends Model
             return $item;
         });
     }
+
+   
 }

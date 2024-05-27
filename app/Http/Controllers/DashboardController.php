@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Alert;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\CustomerOrder;
 use App\Models\Food;
+use App\Models\FoodOrder;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Restaurant;
@@ -52,18 +54,19 @@ class DashboardController extends Controller
 
 
 
-            $data['getStaff'] = Staff::getStaff()->count();
+            $data['getStaff'] = Staff::where('restaurant_id', Auth::user()->restaurant->id)->count();
             $data['getTables'] = Scen::where('restaurant_id', Auth::user()->restaurant->id)->count();
             $data['getCategory'] = Category::where('restaurant_id', Auth::user()->restaurant->id)->count();
             $data['alerts'] = Alert::latest()->get();
+
+
             
             $data['payment'] = Payment::countPaymentsByCurrency();
-            // $data['getTotalSales'] = CustomerOrder::where('restaurant_id', Auth::user()->restaurant->id);
-            // $data['getTotalSales'] = CustomerOrder::sum('total');
-            // $data['getTotalSales'] = CustomerOrder::where('restaurant_id', Auth::user()->restaurant->id)->sum('total');
 
+            $data['getTotalOrder'] = CustomerOrder::where('restaurant_id', Auth::user()->restaurant->id)->sum('total_amount');
+            $data['getTotalOrderOnline'] = FoodOrder::getTotalOrderOnline();
 
-            // $data['getOrderUser'] = Order::getOrderUser();
+            
             $data['getOrderUser'] = Order::getUserOrders();
             // $data['totalPrice'] = Order::sum('total_price');
             return view('owner.dashboard', $data);

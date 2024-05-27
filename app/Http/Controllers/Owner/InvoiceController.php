@@ -21,25 +21,25 @@ class InvoiceController extends Controller
     }
 
 
-    public function generateInvoice($orderId)
-    {
-        // Fetch order details using $orderId
+    // public function generateInvoice($orderId)
+    // {
+    //     // Fetch order details using $orderId
 
-        $order = Order::findOrFail($orderId);
-        $customerOrderFood = $order->foods; // Assuming there's a relationship defined in the Order model
+    //     $order = Order::findOrFail($orderId);
+    //     $customerOrderFood = $order->foods; // Assuming there's a relationship defined in the Order model
         
-        // Pass order data to the view
-        $data = [
-            'order' => $order,
-            'customerOrderFood' => $customerOrderFood,
-        ];
+    //     // Pass order data to the view
+    //     $data = [
+    //         'order' => $order,
+    //         'customerOrderFood' => $customerOrderFood,
+    //     ];
 
-        // Generate PDF
-        $pdf = $this->generatePdf('invoice', $data);
+    //     // Generate PDF
+    //     $pdf = $this->generatePdf('invoice', $data);
 
-        // Download PDF
-        return $pdf->download('invoice.pdf');
-    }
+    //     // Download PDF
+    //     return $pdf->download('invoice.pdf');
+    // }
 
     private function generatePdf($view, $data)
     {

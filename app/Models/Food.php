@@ -40,6 +40,10 @@ class Food extends Model
             }
         });
     }
+    public function foodOrders()
+    {
+        return $this->hasMany(FoodOrder::class);
+    }
 
 
     public function restaurant()

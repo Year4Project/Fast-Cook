@@ -87,7 +87,7 @@
             </div>
 
             <div class="row justify-content-center">
-                {{-- Total order --}}
+                {{-- order --}}
                 <div class="col-xl-3 col-md-6 mb-4">
                     <div class="card border-left-success shadow h-100 py-2">
                         <div class="card-body">
@@ -171,7 +171,7 @@
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-info text-uppercase mb-1">
                                         Payment USD</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $payment['USD'] }}</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getTotalOrder }}</div>
                                 </div>
                                 <div class="col-auto me-4">
                                     <i class="fas fa-dollar-sign fa-2x text-black-300"></i>
@@ -186,8 +186,8 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
-                                        Payment KHR</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $payment['KHR'] }}</div>
+                                        Payment Online</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getTotalOrderOnline }}</div>
                                 </div>
                                 <div class="col-auto me-4">
                                     <i class="fas fa-khr-sign fa-2x text-black-300">៛</i>
@@ -204,7 +204,7 @@
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-success text-uppercase mb-1">
                                         Total Earnings</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $payment['TOTAL_KHR'] }} ៛
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ number_format(($getTotalOrder + $getTotalOrderOnline) * 4100) }} ៛
                                     </div>
                                 </div>
                                 <div class="col-auto me-4">
@@ -222,7 +222,7 @@
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-info text-uppercase mb-1">
                                         Total Earnings</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">${{ $payment['TOTAL_USD'] }}</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">${{ $getTotalOrder + $getTotalOrderOnline }}</div>
                                 </div>
                                 <div class="col-auto me-4">
                                     <i class="fas fa-dollar-sign fa-2x text-black-300"></i>

@@ -66,6 +66,31 @@ public static function getCustomerOrders($orderId)
 }
 
 
+// get data customer order to dashborad
+// public static function getTotalOrder()
+// {
+//     // Retrieve the currently authenticated user
+//     $user = Auth::user();
+
+//     // Check if the user is authenticated and has a restaurant associated with them
+//     if ($user && $user->restaurant) {
+//         // Retrieve the restaurant
+//         $restaurant = $user->restaurant;
+
+//         // Retrieve the customer order with its associated order items, payment, and their associated foods
+//         $customerOrder = CustomerOrder::with(['orderItems.food','customer', 'payment'])
+//             ->where('restaurant_id', $restaurant->id)
+//             ->first();
+
+//         // If you want to check the data, you can use dd()
+//         dd($customerOrder);
+
+//         return $customerOrder;
+//     } else {
+//         // Handle the case where the user is not authenticated or has no associated restaurant
+//         return null;
+//     }
+// }
 
 
 
