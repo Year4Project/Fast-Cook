@@ -20,6 +20,7 @@ class Food extends Model
         'description',
         'image',
         'status',
+        'currency',
         'category_id',
     ];
 

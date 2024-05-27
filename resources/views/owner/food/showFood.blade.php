@@ -54,7 +54,14 @@
                                         <td><img class="rounded-circle align-middle" height="75" width="75"
                                                 src="{{ $item->image_url }}" alt=""></td>
                                         <td class="align-middle">{{ $item->name }}</td>
-                                        <td class="align-middle">${{ $item->price }}</td>
+                                        <td class="align-middle">
+                                            @if($item->currency === 'KHR')
+                                                {{ $item->price }} ៛
+                                            @else
+                                                $ {{ $item->price }}
+                                            @endif
+                                        </td>
+                                        
                                         <td class="align-middle">{{ $item->description }}</td>
                                         <td class="align-middle">
                                             {{ $item->category_name ?? 'No Category' }}

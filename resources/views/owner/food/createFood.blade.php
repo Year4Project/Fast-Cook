@@ -36,13 +36,27 @@
                                                 @endforeach
                                             </select>
                                         </div>
-
-                                        <div class="form-group">
-                                            <label>Price</label>
-                                            <input type="num" class="form-control" value="{{ old('price') }}"
-                                                name="price" required placeholder="Original Price">
-                                            {{-- <div style="color: red">{{ $errors->first('email')}}</div> --}}
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="price">Price</label>
+                                                    <input type="number" class="form-control" id="price" name="price" required placeholder="Original Price">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="currency">Currency</label>
+                                                    <select class="form-control" id="currency" name="currency" required>
+                                                        <option value="">Please Choose Currency</option>
+                                                        <option value="KHR">KHR</option>
+                                                        <option value="USD">USD</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
+                                        
+
+
                                         {{-- <div class="form-group">
                                         <label>Discound Price</label>
                                         <input type="number" class="form-control" value="{{ old('dPrice') }}" name="dPrice"

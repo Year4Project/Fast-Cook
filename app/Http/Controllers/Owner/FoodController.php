@@ -55,6 +55,7 @@ class FoodController extends Controller
             'description' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'price' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
+            'currency' => 'required|string|max:3',
             'category_id' => 'required|exists:categories,id',
         ]);
 
@@ -92,6 +93,7 @@ class FoodController extends Controller
 
         // Set the type column with the category name
         $food->type = $category ? $category->name : null;
+        $food->currency = $request->currency;
 
 
         $food->save();
@@ -125,15 +127,25 @@ class FoodController extends Controller
      */
     public function edit(string $id)
     {
-        $data['categories'] = Category::all();
-        $data['getRecord'] = Food::getSingle($id);
+        $user = Auth::user();
+        $restaurantID = $user->restaurant->id;
+
+        // Retrieve all categories for the restaurant
+        $data['categories'] = Category::where('restaurant_id', $restaurantID)->get();
+
+        // Retrieve the food record from the database
+        $data['getRecord'] = Food::where('restaurant_id', $restaurantID)
+            ->findOrFail($id);
+
         if (!empty($data['getRecord'])) {
             $data['header_title'] = "Edit Admin";
+            // Pass data to the view
             return view('owner.food.edit', $data);
         } else {
             abort(404);
         }
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -145,6 +157,7 @@ class FoodController extends Controller
             'description' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'price' => 'required|numeric',
+            'currency' => 'required|max:3',
             'category_id' => 'required|exists:categories,id',
         ]);
 
@@ -177,6 +190,7 @@ class FoodController extends Controller
 
         // Set the type column with the category name
         $food->type = $category ? $category->name : null;
+        $food->currency = $request->currency;
         $food->save();
 
         return redirect('owner/food/showFood')->with('success', "Food successfully Update.");
