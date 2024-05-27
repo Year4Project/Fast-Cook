@@ -171,7 +171,7 @@
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-info text-uppercase mb-1">
                                         Payment USD</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getTotalOrder }}</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ number_format($getTotalOrder,2) }}</div>
                                 </div>
                                 <div class="col-auto me-4">
                                     <i class="fas fa-dollar-sign fa-2x text-black-300"></i>
@@ -187,10 +187,10 @@
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
                                         Payment Online</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getTotalOrderOnline }}</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ number_format($getTotalOrderOnline,2) }}</div>
                                 </div>
                                 <div class="col-auto me-4">
-                                    <i class="fas fa-khr-sign fa-2x text-black-300">៛</i>
+                                    <i class="fas fa-dollar-sign fa-2x text-black-300"></i>
                                     <h1 class="text-black-300 font-size, font-weight"></h1>
                                 </div>
                             </div>
@@ -204,7 +204,7 @@
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-success text-uppercase mb-1">
                                         Total Earnings</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ number_format(($getTotalOrder + $getTotalOrderOnline) * 4100) }} ៛
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ number_format( ($getTotalOrder + $getTotalOrderOnline) * 4100) }}
                                     </div>
                                 </div>
                                 <div class="col-auto me-4">
@@ -222,7 +222,7 @@
                                 <div class="col ms-4">
                                     <div class="text-xl font-weight-bold text-info text-uppercase mb-1">
                                         Total Earnings</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">${{ $getTotalOrder + $getTotalOrderOnline }}</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ number_format($getTotalOrder + $getTotalOrderOnline,2) }}</div>
                                 </div>
                                 <div class="col-auto me-4">
                                     <i class="fas fa-dollar-sign fa-2x text-black-300"></i>

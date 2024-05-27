@@ -102,7 +102,13 @@
                                         @foreach ($addToCart as $addToCartItem)
                                             <tr>
                                                 <td>{{ $addToCartItem->food->name }}</td>
-                                                <td class="text-center align-middle">${{ $addToCartItem->food->price }}
+                                                <td class="text-center align-middle">
+                                                    @if ($item->currency === 'KHR')
+                                                        {{ number_format($addToCartItem->food->price) }} ៛
+                                                    @else
+                                                        $ {{ number_format($addToCartItem->food->price) }}
+                                                    @endif
+
                                                 </td>
                                                 <td class="text-center align-middle">
                                                     <div class="input-group justify-content-center">
@@ -130,7 +136,13 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-center align-middle">
-                                                    ${{ $addToCartItem->food->price * $addToCartItem->quantity }}
+                                                    @if ($item->currency === 'KHR')
+                                                        {{ number_format($addToCartItem->food->price * $addToCartItem->quantity) }}
+                                                        ៛
+                                                    @else
+                                                        $
+                                                        {{ number_format($addToCartItem->food->price * $addToCartItem->quantity) }}
+                                                    @endif
                                                 </td>
                                                 <td class="align-middle">
                                                     <a class="btn btn-danger btn-sm"
@@ -167,18 +179,29 @@
                                             <label class="font-weight-bold">Total KHR:</label>
                                             <span class="text-danger font-weight-bold" id="total-khr"
                                                 style="font-size: 22px">
-                                                {{ number_format($totalPrice * 4100) }} ៛
+                                                @if ($item->currency === 'KHR')
+                                                    {{ number_format($totalPrice) }}៛
+                                                @else
+                                                    ${{ number_format($totalPrice * 4100) }}
+                                                @endif
                                             </span>
                                         </div>
                                         <div class="col-6 text-center">
                                             <label class="font-weight-bold">Total USD:</label>
                                             <span class="text-danger font-weight-bold" id="total-usd"
                                                 style="font-size: 22px">
-                                                ${{ $totalPrice }}
+                                                @if ($item->currency === 'KHR')
+                                                    ${{ number_format($totalPrice / 4100, 2) }}
+                                                @else
+                                                    ${{ number_format($totalPrice, 2) }}
+                                                @endif
                                             </span>
-                                            <input type="hidden" name="total" value="{{ $totalPrice }}">
+                                            <!-- Store total amount in USD in a hidden input field -->
+                                            <input type="hidden" name="total"
+                                                value="{{ $item->currency === 'KHR' ? $totalPrice / 4100 : $totalPrice }}">
                                         </div>
                                     </div>
+
 
                                     <!-- Payment Method -->
                                     {{-- <div class="row">

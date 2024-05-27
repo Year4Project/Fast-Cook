@@ -62,13 +62,30 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->food->name }}</td>
                         <td>{{ $item->quantity }}</td>
-                        <td>${{ number_format($item->food->price, 2) }}</td>
+                        <td>
+                            @if ($item->food->currency === 'KHR')
+                                {{ number_format($item->food->price, 2) }}
+                                ៛
+                            @else
+                                {{ number_format($item->food->price, 2) }}
+                                $
+                            @endif
+
+                        </td>
                         @php
                             $subtotal = $item->quantity * $item->food->price;
                             $total += $subtotal;
                             $totalQuantity += $item->quantity;
                         @endphp
-                        <td>${{ number_format($subtotal, 2) }}</td>
+                        <td>
+                            @if ($item->food->currency === 'KHR')
+                                {{ number_format($subtotal, 2) }}
+                                ៛
+                            @else
+                                {{ number_format($subtotal, 2) }}
+                                $
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 <tr>
@@ -85,14 +102,30 @@
             <div class="sub">
                 <p>សរុបចុងក្រោយ</p>
                 <p>Grand Total(Riel): </p>
-                <p>{{ number_format($total * 4100, 2) }} ៛</p>
+                <p>
+                    @if ($item->food->currency === 'KHR')
+                        {{ number_format($total, 2) }}
+                        ៛
+                    @else
+                        {{ number_format($total, 2) }}
+                        $
+                    @endif
+                </p>
             </div>
             <div class="tax">
                 <p>សរុបចុងក្រោយ</p>
                 <p>Grand Total(USD): </p>
-                <p>$ {{ number_format($total, 2) }}</p>
+                <p>
+                    @if ($item->food->currency === 'KHR')
+                        {{ number_format($total / 4100, 2) }}
+                        ៛
+                    @else
+                        {{ number_format($total, 2) }}
+                        $
+                    @endif
+                </p>
             </div>
-        
+
             {{-- @php
                 $amount = $customerOrder->payment->amount;
                 $currency = $customerOrder->payment->currency;
@@ -116,7 +149,7 @@
                     $changeUSD = $changeKHR / 4100; // Convert KHR change to USD
                 }
             @endphp --}}
-        
+
             {{-- <div class="rec1">
                 <p>ប្រាក់ទទួល</p>
                 <p>Received(Riel): </p>
@@ -127,7 +160,7 @@
                 <p>Received(USD): </p>
                 <p>$ {{ $usd }}</p>
             </div> --}}
-        
+
             {{-- <div class="total">
                 <p>ប្រាក់អាប់:</p>
                 <p>Change(Riel): </p>
@@ -139,8 +172,8 @@
                 <p>$ {{ number_format($changeUSD, 2) }}</p>
             </div> --}}
         </div>
-        
-        
+
+
 
         <div class="message">
             <p>Thank You For Supporting Local Business!</p>

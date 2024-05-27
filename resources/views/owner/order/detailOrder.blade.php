@@ -3,11 +3,6 @@
 @section('content')
     <div class="big-banner">
         <div class="container-fluid">
-            <!-- Page Heading -->
-            {{-- <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
-            <h1 class="h3 mb-0 text-gray-800">User Order Details</h1>
-        </div> --}}
-
             @include('_massage')
 
             <div class="card shadow mb-4">
@@ -18,7 +13,6 @@
 
                 <div class="card-body">
                     <div class="table-responsive">
-                        {{-- display top --}}
                         <div class="row mb-4">
                             <div class="col-4">
                                 <p><strong>User:</strong> {{ $getOrderDetails->user->first_name }}
@@ -50,73 +44,65 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @php
+                                            $totalCost = 0;
+                                            $currency = null;
+                                        @endphp
                                         @foreach ($getOrderDetails->foods as $food)
+                                            @php
+                                                $subtotal = $food->pivot->quantity * $food->price;
+                                                $totalCost += $subtotal;
+                                                $currency = $food->currency;
+                                            @endphp
                                             <tr class="text-center">
                                                 <td class="align-middle">{{ $loop->iteration }}</td>
-                                                <td class="align-middle"><img class="rounded-circle" height="75"
-                                                        width="75" src="{{ $food->image_url }}" alt=""></td>
+                                                <td class="align-middle"><img class="rounded-circle" height="75" width="75" src="{{ $food->image_url }}" alt=""></td>
                                                 <td class="align-middle">{{ $food->code }}</td>
                                                 <td class="align-middle">{{ $food->name }}</td>
                                                 <td class="align-middle">{{ $food->type }}</td>
                                                 <td class="align-middle">{{ $food->pivot->quantity }}</td>
-                                                <td class="align-middle">${{ number_format($food->price, 2) }}</td>
                                                 <td class="align-middle">
-                                                    ${{ number_format($food->pivot->quantity * $food->price, 2) }}</td>
+                                                    @if ($food->currency === 'KHR')
+                                                        {{ number_format($food->price, 2) }} ៛
+                                                    @else
+                                                        {{ number_format($food->price, 2) }} $
+                                                    @endif
+                                                </td>
+                                                <td class="align-middle">
+                                                    @if ($food->currency === 'KHR')
+                                                        {{ number_format($subtotal, 2) }} ៛
+                                                    @else
+                                                        {{ number_format($subtotal, 2) }} $
+                                                    @endif
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{-- End Table --}}
                             </div>
                         </div>
-                            <div class="row">
-                                <div class="col-4"></div>
-                                <div class="col-4"></div>
-                                <div class="col-4">
-                                    <div class="row">
-                                        <div class="col-6 text-end">
-                                            <h4>Total:</h4>
-                                            <h4>Payment:</h4>
-                                            <h4>Print:</h4>
-
-                                        </div>
-                                        {{-- @php
-                                dd($customerOrderFood);
-                            @endphp --}}
-
-                                        {{-- @php
-                                $amount = $getCustomerOrder->payment->amount;
-                                $currency = $getCustomerOrder->payment->currency;
-                                $usd = 0;
-                                $khr = 0;
-
-                                if ($currency === 'USD') {
-                                    $usd = $amount;
-                                } elseif ($currency === 'KHR') {
-                                    $khr = $amount;
-                                }
-                            @endphp --}}
-
-                                        <div class="col-6">
-                                            <h4>
-                                                ${{ number_format(
-                                                    $getOrderDetails->foods->sum(function ($food) {
-                                                        return $food->pivot->quantity * $food->price;
-                                                    }),
-                                                    2,
-                                                ) }}
-                                            </h4>
-                                            <h4>
-                                                online
-                                                {{-- {{ $amount }}{{ $currency === 'USD' ? '$ ' : ' ៛' }} --}}
-                                            </h4>
-                                            <a class="btn btn-outline-success"
-                                                href="{{ route('api-printRecipe', ['orderId' => $getOrderDetails->id]) }}">
-                                                <i class="fas fa-print"></i>
-                                            </a>
-
-                                        </div>
-
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-6 text-end">
+                                        <h4>Total:</h4>
+                                        <h4>Payment:</h4>
+                                        <h4>Print:</h4>
+                                    </div>
+                                    <div class="col-6">
+                                        <h4>
+                                            @if ($currency === 'KHR')
+                                                {{ number_format($totalCost, 2) }} ៛
+                                            @else
+                                                {{ number_format($totalCost, 2) }} $
+                                            @endif
+                                        </h4>
+                                        <h4>Cash</h4>
+                                        <a class="btn btn-outline-success" href="{{ route('api-printRecipe', ['orderId' => $getOrderDetails->id]) }}">
+                                            <i class="fas fa-print"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -124,4 +110,5 @@
                     </div>
                 </div>
             </div>
-        @endsection
+        </div>
+    @endsection

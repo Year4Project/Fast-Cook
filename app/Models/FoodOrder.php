@@ -35,18 +35,27 @@ class FoodOrder extends Model
 
     public static function getTotalOrderOnline()
     {
-
         $user = Auth::user();
         $restaurantId = $user->restaurant->id;
-
+    
+        $conversionRate = 4100; // 1 USD = 4100 KHR
+    
         $totalAmount = self::select(
-            DB::raw('SUM(foods.price * food_order.quantity) as total_amount')
+            DB::raw("
+                SUM(
+                    CASE
+                        WHEN foods.currency = 'KHR' THEN (foods.price / $conversionRate) * food_order.quantity
+                        ELSE foods.price * food_order.quantity
+                    END
+                ) as total_amount
+            ")
         )
         ->join('orders', 'food_order.order_id', '=', 'orders.id')
         ->join('foods', 'food_order.food_id', '=', 'foods.id')
         ->where('orders.restaurant_id', $restaurantId) // Filter by restaurant_id
         ->value('total_amount'); // Get the single value
-            // dd($totalAmount);
-    return $totalAmount;
+    
+        return $totalAmount;
     }
+    
 }

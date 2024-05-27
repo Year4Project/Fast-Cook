@@ -62,8 +62,25 @@
                                         <td class="align-middle">{{ $item->food->name }}</td>
                                         <td class="align-middle">{{ $item->food->type }}</td>
                                         <td class="align-middle">{{ $item->quantity }}</td>
-                                        <td class="align-middle">${{ number_format($item->food->price, 2) }}</td>
-                                        <td class="align-middle">${{ number_format($subTotal, 2) }}</td>
+                                        <td class="align-middle">
+                                            @if ($item->food->currency === 'KHR')
+                                                {{ number_format($item->food->price, 2) }}
+                                                ៛
+                                            @else
+                                                {{ number_format($item->food->price, 2) }}
+                                                $
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">
+                                            @if ($item->food->currency === 'KHR')
+                                                {{ number_format($subTotal, 2) }}
+                                                ៛
+                                            @else
+                                                {{ number_format($subTotal, 2) }}
+                                                $
+                                            @endif
+
+                                        </td>
                                     </tr>
                                 @endforeach
                                 {{-- <tr class="text-center">
@@ -109,7 +126,7 @@
                                     dd($customerOrderFood);
                                 @endphp --}}
 
-                                @php
+                                {{-- @php
                                     $amount = $getCustomerOrder->payment->amount;
                                     $currency = $getCustomerOrder->payment->currency;
                                     $usd = 0;
@@ -120,13 +137,19 @@
                                     } elseif ($currency === 'KHR') {
                                         $khr = $amount;
                                     }
-                                @endphp
+                                @endphp --}}
 
                                 <div class="col-6">
-                                    <h4>$ {{ number_format($totalSubtotal, 2) }}</h4>
-                                    {{-- <h4>
-                                        {{ $amount }}{{ $currency === 'USD' ? '$ ' : ' ៛' }}
-                                    </h4> --}}
+                                    <h4>
+                                        @if ($item->food->currency === 'KHR')
+                                            {{ number_format($totalSubtotal, 2) }}
+                                            ៛
+                                        @else
+                                            {{ number_format($totalSubtotal, 2) }}
+                                            $
+                                        @endif
+                                    </h4>
+
                                     <a class="btn btn-md btn-outline-success"
                                         href="{{ route('pos-printRecipe', ['orderId' => $getCustomerOrder->id]) }}">
                                         <i class="fas fa-print"></i>
