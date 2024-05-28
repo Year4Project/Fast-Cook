@@ -80,12 +80,17 @@ public function downloadQrCode($scenId)
         Log::info('Image name set: ' . $imageName);
 
         // Save QR code to storage
-        Storage::disk('public')->put($imageName, $qrCode);
-        Log::info('QR Code saved to storage: ' . $imageName);
+        $saved = Storage::disk('public')->put($imageName, $qrCode);
+        if ($saved) {
+            Log::info('QR Code saved at: ' . Storage::disk('public')->path($imageName));
+        } else {
+            Log::error('Failed to save QR Code at: ' . Storage::disk('public')->path($imageName));
+            return response()->json(['error' => 'Unable to save QR Code.'], 500);
+        }
 
         // Verify if the file was actually saved
         if (!Storage::disk('public')->exists($imageName)) {
-            Log::error('File does not exist after save attempt: ' . $imageName);
+            Log::error('File does not exist after save attempt: ' . Storage::disk('public')->path($imageName));
             return response()->json(['error' => 'Unable to save QR Code.'], 500);
         }
 
