@@ -61,13 +61,29 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->pivot->quantity }}</td>
-                        <td>${{ number_format($item->price, 2) }}</td>
+                        <td>
+                            @if ($item->currency === 'KHR')
+                                {{ number_format($item->price, 2) }}
+                                ៛
+                            @else
+                                {{ number_format($item->price, 2) }}
+                                $
+                            @endif
+                        </td>
                         @php
                             $subtotal = $item->pivot->quantity * $item->price;
                             $total += $subtotal;
                             $totalQuantity += $item->pivot->quantity;
                         @endphp
-                        <td>${{ number_format($subtotal, 2) }}</td>
+                        <td>
+                            @if ($item->currency === 'KHR')
+                                {{ number_format($subtotal, 2) }}
+                                ៛
+                            @else
+                                {{ number_format($subtotal, 2) }}
+                                $
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 <tr>
@@ -77,19 +93,35 @@
                     </td>
                     <td>ឯកតា</td>
                 </tr>
-            </tbody> 
+            </tbody>
         </table>
 
         <div class="total-section">
             <div class="sub">
                 <p>សរុបចុងក្រោយ</p>
                 <p>Grand Total(Riel): </p>
-                <p>{{ number_format($total * 4100, 2) }} ៛</p>
+                <p>
+                    @if ($item->currency === 'KHR')
+                        {{ number_format($total, 2) }}
+                        $
+                    @else
+                        {{ number_format($total * 4100, 2) }}
+                        ៛
+                    @endif
+                </p>
             </div>
             <div class="tax">
                 <p>សរុបចុងក្រោយ</p>
                 <p>Grand Total(USD): </p>
-                <p>$ {{ number_format($total, 2) }}</p>
+                <p>
+                    @if ($item->currency === 'KHR')
+                        {{ number_format($total / 4100, 2) }}
+                        $
+                    @else
+                        {{ number_format($total, 2) }}
+                        $
+                    @endif
+                </p>
             </div>
 
             {{-- @php
