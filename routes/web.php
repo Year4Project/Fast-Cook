@@ -94,7 +94,7 @@ Route::middleware('auth')->group(function () {
         Route::get('owner/category/editCategory/{id}', [CategoryController::class, 'editCategory'])->name('owner.category.editCategory');
         Route::post('owner/category/editCategory/{id}', [CategoryController::class, 'updateCategory'])->name('owner.category.updateCategory');
         Route::get('owner/category/deleteCategory/{id}', [CategoryController::class, 'destroyCategory'])->name('owner.category.destroyCategory');
-        Route::get('owner/category/updateStatus/{id}', [CategoryController::class, 'updateStatus'])->name('updateStatus');
+        Route::get('owner/category/updateStatus/{id}', [CategoryController::class, 'updateStatus'])->name('category.updateStatus');
 
         // Order Food
         Route::get('/owner/order/userOrder', [OrderController::class, 'userOrder'])->name('owner.order.userOrder');
