@@ -13,6 +13,7 @@ use SimpleSoftwareIO\QrCode\BaconQrCodeGenerator;
 
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 
 class GeneratorQRController extends Controller
 {
@@ -59,59 +60,43 @@ class GeneratorQRController extends Controller
 
 public function downloadQrCode($scenId)
 {
-    try {
-        // Retrieve the Scen record
-        $scen = Scen::findOrFail($scenId);
-        Log::info('Scen record found: ' . $scen->id);
+    // Retrieve the Scen record
+    $scen = Scen::findOrFail($scenId);
+    Log::info('Scen record found: ' . $scen->id);
 
-        // Generate QR code data
-        $qrData = json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]);
-        $qrCode = QrCode::size(200)
-            ->format('png')
-            ->errorCorrection('H')
-            ->backgroundColor(255, 255, 255)
-            ->color(0, 0, 0)
-            ->margin(2)
-            ->generate($qrData);
-        Log::info('QR Code generated for data: ' . $qrData);
+    // Generate QR code data
+    $qrData = json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]);
+    $qrCode = QrCode::size(200)
+        ->format('png')
+        ->errorCorrection('H')
+        ->backgroundColor(255, 255, 255)
+        ->color(0, 0, 0)
+        ->margin(2)
+        ->generate($qrData);
 
-        // Set the image name with table number
-        $imageName = 'qrcode_table_' . $scen->table_no . '.png';
-        Log::info('Image name set: ' . $imageName);
+    // Define the filename
+    $filename = 'qrcode_res_' . $scen->restaurant_id . '_table_' . $scen->table_no . '.png';
 
-        // Save QR code to storage
-        $saved = Storage::disk('public')->put($imageName, $qrCode);
-        if ($saved) {
-            Log::info('QR Code saved at: ' . Storage::disk('public')->path($imageName));
-        } else {
-            Log::error('Failed to save QR Code at: ' . Storage::disk('public')->path($imageName));
-            return response()->json(['error' => 'Unable to save QR Code.'], 500);
-        }
+    // Define the directory path
+    $directory = storage_path('app/public/qrcodes');
 
-        // Verify if the file was actually saved
-        if (!Storage::disk('public')->exists($imageName)) {
-            Log::error('File does not exist after save attempt: ' . Storage::disk('public')->path($imageName));
-            return response()->json(['error' => 'Unable to save QR Code.'], 500);
-        }
+    // Create the directory if it doesn't exist
+    File::makeDirectory($directory, $mode = 0777, true, true);
 
-        // Get the full path to the image
-        $path = Storage::disk('public')->path($imageName);
-        Log::info('Full image path: ' . $path);
+    // Save the QR code image with the filename
+    $path = $directory . '/' . $filename;
+    file_put_contents($path, $qrCode);
 
-        // Set headers for the download
-        $headers = [
-            'Content-Type' => 'image/png',
-            'Content-Disposition' => 'attachment; filename="' . $imageName . '"',
-        ];
+    // Set headers for file download
+    $headers = [
+        'Content-Type' => 'image/png',
+        'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+    ];
 
-        // Return the file as a download response
-        return response()->download($path, $imageName, $headers)->deleteFileAfterSend();
-
-    } catch (\Exception $e) {
-        Log::error('Error generating or downloading QR Code: ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
-        return response()->json(['error' => 'Unable to generate or download QR Code'], 500);
-    }
+    // Return response with QR code image
+    return response($qrCode, 200, $headers);
 }
+
 
 
 
