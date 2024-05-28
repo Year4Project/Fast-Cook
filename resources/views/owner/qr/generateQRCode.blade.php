@@ -44,9 +44,7 @@
                                             <td class="align-middle">{{ $loop->iteration }}</td>
                                             <td class="align-middle">{{ $item->table_no }}</td>
                                             <td class="align-middle">{{ $item->restaurant_id }}</td>
-                                            <td class="align-middle">{!! QrCode::size(100)->generate(
-                                                json_encode(['restaurant_id' => $item->restaurant_id, 'table_no' => $item->table_no]),
-                                            ) !!}</td>
+                                            <td class="align-middle">{!! QrCode::size(100)->generate(json_encode(["restaurant_id" => $item->restaurant_id, "table_no" => $item->table_no])) !!}</td>
                                             <td class="align-middle">
 
                                                 {{-- download --}}
@@ -59,8 +57,8 @@
                                                 {{-- <a href="{{ url('owner/qr/delete/'. $item->id) }}" class="btn btn-danger mt-2">Delete QR Code</a> --}}
                                                 {{-- delete --}}
                                                 <a class="btn btn-md btn-circle btn-outline-danger ms-2"
-                                                    href="{{ route('owner.qr.delete', ['scen' => $item->id]) }}"
-                                                    onclick="return confirmation(event)">
+                                                    href="{{ url('owner/qr/delete-qrcode/' . $item->id) }}"
+                                                    onclick="confirmation(event)">
                                                     <i class="fas fa-fw fa-trash-alt"></i>
                                                 </a>
                                             </td>
