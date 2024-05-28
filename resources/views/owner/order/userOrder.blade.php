@@ -63,6 +63,7 @@
                     <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr class="text-center">
+                                <th>#</th>
                                 <th>Order Number</th>
                                 <th>User Name</th>
                                 <th>Table No</th>
@@ -82,6 +83,7 @@
                             @else
                                 @foreach ($getOrderUser as $foodOrder)
                                     <tr class="text-center">
+                                        <td class="align-middle">{{ $loop->iteration }}</td>
                                         <td class="align-middle">{{ $foodOrder->ordernumber }}</td>
                                         <td class="align-middle">{{ $foodOrder->user->first_name }} {{ $foodOrder->user->last_name }}</td>
                                         <td class="align-middle">{{ $foodOrder->table_no }}</td>
@@ -116,7 +118,7 @@
                                         </td>
                                         <td class="align-middle">
                                             @if ($foodOrder->payment_method)
-                                                {{ $foodOrder->payment_method->type }}
+                                                {{ $foodOrder->payment_method->payment_type }}
                                             @else
                                                 N/A
                                             @endif

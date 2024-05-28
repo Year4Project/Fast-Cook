@@ -38,7 +38,7 @@
                                 @else
                                     @foreach ($getStaff as $staff)
                                         <tr class="text-center">
-                                            <td class="align-middle">{{ $staff->id }}</td>
+                                            <td class="align-middle">{{ $loop->iteration }}</td>
                                             <td class="align-middle"><img class="img-thumbnail"
                                                     style="max-width: 75px; max-height:75px:" src="{{ $staff->image }}"
                                                     alt=""></td>

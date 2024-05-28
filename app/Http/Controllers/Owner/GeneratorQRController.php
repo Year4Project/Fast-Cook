@@ -59,34 +59,40 @@ class GeneratorQRController extends Controller
 
 public function downloadQrCode($scenId)
 {
-    // Retrieve the Scen record
-    $scen = Scen::findOrFail($scenId);
+    try {
+        // Retrieve the Scen record
+        $scen = Scen::findOrFail($scenId);
 
-    // Generate QR code
-    $qrData = json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]);
-    $qrCode = QrCode::size(200)
-        ->format('png')
-        ->errorCorrection('H')
-        ->backgroundColor(255, 255, 255) // White background color (RGB)
-        ->color(0, 0, 0) // Black QR code color (RGB)
-        ->margin(2) // Add margin for border
-        ->generate($qrData);
+        // Generate QR code
+        $qrData = json_encode(['restaurant_id' => $scen->restaurant_id, 'table_no' => $scen->table_no]);
+        $qrCode = QrCode::size(200)
+            ->format('png')
+            ->errorCorrection('H')
+            ->backgroundColor(255, 255, 255) // White background color (RGB)
+            ->color(0, 0, 0) // Black QR code color (RGB)
+            ->margin(2) // Add margin for border
+            ->generate($qrData);
 
-    // Set the image name with table number
-    $imageName = 'qrcode_table_' . $scen->table_no . '.png';
+        // Set the image name with table number
+        $imageName = 'qrcode_table_' . $scen->table_no . '.png';
 
-    // Save QR code to storage
-    Storage::disk('public')->put($imageName, $qrCode);
+        // Save QR code to storage
+        Storage::disk('public')->put($imageName, $qrCode);
 
-    $path = Storage::disk('public')->path($imageName); // Get the full path to the image
+        $path = Storage::disk('public')->path($imageName); // Get the full path to the image
+        Log::info('QR Code saved at: ' . $path);
 
-    // Set headers for the download
-    $headers = [
-        'Content-Type' => 'image/png', // Set the content type to PNG
-    ];
+        // Set headers for the download
+        $headers = [
+            'Content-Type' => 'image/png', // Set the content type to PNG
+        ];
 
-    // Return the file as a download response
-    return response()->download($path, $imageName, $headers)->deleteFileAfterSend();
+        // Return the file as a download response
+        return response()->download($path, $imageName, $headers)->deleteFileAfterSend();
+    } catch (\Exception $e) {
+        Log::error('Error generating or downloading QR Code: ' . $e->getMessage());
+        return response()->json(['error' => 'Unable to generate or download QR Code'], 500);
+    }
 }
 
 

@@ -32,8 +32,6 @@
                                 <tr class="text-center">
                                     <th>#</th>
                                     <th>Order Number</th>
-                                    <th>Order Name</th>
-                                    <th>Customer Phone</th>
                                     <th>Order Date</th>
                                     <th>Action</th>
                                 </tr>
@@ -42,10 +40,8 @@
                             <tbody>
                                 @foreach ($orderCustomer as $orderItem)
                                     <tr class="text-center">
-                                        <td class="align-middle">{{ $orderItem->id }}</td>
+                                        <td class="align-middle">{{ $loop->iteration }}</td>
                                         <th class="align-middle">{{ $orderItem->ordernumber }}</th>
-                                        <th class="align-middle">{{ $orderItem->customername }}</th>
-                                        <th class="align-middle">{{ $orderItem->customerphone }}</th>
                                         <th class="align-middle">{{ $orderItem->created_at }}</th>
                                         <th class="align-middle">
                                             <a href="{{ route('POS-CustomerOrder.detail', ['orderId' => $orderItem->id]) }}"
