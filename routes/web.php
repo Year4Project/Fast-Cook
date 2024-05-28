@@ -133,9 +133,9 @@ Route::middleware('auth')->group(function () {
         // Generate QR Code
         Route::get('owner/qr/generateQRCode', [GeneratorQRController::class, 'qrCode']);
         Route::get('owner/qr/create', [GeneratorQRController::class, 'create']);
-        Route::get('owner/qr/createQRCode', [GeneratorQRController::class, 'qrCode']);
+        // Route::get('owner/qr/createQRCode', [GeneratorQRController::class, 'qrCode']);
         Route::post('owner/qr/store', [GeneratorQRController::class, 'store']);
-        
+
         Route::get('owner/qr/download-qrcode/{scen}', [GeneratorQRController::class, 'downloadQrCode'])->name('owner.qr.download');
         Route::get('owner/qr/delete-qrcode/{scen}', [GeneratorQRController::class, 'deleteQrCode'])->name('owner.qr.delete');
 
