@@ -44,7 +44,17 @@
                                             <td class="align-middle">{{ $loop->iteration }}</td>
                                             <td class="align-middle">{{ $item->table_no }}</td>
                                             <td class="align-middle">{{ $item->restaurant_id }}</td>
-                                            <td class="align-middle">{!! QrCode::size(100)->generate(json_encode(["restaurant_id" => $item->restaurant_id, "table_no" => $item->table_no])) !!}</td>
+                                            <td class="align-middle">
+                                                {{-- <img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->merge(asset('admin/img/logo.png'))->generate(json_encode(["restaurant_id" => $item->restaurant_id, "table_no" => $item->table_no]))) }}" alt=""> --}}
+                                                <img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')
+                                                ->merge(asset('admin/img/logo.png'), 0.3, true) // Adjust the size and center the logo
+                                                ->size(200) // Set the size of the QR code
+                                                ->errorCorrection('H') // Set the error correction level
+                                                ->generate(json_encode(["restaurant_id" => $item->restaurant_id, "table_no" => $item->table_no]))) }}" alt="QR Code">
+                                            
+
+                                                {{-- {!! QrCode::size(100)->generate(json_encode(["restaurant_id" => $item->restaurant_id, "table_no" => $item->table_no])) !!} --}}
+                                            </td>
                                             <td class="align-middle">
 
                                                 {{-- download --}}
