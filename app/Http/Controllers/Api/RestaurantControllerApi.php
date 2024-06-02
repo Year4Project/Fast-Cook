@@ -85,7 +85,7 @@ class RestaurantControllerApi extends Controller
                 ->where('foods.restaurant_id', $id)
                 ->where('restaurants.status', '<>', 0) // Filter restaurants with status not equal to 0
                 ->where('foods.status', 1) // Filter foods with status 1 (available)
-                ->select('foods.*'); // Select all columns from the foods table
+                ->select('foods.*', 'restaurants.name as restaurant_name'); // Select all columns from the foods table
     
             // Add keyword search
             if ($r->has('keyword')) {
