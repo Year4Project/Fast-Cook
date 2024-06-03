@@ -22,7 +22,7 @@ class UserController extends Controller
     public function register(Request $request)
     {
         try {
-            //Validated
+            // Validating user input
             $validateUser = Validator::make(
                 $request->all(),
                 [
@@ -35,23 +35,27 @@ class UserController extends Controller
             if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'validation error',
+                    'message' => 'Validation error',
                     'errors' => $validateUser->errors()
                 ], 400);
             }
-
+    
+            // Create a new user
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'phone' => $request->phone,
                 'password' => Hash::make($request->password),
-                'user_tyep' => 3,
+                'user_type' => 3,
             ]);
-
+    
+            // Generate token
+            $token = JWTAuth::fromUser($user);
+    
             return response()->json([
                 'status' => true,
-                'message' => 'User Created Successfully',
-                'data' => ['token' => $user->createToken("API TOKEN")->accessToken, "user" => $user],
+                'message' => 'User created and logged in successfully',
+                'data' => ['token' => $token, "user" => $user],
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -60,6 +64,7 @@ class UserController extends Controller
             ], 500);
         }
     }
+    
 
     public function temporaryAccount(Request $request)
     {
