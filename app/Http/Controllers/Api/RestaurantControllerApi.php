@@ -76,33 +76,39 @@ class RestaurantControllerApi extends Controller
     public function getListFood(Request $r, $id, $type = null)
     {
         try {
+            Log::info('Entered getListFood method');
+    
             // Retrieve the authenticated user
             $user = JWTAuth::user();
+            Log::info('User retrieved: ' . json_encode($user));
     
-            // Query to retrieve the food list
+            // Query to retrieve the food list along with the restaurant name
             $foodQuery = DB::table('foods')
                 ->join('restaurants', 'foods.restaurant_id', '=', 'restaurants.id')
                 ->where('foods.restaurant_id', $id)
                 ->where('restaurants.status', '<>', 0) // Filter restaurants with status not equal to 0
                 ->where('foods.status', 1) // Filter foods with status 1 (available)
-                ->select('foods.*', 'restaurants.name as restaurant_name'); // Select all columns from the foods table
+                ->select('foods.*', 'restaurants.name as restaurant_name');
     
             // Add keyword search
             if ($r->has('keyword')) {
-                $foodQuery->where(function ($query) use ($r) {
-                    $query->where('foods.name', 'LIKE', "%{$r->keyword}%")
-                          ->orWhere('foods.dPrice', $r->keyword);
+                $keyword = $r->input('keyword');
+                Log::info('Keyword present: ' . $keyword);
+                $foodQuery->where(function ($query) use ($keyword) {
+                    $query->where('foods.name', 'LIKE', "%{$keyword}%")
+                          ->orWhere('foods.dPrice', $keyword);
                 });
             }
     
             // Add type filter
-            $type = $r->query('type');
             if ($type) {
+                Log::info('Type present: ' . $type);
                 $foodQuery->where('foods.type', $type);
             }
     
             // Retrieve food data
             $food = $foodQuery->get();
+            Log::info('Food query result: ' . json_encode($food));
     
             // Check if food records exist
             if ($food->isNotEmpty()) {
@@ -110,6 +116,7 @@ class RestaurantControllerApi extends Controller
                     'status' => true,
                     'message' => 'Successfully listed food',
                     'data' => $food,
+                    'user' => $user
                 ], 200);
             } else {
                 return response()->json([
@@ -121,6 +128,7 @@ class RestaurantControllerApi extends Controller
         } catch (\Exception $e) {
             // Log the error for debugging
             Log::error('Error retrieving food list: ' . $e->getMessage());
+            Log::error('Error trace: ' . $e->getTraceAsString());
     
             return response()->json([
                 'status' => false,
@@ -129,6 +137,7 @@ class RestaurantControllerApi extends Controller
             ], 500);
         }
     }
+    
     
 
      

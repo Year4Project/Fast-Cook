@@ -95,51 +95,103 @@ class UserController extends Controller
      * @param Request $request
      * @return User
      */
+    // public function login(Request $request)
+    // {
+    //     // Data validation
+    //     $request->validate([
+    //         "phone" => "required",
+    //         "password" => "required"
+    //     ]);
+    
+    //     // Attempt to authenticate the user
+    //     if ($token = JWTAuth::attempt([
+    //         "phone" => $request->phone,
+    //         "password" => $request->password
+    //     ])) {
+    //         // Retrieve the authenticated user
+    //         $user = Auth::user();
+    
+    //         // Generate a remember token
+    //         $rememberToken = Str::random(60); // Generating a random token, adjust length as needed
+    
+    //         // Update the user's remember_token in the database
+    //         $user->update(['remember_token' => $rememberToken]);
+    
+    //         // Extend the expiration time of the JWT token to a distant future
+    //         JWTAuth::factory()->setTTL(525600); // 1 year in minutes
+    
+    //         // Get the expiration time of the token
+    //         $expirationTime = time() + (JWTAuth::factory()->getTTL() * 60); // Convert minutes to seconds
+    
+    //         return response()->json([
+    //             "status" => true,
+    //             "message" => "User logged in successfully",
+    //             'data' => [
+    //                 "token" => $token,
+    //                 "user" => $user,
+    //                 "remember_token" => $rememberToken, // Sending remember token in the response
+    //                 "token_expires_at" => $expirationTime // Adding token expiration time to the response
+    //             ],
+    //         ], 200);
+    //     } else {
+    //         return response()->json([
+    //             "status" => false,
+    //             "message" => "Invalid Phone Number or Password"
+    //         ], 400);
+    //     }
+    // }
+
     public function login(Request $request)
-    {
-        // Data validation
-        $request->validate([
-            "phone" => "required",
-            "password" => "required"
-        ]);
-    
-        // Attempt to authenticate the user
-        if ($token = JWTAuth::attempt([
-            "phone" => $request->phone,
-            "password" => $request->password
-        ])) {
-            // Retrieve the authenticated user
-            $user = Auth::user();
-    
-            // Generate a remember token
-            $rememberToken = Str::random(60); // Generating a random token, adjust length as needed
-    
-            // Update the user's remember_token in the database
-            $user->update(['remember_token' => $rememberToken]);
-    
-            // Extend the expiration time of the JWT token to a distant future
-            JWTAuth::factory()->setTTL(525600); // 1 year in minutes
-    
-            // Get the expiration time of the token
-            $expirationTime = time() + (JWTAuth::factory()->getTTL() * 60); // Convert minutes to seconds
-    
-            return response()->json([
-                "status" => true,
-                "message" => "User logged in successfully",
-                'data' => [
-                    "token" => $token,
-                    "user" => $user,
-                    "remember_token" => $rememberToken, // Sending remember token in the response
-                    "token_expires_at" => $expirationTime // Adding token expiration time to the response
-                ],
-            ], 200);
-        } else {
-            return response()->json([
-                "status" => false,
-                "message" => "Invalid Phone Number or Password"
-            ], 400);
-        }
+{
+    // Data validation
+    $request->validate([
+        "phone" => "required",
+        "password" => "required"
+    ]);
+
+    // Attempt to authenticate the user
+    if ($token = JWTAuth::attempt([
+        "phone" => $request->phone,
+        "password" => $request->password
+    ])) {
+        // Retrieve the authenticated user
+        $user = Auth::user();
+
+        // Generate a remember token
+        $rememberToken = Str::random(60); // Generating a random token, adjust length as needed
+
+        // Update the user's remember_token in the database
+        $user->update(['remember_token' => $rememberToken]);
+
+        // Extend the expiration time of the JWT token to a distant future
+        JWTAuth::factory()->setTTL(525600); // 1 year in minutes
+
+        // Get the expiration time of the token in UTC
+        $expirationTime = time() + (JWTAuth::factory()->getTTL() * 60); // Convert minutes to seconds
+
+        // Convert expiration time to Cambodian time (ICT, UTC+7)
+        $expirationTimeInICT = \Carbon\Carbon::createFromTimestamp($expirationTime, 'UTC')
+                             ->setTimezone('Asia/Phnom_Penh')
+                             ->toDateTimeString(); // Format as a string
+
+        return response()->json([
+            "status" => true,
+            "message" => "User logged in successfully",
+            'data' => [
+                "token" => $token,
+                "user" => $user,
+                "remember_token" => $rememberToken, // Sending remember token in the response
+                "token_expires_at" => $expirationTimeInICT // Adding token expiration time to the response
+            ],
+        ], 200);
+    } else {
+        return response()->json([
+            "status" => false,
+            "message" => "Invalid Phone Number or Password"
+        ], 400);
     }
+}
+
     
 
     // public function profile(Request $request)
