@@ -5,8 +5,7 @@ use App\Http\Controllers\Api\RestaurantControllerApi;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\OrderNotificationController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,18 +18,15 @@ use Illuminate\Support\Facades\Request;
 |
 */
 
-Route::middleware('jwt.auth')->get('user', function(Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return auth()->user();
 });
 
-
-
-
-Route::middleware(['apikey', 'auth:api','jwt.auth'])->group(function () {
+Route::middleware(['apikey', 'auth:api', 'jwt.auth'])->group(function () {
     /**Route for View Profile */
-    Route::get('/profile', [UserController::class, "profile"]);
-    
-    Route::put('/profile/update', [UserController::class, "updateProfile"]);
+    Route::get('/profile', [UserController::class, 'profile']);
+
+    Route::put('/profile/update', [UserController::class, 'updateProfile']);
 
     /**Route for list Foods */
     Route::get('/get-food', [RestaurantControllerApi::class, 'getAllFood']);
@@ -43,14 +39,11 @@ Route::middleware(['apikey', 'auth:api','jwt.auth'])->group(function () {
 
     // Route for getting order history
     Route::get('/order-history', [FoodOrderController::class, 'getHistoryOrder']);
-    
-    
+
     /**Route for orders foods */
     Route::post('/order', [FoodOrderController::class, 'orderFood']);
-    
+
     Route::post('/notify-customer/{orderId}/order-accepted', [OrderNotificationController::class, 'notifyCustomerOrderAccepted']);
-
-
 
     /**Route for update status */
     Route::put('/order/updateStatus/{orderId}/{status}', [FoodOrderController::class, 'updateOrderStatus']);
