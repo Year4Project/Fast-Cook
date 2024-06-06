@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     channel.bind('App\\Events\\OrderPlacedEvent', function(data) {
         var orderId = data.order.id;
+        var orderNumber = data.order.orderNumber
         var userName = data.user.first_name + ' ' + data.user.last_name;
         var tableNo = data.order.table_no;
         
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var toastContent = `
         <div class="m-0 p-0">
             <h5>New Order Received</h5>
-            <p><strong>Order ID: ${orderId}</strong></p>
+            <p><strong>Order ID: ${orderNumber}</strong></p>
             <p><strong>User: ${userName}</strong></p>
             <p><strong>Table No: ${tableNo}</strong></p>
             <div style="margin-top: 10px;">
