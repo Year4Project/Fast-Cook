@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var data = {
             status: isAccepted ? 'accepted' : 'rejected'
         };
-
+    
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -76,6 +76,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 var notificationMessage = isAccepted ? 'Your order has been accepted.' : 'Your order has been rejected.';
                 toastr.success(notificationMessage);
+    
+                // Send notification back to API
+                if (isAccepted) {
+                    sendNotificationToCustomer(orderId);
+                }
             } else {
                 alert('Error: ' + data.message);
             }
@@ -87,4 +92,28 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
         });
     }
+    
+    function sendNotificationToCustomer(orderId) {
+        var notificationUrl = '/api/notify-customer/' + orderId + '/order-accepted';
+    
+        fetch(notificationUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Notification sent to customer');
+            } else {
+                console.error('Error sending notification to customer:', data.message);
+            }
+        })
+        .catch((error) => {
+            console.error('Error sending notification to customer:', error);
+        });
+    }
+    
 });
