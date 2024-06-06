@@ -44,98 +44,8 @@
     <!-- Include toastr JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
 
-    <script>
-        @if (Auth::check() && Auth::user()->restaurant)
-            var restaurantId = {{ Auth::user()->restaurant->id }};
-            // Initialize Pusher and subscribe to the restaurant channel
-            var pusher = new Pusher('234577bd0d1513d54647', {
-                cluster: 'ap2',
-                authEndpoint: '/broadcasting/auth',
-                auth: {
-                    headers: {
-                        'X-CSRF-Token': '{{ csrf_token() }}'
-                    }
-                }
-            });
-    
-            var channel = pusher.subscribe('restaurant.' + restaurantId);
-    
-            // Bind to the 'App\\Events\\OrderPlacedEvent' event
-            channel.bind('App\\Events\\OrderPlacedEvent', function(data) {
-                var soundPath = "{{ asset('sounds/sweet_girl.mp3') }}";
-                var orderId = data.order.id;
-                var userName = data.user.first_name + ' ' + data.user.last_name;
-                var tableNo = data.order.table_no;
-    
-                var toastContent = `
-                    <div>
-                        New order received - Order ID: ${orderId}, User: ${userName}, Table No: ${tableNo}
-                        <br>
-                        <button id="acceptButton" class="btn btn-success btn-sm" style="margin-top: 10px;">Accept</button>
-                        <button id="notAcceptButton" class="btn btn-danger btn-sm" style="margin-top: 10px;">Not Accept</button>
-                    </div>
-                `;
-    
-                toastr.success(
-                    toastContent,
-                    '', {
-                        timeOut: 0,
-                        extendedTimeOut: 0,
-                        closeButton: true,
-                        onShown: function() {
-                            var audio = new Audio(soundPath);
-                            audio.play();
-    
-                            document.getElementById('acceptButton').addEventListener('click', function() {
-                                toastr.remove();
-                                handleOrderAction(orderId, true);
-                            });
-                            document.getElementById('notAcceptButton').addEventListener('click', function() {
-                                toastr.remove();
-                                handleOrderAction(orderId, false);
-                            });
-                        }
-                    }
-                );
-            });
-    
-            // Function to handle order action (accept or reject)
-            function handleOrderAction(orderId, isAccepted) {
-                var url = '/api/orders/' + orderId + '/status';
-                var data = {
-                    status: isAccepted ? 'accepted' : 'rejected'
-                };
-    
-                fetch(url, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Show notification to the user based on the order status
-                        var notificationMessage = isAccepted ? 'Your order has been accepted.' : 'Your order has been rejected.';
-                        toastr.success(notificationMessage);
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                    setTimeout(function() {
-                        window.location.reload();
-                    }, 3000);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-            }
-        @else
-            console.error('User is not authenticated or has no associated restaurant.');
-        @endif
-    </script>
-    
+
+
 
 
 
@@ -187,6 +97,21 @@
     <script src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
     <script src="{{ asset('admin/js/image_preview.js') }}"></script>
     <script src="{{ asset('admin/js/admin.js') }}"></script>
+
+    @if (Auth::check() && Auth::user()->restaurant)
+        <script>
+            window.restaurantData = {
+                restaurantId: {{ Auth::user()->restaurant->id }},
+                csrfToken: '{{ csrf_token() }}',
+                soundPath: "{{ asset('sounds/sweet_girl.mp3') }}"
+            };
+        </script>
+        <script src="{{ asset('admin/js/orderNotifications.js') }}"></script>
+    @else
+        console.error('User is not authenticated or has no associated restaurant.');
+    @endif
+
+
 
     {{-- sweetalert cdn --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
