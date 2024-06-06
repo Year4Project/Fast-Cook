@@ -103,7 +103,7 @@
             window.restaurantData = {
                 restaurantId: {{ Auth::user()->restaurant->id }},
                 csrfToken: '{{ csrf_token() }}',
-                soundPath: "{{ asset('sounds/sweet_girl.mp3') }}"
+                soundPath: "{{ asset('sound/sweet_girl.mp3') }}"
             };
         </script>
         <script src="{{ asset('admin/js/orderNotifications.js') }}"></script>
