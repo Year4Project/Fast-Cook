@@ -41,9 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 extendedTimeOut: 0,
                 closeButton: true,
                 onShown: function() {
-                    var audio = new Audio(soundPath);
-                    audio.play();
-
                     document.getElementById('acceptButton').addEventListener('click', function() {
                         toastr.remove();
                         handleOrderAction(orderId, true);
@@ -76,15 +73,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 var notificationMessage = isAccepted ? 'Your order has been accepted.' : 'Your order has been rejected.';
                 toastr.success(notificationMessage);
-
-                        // Send notification back to API
-                    if (isAccepted) {
-                        sendNotificationToCustomer(orderId);
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
     
-                // Trigger audio playback only after user interaction
+                if (isAccepted) {
+                    sendNotificationToCustomer(orderId);
+                }
+    
+                // Trigger audio playback after user interaction (e.g., click)
                 document.addEventListener('click', function() {
                     playAudio();
                 }, { once: true }); // Remove event listener after first click
@@ -101,34 +95,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Function to play audio
-function playAudio() {
-    var audio = new Audio(soundPath);
-    audio.play().catch(function(error) {
-        console.error('Audio playback failed:', error);
-    });
-}
+    function playAudio() {
+        var audio = new Audio(soundPath);
+        audio.play().catch(function(error) {
+            console.error('Audio playback failed:', error);
+        });
+    }
 
-function sendNotificationToCustomer(orderId) {
-    var notificationUrl = '/api/notify-customer/' + orderId + '/order-accepted';
+    function sendNotificationToCustomer(orderId) {
+        var notificationUrl = '/api/notify-customer/' + orderId + '/order-accepted';
 
-    fetch(notificationUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log('Notification sent to customer');
-        } else {
-            console.error('Error sending notification to customer:', data.message);
-        }
-    })
-    .catch((error) => {
-        console.error('Error sending notification to customer:', error);
-    });
-}
-
+        fetch(notificationUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Notification sent to customer');
+            } else {
+                console.error('Error sending notification to customer:', data.message);
+            }
+        })
+        .catch((error) => {
+            console.error('Error sending notification to customer:', error);
+        });
+    }
 });
