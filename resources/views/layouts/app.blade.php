@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <link rel="shortcut icon" type="x-icon" href="{{ asset('admin/img/logo.png') }}">
@@ -30,6 +29,9 @@
     <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.1/dist/echo.iife.js"></script>
     <!-- Include toastr JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!-- Manifest Link -->
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
 </head>
 
 <body id="page-top">
