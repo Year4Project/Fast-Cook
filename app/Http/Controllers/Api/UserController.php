@@ -142,7 +142,7 @@ class UserController extends Controller
             $expirationTimeInSeconds = time() + ($veryLargeTTL * 60); // Convert minutes to seconds
     
             // Convert expiration time to Cambodian time (ICT, UTC+7)
-            $expirationTimeInICT = \Carbon\Carbon::createFromTimestamp($expirationTimeInSeconds, 'UTC')
+            $expirationTimeInICT = Carbon::createFromTimestamp($expirationTimeInSeconds, 'UTC')
                 ->setTimezone('Asia/Phnom_Penh')
                 ->toDateTimeString(); // Format as a string
     
