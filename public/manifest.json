@@ -1,15 +1,20 @@
 {
-    "name": "Your App Name",
-    "short_name": "AppName",
-    "description": "A description of your app.",
-    "start_url": "/",
+    "name": "Restaurant Management System",
+    "short_name": "Restaurant",
+    "description": "The Restaurant Management System (RMS) is a comprehensive software solution designed to streamline and optimize the operations of a restaurant. This system integrates various aspects of restaurant management, including table reservations, order processing, billing, inventory management, and employee scheduling. By consolidating these functions into a single platform, the RMS aims to enhance efficiency, improve customer service, and increase profitability for restaurant owners.",
+    "start_url": "https://restaurant.item2.pro/",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#ffffff",
     "icons": [
         {
-            "src": "/path/to/icon-192x192.png",
+            "src": "https://restaurant.item2.pro/admin/img/logo.png",
             "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/path/to/icon-256x256.png",
+            "sizes": "256x256",
             "type": "image/png"
         },
         {
@@ -18,20 +23,20 @@
             "type": "image/png"
         },
         {
-            "src": "/path/to/icon-256x256.png",
-            "sizes": "256x256",
+            "src": "/path/to/icon-144x144.png",
+            "sizes": "144x144",
             "type": "image/png"
         }
     ],
     "screenshots": [
         {
-            "src": "/path/to/screenshot1.png",
+            "src": "https://restaurant.item2.pro/admin/img/screenshort-dashboard.png",
             "sizes": "640x480",
             "type": "image/png",
             "form_factor": "wide"
         },
         {
-            "src": "/path/to/screenshot2.png",
+            "src": "https://restaurant.item2.pro/admin/img/screenshort-pos.png",
             "sizes": "320x480",
             "type": "image/png"
         }
