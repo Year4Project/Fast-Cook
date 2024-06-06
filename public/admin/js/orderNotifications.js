@@ -27,16 +27,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
 
         var toastContent = `
-            <div class="m=0 p=0">
-                <h5> New order received</h5>
-                <p> <strong>Order ID: ${orderId}</strong> </p>
-                <p> <strong>User: ${userName}</strong> </p>
-                <p> <strong>Table No: ${tableNo}</strong> </p>
-                <br>
-                <button id="acceptButton" class="btn btn-success btn-sm" style="margin-top: 10px;">Accept</button>
-                <button id="notAcceptButton" class="btn btn-danger btn-sm" style="margin-top: 10px;">Not Accept</button>
-            </div>
-        `;
+                    <div class="m-0 p-0">
+                        <h5>New Order Received</h5>
+                        <p><strong>Order ID: ${orderId}</strong></p>
+                        <p><strong>User: ${userName}</strong></p>
+                        <p><strong>Table No: ${tableNo}</strong></p>
+                        <div style="margin-top: 10px;">
+                            <button id="acceptButton" class="btn btn-success btn-sm">Accept</button>
+                            <button id="notAcceptButton" class="btn btn-danger btn-sm" style="margin-left: 10px;">Not Accept</button>
+                        </div>
+                    </div>
+                `;
+
 
         toastr.success(
             toastContent,
