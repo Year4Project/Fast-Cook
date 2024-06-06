@@ -32,6 +32,7 @@ class UserController extends Controller
                     'password' => 'required|string|min:6|max:50|confirmed',
                 ]
             );
+    
             if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
@@ -39,7 +40,7 @@ class UserController extends Controller
                     'errors' => $validateUser->errors()
                 ], 400);
             }
-
+    
             // Create a new user
             $user = User::create([
                 'first_name' => $request->first_name,
@@ -48,14 +49,29 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
                 'user_type' => 3,
             ]);
-
-            // Generate token
+    
+            // Generate token with a long expiration time
+            $veryLargeTTL = 52560000; // 100 years in minutes
+            JWTAuth::factory()->setTTL($veryLargeTTL);
+    
             $token = JWTAuth::fromUser($user);
-
+    
+            // Get the current time in UTC and add the TTL (in seconds)
+            $expirationTimeInSeconds = time() + ($veryLargeTTL * 60); // Convert minutes to seconds
+    
+            // Convert expiration time to Cambodian time (ICT, UTC+7)
+            $expirationTimeInICT = \Carbon\Carbon::createFromTimestamp($expirationTimeInSeconds, 'UTC')
+                ->setTimezone('Asia/Phnom_Penh')
+                ->toDateTimeString(); // Format as a string
+    
             return response()->json([
                 'status' => true,
                 'message' => 'User created and logged in successfully',
-                'data' => ['token' => $token, "user" => $user],
+                'data' => [
+                    'token' => $token,
+                    'user' => $user,
+                    'token_expires_at' => $expirationTimeInICT // Adding token expiration time to the response
+                ],
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -64,6 +80,7 @@ class UserController extends Controller
             ], 500);
         }
     }
+    
 
 
     public function temporaryAccount(Request $request)
