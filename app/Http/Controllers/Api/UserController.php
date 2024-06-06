@@ -39,7 +39,7 @@ class UserController extends Controller
                     'errors' => $validateUser->errors()
                 ], 400);
             }
-    
+
             // Create a new user
             $user = User::create([
                 'first_name' => $request->first_name,
@@ -48,10 +48,10 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
                 'user_type' => 3,
             ]);
-    
+
             // Generate token
             $token = JWTAuth::fromUser($user);
-    
+
             return response()->json([
                 'status' => true,
                 'message' => 'User created and logged in successfully',
@@ -64,7 +64,7 @@ class UserController extends Controller
             ], 500);
         }
     }
-    
+
 
     public function temporaryAccount(Request $request)
     {
@@ -107,7 +107,7 @@ class UserController extends Controller
     //         "phone" => "required",
     //         "password" => "required"
     //     ]);
-    
+
     //     // Attempt to authenticate the user
     //     if ($token = JWTAuth::attempt([
     //         "phone" => $request->phone,
@@ -115,19 +115,19 @@ class UserController extends Controller
     //     ])) {
     //         // Retrieve the authenticated user
     //         $user = Auth::user();
-    
+
     //         // Generate a remember token
     //         $rememberToken = Str::random(60); // Generating a random token, adjust length as needed
-    
+
     //         // Update the user's remember_token in the database
     //         $user->update(['remember_token' => $rememberToken]);
-    
+
     //         // Extend the expiration time of the JWT token to a distant future
     //         JWTAuth::factory()->setTTL(525600); // 1 year in minutes
-    
+
     //         // Get the expiration time of the token
     //         $expirationTime = time() + (JWTAuth::factory()->getTTL() * 60); // Convert minutes to seconds
-    
+
     //         return response()->json([
     //             "status" => true,
     //             "message" => "User logged in successfully",
@@ -147,57 +147,59 @@ class UserController extends Controller
     // }
 
     public function login(Request $request)
-{
-    // Data validation
-    $request->validate([
-        "phone" => "required",
-        "password" => "required"
-    ]);
-
-    // Attempt to authenticate the user
-    if ($token = JWTAuth::attempt([
-        "phone" => $request->phone,
-        "password" => $request->password
-    ])) {
-        // Retrieve the authenticated user
-        $user = Auth::user();
-
-        // Generate a remember token
-        $rememberToken = Str::random(60); // Generating a random token, adjust length as needed
-
-        // Update the user's remember_token in the database
-        $user->update(['remember_token' => $rememberToken]);
-
-        // Extend the expiration time of the JWT token to a distant future
-        JWTAuth::factory()->setTTL(525600); // 1 year in minutes
-
-        // Get the expiration time of the token in UTC
-        $expirationTime = time() + (JWTAuth::factory()->getTTL() * 60); // Convert minutes to seconds
-
-        // Convert expiration time to Cambodian time (ICT, UTC+7)
-        $expirationTimeInICT = \Carbon\Carbon::createFromTimestamp($expirationTime, 'UTC')
-                             ->setTimezone('Asia/Phnom_Penh')
-                             ->toDateTimeString(); // Format as a string
-
-        return response()->json([
-            "status" => true,
-            "message" => "User logged in successfully",
-            'data' => [
-                "token" => $token,
-                "user" => $user,
-                "remember_token" => $rememberToken, // Sending remember token in the response
-                "token_expires_at" => $expirationTimeInICT // Adding token expiration time to the response
-            ],
-        ], 200);
-    } else {
-        return response()->json([
-            "status" => false,
-            "message" => "Invalid Phone Number or Password"
-        ], 400);
-    }
-}
-
+    {
+        // Data validation
+        $request->validate([
+            "phone" => "required",
+            "password" => "required"
+        ]);
     
+        // Attempt to authenticate the user
+        if ($token = JWTAuth::attempt([
+            "phone" => $request->phone,
+            "password" => $request->password
+        ])) {
+            // Retrieve the authenticated user
+            $user = Auth::user();
+    
+            // Generate a remember token
+            $rememberToken = Str::random(60); // Generating a random token, adjust length as needed
+    
+            // Update the user's remember_token in the database
+            $user->update(['remember_token' => $rememberToken]);
+    
+            // Extend the expiration time of the JWT token to a very distant future
+            $veryLargeTTL = 52560000; // 100 years in minutes
+            JWTAuth::factory()->setTTL($veryLargeTTL);
+    
+            // Get the current time in UTC and add the TTL (in seconds)
+            $expirationTimeInSeconds = time() + ($veryLargeTTL * 60); // Convert minutes to seconds
+    
+            // Convert expiration time to Cambodian time (ICT, UTC+7)
+            $expirationTimeInICT = \Carbon\Carbon::createFromTimestamp($expirationTimeInSeconds, 'UTC')
+                ->setTimezone('Asia/Phnom_Penh')
+                ->toDateTimeString(); // Format as a string
+    
+            return response()->json([
+                "status" => true,
+                "message" => "User logged in successfully",
+                'data' => [
+                    "token" => $token,
+                    "user" => $user,
+                    "remember_token" => $rememberToken, // Sending remember token in the response
+                    "token_expires_at" => $expirationTimeInICT // Adding token expiration time to the response
+                ],
+            ], 200);
+        } else {
+            return response()->json([
+                "status" => false,
+                "message" => "Invalid Phone Number or Password"
+            ], 400);
+        }
+    }
+    
+
+
 
     // public function profile(Request $request)
     // {
