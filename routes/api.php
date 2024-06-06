@@ -28,16 +28,28 @@ Route::middleware('jwt.auth')->get('user', function(Request $request) {
 Route::middleware(['apikey', 'auth:api','jwt.auth'])->group(function () {
     /**Route for View Profile */
     Route::get('/profile', [UserController::class, "profile"]);
+    
     Route::put('/profile/update', [UserController::class, "updateProfile"]);
 
     /**Route for list Foods */
     Route::get('/get-food', [RestaurantControllerApi::class, 'getAllFood']);
+
+    /**Route for list Foods */
     Route::get('/listFood/{id}', [RestaurantControllerApi::class, 'getListFood']);
 
+    /**Route for list Restaurant */
     Route::get('/restaurant', [RestaurantControllerApi::class, 'getRestaurant']);
 
+    // Route for getting order history
+    Route::get('/order-history', [FoodOrderController::class, 'getHistoryOrder']);
+    
+    
     /**Route for orders foods */
     Route::post('/order', [FoodOrderController::class, 'orderFood']);
+
+
+    /**Route for update status */
+    Route::put('/order/updateStatus/{orderId}/{status}', [FoodOrderController::class, 'updateOrderStatus']);
 
     /**Route for refresh-token */
     Route::get('/refresh-token', [UserController::class, 'refreshToken']);
