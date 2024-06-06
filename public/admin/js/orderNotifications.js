@@ -24,10 +24,15 @@ document.addEventListener('DOMContentLoaded', function() {
         var orderId = data.order.id;
         var userName = data.user.first_name + ' ' + data.user.last_name;
         var tableNo = data.order.table_no;
+        
 
         var toastContent = `
             <div>
-                New order received - Order ID: ${orderId}, User: ${userName}, Table No: ${tableNo}
+               
+                <h1> New order received</h1>
+                <p> <strong>Order ID: ${orderId}</strong> </p>
+                <p> <strong>User: ${userName}</strong> </p>
+                <p> <strong>Table No: ${tableNo}</strong> </p>
                 <br>
                 <button id="acceptButton" class="btn btn-success btn-sm" style="margin-top: 10px;">Accept</button>
                 <button id="notAcceptButton" class="btn btn-danger btn-sm" style="margin-top: 10px;">Not Accept</button>
