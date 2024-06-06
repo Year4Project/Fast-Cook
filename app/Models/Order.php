@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\OrderStatusUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -64,23 +65,23 @@ class Order extends Model
     {
         // Get the authenticated user
         $user = Auth::user()->restaurant;
-    
+
         // Retrieve all orders related to this restaurant
         $getOrderUser = Order::where('restaurant_id', $user->id)
-        ->with(['user', 'payment_method']) // Eager load the payment_method relationship
-        ->orderBy('id', 'DESC')
-        ->paginate(10);
-    
-    
-            // dd($getOrderUser);
+            ->with(['user', 'payment_method']) // Eager load the payment_method relationship
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+
+
+        // dd($getOrderUser);
         return $getOrderUser;
     }
-    
+
 
     public static function getOrderDetails($orderId)
     {
         // $user = Auth::user()->restaurant->id;
-        $order = Order::with(['user', 'foods','restaurant'])->find($orderId);
+        $order = Order::with(['user', 'foods', 'restaurant'])->find($orderId);
 
         if (!$order) {
             // Handle case when order is not found
@@ -107,5 +108,10 @@ class Order extends Model
         });
     }
 
-   
+    public function updateStatus($status)
+    {
+        $this->status = $status;
+        $this->save();
+        event(new OrderStatusUpdated($this));
+    }
 }

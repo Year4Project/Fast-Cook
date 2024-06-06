@@ -64,10 +64,10 @@
                         <td>{{ $item->quantity }}</td>
                         <td>
                             @if ($item->food->currency === 'KHR')
-                                {{ number_format($item->food->price, 2) }}
+                                {{ number_format($item->food->price) }}
                                 ៛
                             @else
-                                {{ number_format($item->food->price, 2) }}
+                                {{ number_format($item->food->price) }}
                                 $
                             @endif
 
@@ -79,10 +79,10 @@
                         @endphp
                         <td>
                             @if ($item->food->currency === 'KHR')
-                                {{ number_format($subtotal, 2) }}
+                                {{ number_format($subtotal) }}
                                 ៛
                             @else
-                                {{ number_format($subtotal, 2) }}
+                                {{ number_format($subtotal) }}
                                 $
                             @endif
                         </td>
@@ -104,11 +104,11 @@
                 <p>Grand Total(Riel): </p>
                 <p>
                     @if ($item->food->currency === 'KHR')
-                        {{ number_format($total, 2) }}
+                        {{ number_format($total) }}
                         ៛
                     @else
-                        {{ number_format($total, 2) }}
-                        $
+                        {{ number_format($total * 4100) }}
+                        ៛
                     @endif
                 </p>
             </div>
@@ -117,10 +117,10 @@
                 <p>Grand Total(USD): </p>
                 <p>
                     @if ($item->food->currency === 'KHR')
-                        {{ number_format($total / 4100, 2) }}
+                        {{ number_format($total / 4100 ,2) }}
                         ៛
                     @else
-                        {{ number_format($total, 2) }}
+                        {{ number_format($total,2) }}
                         $
                     @endif
                 </p>

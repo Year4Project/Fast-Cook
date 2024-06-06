@@ -99,6 +99,7 @@
                 );
             });
     
+            // Function to handle order action (accept or reject)
             function handleOrderAction(orderId, isAccepted) {
                 var url = '/api/orders/' + orderId + '/status';
                 var data = {
@@ -116,7 +117,9 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert('Order ' + (isAccepted ? 'accepted' : 'not accepted') + '.');
+                        // Show notification to the user based on the order status
+                        var notificationMessage = isAccepted ? 'Your order has been accepted.' : 'Your order has been rejected.';
+                        toastr.success(notificationMessage);
                     } else {
                         alert('Error: ' + data.message);
                     }
@@ -133,52 +136,6 @@
         @endif
     </script>
     
-
-{{-- <script>
-    // function updateStatus(orderId, newStatus) {
-    //     var url = '/api/orders/' + orderId + '/status';
-
-    //     var data = {
-    //         status: newStatus
-    //     };
-
-    //     fetch(url, {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    //         },
-    //         body: JSON.stringify(data)
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         if (data.success) {
-    //             toastr.success('Order status updated successfully.');
-    //             document.querySelector('#statusDropdown').innerText = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
-    //             document.querySelector('#statusDropdown').classList.remove('btn-warning', 'btn-danger', 'btn-success');
-    //             switch (newStatus) {
-    //                 case 'accepted':
-    //                     document.querySelector('#statusDropdown').classList.add('btn-success');
-    //                     break;
-    //                 case 'pending':
-    //                     document.querySelector('#statusDropdown').classList.add('btn-warning');
-    //                     break;
-    //                 case 'rejected':
-    //                     document.querySelector('#statusDropdown').classList.add('btn-danger');
-    //                     break;
-    //             }
-    //             // Reload the page after updating the status
-    //             window.location.reload();
-    //         } else {
-    //             toastr.error('Failed to update order status.');
-    //         }
-    //     })
-    //     .catch((error) => {
-    //         console.error('Error:', error);
-    //         toastr.error('An error occurred while updating order status.');
-    //     });
-    // }
-</script> --}}
 
 
 

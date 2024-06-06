@@ -182,7 +182,7 @@
                                                 @if ($item->currency === 'KHR')
                                                     {{ number_format($totalPrice) }}៛
                                                 @else
-                                                    ${{ number_format($totalPrice * 4100) }}
+                                                    {{ number_format($totalPrice * 4100) }}៛
                                                 @endif
                                             </span>
                                         </div>

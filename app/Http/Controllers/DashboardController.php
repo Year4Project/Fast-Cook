@@ -68,6 +68,8 @@ class DashboardController extends Controller
 
             
             $data['getOrderUser'] = Order::getUserOrders();
+
+            $data['order'] = Order::all();
             // $data['totalPrice'] = Order::sum('total_price');
             return view('owner.dashboard', $data);
         }

@@ -64,19 +64,19 @@
                                         <td class="align-middle">{{ $item->quantity }}</td>
                                         <td class="align-middle">
                                             @if ($item->food->currency === 'KHR')
-                                                {{ number_format($item->food->price, 2) }}
+                                                {{ number_format($item->food->price) }}
                                                 ៛
                                             @else
-                                                {{ number_format($item->food->price, 2) }}
+                                                {{ number_format($item->food->price) }}
                                                 $
                                             @endif
                                         </td>
                                         <td class="align-middle">
                                             @if ($item->food->currency === 'KHR')
-                                                {{ number_format($subTotal, 2) }}
+                                                {{ number_format($subTotal) }}
                                                 ៛
                                             @else
-                                                {{ number_format($subTotal, 2) }}
+                                                {{ number_format($subTotal) }}
                                                 $
                                             @endif
 
@@ -117,8 +117,8 @@
                         <div class="col-4">
                             <div class="row">
                                 <div class="col-6 text-end">
-                                    <h4>Total:</h4>
-                                    {{-- <h4>Payment:</h4> --}}
+                                    <h4>Total USD:</h4>
+                                    <h4>Total KHR:</h4>
                                     <h4>Print:</h4>
 
                                 </div>
@@ -142,11 +142,18 @@
                                 <div class="col-6">
                                     <h4>
                                         @if ($item->food->currency === 'KHR')
-                                            {{ number_format($totalSubtotal, 2) }}
+                                            ${{ number_format($totalSubtotal / 4100) }}
+                                        @else
+                                            ${{ number_format($totalSubtotal) }}
+                                        @endif
+                                    </h4>
+                                    <h4>
+                                        @if ($item->food->currency === 'USD')
+                                            {{ number_format($totalSubtotal * 4100) }}
                                             ៛
                                         @else
-                                            {{ number_format($totalSubtotal, 2) }}
-                                            $
+                                            {{ number_format($totalSubtotal) }}
+                                            ៛
                                         @endif
                                     </h4>
 
