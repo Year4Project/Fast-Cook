@@ -57,8 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         );
     });
 
-    // Function to handle order action (accept or reject)
-function handleOrderAction(orderId, isAccepted) {
+    function handleOrderAction(orderId, isAccepted) {
     var url = '/api/orders/' + orderId + '/status';
     var data = {
         status: isAccepted ? 'accepted' : 'rejected'
@@ -78,9 +77,9 @@ function handleOrderAction(orderId, isAccepted) {
             var notificationMessage = isAccepted ? 'Your order has been accepted.' : 'Your order has been rejected.';
             toastr.success(notificationMessage);
 
-            // Trigger API call to notify customer
+            // Send notification back to API
             if (isAccepted) {
-                notifyCustomer(orderId);
+                sendNotificationToCustomer(orderId);
             }
         } else {
             alert('Error: ' + data.message);
@@ -94,11 +93,10 @@ function handleOrderAction(orderId, isAccepted) {
     });
 }
 
-// Function to notify customer via API call
-function notifyCustomer(orderId) {
-    var notifyUrl = '/api/notify-customer/' + orderId + '/order-accepted';
+function sendNotificationToCustomer(orderId) {
+    var notificationUrl = '/api/notify-customer/' + orderId + '/order-accepted';
 
-    fetch(notifyUrl, {
+    fetch(notificationUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -117,5 +115,5 @@ function notifyCustomer(orderId) {
         console.error('Error sending notification to customer:', error);
     });
 }
-    
+
 });
