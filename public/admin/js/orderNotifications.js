@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-    if (!window.restaurantData) {
+    var restaurantId = document.querySelector('meta[name="restaurant-id"]').getAttribute('content');
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    var soundPath = document.querySelector('meta[name="sound-path"]').getAttribute('content');
+
+    if (!restaurantId || !csrfToken || !soundPath) {
         console.error('Restaurant data not found.');
         return;
     }
-
-    var restaurantId = window.restaurantData.restaurantId;
-    var csrfToken = window.restaurantData.csrfToken;
-    var soundPath = window.restaurantData.soundPath;
 
     var pusher = new Pusher('234577bd0d1513d54647', {
         cluster: 'ap2',

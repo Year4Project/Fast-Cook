@@ -99,17 +99,16 @@
     <script src="{{ asset('admin/js/admin.js') }}"></script>
 
     @if (Auth::check() && Auth::user()->restaurant)
-        <script>
-            window.restaurantData = {
-                restaurantId: {{ Auth::user()->restaurant->id }},
-                csrfToken: '{{ csrf_token() }}',
-                soundPath: "{{ asset('sound/sweet_girl.mp3') }}"
-            };
-        </script>
+        <meta name="restaurant-id" content="{{ Auth::user()->restaurant->id }}">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="sound-path" content="{{ asset('sound/sweet_girl.mp3') }}">
         <script src="{{ asset('admin/js/orderNotifications.js') }}"></script>
     @else
-        console.error('User is not authenticated or has no associated restaurant.');
+        <script>
+            console.error('User is not authenticated or has no associated restaurant.');
+        </script>
     @endif
+
 
 
 
