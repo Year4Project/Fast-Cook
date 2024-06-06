@@ -41,15 +41,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 extendedTimeOut: 0,
                 closeButton: true,
                 onShown: function() {
-                    playAudio(); // Play audio when order is received
-
                     document.getElementById('acceptButton').addEventListener('click', function() {
                         toastr.remove();
                         handleOrderAction(orderId, true);
+                        playAudio(); // Play audio after user interaction (click)
                     });
                     document.getElementById('notAcceptButton').addEventListener('click', function() {
                         toastr.remove();
                         handleOrderAction(orderId, false);
+                        playAudio(); // Play audio after user interaction (click)
                     });
                 }
             }
