@@ -58,38 +58,53 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function handleOrderAction(orderId, isAccepted) {
-    var url = '/api/orders/' + orderId + '/status';
-    var data = {
-        status: isAccepted ? 'accepted' : 'rejected'
-    };
+        var url = '/api/orders/' + orderId + '/status';
+        var data = {
+            status: isAccepted ? 'accepted' : 'rejected'
+        };
+    
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                var notificationMessage = isAccepted ? 'Your order has been accepted.' : 'Your order has been rejected.';
+                toastr.success(notificationMessage);
 
-    fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            var notificationMessage = isAccepted ? 'Your order has been accepted.' : 'Your order has been rejected.';
-            toastr.success(notificationMessage);
-
-            // Send notification back to API
-            if (isAccepted) {
-                sendNotificationToCustomer(orderId);
+                        // Send notification back to API
+                    if (isAccepted) {
+                        sendNotificationToCustomer(orderId);
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+    
+                // Trigger audio playback only after user interaction
+                document.addEventListener('click', function() {
+                    playAudio();
+                }, { once: true }); // Remove event listener after first click
+            } else {
+                alert('Error: ' + data.message);
             }
-        } else {
-            alert('Error: ' + data.message);
-        }
-        setTimeout(function() {
-            window.location.reload();
-        }, 3000);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
+            setTimeout(function() {
+                window.location.reload();
+            }, 3000);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+    // Function to play audio
+function playAudio() {
+    var audio = new Audio(soundPath);
+    audio.play().catch(function(error) {
+        console.error('Audio playback failed:', error);
     });
 }
 
