@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     channel.bind('App\\Events\\OrderPlacedEvent', function(data) {
         var orderId = data.order.id;
-        var orderNumber = data.order.ordernumber
+        var orderNumber = data.order.ordernumber;
         var userName = data.user.first_name + ' ' + data.user.last_name;
         var tableNo = data.order.table_no;
         
