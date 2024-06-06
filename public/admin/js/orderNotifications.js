@@ -57,63 +57,65 @@ document.addEventListener('DOMContentLoaded', function() {
         );
     });
 
-    function handleOrderAction(orderId, isAccepted) {
-        var url = '/api/orders/' + orderId + '/status';
-        var data = {
-            status: isAccepted ? 'accepted' : 'rejected'
-        };
-    
-        fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                var notificationMessage = isAccepted ? 'Your order has been accepted.' : 'Your order has been rejected.';
-                toastr.success(notificationMessage);
-    
-                // Send notification back to API
-                if (isAccepted) {
-                    sendNotificationToCustomer(orderId);
-                }
-            } else {
-                alert('Error: ' + data.message);
+    // Function to handle order action (accept or reject)
+function handleOrderAction(orderId, isAccepted) {
+    var url = '/api/orders/' + orderId + '/status';
+    var data = {
+        status: isAccepted ? 'accepted' : 'rejected'
+    };
+
+    fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            var notificationMessage = isAccepted ? 'Your order has been accepted.' : 'Your order has been rejected.';
+            toastr.success(notificationMessage);
+
+            // Trigger API call to notify customer
+            if (isAccepted) {
+                notifyCustomer(orderId);
             }
-            setTimeout(function() {
-                window.location.reload();
-            }, 3000);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    }
-    
-    function sendNotificationToCustomer(orderId) {
-        var notificationUrl = '/api/notify-customer/' + orderId + '/order-accepted';
-    
-        fetch(notificationUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('Notification sent to customer');
-            } else {
-                console.error('Error sending notification to customer:', data.message);
-            }
-        })
-        .catch((error) => {
-            console.error('Error sending notification to customer:', error);
-        });
-    }
+        } else {
+            alert('Error: ' + data.message);
+        }
+        setTimeout(function() {
+            window.location.reload();
+        }, 3000);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+// Function to notify customer via API call
+function notifyCustomer(orderId) {
+    var notifyUrl = '/api/notify-customer/' + orderId + '/order-accepted';
+
+    fetch(notifyUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Notification sent to customer');
+        } else {
+            console.error('Error sending notification to customer:', data.message);
+        }
+    })
+    .catch((error) => {
+        console.error('Error sending notification to customer:', error);
+    });
+}
     
 });
