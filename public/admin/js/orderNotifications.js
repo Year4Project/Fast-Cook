@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 extendedTimeOut: 0,
                 closeButton: true,
                 onShown: function() {
+                    playAudio(); // Play audio when order is received
+
                     document.getElementById('acceptButton').addEventListener('click', function() {
                         toastr.remove();
                         handleOrderAction(orderId, true);
@@ -77,11 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (isAccepted) {
                     sendNotificationToCustomer(orderId);
                 }
-    
-                // Trigger audio playback after user interaction (e.g., click)
-                document.addEventListener('click', function() {
-                    playAudio();
-                }, { once: true }); // Remove event listener after first click
             } else {
                 alert('Error: ' + data.message);
             }
@@ -94,7 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Function to play audio
     function playAudio() {
         var audio = new Audio(soundPath);
         audio.play().catch(function(error) {
