@@ -47,7 +47,7 @@ Route::middleware(['apikey', 'auth:api','jwt.auth'])->group(function () {
     
     /**Route for orders foods */
     Route::post('/order', [FoodOrderController::class, 'orderFood']);
-
+    
     Route::post('/notify-customer/{orderId}/order-accepted', [OrderNotificationController::class, 'notifyCustomerOrderAccepted']);
 
 
