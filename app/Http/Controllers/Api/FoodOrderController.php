@@ -125,15 +125,17 @@ class FoodOrderController extends Controller
         return response()->json(['success' => true, 'message' => 'Order status updated successfully.']);
     }
 
+
     public function getHistoryOrder(Request $request)
 {
     try {
         // Authenticate the user using JWT
         $user = JWTAuth::parseToken()->authenticate();
 
-        // Retrieve orders for the authenticated user
+        // Retrieve orders for the authenticated user, ordered by created_at in descending order
         $orders = Order::where('user_id', $user->id)
                        ->with('restaurant') // Include related restaurant data if necessary
+                       ->orderBy('created_at', 'desc')
                        ->get();
 
         return response()->json([
