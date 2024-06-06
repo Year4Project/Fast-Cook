@@ -118,26 +118,24 @@ class UserController extends Controller
             'phone' => 'required',
             'password' => 'required',
         ]);
-
+    
         // Attempt to authenticate the user
         if ($token = JWTAuth::attempt(['phone' => $request->phone, 'password' => $request->password])) {
             // Retrieve the authenticated user
             $user = Auth::user();
-
+    
             // Generate a remember token
             $rememberToken = Str::random(60); // Generating a random token, adjust length as needed
-
+    
             // Update the user's remember_token in the database
             $user->update(['remember_token' => $rememberToken]);
-
-            // Get the expiration time of the token in UTC
-            $expirationTime = \Carbon\Carbon::now()->addYears(10)->toDateTimeString(); // Token valid for 10 years
-
+    
+            // Calculate token expiration time
+            $expirationTime = Carbon::now()->addYears(10); // Token valid for 10 years
+    
             // Convert expiration time to Cambodian time (ICT, UTC+7)
-            $expirationTimeInICT = \Carbon\Carbon::createFromTimestamp(strtotime($expirationTime), 'UTC')
-                ->setTimezone('Asia/Phnom_Penh')
-                ->toDateTimeString();
-
+            $expirationTimeInICT = $expirationTime->setTimezone('Asia/Phnom_Penh')->toDateTimeString();
+    
             return response()->json([
                 'status' => true,
                 'message' => 'User logged in successfully',
