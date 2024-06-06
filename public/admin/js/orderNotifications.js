@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
     var channel = pusher.subscribe('restaurant.' + restaurantId);
 
     channel.bind('App\\Events\\OrderPlacedEvent', function(data) {
+        var orderId = data.order.id;
         var orderNumber = data.order.ordernumber;
         var userName = data.user.first_name + ' ' + data.user.last_name;
         var tableNo = data.order.table_no;
-        
 
         var toastContent = `
         <div class="m-0 p-0">
@@ -38,8 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
     `;
-    
-
 
         toastr.success(
             toastContent,
@@ -52,19 +50,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     document.getElementById('acceptButton').addEventListener('click', function() {
                         toastr.remove();
-                        handleOrderAction(orderNumber, true);
+                        handleOrderAction(orderId, true);
                     });
                     document.getElementById('notAcceptButton').addEventListener('click', function() {
                         toastr.remove();
-                        handleOrderAction(orderNumber, false);
+                        handleOrderAction(orderId, false);
                     });
                 }
             }
         );
     });
 
-    function handleOrderAction(orderNumber, isAccepted) {
-        var url = '/api/orders/' + orderNumber + '/status';
+    function handleOrderAction(orderId, isAccepted) {
+        var url = '/api/orders/' + orderId + '/status';
         var data = {
             status: isAccepted ? 'accepted' : 'rejected'
         };
@@ -84,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 toastr.success(notificationMessage);
     
                 if (isAccepted) {
-                    sendNotificationToCustomer(orderNumber);
+                    sendNotificationToCustomer(orderId);
                 }
             } else {
                 alert('Error: ' + data.message);
@@ -105,8 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function sendNotificationToCustomer(orderNumber) {
-        var notificationUrl = '/api/notify-customer/' + orderNumber + '/order-accepted';
+    function sendNotificationToCustomer(orderId) {
+        var notificationUrl = '/api/notify-customer/' + orderId + '/order-accepted';
 
         fetch(notificationUrl, {
             method: 'POST',
