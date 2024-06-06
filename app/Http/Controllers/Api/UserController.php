@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class UserController extends Controller
@@ -142,7 +141,7 @@ class UserController extends Controller
             $expirationTimeInSeconds = time() + ($veryLargeTTL * 60); // Convert minutes to seconds
     
             // Convert expiration time to Cambodian time (ICT, UTC+7)
-            $expirationTimeInICT = Carbon::createFromTimestamp($expirationTimeInSeconds, 'UTC')
+            $expirationTimeInICT = \Carbon\Carbon::createFromTimestamp($expirationTimeInSeconds, 'UTC')
                 ->setTimezone('Asia/Phnom_Penh')
                 ->toDateTimeString(); // Format as a string
     
@@ -163,54 +162,38 @@ class UserController extends Controller
             ], 400);
         }
     }
-   
+    
+
+
+
+
     public function profile()
     {
-        return response()->json([
-            'status' => true,
-            'message' => 'User profile retrieved successfully',
-            'data' => Auth::user(),
-        ], 200);
+        try {
+            // Retrieve the token from the request headers
+            $token = JWTAuth::parseToken();
+
+            // Attempt to authenticate the user using the token
+            $user = $token->authenticate();
+
+            if ($user) {
+                return response()->json([
+                    'success' => true,
+                    'data' => $user
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found'
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
-
-    // public function profile(Request $request)
-    // {
-    //     try {
-    //         // Retrieve the authenticated user
-    //         $user = Auth::user();
-    
-    //         // Generate a new token with a very large TTL (if needed)
-    //         $veryLargeTTL = 52560000; // 100 years in minutes
-    //         JWTAuth::factory()->setTTL($veryLargeTTL);
-    
-    //         // Get the current token or generate a new one
-    //         $token = JWTAuth::fromUser($user);
-    
-    //         // Get the expiration time of the token in UTC
-    //         $expirationTimeInSeconds = time() + ($veryLargeTTL * 60); // Convert minutes to seconds
-    
-    //         // Convert expiration time to Cambodian time (ICT, UTC+7)
-    //         $expirationTimeInICT = Carbon::createFromTimestamp($expirationTimeInSeconds, 'UTC')
-    //             ->setTimezone('Asia/Phnom_Penh')
-    //             ->toDateTimeString(); // Format as a string
-    
-    //         return response()->json([
-    //             "status" => true,
-    //             "message" => "User profile retrieved successfully",
-    //             'data' => [
-    //                 "user" => $user,
-    //                 "token" => $token,
-    //                 "token_expires_at" => $expirationTimeInICT // Adding token expiration time to the response
-    //             ],
-    //         ], 200);
-    //     } catch (\Throwable $th) {
-    //         return response()->json([
-    //             "status" => false,
-    //             "message" => $th->getMessage()
-    //         ], 500);
-    //     }
-    // }
-
 
 
     public function updateProfile(Request $request)
