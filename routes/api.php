@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\FoodOrderController;
 use App\Http\Controllers\Api\RestaurantControllerApi;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\OrderNotificationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
@@ -47,7 +48,7 @@ Route::middleware(['apikey', 'auth:api','jwt.auth'])->group(function () {
     /**Route for orders foods */
     Route::post('/order', [FoodOrderController::class, 'orderFood']);
 
-    Route::post('/notify-customer/{orderId}/order-accepted', 'OrderNotificationController@notifyCustomerOrderAccepted');
+    Route::post('/notify-customer/{orderId}/order-accepted', [OrderNotificationController::class, 'notifyCustomerOrderAccepted']);
 
 
 
