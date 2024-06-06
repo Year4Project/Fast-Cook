@@ -27,9 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
 
         var toastContent = `
-            <div>
-               
-                <h1> New order received</h1>
+            <div class="m=0 p=0">
+                <h5> New order received</h5>
                 <p> <strong>Order ID: ${orderId}</strong> </p>
                 <p> <strong>User: ${userName}</strong> </p>
                 <p> <strong>Table No: ${tableNo}</strong> </p>
