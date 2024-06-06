@@ -163,45 +163,53 @@ class UserController extends Controller
             ], 400);
         }
     }
-    
-
-    public function profile(Request $request)
+   
+    public function profile()
     {
-        try {
-            // Retrieve the authenticated user
-            $user = Auth::user();
-    
-            // Generate a new token with a very large TTL (if needed)
-            $veryLargeTTL = 52560000; // 100 years in minutes
-            JWTAuth::factory()->setTTL($veryLargeTTL);
-    
-            // Get the current token or generate a new one
-            $token = JWTAuth::fromUser($user);
-    
-            // Get the expiration time of the token in UTC
-            $expirationTimeInSeconds = time() + ($veryLargeTTL * 60); // Convert minutes to seconds
-    
-            // Convert expiration time to Cambodian time (ICT, UTC+7)
-            $expirationTimeInICT = Carbon::createFromTimestamp($expirationTimeInSeconds, 'UTC')
-                ->setTimezone('Asia/Phnom_Penh')
-                ->toDateTimeString(); // Format as a string
-    
-            return response()->json([
-                "status" => true,
-                "message" => "User profile retrieved successfully",
-                'data' => [
-                    "user" => $user,
-                    "token" => $token,
-                    "token_expires_at" => $expirationTimeInICT // Adding token expiration time to the response
-                ],
-            ], 200);
-        } catch (\Throwable $th) {
-            return response()->json([
-                "status" => false,
-                "message" => $th->getMessage()
-            ], 500);
-        }
+        return response()->json([
+            'status' => true,
+            'message' => 'User profile retrieved successfully',
+            'data' => Auth::user(),
+        ], 200);
     }
+
+    // public function profile(Request $request)
+    // {
+    //     try {
+    //         // Retrieve the authenticated user
+    //         $user = Auth::user();
+    
+    //         // Generate a new token with a very large TTL (if needed)
+    //         $veryLargeTTL = 52560000; // 100 years in minutes
+    //         JWTAuth::factory()->setTTL($veryLargeTTL);
+    
+    //         // Get the current token or generate a new one
+    //         $token = JWTAuth::fromUser($user);
+    
+    //         // Get the expiration time of the token in UTC
+    //         $expirationTimeInSeconds = time() + ($veryLargeTTL * 60); // Convert minutes to seconds
+    
+    //         // Convert expiration time to Cambodian time (ICT, UTC+7)
+    //         $expirationTimeInICT = Carbon::createFromTimestamp($expirationTimeInSeconds, 'UTC')
+    //             ->setTimezone('Asia/Phnom_Penh')
+    //             ->toDateTimeString(); // Format as a string
+    
+    //         return response()->json([
+    //             "status" => true,
+    //             "message" => "User profile retrieved successfully",
+    //             'data' => [
+    //                 "user" => $user,
+    //                 "token" => $token,
+    //                 "token_expires_at" => $expirationTimeInICT // Adding token expiration time to the response
+    //             ],
+    //         ], 200);
+    //     } catch (\Throwable $th) {
+    //         return response()->json([
+    //             "status" => false,
+    //             "message" => $th->getMessage()
+    //         ], 500);
+    //     }
+    // }
 
 
 
