@@ -61,7 +61,7 @@ class UserController extends Controller
             $expirationTimeInSeconds = time() + ($veryLargeTTL * 60); // Convert minutes to seconds
 
             // Convert expiration time to Cambodian time (ICT, UTC+7)
-            $expirationTimeInICT = \Carbon\Carbon::createFromTimestamp($expirationTimeInSeconds, 'UTC')
+            $expirationTimeInICT = Carbon::createFromTimestamp($expirationTimeInSeconds, 'UTC')
                 ->setTimezone('Asia/Phnom_Penh')
                 ->toDateTimeString(); // Format as a string
 
@@ -119,24 +119,24 @@ class UserController extends Controller
             'phone' => 'required',
             'password' => 'required',
         ]);
-
+    
         // Attempt to authenticate the user
         if ($token = JWTAuth::attempt(['phone' => $request->phone, 'password' => $request->password])) {
             // Retrieve the authenticated user
             $user = Auth::user();
-
+    
             // Generate a remember token
             $rememberToken = Str::random(60); // Generating a random token, adjust length as needed
-
+    
             // Update the user's remember_token in the database
             $user->update(['remember_token' => $rememberToken]);
-
+    
             // Calculate token expiration time
             $expirationTime = Carbon::now()->addYears(10); // Token valid for 10 years
-
+    
             // Convert expiration time to Cambodian time (ICT, UTC+7)
             $expirationTimeInICT = $expirationTime->setTimezone('Asia/Phnom_Penh')->toDateTimeString();
-
+    
             return response()->json([
                 'status' => true,
                 'message' => 'User logged in successfully',
@@ -155,66 +155,89 @@ class UserController extends Controller
         }
     }
 
+    // public function login(Request $request)
+    // {
+    //     // Data validation
+    //     $request->validate([
+    //         "phone" => "required",
+    //         "password" => "required"
+    //     ]);
+
+    //     // Attempt to authenticate the user
+    //     if ($token = JWTAuth::attempt([
+    //         "phone" => $request->phone,
+    //         "password" => $request->password
+    //     ])) {
+    //         // Retrieve the authenticated user
+    //         $user = Auth::user();
+
+    //         // Generate a remember token
+    //         $rememberToken = Str::random(60); // Generating a random token, adjust length as needed
+
+    //         // Update the user's remember_token in the database
+    //         $user->update(['remember_token' => $rememberToken]);
+
+    //         // Extend the expiration time of the JWT token to a very distant future
+    //         $veryLargeTTL = 52560000; // 100 years in minutes
+    //         JWTAuth::factory()->setTTL($veryLargeTTL);
+
+    //         // Get the current time in UTC and add the TTL (in seconds)
+    //         $expirationTimeInSeconds = time() + ($veryLargeTTL * 60); // Convert minutes to seconds
+
+    //         // Convert expiration time to Cambodian time (ICT, UTC+7)
+    //         $expirationTimeInICT = \Carbon\Carbon::createFromTimestamp($expirationTimeInSeconds, 'UTC')
+    //             ->setTimezone('Asia/Phnom_Penh')
+    //             ->toDateTimeString(); // Format as a string
+
+    //         return response()->json([
+    //             "status" => true,
+    //             "message" => "User logged in successfully",
+    //             'data' => [
+    //                 "token" => $token,
+    //                 "user" => $user,
+    //                 "remember_token" => $rememberToken, // Sending remember token in the response
+    //                 "token_expires_at" => $expirationTimeInICT // Adding token expiration time to the response
+    //             ],
+    //         ], 200);
+    //     } else {
+    //         return response()->json([
+    //             "status" => false,
+    //             "message" => "Invalid Phone Number or Password"
+    //         ], 400);
+    //     }
+    // }
+
+
+
+
 
     public function profile()
     {
         try {
-            // Retrieve the authenticated user
-            $user = auth()->user();
-    
-            // Check if user is authenticated
-            if (!$user) {
+            // Retrieve the token from the request headers
+            $token = JWTAuth::parseToken();
+
+            // Attempt to authenticate the user using the token
+            $user = $token->authenticate();
+
+            if ($user) {
                 return response()->json([
-                    'status' => false,
-                    'message' => 'User not authenticated',
-                ], 401);
+                    'success' => true,
+                    'data' => $user
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found'
+                ], 404);
             }
-    
-            return response()->json([
-                'status' => true,
-                'message' => 'User profile retrieved successfully',
-                'data' => [
-                    'user' => $user
-                ],
-            ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'status' => false,
-                'message' => 'An error occurred while retrieving the profile',
-                'error' => $e->getMessage(),
+                'success' => false,
+                'message' => $e->getMessage()
             ], 500);
         }
     }
-    
-
-
-    // public function profile()
-    // {
-    //     try {
-    //         // Retrieve the token from the request headers
-    //         $token = JWTAuth::parseToken();
-
-    //         // Attempt to authenticate the user using the token
-    //         $user = $token->authenticate();
-
-    //         if ($user) {
-    //             return response()->json([
-    //                 'success' => true,
-    //                 'data' => $user
-    //             ]);
-    //         } else {
-    //             return response()->json([
-    //                 'success' => false,
-    //                 'message' => 'User not found'
-    //             ], 404);
-    //         }
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => $e->getMessage()
-    //         ], 500);
-    //     }
-    // }
 
 
     public function updateProfile(Request $request)
