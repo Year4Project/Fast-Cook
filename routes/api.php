@@ -22,6 +22,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return auth()->user();
 });
 
+Route::middleware('auth:api')->get('/profile', [UserController::class, 'profile']);
+
+
 Route::middleware(['apikey', 'auth:api', 'jwt.auth'])->group(function () {
     /**Route for View Profile */
     Route::get('/profile', [UserController::class, 'profile']);
