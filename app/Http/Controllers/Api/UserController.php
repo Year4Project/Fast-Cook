@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
@@ -119,24 +120,24 @@ class UserController extends Controller
             'phone' => 'required',
             'password' => 'required',
         ]);
-    
+
         // Attempt to authenticate the user
         if ($token = JWTAuth::attempt(['phone' => $request->phone, 'password' => $request->password])) {
             // Retrieve the authenticated user
             $user = Auth::user();
-    
+
             // Generate a remember token
             $rememberToken = Str::random(60); // Generating a random token, adjust length as needed
-    
+
             // Update the user's remember_token in the database
             $user->update(['remember_token' => $rememberToken]);
-    
+
             // Calculate token expiration time
             $expirationTime = Carbon::now()->addYears(10); // Token valid for 10 years
-    
+
             // Convert expiration time to Cambodian time (ICT, UTC+7)
             $expirationTimeInICT = $expirationTime->setTimezone('Asia/Phnom_Penh')->toDateTimeString();
-    
+
             return response()->json([
                 'status' => true,
                 'message' => 'User logged in successfully',
@@ -213,31 +214,17 @@ class UserController extends Controller
 
     public function profile()
     {
-        try {
-            // Retrieve the token from the request headers
-            $token = JWTAuth::parseToken();
+        // Retrieve authenticated user
+        $user = Auth::user();
 
-            // Attempt to authenticate the user using the token
-            $user = $token->authenticate();
-
-            if ($user) {
-                return response()->json([
-                    'success' => true,
-                    'data' => $user
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'User not found'
-                ], 404);
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ], 500);
-        }
+        // Return user information
+        return response()->json([
+            'status' => true,
+            'message' => 'User information retrieved successfully',
+            'data' => $user,
+        ], 200);
     }
+
 
 
     public function updateProfile(Request $request)
