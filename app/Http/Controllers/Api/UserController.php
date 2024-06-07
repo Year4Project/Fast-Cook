@@ -212,17 +212,23 @@ class UserController extends Controller
 
 
 
-    public function profile()
+    public function profile(Request $request)
     {
-        // Retrieve authenticated user
-        $user = Auth::user();
-
-        // Return user information
-        return response()->json([
-            'status' => true,
-            'message' => 'User information retrieved successfully',
-            'data' => $user,
-        ], 200);
+        // Attempt to authenticate the user using the token in the request header
+        if ($user = Auth::guard('api')->user()) {
+            // Return user information
+            return response()->json([
+                'status' => true,
+                'message' => 'User information retrieved successfully',
+                'data' => $user,
+            ], 200);
+        } else {
+            // If the user is not authenticated
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthorized',
+            ], 401);
+        }
     }
 
 
