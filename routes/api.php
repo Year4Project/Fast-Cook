@@ -20,23 +20,10 @@ use Illuminate\Support\Facades\Auth;
 */
 
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    $user = Auth::user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-    if ($user) {
-        // User is authenticated, return user information
-        return response()->json([
-            'success' => true,
-            'user' => $user,
-        ]);
-    } else {
-        // User is not authenticated
-        return response()->json([
-            'success' => false,
-            'message' => 'Unauthenticated',
-        ], 401);
-    }
-});
 
 Route::middleware(['apikey', 'auth:api', 'jwt.auth'])->group(function () {
     /**Route for View Profile */
