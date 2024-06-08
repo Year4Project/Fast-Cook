@@ -213,36 +213,36 @@ class UserController extends Controller
 
 
 
-    // public function profile(Request $request)
-    // {
-    //     try {
-    //         // Attempt to authenticate the user using the token in the request header
-    //         if ($user = Auth::guard('api')->user()) {
-    //             // Log the authenticated user for debugging
-    //             Log::info('Authenticated user: ', ['user' => $user]);
+    public function profile(Request $request)
+    {
+        try {
+            // Attempt to authenticate the user using the token in the request header
+            if ($user = Auth::guard('api')->user()) {
+                // Log the authenticated user for debugging
+                Log::info('Authenticated user: ', ['user' => $user]);
     
-    //             // Return user information
-    //             return response()->json([
-    //                 'status' => true,
-    //                 'message' => 'User information retrieved successfully',
-    //                 'data' => $user->only(['id', 'name', 'email', 'phone']), // Ensure only non-sensitive info is returned
-    //             ], 200);
-    //         } else {
-    //             // If the user is not authenticated
-    //             return response()->json([
-    //                 'status' => false,
-    //                 'message' => 'Unauthorized',
-    //             ], 401);
-    //         }
-    //     } catch (\Exception $e) {
-    //         Log::error('Error retrieving user profile: ', ['error' => $e->getMessage()]);
-    //         return response()->json([
-    //             'status' => false,
-    //             'message' => 'An error occurred',
-    //             'error' => $e->getMessage(),
-    //         ], 500);
-    //     }
-    // }
+                // Return user information
+                return response()->json([
+                    'status' => true,
+                    'message' => 'User information retrieved successfully',
+                    'data' => $user->only(['id', 'name', 'email', 'phone']), // Ensure only non-sensitive info is returned
+                ], 200);
+            } else {
+                // If the user is not authenticated
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Unauthorized',
+                ], 401);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error retrieving user profile: ', ['error' => $e->getMessage()]);
+            return response()->json([
+                'status' => false,
+                'message' => 'An error occurred',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
     
 
 

@@ -20,14 +20,14 @@ use Illuminate\Support\Facades\Auth;
 */
 
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 
-Route::middleware(['apikey', 'auth:api', 'jwt.auth'])->group(function () {
+Route::middleware(['apikey', 'auth:api', 'jwt.auth'])->group(function (Request $request) {
     /**Route for View Profile */
-    // Route::get('/profile', [UserController::class, 'profile']);
+    Route::get('/profile', [UserController::class, 'profile']);
 
     Route::put('/profile/update', [UserController::class, 'updateProfile']);
 
