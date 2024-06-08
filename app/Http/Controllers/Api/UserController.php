@@ -158,21 +158,49 @@ class UserController extends Controller
         }
     }
 
+    // Existing methods (login, register, etc.)
+
+    /**
+     * Retrieve the authenticated user's profile.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function profile(Request $request)
+    {
+        try {
+            // Retrieve the authenticated user
+            $user = Auth::user();
+
+            // Return user information
+            return response()->json([
+                'status' => true,
+                'message' => 'User information retrieved successfully',
+                'data' => $user,
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any errors that occur
+            return response()->json([
+                'status' => false,
+                'message' => 'Error retrieving user information',
+            ], 500);
+        }
+    }
 
     public function updateUser(Request $request, $id)
     {
         try {
             // Get the authenticated user
             $authenticatedUser = Auth::user();
-            
+
             // Check if the authenticated user matches the requested user ID
             if ($authenticatedUser->id != $id) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
-    
+
             // Find the user by ID
             $userToUpdate = User::findOrFail($id);
-    
+
             // Validate the incoming request data
             $request->validate([
                 'first_name' => 'string|max:255',
@@ -182,7 +210,7 @@ class UserController extends Controller
                 'image_url' => 'url|nullable',
                 // Add validation rules for other fields as needed
             ]);
-    
+
             // Update user data
             $userToUpdate->update([
                 'first_name' => $request->input('first_name', $userToUpdate->first_name),
@@ -192,10 +220,10 @@ class UserController extends Controller
                 'image_url' => $request->input('image_url', $userToUpdate->image_url),
                 // Update other fields as needed
             ]);
-    
+
             // Optionally, you can refresh the user model to get the updated data
             $userToUpdate = $userToUpdate->fresh();
-    
+
             // Return the updated profile
             $profile = [
                 'id' => $userToUpdate->id,
@@ -206,7 +234,7 @@ class UserController extends Controller
                 'image' => $this->getImageBase64($userToUpdate->image_url),
                 // Add more fields as needed
             ];
-    
+
             return response()->json(['profile' => $profile], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
