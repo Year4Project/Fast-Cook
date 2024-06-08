@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Str;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class UserController extends Controller
@@ -157,141 +158,58 @@ class UserController extends Controller
         }
     }
 
-    // public function login(Request $request)
-    // {
-    //     // Data validation
-    //     $request->validate([
-    //         "phone" => "required",
-    //         "password" => "required"
-    //     ]);
 
-    //     // Attempt to authenticate the user
-    //     if ($token = JWTAuth::attempt([
-    //         "phone" => $request->phone,
-    //         "password" => $request->password
-    //     ])) {
-    //         // Retrieve the authenticated user
-    //         $user = Auth::user();
-
-    //         // Generate a remember token
-    //         $rememberToken = Str::random(60); // Generating a random token, adjust length as needed
-
-    //         // Update the user's remember_token in the database
-    //         $user->update(['remember_token' => $rememberToken]);
-
-    //         // Extend the expiration time of the JWT token to a very distant future
-    //         $veryLargeTTL = 52560000; // 100 years in minutes
-    //         JWTAuth::factory()->setTTL($veryLargeTTL);
-
-    //         // Get the current time in UTC and add the TTL (in seconds)
-    //         $expirationTimeInSeconds = time() + ($veryLargeTTL * 60); // Convert minutes to seconds
-
-    //         // Convert expiration time to Cambodian time (ICT, UTC+7)
-    //         $expirationTimeInICT = \Carbon\Carbon::createFromTimestamp($expirationTimeInSeconds, 'UTC')
-    //             ->setTimezone('Asia/Phnom_Penh')
-    //             ->toDateTimeString(); // Format as a string
-
-    //         return response()->json([
-    //             "status" => true,
-    //             "message" => "User logged in successfully",
-    //             'data' => [
-    //                 "token" => $token,
-    //                 "user" => $user,
-    //                 "remember_token" => $rememberToken, // Sending remember token in the response
-    //                 "token_expires_at" => $expirationTimeInICT // Adding token expiration time to the response
-    //             ],
-    //         ], 200);
-    //     } else {
-    //         return response()->json([
-    //             "status" => false,
-    //             "message" => "Invalid Phone Number or Password"
-    //         ], 400);
-    //     }
-    // }
-
-
-
-
-
-    public function profile(Request $request)
+    public function updateUser(Request $request, $id)
     {
         try {
-            // Attempt to authenticate the user using the token in the request header
-            if ($user = Auth::guard('api')->user()) {
-                // Log the authenticated user for debugging
-                Log::info('Authenticated user: ', ['user' => $user]);
-    
-                // Return user information
-                return response()->json([
-                    'status' => true,
-                    'message' => 'User information retrieved successfully',
-                    'data' => $user->only(['id', 'name', 'email', 'phone']), // Ensure only non-sensitive info is returned
-                ], 200);
-            } else {
-                // If the user is not authenticated
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Unauthorized',
-                ], 401);
+            // Get the authenticated user
+            $authenticatedUser = Auth::user();
+            
+            // Check if the authenticated user matches the requested user ID
+            if ($authenticatedUser->id != $id) {
+                return response()->json(['error' => 'Unauthorized'], 401);
             }
-        } catch (\Exception $e) {
-            Log::error('Error retrieving user profile: ', ['error' => $e->getMessage()]);
-            return response()->json([
-                'status' => false,
-                'message' => 'An error occurred',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
-    }
     
-
-
-
-    public function updateProfile(Request $request)
-    {
-        try {
-            // Dump and die to inspect the request data
-            // dd($request->all());
-
-            // Authenticate the user using JWT
-            $user = JWTAuth::parseToken()->authenticate();
-
+            // Find the user by ID
+            $userToUpdate = User::findOrFail($id);
+    
             // Validate the incoming request data
             $request->validate([
                 'first_name' => 'string|max:255',
                 'last_name' => 'string|max:255',
-                'email' => 'email|max:255|unique:users,email,' . $user->id,
+                'email' => 'email|max:255|unique:users,email,' . $id,
                 'phone' => 'string|max:20',
                 'image_url' => 'url|nullable',
+                // Add validation rules for other fields as needed
             ]);
-
+    
             // Update user data
-            $user->update([
-                'first_name' => $request->input('first_name', $user->first_name),
-                'last_name' => $request->input('last_name', $user->last_name),
-                'email' => $request->input('email', $user->email),
-                'phone' => $request->input('phone', $user->phone),
-                'image_url' => $request->input('image_url', $user->image_url),
-                // Add more fields as needed
+            $userToUpdate->update([
+                'first_name' => $request->input('first_name', $userToUpdate->first_name),
+                'last_name' => $request->input('last_name', $userToUpdate->last_name),
+                'email' => $request->input('email', $userToUpdate->email),
+                'phone' => $request->input('phone', $userToUpdate->phone),
+                'image_url' => $request->input('image_url', $userToUpdate->image_url),
+                // Update other fields as needed
             ]);
-
+    
             // Optionally, you can refresh the user model to get the updated data
-            $user = $user->fresh();
-
+            $userToUpdate = $userToUpdate->fresh();
+    
             // Return the updated profile
             $profile = [
-                'id' => $user->id,
-                'first_name' => $user->first_name,
-                'last_name' => $user->last_name,
-                'email' => $user->email,
-                'phone' => $user->phone,
-                'image' => $this->getImageBase64($user->image_url),
+                'id' => $userToUpdate->id,
+                'first_name' => $userToUpdate->first_name,
+                'last_name' => $userToUpdate->last_name,
+                'email' => $userToUpdate->email,
+                'phone' => $userToUpdate->phone,
+                'image' => $this->getImageBase64($userToUpdate->image_url),
                 // Add more fields as needed
             ];
-
+    
             return response()->json(['profile' => $profile], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 

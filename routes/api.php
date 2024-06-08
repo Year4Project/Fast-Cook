@@ -20,16 +20,15 @@ use Illuminate\Support\Facades\Auth;
 */
 
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-
-Route::middleware(['apikey', 'auth:api', 'jwt.auth'])->group(function (Request $request) {
-    /**Route for View Profile */
+Route::middleware(['auth:api', 'keyapi'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);
+    Route::put('/user/{id}', [UserController::class, 'updateUser']);
+});
 
-    Route::put('/profile/update', [UserController::class, 'updateProfile']);
+
+
+Route::middleware(['apikey', 'auth:api', 'jwt.auth'])->group(function () {
+    /**Route for View Profile */
 
     /**Route for list Foods */
     Route::get('/get-food', [RestaurantControllerApi::class, 'getAllFood']);
