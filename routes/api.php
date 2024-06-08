@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\OrderNotificationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +19,28 @@ use Illuminate\Http\Request;
 |
 */
 
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return auth()->user();
+    $user = Auth::user();
+
+    if ($user) {
+        // User is authenticated, return user information
+        return response()->json([
+            'success' => true,
+            'user' => $user,
+        ]);
+    } else {
+        // User is not authenticated
+        return response()->json([
+            'success' => false,
+            'message' => 'Unauthenticated',
+        ], 401);
+    }
 });
 
 Route::middleware(['apikey', 'auth:api', 'jwt.auth'])->group(function () {
     /**Route for View Profile */
-    Route::get('/profile', [UserController::class, 'profile']);
+    // Route::get('/profile', [UserController::class, 'profile']);
 
     Route::put('/profile/update', [UserController::class, 'updateProfile']);
 
