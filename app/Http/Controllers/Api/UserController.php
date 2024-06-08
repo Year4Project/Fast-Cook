@@ -187,57 +187,60 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Update the authenticated user's profile.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateUser(Request $request, $id)
     {
         try {
-            // Get the authenticated user
-            $authenticatedUser = Auth::user();
+            // Authenticate the user using JWT
+            $user = Auth::user();
 
-            // Check if the authenticated user matches the requested user ID
-            if ($authenticatedUser->id != $id) {
+            // Ensure the authenticated user is the one being updated
+            if ($user->id != $id) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
-
-            // Find the user by ID
-            $userToUpdate = User::findOrFail($id);
 
             // Validate the incoming request data
             $request->validate([
                 'first_name' => 'string|max:255',
                 'last_name' => 'string|max:255',
-                'email' => 'email|max:255|unique:users,email,' . $id,
+                'email' => 'email|max:255|unique:users,email,' . $user->id,
                 'phone' => 'string|max:20',
                 'image_url' => 'url|nullable',
-                // Add validation rules for other fields as needed
             ]);
 
             // Update user data
-            $userToUpdate->update([
-                'first_name' => $request->input('first_name', $userToUpdate->first_name),
-                'last_name' => $request->input('last_name', $userToUpdate->last_name),
-                'email' => $request->input('email', $userToUpdate->email),
-                'phone' => $request->input('phone', $userToUpdate->phone),
-                'image_url' => $request->input('image_url', $userToUpdate->image_url),
-                // Update other fields as needed
+            $user->update([
+                'first_name' => $request->input('first_name', $user->first_name),
+                'last_name' => $request->input('last_name', $user->last_name),
+                'email' => $request->input('email', $user->email),
+                'phone' => $request->input('phone', $user->phone),
+                'image_url' => $request->input('image_url', $user->image_url),
+                // Add more fields as needed
             ]);
 
             // Optionally, you can refresh the user model to get the updated data
-            $userToUpdate = $userToUpdate->fresh();
+            $user = $user->fresh();
 
             // Return the updated profile
-            $profile = [
-                'id' => $userToUpdate->id,
-                'first_name' => $userToUpdate->first_name,
-                'last_name' => $userToUpdate->last_name,
-                'email' => $userToUpdate->email,
-                'phone' => $userToUpdate->phone,
-                'image' => $this->getImageBase64($userToUpdate->image_url),
+            $data = [
+                'id' => $user->id,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'image_url' => $user->image_url,
                 // Add more fields as needed
             ];
 
-            return response()->json(['profile' => $profile], 200);
+            return response()->json(['data' => $data], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
 
