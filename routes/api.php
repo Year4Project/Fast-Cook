@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 
-Route::middleware(['auth:api', 'keyapi'])->group(function () {
+Route::middleware(['auth:api', 'apikey'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);
     Route::put('/user/{id}', [UserController::class, 'updateUser']);
 });
