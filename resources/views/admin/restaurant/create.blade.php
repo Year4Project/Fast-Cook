@@ -114,7 +114,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group" id="map" style="height: 400px; width: 800px;"
+                                        <div class="form-group" id="map" style="height: 400px;"
                                             class="my-3"></div>
 
 

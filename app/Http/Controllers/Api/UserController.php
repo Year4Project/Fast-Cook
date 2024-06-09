@@ -196,7 +196,7 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateProfile(Request $request, $id)
+    public function updateUser(Request $request, $id)
     {
         try {
             // Authenticate the user using JWT

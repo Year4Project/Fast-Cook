@@ -136,7 +136,7 @@ class FoodOrderController extends Controller
         $orders = Order::where('user_id', $user->id)
                        ->with('restaurant') // Include related restaurant data if necessary
                        ->orderBy('created_at', 'desc')
-                       ->get();
+                       ->paginate(20);
 
         return response()->json([
             'status' => true,
