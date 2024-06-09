@@ -168,6 +168,7 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function profile(Request $request)
     {
         try {
@@ -188,7 +189,7 @@ class UserController extends Controller
             ], 500);
         }
     }
-
+    
     /**
      * Update the authenticated user's profile.
      *
@@ -230,7 +231,7 @@ class UserController extends Controller
             $user = $user->fresh();
 
             // Return the updated profile
-            $data = [
+            $profile = [
                 'id' => $user->id,
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
@@ -240,7 +241,7 @@ class UserController extends Controller
                 // Add more fields as needed
             ];
 
-            return response()->json(['data' => $data], 200);
+            return response()->json(['profile' => $profile], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
