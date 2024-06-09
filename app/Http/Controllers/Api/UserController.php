@@ -92,16 +92,17 @@ class UserController extends Controller
         try {
             // Generate random values or use defaults
             $faker = \Faker\Factory::create();
-
+    
             // Create user with generated or default values
             $user = User::create([
                 'first_name' => $request->filled('first_name') ? $request->first_name : $faker->firstName,
                 'last_name' => $request->filled('last_name') ? $request->last_name : $faker->lastName,
                 'phone' => $request->filled('phone') ? $request->phone : $faker->unique()->phoneNumber,
                 'password' => $request->filled('password') ? Hash::make($request->password) : Hash::make($faker->password),
-                'user_type' == 4, // Assuming user type 3 for temporary accounts
+                'user_type' => 4, // Assuming user type 4 for temporary accounts
+                'created_at' => now(),
             ]);
-
+    
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
@@ -114,6 +115,7 @@ class UserController extends Controller
             ], 500);
         }
     }
+
 
     public function login(Request $request)
     {
@@ -241,27 +243,6 @@ class UserController extends Controller
             return response()->json(['data' => $data], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Unauthorized'], 401);
-        }
-    }
-
-
-    private function getImageBase64($imageUrl)
-    {
-        try {
-            // Check if the image URL is not empty
-            if (!empty($imageUrl)) {
-                // Fetch the image content
-                $imageContent = file_get_contents($imageUrl);
-
-                // Convert the image content to base64
-                $base64Image = base64_encode($imageContent);
-
-                return $base64Image;
-            }
-
-            return null;
-        } catch (\Exception $e) {
-            return null;
         }
     }
 

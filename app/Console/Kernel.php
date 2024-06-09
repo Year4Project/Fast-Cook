@@ -13,6 +13,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        // $schedule->command('accounts:delete-old-temporary')->daily();
+        // $schedule->command('accounts:delete-old-temporary')->everyMinute();
+        $schedule->command('accounts:delete-old-temporary')->hourly();
     }
 
     /**
