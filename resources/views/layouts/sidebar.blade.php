@@ -4,9 +4,10 @@
     @if (Auth::user()->user_type == 1)
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('admin/dashboard') }}">
-            <img src="{{ asset('admin/img/logo.png') }}" alt="Logo" class="img-fluid sidebar-logo" style="width: 50px"> <!-- Adjust path and class as needed -->
+            <img src="{{ Auth::user()->image_url }}" alt="Logo" class="rounded-circle img-fluid sidebar-logo" style="width: 50px; height: 50px; object-fit: cover;"> <!-- Adjust path and class as needed -->
             <div class="sidebar-brand-text mx-2">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
         </a>
+        
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
