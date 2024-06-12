@@ -88,36 +88,38 @@ class UserController extends Controller
 
 
     public function temporaryAccount(Request $request)
-{
-    try {
-        // Generate random values
-        $faker = \Faker\Factory::create();
-        
-        // Create user with generated values
-        $user = User::create([
-            'first_name' => $faker->firstName,
-            'last_name' => $faker->lastName,
-            'phone' => $faker->unique()->phoneNumber,
-            'password' => Hash::make($faker->password),
-            'user_type' => 4, // Assuming user type 4 for temporary accounts
-            'created_at' => now(),
-        ]);
-
-        // Create an API token for the user
-        $token = $user->createToken("API_TOKEN")->accessToken;
-
-        return response()->json([
-            'status' => true,
-            'message' => 'User Created Successfully',
-            'token' => $token,
-        ], 200);
-    } catch (\Throwable $th) {
-        return response()->json([
-            'status' => false,
-            'message' => $th->getMessage()
-        ], 500);
+    {
+        try {
+            // Generate random values
+            $faker = \Faker\Factory::create();
+            
+            // Create user with generated values
+            $user = User::create([
+                'first_name' => $faker->firstName,
+                'last_name' => $faker->lastName,
+                // Prepend +885 to the phone number
+                'phone' => '+885' . substr($faker->unique()->numerify('#########'), 0, 9),
+                'password' => Hash::make($faker->password),
+                'user_type' => 4, // Assuming user type 4 for temporary accounts
+                'created_at' => now(),
+            ]);
+    
+            // Create an API token for the user
+            $token = $user->createToken("API_TOKEN")->accessToken;
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'User Created Successfully',
+                'token' => $token,
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
-}
+    
 
 
     public function login(Request $request)
