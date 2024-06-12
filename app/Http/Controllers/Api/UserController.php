@@ -92,23 +92,21 @@ class UserController extends Controller
         try {
             // Generate random values
             $faker = \Faker\Factory::create();
-
-            // Generate phone number with +855 XX XXX XXXX format
-            $phoneNumber = '+855 ' . $faker->numerify('## ### ####');
-
+            
             // Create user with generated values
             $user = User::create([
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
-                'phone' => $phoneNumber,
+                // Prepend +885 to the phone number
+                'phone' => '+885' . substr($faker->unique()->numerify('#########'), 0, 9),
                 'password' => Hash::make($faker->password),
                 'user_type' => 4, // Assuming user type 4 for temporary accounts
                 'created_at' => now(),
             ]);
-
+    
             // Create an API token for the user
             $token = $user->createToken("API_TOKEN")->accessToken;
-
+    
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
@@ -121,7 +119,7 @@ class UserController extends Controller
             ], 500);
         }
     }
-
+    
 
 
     public function login(Request $request)
@@ -196,7 +194,7 @@ class UserController extends Controller
             ], 500);
         }
     }
-
+    
     /**
      * Update the authenticated user's profile.
      *
