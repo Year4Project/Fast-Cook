@@ -30,43 +30,49 @@
                         </thead>
                         <tbody>
                             @if ($getCategories->isEmpty())
-                                            <tr>
-                                                <td colspan="11">
-                                                    <div style="margin-top: 50px; text-align: center;">No records found.</div>
-                                                </td>
-                                            </tr>
-                            @else
-                            @foreach ($getCategories as $item)
-                                <tr class="text-center">
-                                    <td class="align-middle">{{ $loop->iteration }}</td>
-                                    <td class="align-middle">{{ $item->name }}</td>
-
-                                    <td class="align-middle text-center">
-                                        @if ($item->status == 1)
-                                            <a href="{{ url('owner/category/updateStatus/' . $item->id) }}"
-                                                class="btn btn-sm btn-success">Available</a>
-                                        @else
-                                            <a href="{{ url('owner/category/updateStatus/' . $item->id) }}"
-                                                class="btn btn-sm btn-danger ">Unavailable</a>
-                                        @endif
-                                    </td>
-
-                                    <td class="align-middle">{{ date('D d M Y | h:i A', strtotime($item->created_at)) }}</td>
-                                    <td class="align-middle text-center">
-                                        {{-- edit --}}
-                                        <a class="btn btn-md btn-circle btn-outline-info"
-                                            href="{{ url('owner/category/editCategory/' . $item->id) }}">
-                                            <i class="fas fa-fw fa-edit"></i>
-                                        </a>
-                                        {{-- delete --}}
-                                        <a class="btn btn-md btn-circle btn-outline-danger ms-2"
-                                            href="{{ url('owner/category/deleteCategory/' . $item->id) }}"
-                                            onclick="return confirm('Are you Sure?')">
-                                            <i class="fas fa-fw fa-trash-alt"></i>
-                                        </a>
+                                <tr>
+                                    <td colspan="11">
+                                        <div style="margin-top: 50px; text-align: center;">No records found.</div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @else
+                                @php
+                                    // Calculate the correct starting number based on the current page
+                                    $perPage = $getCategories->perPage();
+                                    $currentPage = $getCategories->currentPage();
+                                    $startNumber = ($currentPage - 1) * $perPage + 1;
+                                @endphp
+                                @foreach ($getCategories as $index => $item)
+                                    <tr class="text-center">
+                                        <td class="align-middle">{{ $startNumber + $index }}</td>
+                                        <td class="align-middle">{{ $item->name }}</td>
+
+                                        <td class="align-middle text-center">
+                                            @if ($item->status == 1)
+                                                <a href="{{ url('owner/category/updateStatus/' . $item->id) }}"
+                                                    class="btn btn-sm btn-success">Available</a>
+                                            @else
+                                                <a href="{{ url('owner/category/updateStatus/' . $item->id) }}"
+                                                    class="btn btn-sm btn-danger ">Unavailable</a>
+                                            @endif
+                                        </td>
+
+                                        <td class="align-middle">{{ date('D d M Y | h:i A', strtotime($item->created_at)) }}</td>
+                                        <td class="align-middle text-center">
+                                            {{-- edit --}}
+                                            <a class="btn btn-md btn-circle btn-outline-info"
+                                                href="{{ url('owner/category/editCategory/' . $item->id) }}">
+                                                <i class="fas fa-fw fa-edit"></i>
+                                            </a>
+                                            {{-- delete --}}
+                                            <a class="btn btn-md btn-circle btn-outline-danger ms-2"
+                                                href="{{ url('owner/category/deleteCategory/' . $item->id) }}"
+                                                onclick="return confirm('Are you Sure?')">
+                                                <i class="fas fa-fw fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             @endif
                         </tbody>
                     </table>

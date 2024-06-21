@@ -81,9 +81,15 @@
                                     </td>
                                 </tr>
                             @else
-                                @foreach ($getOrderUser as $foodOrder)
+                                @php
+                                    // Calculate the correct starting number based on the current page
+                                    $perPage = $getOrderUser->perPage();
+                                    $currentPage = $getOrderUser->currentPage();
+                                    $startNumber = ($currentPage - 1) * $perPage + 1;
+                                @endphp
+                                @foreach ($getOrderUser as $index => $foodOrder)
                                     <tr class="text-center">
-                                        <td class="align-middle">{{ $loop->iteration }}</td>
+                                        <td class="align-middle">{{ $startNumber + $index }}</td>
                                         <td class="align-middle">{{ $foodOrder->ordernumber }}</td>
                                         <td class="align-middle">{{ $foodOrder->user->first_name }} {{ $foodOrder->user->last_name }}</td>
                                         <td class="align-middle">{{ $foodOrder->table_no }}</td>
@@ -144,6 +150,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>

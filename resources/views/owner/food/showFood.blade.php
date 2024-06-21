@@ -47,9 +47,15 @@
                                     </td>
                                 </tr>
                             @else
-                                @foreach ($getFood as $item)
+                            @php
+                                    // Calculate the correct starting number based on the current page
+                                    $perPage = $getFood->perPage();
+                                    $currentPage = $getFood->currentPage();
+                                    $startNumber = ($currentPage - 1) * $perPage + 1;
+                                @endphp
+                                @foreach ($getFood as $index => $item)
                                     <tr class="text-center">
-                                        <td class="align-middle">{{ $loop->iteration }}</td>
+                                        <td class="align-middle">{{ $startNumber + $index }}</td>
                                         <td class="align-middle">{{ $item->code }}</td>
                                         <td><img class="rounded-circle align-middle" height="75" width="75"
                                                 src="{{ $item->image_url }}" alt=""></td>

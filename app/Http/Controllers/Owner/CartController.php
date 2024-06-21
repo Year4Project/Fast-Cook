@@ -124,7 +124,7 @@ class CartController extends Controller
     public function customerOrder(Request $request)
     {
         $user = Auth::user();
-        $data['orderCustomer'] = CustomerOrder::where('restaurant_id', $user->restaurant->id)->orderBy('id', 'desc')->get();
+        $data['orderCustomer'] = CustomerOrder::where('restaurant_id', $user->restaurant->id)->orderBy('id', 'desc')->paginate(10);
 
         // dd($data);
         // $customerOrder = $user->restaurant->customerOrder->get();

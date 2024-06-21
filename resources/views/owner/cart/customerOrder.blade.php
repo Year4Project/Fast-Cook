@@ -38,29 +38,35 @@
                             </thead>
 
                             <tbody>
-                                @foreach ($orderCustomer as $orderItem)
+                                @php
+                                    // Calculate the correct starting number based on the current page
+                                    $perPage = $orderCustomer->perPage();
+                                    $currentPage = $orderCustomer->currentPage();
+                                    $startNumber = ($currentPage - 1) * $perPage + 1;
+                                @endphp
+                                @foreach ($orderCustomer as $index => $orderItem)
                                     <tr class="text-center">
-                                        <td class="align-middle">{{ $loop->iteration }}</td>
-                                        <th class="align-middle">{{ $orderItem->ordernumber }}</th>
-                                        <th class="align-middle">{{ $orderItem->created_at }}</th>
-                                        <th class="align-middle">
+                                        <td class="align-middle">{{ $startNumber + $index }}</td>
+                                        <td class="align-middle">{{ $orderItem->ordernumber }}</td>
+                                        <td class="align-middle">{{ $orderItem->created_at }}</td>
+                                        <td class="align-middle">
                                             <a href="{{ route('POS-CustomerOrder.detail', ['orderId' => $orderItem->id]) }}"
                                                 class="btn btn-md btn-circle btn-outline-primary">
                                                 <i class="fas fa-list"></i>
                                             </a>
-
                                             <a class="btn btn-md btn-outline-success"
-                                        href="{{ route('pos-printRecipe', ['orderId' => $orderItem->id]) }}">
-                                        <i class="fas fa-print"></i>
-                                    </a>
-                                            {{-- <a href="{{ route('generate.invoice', ['orderId' => $order->id]) }}" target="_blank">Generate Invoice</a> --}}
-
-                                        </th>
+                                                href="{{ route('pos-printRecipe', ['orderId' => $orderItem->id]) }}">
+                                                <i class="fas fa-print"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                 @endforeach
 
                             </tbody>
                         </table>
+                        <div class="row custom-center">
+                            {{ $orderCustomer->links() }}
+                        </div>
                         {{-- End Table --}}
                     </div>
                 </div>

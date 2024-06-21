@@ -244,14 +244,14 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr class="text-center">
+                                        <th>#</th>
                                         <th>Order Number</th>
                                         <th>User Name</th>
                                         <th>Table No</th>
-                                        <th>Remark</th>
-                                        <th>Quantity</th>
+                                        <th>Status</th>
                                         <th>Payment</th>
                                         <th>Created At</th>
                                         <th>Action</th>
@@ -265,28 +265,65 @@
                                             </td>
                                         </tr>
                                     @else
-                                        @foreach ($getOrderUser as $foodOrder)
+                                        @php
+                                            // Calculate the correct starting number based on the current page
+                                            $perPage = $getOrderUser->perPage();
+                                            $currentPage = $getOrderUser->currentPage();
+                                            $startNumber = ($currentPage - 1) * $perPage + 1;
+                                        @endphp
+                                        @foreach ($getOrderUser as $index => $foodOrder)
                                             <tr class="text-center">
+                                                <td class="align-middle">{{ $startNumber + $index }}</td>
                                                 <td class="align-middle">{{ $foodOrder->ordernumber }}</td>
-                                                <td class="align-middle">{{ $foodOrder->user->first_name }}
-                                                    {{ $foodOrder->user->last_name }}</td>
+                                                <td class="align-middle">{{ $foodOrder->user->first_name }} {{ $foodOrder->user->last_name }}</td>
                                                 <td class="align-middle">{{ $foodOrder->table_no }}</td>
-                                                <td class="align-middle">{{ $foodOrder->remark }}</td>
-                                                <td class="align-middle">{{ $foodOrder->total_quantity }}</td>
-                                                <td class="align-middle">Pay Online</td>
+                                                <td class="align-middle text-center">
+                                                    @php
+                                                        $statusClass = '';
+                                                        switch ($foodOrder->status) {
+                                                            case 'accepted':
+                                                                $statusClass = 'bg-success';
+                                                                break;
+                                                            case 'pending':
+                                                                $statusClass = 'bg-warning';
+                                                                break;
+                                                            case 'rejected':
+                                                                $statusClass = 'bg-danger';
+                                                                break;
+                                                            default:
+                                                                $statusClass = '';
+                                                        }
+                                                    @endphp
+                                                    <select class="form-control {{ $statusClass }} text-center" onchange="updateStatus('{{ $foodOrder->id }}', this.value)">
+                                                        <option class="bg-success" value="accepted" {{ $foodOrder->status == 'accepted' ? 'selected' : '' }}>
+                                                            <i class="fas fa-check-circle"></i> Accepted
+                                                        </option>
+                                                        <option class="bg-warning" value="pending" {{ $foodOrder->status == 'pending' ? 'selected' : '' }}>
+                                                            <i class="fas fa-clock"></i> Pending
+                                                        </option>
+                                                        <option class="bg-danger" value="rejected" {{ $foodOrder->status == 'rejected' ? 'selected' : '' }}>
+                                                            <i class="fas fa-times-circle"></i> Rejected
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td class="align-middle">
+                                                    @if ($foodOrder->payment_method)
+                                                        {{ $foodOrder->payment_method->payment_type }}
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
                                                 <td class="align-middle">{{ $foodOrder->created_at }}</td>
                                                 <td class="align-middle">
                                                     <a href="{{ route('owner.order.details', ['orderId' => $foodOrder->id]) }}"
-                                                        class="btn btn-md btn-circle btn-outline-primary">
-                                                        <i class="fas fa-list"></i>
+                                                       class="btn btn-md btn-circle btn-outline-primary">
+                                                       <i class="fas fa-list"></i>
                                                     </a>
-
                                                     <a class="btn btn-outline-success"
-                                                        href="{{ route('api-printRecipe', ['orderId' => $foodOrder->id]) }}">
-                                                        <i class="fas fa-print"></i>
+                                                       href="{{ route('api-printRecipe', ['orderId' => $foodOrder->id]) }}">
+                                                       <i class="fas fa-print"></i>
                                                     </a>
                                                 </td>
-                                                {{-- <td class="align-middle">{{ $foodOrder->total_price }}</td> --}}
                                             </tr>
                                         @endforeach
                                     @endif
@@ -296,7 +333,7 @@
                                 {{ $getOrderUser->onEachSide(1)->links() }}
                             </div>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>

@@ -36,9 +36,15 @@
                                         </td>
                                     </tr>
                                 @else
-                                    @foreach ($getStaff as $staff)
+                                @php
+                                // Calculate the correct starting number based on the current page
+                                $perPage = $getStaff->perPage();
+                                $currentPage = $getStaff->currentPage();
+                                $startNumber = ($currentPage - 1) * $perPage + 1;
+                            @endphp
+                                    @foreach ($getStaff as $index=> $staff)
                                         <tr class="text-center">
-                                            <td class="align-middle">{{ $loop->iteration }}</td>
+                                            <td class="align-middle">{{ $startNumber + $index }}</td>
                                             <td class="align-middle"><img class="img-thumbnail"
                                                     style="max-width: 75px; max-height:75px:" src="{{ $staff->image }}"
                                                     alt=""></td>
