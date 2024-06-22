@@ -80,7 +80,7 @@ class GeneratorQRController extends Controller
             return response()->download($path, $imageName, $headers)->deleteFileAfterSend();
         } catch (\Exception $e) {
             Log::error('Error generating or downloading QR Code: ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
-            return redirect()->route('qrCode')->with('error', 'Unable to generate or download QR Code');
+            return redirect()->route('generateQRCode')->with('error', 'Unable to generate or download QR Code');
         }
     }
 
