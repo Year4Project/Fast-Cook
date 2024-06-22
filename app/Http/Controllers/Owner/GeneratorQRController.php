@@ -89,9 +89,9 @@ class GeneratorQRController extends Controller
         try {
             $qrcode = Scen::findOrFail($scen);
             $qrcode->delete();
-            return redirect()->route('qrCode')->with('success', 'QR Code successfully deleted.');
+            return redirect()->route('generateQRCode')->with('success', 'QR Code successfully deleted.');
         } catch (\Exception $e) {
-            return redirect()->route('qrCode')->with('error', 'Error deleting QR Code: ' . $e->getMessage());
+            return redirect()->route('generateQRCode')->with('error', 'Error deleting QR Code: ' . $e->getMessage());
         }
     }
 }
