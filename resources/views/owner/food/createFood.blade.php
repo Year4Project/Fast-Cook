@@ -40,7 +40,7 @@
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="price">Price</label>
-                                                    <input type="number" class="form-control" id="price" name="price" required placeholder="Original Price">
+                                                    <input type="text" class="form-control" id="price" name="price" required placeholder="Original Price">
                                                 </div>
                                             </div>
                                             <div class="col-6">
