@@ -41,7 +41,7 @@ class GeneratorQRController extends Controller
             // Redirect to the download route with the Scen ID as a parameter
             return redirect()->route('downloadQrCode', ['scenId' => $scen->id]);
         } catch (\Exception $e) {
-            return redirect()->route('qrCode')->with('error', 'Error creating Scen record: ' . $e->getMessage());
+            return redirect()->route('generateQRCode')->with('error', 'Error creating Scen record: ' . $e->getMessage());
         }
     }
 
@@ -80,7 +80,7 @@ class GeneratorQRController extends Controller
             return response()->download($path, $imageName, $headers)->deleteFileAfterSend();
         } catch (\Exception $e) {
             Log::error('Error generating or downloading QR Code: ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
-            return redirect()->route('generateQRCode')->with('error', 'Unable to generate or download QR Code');
+            return redirect()->route('qrCode')->with('error', 'Unable to generate or download QR Code');
         }
     }
 
