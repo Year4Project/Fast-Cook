@@ -127,48 +127,49 @@ class FoodOrderController extends Controller
 
 
     public function getHistoryOrder(Request $request)
-{
-    try {
-        // Authenticate the user using JWT
-        $user = JWTAuth::parseToken()->authenticate();
-
-        // Retrieve orders for the authenticated user, ordered by created_at in descending order
-        $orders = Order::where('user_id', $user->id)
-                       ->with('restaurant') // Include related restaurant data if necessary
-                       ->orderBy('created_at', 'desc')
-                       ->paginate(20);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Successfully retrieved order history.',
-            'data' => $orders
-        ], 200);
-
-    } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Token has expired.',
-        ], 401);
-
-    } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Token is invalid.',
-        ], 401);
-
-    } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Token is absent.',
-        ], 401);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => false,
-            'message' => 'An error occurred while retrieving order history.',
-            'error' => $e->getMessage()
-        ], 500);
+    {
+        try {
+            // Authenticate the user using JWT
+            $user = JWTAuth::parseToken()->authenticate();
+    
+            // Retrieve orders for the authenticated user, ordered by created_at in descending order
+            $orders = Order::where('user_id', $user->id)
+                           ->with(['restaurant', 'paymentMethod']) // Include related restaurant and payment method data
+                           ->orderBy('created_at', 'desc')
+                           ->paginate(20);
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Successfully retrieved order history.',
+                'data' => $orders
+            ], 200);
+    
+        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token has expired.',
+            ], 401);
+    
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token is invalid.',
+            ], 401);
+    
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Token is absent.',
+            ], 401);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'An error occurred while retrieving order history.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
-}
+    
 
 }

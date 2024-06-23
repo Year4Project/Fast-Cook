@@ -114,4 +114,14 @@ class Order extends Model
         $this->save();
         event(new OrderStatusUpdated($this));
     }
+
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
+
+    // public function restaurant()
+    // {
+    //     return $this->belongsTo(Restaurant::class);
+    // }
 }
