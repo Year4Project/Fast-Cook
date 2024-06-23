@@ -184,34 +184,78 @@ class RestaurantController extends Controller
 
 
 
+    // public function deleteUserAndRestaurant($userId)
+    // {
+    //     // Find the user by ID
+    //     $user = User::find($userId);
+    
+    //     // If user not found, return with an error message
+    //     if (!$user) {
+    //         return redirect()->back()->with('error', 'User not found.');
+    //     }
+    
+    //     // Attempt to delete the associated restaurant if it exists
+    //     $restaurant = $user->restaurant;
+    //     if ($restaurant) {
+    //         // Delete the restaurant image file if it exists
+    //         $imagePath = public_path('upload/restaurant/') . basename($restaurant->image);
+    //         if (file_exists($imagePath)) {
+    //             unlink($imagePath);
+    //         }
+    
+    //         // Delete the restaurant
+    //         $restaurant->delete();
+    //     }
+    
+    //     // Delete the user
+    //     $user->delete();
+    
+    //     // Redirect to a success page or return a success response
+    //     return redirect('admin/restaurant/showRestaurant')->with('success', "User and associated restaurant successfully deleted.");
+    // }
+
     public function deleteUserAndRestaurant($userId)
     {
-        // Find the user by ID
-        $user = User::find($userId);
+        DB::beginTransaction();
     
-        // If user not found, return with an error message
-        if (!$user) {
-            return redirect()->back()->with('error', 'User not found.');
-        }
+        try {
+            // Find the user by ID
+            $user = User::findOrFail($userId);
     
-        // Attempt to delete the associated restaurant if it exists
-        $restaurant = $user->restaurant;
-        if ($restaurant) {
-            // Delete the restaurant image file if it exists
-            $imagePath = public_path('upload/restaurant/') . basename($restaurant->image);
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
+            // Get the associated restaurant
+            $restaurant = $user->restaurant;
+    
+            // Delete the restaurant if it exists
+            if ($restaurant) {
+                // Delete the restaurant image file if it exists
+                if ($restaurant->image) {
+                    $this->deleteFile(public_path('upload/restaurant/'), basename($restaurant->image));
+                }
+    
+                // Delete the restaurant record
+                $restaurant->delete();
             }
     
-            // Delete the restaurant
-            $restaurant->delete();
+            // Delete the user
+            $user->delete();
+    
+            DB::commit();
+    
+            // Redirect to a success page or return a success response
+            return redirect('admin/restaurant/showRestaurant')->with('success', "User and their restaurant successfully deleted.");
+    
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Failed to delete user and restaurant.');
         }
+    }
     
-        // Delete the user
-        $user->delete();
-    
-        // Redirect to a success page or return a success response
-        return redirect('admin/restaurant/showRestaurant')->with('success', "User and associated restaurant successfully deleted.");
+    private function deleteFile($path, $filename)
+    {
+        $filePath = $path . $filename;
+        if (file_exists($filePath)) {
+            @unlink($filePath);
+        }
     }
     
 

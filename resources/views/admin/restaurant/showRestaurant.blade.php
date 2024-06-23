@@ -57,15 +57,11 @@
                                                 <i class="fas fa-fw fa-edit"></i>
                                             </a>
                                             {{-- delete --}}
-                                            <form action="{{ route('user-restaurant.delete', $item->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-md btn-circle btn-outline-danger mt-2"
-                                                    onclick="confirmation(event)">
-                                                    <i class="fas fa-fw fa-trash-alt"></i>
-                                                </button>
+                                            <form action="">
+                                                <a class="btn btn-md btn-circle btn-outline-danger mt-2" href="{{ route('user-restaurant.delete', $item->id) }} " onclick="confirmation(event)">
+                                                <i class="fas fa-fw fa-trash-alt"></i>
+                                            </a>
                                             </form>
-
                                         </td>
                                     </tr>
                                 @endforeach
